@@ -126,6 +126,11 @@ DMFeatureSelector >> selectLastSymbol. [
 ]
 
 { #category : #accessing }
+DMFeatureSelector >> selectLastSymbol. [
+	selectLastSymbol := true.
+]
+
+{ #category : #accessing }
 DMFeatureSelector >> selectMiddleSymbol [
 	selectMiddleSymbol := true.
 
