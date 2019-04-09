@@ -12,9 +12,24 @@ Class {
 	#category : #DMFeatureSelector
 }
 
+{ #category : #'class membership' }
+DMClassModel >> class [
+	^ class
+]
+
+{ #category : #accessing }
+DMClassModel >> class: aClass [
+	class := aClass
+]
+
 { #category : #introspection }
 DMClassModel >> className [ 
 	^ className 
+]
+
+{ #category : #accessing }
+DMClassModel >> className: aClassName [
+	className := aClassName 
 ]
 
 { #category : #accessing }
@@ -22,13 +37,18 @@ DMClassModel >> concept [
 	^ concept 
 ]
 
+{ #category : #accessing }
+DMClassModel >> concept: aConcept [
+	concept := aConcept
+]
+
 { #category : #'as yet unclassified' }
 DMClassModel >> createFrom: aClass with: aFeatureSelector [
 	"The root class should also be extracted here"
 	
-	class := 	aClass.
-	className := (aClass instanceSide name) asString.
-	concept := self extractConceptFrom: className with: aFeatureSelector.
+	self class:	aClass.
+	self className: (aClass instanceSide name) asString.
+	self concept: (self extractConceptFrom: className with: aFeatureSelector).
 
 	^ self
 	
