@@ -7,7 +7,20 @@ Class {
 	#category : #DMFeatureSelector
 }
 
-{ #category : #'class membership' }
-DMTokenStemmer >> class [ 
-	^ class
+{ #category : #initialization }
+DMTokenStemmer >> initialize [ 
+
+	super initialize.
+	internalStemmer := MalPorterStemmer new.
+]
+
+{ #category : #'as yet unclassified' }
+DMTokenStemmer >> stemToken: aToken [
+	^ internalStemmer stem: aToken 
+
+]
+
+{ #category : #'as yet unclassified' }
+DMTokenStemmer >> stemTokens: aCollectionOfTokens [
+	^ aCollectionOfTokens collect: [ :each | internalStemmer stem: each ]
 ]
