@@ -5,8 +5,7 @@ Class {
 		'class',
 		'className',
 		'concept',
-		'rootClass',
-		'packageName'
+		'rootClass'
 	],
 	#category : #DMFeatureSelector
 }
@@ -21,9 +20,9 @@ DMClassModel >> class: aClass [
 	class := aClass
 ]
 
-{ #category : #introspection }
-DMClassModel >> className [ 
-	^ className 
+{ #category : #accessing }
+DMClassModel >> className [
+	^className 
 ]
 
 { #category : #setter }
@@ -72,14 +71,15 @@ DMClassModel >> extractRootClassFrom: aClass [
 ]
 
 { #category : #accessing }
-DMClassModel >> packageName [
-	^ packageName
-]
-
-{ #category : #accessing }
 DMClassModel >> rootClass [ 
 
 	 rootClass := self extractRootClassFrom: self class.
 	^ rootClass 
 	
+]
+
+{ #category : #setter }
+DMClassModel >> rootClass: aClass [
+	rootClass := self extractRootClassFrom: aClass.
+	^ rootClass 
 ]
