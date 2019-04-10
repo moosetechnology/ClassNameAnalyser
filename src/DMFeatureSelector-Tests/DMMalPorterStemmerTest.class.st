@@ -16,7 +16,7 @@ DMMalPorterStemmerTest class >> porterTestData [
 { #category : #test }
 DMMalPorterStemmerTest >> testEnglishStemmer [
 	| data |
-	data := self theClass porterTestData runsFailing: #isSeparator.
+	data := ' ' split: self class porterTestData trimBoth.
 	1
 		timesRepeat: [ 
 			1 to: data size by: 2 do: [ :index | 
