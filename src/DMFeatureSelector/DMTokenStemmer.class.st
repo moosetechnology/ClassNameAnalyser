@@ -16,11 +16,11 @@ DMTokenStemmer >> initialize [
 
 { #category : #'as yet unclassified' }
 DMTokenStemmer >> stemToken: aToken [
-	^ internalStemmer stem: aToken 
+	^ internalStemmer stemming: aToken 
 
 ]
 
 { #category : #'as yet unclassified' }
 DMTokenStemmer >> stemTokens: aCollectionOfTokens [
-	^ aCollectionOfTokens collect: [ :each | internalStemmer stem: each ]
+	^ aCollectionOfTokens collect: [ :each | internalStemmer stemming: each ]
 ]

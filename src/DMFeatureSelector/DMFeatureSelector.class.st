@@ -2,8 +2,6 @@ Class {
 	#name : #DMFeatureSelector,
 	#superclass : #Object,
 	#instVars : [
-		'tokens',
-		'concept',
 		'filtererAllDigits',
 		'filterer',
 		'filterSpecialChars',
@@ -13,8 +11,7 @@ Class {
 		'stem',
 		'selectLastSymbol',
 		'selectMiddleSymbol',
-		'selectFirstSymbol',
-		'name'
+		'selectFirstSymbol'
 	],
 	#category : #DMFeatureSelector
 }
@@ -39,23 +36,21 @@ DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackages [
 { #category : #'as yet unclassified' }
 DMFeatureSelector >> extractConceptFrom: aName [
 
-	| aConcept |
-	self name: aName.
-	tokens := self tokenize.
-	concept := self selectConcept.
-	concept := self filter.
-	concept := self stem.
-	aConcept := concept deepCopy.
+	| aConcept tokens|
+	tokens := self tokenize: aName.
+	aConcept := self selectConceptFrom: tokens.
+	aConcept := self filter: aConcept.
+	aConcept := self stem: aConcept.
 	^ aConcept
 ]
 
 { #category : #accessing }
-DMFeatureSelector >> filter [ 
+DMFeatureSelector >> filter: aConcept [
 
 	| symbol |
-	symbol := concept.
+	symbol := aConcept.
 	(filtererAllDigits) 
-		ifTrue: [ symbol := filterer removeAllDigitsFrom: concept ].	
+		ifTrue: [ symbol := filterer removeAllDigitsFrom: aConcept ].	
 	(filterSpecialChars)
 		ifTrue: [ symbol := filterer removeAllSpecialCharsFrom: symbol  ] .
 	^ symbol
@@ -93,7 +88,6 @@ DMFeatureSelector >> initialize [
 	tokenStemmer := DMTokenStemmer new.
 	conceptualSymbolSelector := DMConceptualSymbolSelector new.
 	filterer := DMFilterer new.
-	tokens := OrderedCollection new.
 	stem := false.
 	selectFirstSymbol := false.
 	selectLastSymbol := false.
@@ -102,18 +96,8 @@ DMFeatureSelector >> initialize [
 	filterSpecialChars := false.
 ]
 
-{ #category : #accessing }
-DMFeatureSelector >> name [ 
-	^ name
-]
-
-{ #category : #accessing }
-DMFeatureSelector >> name: aName [
-	name := aName.
-]
-
 { #category : #'as yet unclassified' }
-DMFeatureSelector >> selectConcept [
+DMFeatureSelector >> selectConceptFrom: tokens [
 
 	(selectFirstSymbol) 
 		ifTrue: [ ^ conceptualSymbolSelector selectFirstSymbolFrom: tokens ]
@@ -140,26 +124,21 @@ DMFeatureSelector >> selectMiddleSymbol [
 ]
 
 { #category : #accessing }
-DMFeatureSelector >> stem [ 
+DMFeatureSelector >> stem: aConcept [
 
 	(stem) 
-		ifTrue: [ ^tokenStemmer stemToken: concept ]
-		ifFalse: [ ^ concept ]
+		ifTrue: [ ^tokenStemmer stemToken: aConcept ]
+		ifFalse: [ ^ aConcept ]
 ]
 
 { #category : #accessing }
-DMFeatureSelector >> stem: aBoolean [
+DMFeatureSelector >> stemming: aBoolean [
 
 	(aBoolean) 
 		ifTrue: [ stem := true ]
 ]
 
 { #category : #'as yet unclassified' }
-DMFeatureSelector >> tokenize [
-	^ nameTokenizer cutWhereCamelCase: name
-]
-
-{ #category : #accessing }
-DMFeatureSelector >> tokens [
-	^ tokens
+DMFeatureSelector >> tokenize: aName [
+	^ nameTokenizer cutWhereCamelCase: aName
 ]
