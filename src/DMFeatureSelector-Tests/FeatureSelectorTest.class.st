@@ -18,8 +18,6 @@ FeatureSelectorTest >> testApplyFeaturesOn [
 	| expectedPackagesNames actualPackagesNames |	
 	expectedPackagesNames := { 'Kernel' }.
 	featureSelector applyFeaturesOn: expectedPackagesNames.
-	actualPackagesNames := featureSelector concepualModel packages.
-	self assert: actualPackagesNames asArray equals: expectedPackagesNames asArray 
 	
 ]
 
