@@ -62,10 +62,15 @@ DMFeatureSelector >> extractConceptFrom: aName [
 DMFeatureSelector >> extractRootClassFrom: aClass [
 
 	(aClass == Object)
-		ifTrue: [ ^ aClass  ] 
-		ifFalse: [ (aClass superclass == Object)
-							ifTrue: [ ^ aClass  ]
-							ifFalse: [  ^ self extractRootClassFrom: (aClass superclass)  ]		]
+		ifTrue: [ ^ aClass ].
+		
+	(aClass == ProtoObject)
+		ifTrue: [ ^ aClass ].
+
+	(aClass superclass == Object)
+		ifTrue: [ ^ aClass  ].
+	
+	^ self extractRootClassFrom: (aClass superclass).
 ]
 
 { #category : #actions }
