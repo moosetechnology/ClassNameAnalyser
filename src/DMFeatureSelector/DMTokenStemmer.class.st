@@ -11,7 +11,7 @@ Class {
 DMTokenStemmer >> initialize [ 
 
 	super initialize.
-	internalStemmer := MalPorterStemmer new.
+	internalStemmer := DMStemmer new.
 ]
 
 { #category : #stemming }
