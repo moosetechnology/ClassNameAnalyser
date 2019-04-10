@@ -27,6 +27,21 @@ FeatureSelectorTest >> testApplyFeaturesOn [
 ]
 
 { #category : #tests }
+FeatureSelectorTest >> testEXtractConceptFromAClassName [
+
+	| classModel aConcept |
+	classModel := DMClassModel new.
+	featureSelector 
+		filterAllDigits: true; 
+		filterAllDigitsAndSpecialChars: true; 
+		stemming: true; 	
+		selectLastSymbol: true. 	
+	aConcept := featureSelector extractConceptFrom: DMPackageModel name.
+	self assert: aConcept equals: 'model'.
+	
+]
+
+{ #category : #tests }
 FeatureSelectorTest >> testExtractConceptFrom [
 
 	self assert: (featureSelector extractConceptFrom: 'ClassName') equals: 'Name'
@@ -40,6 +55,42 @@ FeatureSelectorTest >> testExtractConceptFromNameByDefault [
 	self assert: (featureSelector extractConceptFrom: 'ClassName34') equals: 'Name34'.
 	self assert: (featureSelector extractConceptFrom: '%ClassName34%') equals: 'Name34%'.
 	self assert: (featureSelector extractConceptFrom: '%Class%') equals: 'Class%'.
+]
+
+{ #category : #tests }
+FeatureSelectorTest >> testExtractRootClassFromObjectClass [
+
+	| expectedRootClass classModel |
+	classModel := DMClassModel new.
+	featureSelector
+		filterAllDigits: true; 
+		stemming: true; 
+		selectFirstSymbol: true.
+	expectedRootClass := Object.
+	classModel createFrom: Object.
+	classModel concept: (featureSelector extractConceptFrom: Object name).
+	classModel rootClass: (featureSelector extractRootClassFrom: Object).
+	self assert: expectedRootClass equals: Object.
+
+]
+
+{ #category : #tests }
+FeatureSelectorTest >> testExtractRootClassNoHierarchy [
+
+	| expectedRootClass actualRootClass classModel |
+	
+	expectedRootClass := DMClassModel.
+	classModel := DMClassModel new.
+	featureSelector 
+		filterAllDigits: true; 
+		stemming: true; 
+		selectFirstSymbol: true.
+	classModel createFrom: DMClassModel.
+	classModel concept: (featureSelector extractConceptFrom: (DMClassModel name)).
+	classModel rootClass: (featureSelector extractRootClassFrom: DMClassModel).
+	actualRootClass := DMClassModel.
+	self assert: actualRootClass equals: expectedRootClass.
+
 ]
 
 { #category : #tests }

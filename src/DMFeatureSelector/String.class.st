@@ -520,7 +520,7 @@ String >> asCamelCase [
 	"Convert to CamelCase, i.e, remove spaces, and convert starting lowercase to uppercase."
    "'A man, a plan, a canal, panama' asCamelCase >>> 'AMan,APlan,ACanal,Panama'"
  	"'Here 123should % be 6 the name6 of the method' asCamelCase  >>> 'Here123should%Be6TheName6OfTheMethod'"
-		^ self class streamContents: [:stream |
+		^ self theClass streamContents: [:stream |
                self substrings do: [:sub |
                        stream nextPutAll: sub capitalized]]
 ]
@@ -604,7 +604,7 @@ String >> asFourCode [
 String >> asHTMLString [
 	"substitute the < & > into HTML compliant elements"
 	"'<a>' asHTMLString"
-	^ self class new: self size streamContents: [ :s| 
+	^ self theClass new: self size streamContents: [ :s| 
 		self do: [:c | s nextPutAll: c asHTMLString ]]
 
 ]
@@ -613,7 +613,7 @@ String >> asHTMLString [
 String >> asHex [
 	"'A' asHex >>> '16r41'"
 	"'AA' asHex >>> '16r4116r41'"
-	^ self class new: self size * 4 streamContents: [ :stream |
+	^ self theClass new: self size * 4 streamContents: [ :stream |
 		self do: [ :ch | stream nextPutAll: ch hex ]]
 ]
 
@@ -915,7 +915,7 @@ String >> copyReplaceAll: oldSubstring with: newSubstring [
     self = oldSubstring ifTrue: [ ^ newSubstring copy ].
     oldSubstring isEmpty ifTrue: [ ^ self copy ].
     idx := 1.
-    ^ self class new: self size streamContents: [ :stream | | foundIdx |
+    ^ self theClass new: self size streamContents: [ :stream | | foundIdx |
         [ (foundIdx := self findString: oldSubstring startingAt: idx) isZero ] whileFalse: [ 
             stream 
                 next: (foundIdx - idx) putAll: self startingAt: idx;
@@ -1183,7 +1183,7 @@ String >> expandMacrosWithArguments: anArray [
 	"('<1?success:is error>' expandMacrosWith: false) >>> 'is error'"
 	
 	| readStream char index |
-	^ self class
+	^ self theClass
 		new: self size
 		streamContents:
 			[ :newStream | 
@@ -1327,7 +1327,7 @@ String >> findSelector [
 	(sel includes: $:) ifTrue:
 		[sel := sel copyReplaceAll: ':' with: ': '.	"for the style (aa max:bb) with no space"
 		possibleParens := sel findTokens: Character separators.
-		sel := self class streamContents:
+		sel := self theClass streamContents:
 			[:s | | level | level := 0.
 			possibleParens do:
 				[:token | | n |
@@ -1379,7 +1379,7 @@ String >> findString: key startingAt: start caseSensitive: caseSensitive [
 		
 	^caseSensitive
 		ifTrue: [
-			(self class isBytes and: [key class isBytes])
+			(self theClass isBytes and: [key theClass isBytes])
 				ifTrue: [self
 						findSubstring: key
 						in: self
@@ -1391,7 +1391,7 @@ String >> findString: key startingAt: start caseSensitive: caseSensitive [
 						startingAt: start
 						matchTable: nil]]
 		ifFalse: [
-			(self class isBytes and: [key class isBytes])
+			(self theClass isBytes and: [key theClass isBytes])
 				ifTrue: [self
 						findSubstring: key
 						in: self
@@ -1588,7 +1588,7 @@ String >> format: collection [
 	'Today is {date}.' format: (Dictionary with: #date->Date today). 
 	'In {1} you can escape \{ by prefixing it with \\' format: {'strings'}.  "
 	
-	^ self class new: self size streamContents: [ :result | | stream |
+	^ self theClass new: self size streamContents: [ :result | | stream |
 		stream := self readStream.
 		[ stream atEnd ] whileFalse: [ | currentChar | 
 			(currentChar := stream next) == ${
@@ -1616,7 +1616,7 @@ String >> hash [
 	"ar 4/10/2005: I had to change this to use ByteString hash as initial 
 	hash in order to avoid having to rehash everything and yet compute
 	the same hash for ByteString and WideString."
-	^ self class stringHash: self initialHash: ByteString hash
+	^ self theClass stringHash: self initialHash: ByteString hash
 ]
 
 { #category : #comparing }
@@ -1665,7 +1665,7 @@ String >> indexOf: aCharacter [
 	"('abddf' indexOf: $k) >>> 0"
 	
 	aCharacter isCharacter ifFalse: [^ 0].
-	^ self class
+	^ self theClass
 		indexOfAscii: aCharacter asciiValue
 		inString: self
 		startingAt: 1.
@@ -1680,14 +1680,14 @@ String >> indexOf: aCharacter startingAt: start [
 	"('abddf bcdef' indexOf: $a starting ) >>> 0"
 	
 	(aCharacter isCharacter) ifFalse: [^ 0].
-	^ self class indexOfAscii: aCharacter asciiValue inString: self startingAt: start
+	^ self theClass indexOfAscii: aCharacter asciiValue inString: self startingAt: start
 ]
 
 { #category : #accessing }
 String >> indexOf: aCharacter  startingAt: start  ifAbsent: aBlock [
 	| ans |
 	(aCharacter isCharacter) ifFalse: [ ^ aBlock value ].
-	ans := self class indexOfAscii: aCharacter asciiValue inString: self  startingAt: start.
+	ans := self theClass indexOfAscii: aCharacter asciiValue inString: self  startingAt: start.
 	ans = 0
 		ifTrue: [ ^ aBlock value ]
 		ifFalse: [ ^ ans ]
@@ -1894,7 +1894,7 @@ String >> join: aCollection [
 	"Append the elements of the argument, aSequenceableCollection, separating them by the receiver."
 	"('*' join: #('WWWWW' 'W  EW' 'zzzz')) >>> 'WWWWW*W  EW*zzzz'"
 	
-	^ self class new: (aCollection size * self size) streamContents: [:stream | 
+	^ self theClass new: (aCollection size * self size) streamContents: [:stream | 
 			aCollection
 				do: [:each | stream nextPutAll: each asString] 
 				separatedBy: [stream nextPutAll: self]]
@@ -2082,7 +2082,7 @@ String >> numArgs [
 	(firstChar isLetter or: [ firstChar = $_]) ifTrue:
 		["Fast reject if any chars are non-alphanumeric
 		NOTE: fast only for Byte things - Broken for Wide"
-		self class isBytes
+		self theClass isBytes
 			ifTrue: [(self findSubstring: '~' in: self startingAt: 1 matchTable: Tokenish) > 0 ifTrue: [^ -1]]
 			ifFalse: [2 to: self size do: [:i | (self at: i) tokenish ifFalse: [^ -1]]].
 		"Fast colon count"
@@ -2153,7 +2153,7 @@ String >> padRightTo: length with: char [
 
 { #category : #converting }
 String >> parseLiterals [
-	^ self class compiler parseLiterals: self
+	^ self theClass compiler parseLiterals: self
 ]
 
 { #category : #cutting }
@@ -2226,7 +2226,7 @@ String >> repeat: aNumber [
 
 	aNumber < 0 ifTrue: [ self error: 'aNumber cannot be negative' ].
 	
-	^ self class 
+	^ self theClass 
 		new: self size * aNumber 
 		streamContents: [ :stringStream |
 			1 to: aNumber do: [ :idx | stringStream nextPutAll: self ].
@@ -2446,7 +2446,7 @@ String >> surroundedBy: aString [
 	"'hello' surroundedBy: 'abd' >>> 'abdhelloabd'"
 	"'hello' surroundedBy: ' abd ' >>> ' abd hello abd '"
 	
-	^ self class streamContents: [ :s|
+	^ self theClass streamContents: [ :s|
 		s nextPutAll: aString.
 		s nextPutAll: self.
 		s nextPutAll: aString ].
@@ -2465,7 +2465,7 @@ String >> surroundedBySingleQuotes [
 { #category : #converting }
 String >> translateFrom: start  to: stop  table: table [
 	"translate the characters in the string by the given table, in place"
-	self class translate: self from: start to: stop table: table
+	self theClass translate: self from: start to: stop table: table
 ]
 
 { #category : #converting }
@@ -2545,7 +2545,7 @@ String >> trimLeft: aLeftBlock right: aRightBlock [
 String >> trimLineSpaces [
 	"Trim the spaces from the right side of each line. Useful for code"
 	
-	^ self class streamContents: [ :str |
+	^ self theClass streamContents: [ :str |
 		self lines 
 			do: [ :line | str nextPutAll: line trimRight]
 			separatedBy: [str cr]]
@@ -2599,7 +2599,7 @@ String >> truncateWithElipsisTo: maxLength [
 
 { #category : #accessing }
 String >> typeTable [
-	^ self class typeTable
+	^ self theClass typeTable
 ]
 
 { #category : #converting }
@@ -2674,7 +2674,7 @@ String >> withLineEndings: lineEndingString [
 String >> withNoLineLongerThan: aNumber [
 	"Answer a string with the same content as receiver, but rewrapped so that no line has more characters than the given number"
 	(aNumber isNumber not or: [ aNumber < 1 ]) ifTrue: [self error: 'too narrow'].
-	^self class
+	^self theClass
 		new: self size * (aNumber + 1) // aNumber "provision for supplementary line breaks"
 		streamContents: [ :stream |
 			self lineIndicesDo: [ :start :endWithoutDelimiters :end |
@@ -2704,7 +2704,7 @@ String >> withSeparatorsCompacted [
 	characters replaced by a single space character"
 
 	self isEmpty ifTrue: [ ^ self ].
-	^ self class new: self size streamContents: [:stream | 
+	^ self theClass new: self size streamContents: [:stream | 
 		| lastBlank |
 		lastBlank := false.
 		self do: [ :eachChar | 

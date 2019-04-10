@@ -28,8 +28,9 @@ DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackages [
 		packageModel classes: (packageModel extractClassesFrom: aPackageName).
 		packageModel classModels: (packageModel classes collect: [ :aClass | | classModel | 
 			classModel := DMClassModel new.
-			classModel createFrom: aClass with: self.
-			classModel rootClass: (classModel extractRootClassFrom: classModel class).
+			classModel createFrom: aClass.
+			classModel concept: (self extractConceptFrom: aClass name).
+			classModel rootClass: (classModel extractRootClassFrom: classModel theClass).
 			])  ]).
 	^conceptualModel.
 ]
@@ -43,6 +44,16 @@ DMFeatureSelector >> extractConceptFrom: aName [
 	aConcept := self filter: aConcept.
 	aConcept := self stem: aConcept.
 	^ aConcept
+]
+
+{ #category : #actions }
+DMFeatureSelector >> extractRootClassFrom: aClass [
+
+	(aClass == Object)
+		ifTrue: [ ^ aClass  ] 
+		ifFalse: [ (aClass superclass == Object)
+							ifTrue: [ ^ aClass  ]
+							ifFalse: [  ^ self extractRootClassFrom: (aClass superclass)  ]		]
 ]
 
 { #category : #actions }
