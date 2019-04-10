@@ -5,7 +5,7 @@ Class {
 		'packageModels',
 		'packages'
 	],
-	#category : #DMFeatureSelector
+	#category : #DMConceptualModel
 }
 
 { #category : #initialization }

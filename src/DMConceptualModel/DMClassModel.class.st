@@ -6,7 +6,7 @@ Class {
 		'concept',
 		'rootClass'
 	],
-	#category : #DMFeatureSelector
+	#category : #DMConceptualModel
 }
 
 { #category : #accessing }

@@ -25,7 +25,7 @@ DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackages [
 	conceptualModel packageModels: (conceptualModel packages collect: [ :aPackageName |		| packageModel |
 		packageModel := DMPackageModel new. 
 		packageModel packageName: aPackageName.
-		packageModel classes: (packageModel extractClassesFrom: aPackageName).
+		packageModel classes: (self extractClassesFrom: aPackageName).
 		packageModel classModels: (packageModel classes collect: [ :aClass | | classModel | 
 			classModel := DMClassModel new.
 			classModel createFrom: aClass.
@@ -33,6 +33,18 @@ DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackages [
 			classModel rootClass: (self extractRootClassFrom: aClass).
 			])  ]).
 	^conceptualModel.
+]
+
+{ #category : #actions }
+DMFeatureSelector >> extractClassNamesFrom: aPackageName [
+	^ ((RPackageOrganizer default packageNamed: aPackageName)  definedClasses collect: [ :each | each instanceSide name ]).
+]
+
+{ #category : #actions }
+DMFeatureSelector >> extractClassesFrom: aPackageName [
+
+	^ ((RPackageOrganizer default packageNamed: aPackageName)  
+			definedClasses collect: [ :each | each  ]) asOrderedCollection
 ]
 
 { #category : #actions }

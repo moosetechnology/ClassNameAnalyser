@@ -6,7 +6,7 @@ Class {
 		'classes',
 		'classModels'
 	],
-	#category : #DMFeatureSelector
+	#category : #DMConceptualModel
 }
 
 { #category : #accessing }
@@ -27,18 +27,6 @@ DMPackageModel >> classes [
 { #category : #setter }
 DMPackageModel >> classes: 	aCollectionOfClasses [
 	classes := aCollectionOfClasses 
-]
-
-{ #category : #actions }
-DMPackageModel >> extractClassNamesFrom: aPackageName [
-	^ ((RPackageOrganizer default packageNamed: aPackageName)  definedClasses collect: [ :each | each instanceSide name ]).
-]
-
-{ #category : #actions }
-DMPackageModel >> extractClassesFrom: aPackageName [
-
-	^ ((RPackageOrganizer default packageNamed: aPackageName)  
-			definedClasses collect: [ :each | each  ]) asOrderedCollection
 ]
 
 { #category : #initialization }
