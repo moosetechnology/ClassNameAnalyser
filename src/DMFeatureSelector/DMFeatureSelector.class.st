@@ -22,14 +22,15 @@ DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackages [
 	| conceptualModel |
 	conceptualModel := DMConceptualModel new.
 	conceptualModel packages: aCollectionOfPackages.
-	conceptualModel packageModels: 
-		(conceptualModel packages collect: [ :aPackageName |	| packageModel |
-			packageModel := DMPackageModel new. 
-			packageModel packageName: aPackageName.
-			packageModel classes: (packageModel extractClassesFrom: aPackageName).
-			packageModel classModels: (packageModel classes collect: [ :aClass | | classModel | 
-				classModel := DMClassModel new.
-				classModel createFrom: aClass with: self ])  ]).
+	conceptualModel packageModels: (conceptualModel packages collect: [ :aPackageName |		| packageModel |
+		packageModel := DMPackageModel new. 
+		packageModel packageName: aPackageName.
+		packageModel classes: (packageModel extractClassesFrom: aPackageName).
+		packageModel classModels: (packageModel classes collect: [ :aClass | | classModel | 
+			classModel := DMClassModel new.
+			classModel createFrom: aClass with: self.
+			classModel rootClass: (classModel extractRootClassFrom: classModel class).
+			])  ]).
 	^conceptualModel.
 ]
 

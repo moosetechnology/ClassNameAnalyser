@@ -33,6 +33,7 @@ ClassModelTest >> testCreateClassModelFromAClassWithAFeatureSelector [
 		stemming: true; 
 		selectFirstSymbol: true.
 	classModel createFrom: DMPackageModel with: featureSelector.
+	classModel rootClass: (classModel extractRootClassFrom: classModel class).
 	self assert: (classModel class) equals: DMPackageModel.
 	self assert: (classModel className) equals: 'DMPackageModel'.
 	self assert: (classModel concept) equals: 'dm'.

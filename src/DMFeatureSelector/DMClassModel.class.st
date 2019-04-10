@@ -72,14 +72,11 @@ DMClassModel >> extractRootClassFrom: aClass [
 
 { #category : #accessing }
 DMClassModel >> rootClass [ 
-
-	 rootClass := self extractRootClassFrom: self class.
 	^ rootClass 
 	
 ]
 
 { #category : #setter }
-DMClassModel >> rootClass: aClass [
-	rootClass := self extractRootClassFrom: aClass.
-	^ rootClass 
+DMClassModel >> rootClass: aRootClass [
+	rootClass := aRootClass.
 ]
