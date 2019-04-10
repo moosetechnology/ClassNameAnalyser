@@ -23,5 +23,5 @@ DMMalPorterStemmerTest >> testEnglishStemmer [
 				| each stem |
 				each := data at: index + 1.
 				stem := data at: index.
-				self assert: (MalPorterStemmer new stemming: each) equals: stem ] ]
+				self assert: (DMStemmer new stemming: each) equals: stem ] ]
 ]
