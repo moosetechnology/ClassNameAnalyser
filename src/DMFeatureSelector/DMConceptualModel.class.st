@@ -3,37 +3,10 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'packageModels',
-		'packages',
-		'featureSelector'
+		'packages'
 	],
 	#category : #DMFeatureSelector
 }
-
-{ #category : #'as yet unclassified' }
-DMConceptualModel >> createPackageModelFrom: aPackage [
-
- 		| packageModel |
-		packageModel := DMPackageModel new. 
-		packageModel packageName: aPackage.
-		packageModel createClassModelsFrom: aPackage with: self featureSelector.
-		^ packageModel 
-]
-
-{ #category : #'as yet unclassified' }
-DMConceptualModel >> createPackageModelsFrom: aCollectionOfPackage with: aFeatureSelector [
-
-	featureSelector := aFeatureSelector.
-	packages := aCollectionOfPackage.
-	packageModels := packages collect: [ :each | (self createPackageModelFrom: each) ]
-				
-	
-
-]
-
-{ #category : #accessing }
-DMConceptualModel >> featureSelector [
-	^ featureSelector 
-]
 
 { #category : #initialization }
 DMConceptualModel >> initialize [ 
@@ -48,6 +21,16 @@ DMConceptualModel >> packageModels [
 ]
 
 { #category : #accessing }
+DMConceptualModel >> packageModels: aCollectionOfPackageModels [
+	packageModels := aCollectionOfPackageModels 
+]
+
+{ #category : #accessing }
 DMConceptualModel >> packages [ 
 	^ packages
+]
+
+{ #category : #accessing }
+DMConceptualModel >> packages: aCollectionOfPackageNames [
+	packages := aCollectionOfPackageNames 
 ]

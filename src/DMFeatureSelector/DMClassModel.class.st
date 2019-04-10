@@ -6,8 +6,7 @@ Class {
 		'className',
 		'concept',
 		'rootClass',
-		'packageName',
-		'featureSelector'
+		'packageName'
 	],
 	#category : #DMFeatureSelector
 }
@@ -49,7 +48,6 @@ DMClassModel >> createFrom: aClass with: aFeatureSelector [
 	self class:	aClass.
 	self className: (aClass instanceSide name) asString.
 	self concept: (self extractConceptFrom: className with: aFeatureSelector).
-
 	^ self
 	
 ]
@@ -57,7 +55,7 @@ DMClassModel >> createFrom: aClass with: aFeatureSelector [
 { #category : #'as yet unclassified' }
 DMClassModel >> extractConceptFrom: aClassName with: aFeatureSelector [
 
-	| aConcept |
+	| aConcept featureSelector |
 	featureSelector := aFeatureSelector.
 	aConcept := featureSelector extractConceptFrom: aClassName.
 	^ aConcept 
@@ -71,13 +69,6 @@ DMClassModel >> extractRootClassFrom: aClass [
 		ifFalse: [ (aClass superclass == Object)
 							ifTrue: [ ^ aClass  ]
 							ifFalse: [  ^ self extractRootClassFrom: (aClass superclass)  ]		]
-]
-
-{ #category : #initialization }
-DMClassModel >> initialize [ 
-
-	super initialize.
-	featureSelector := DMFeatureSelector new.
 ]
 
 { #category : #accessing }

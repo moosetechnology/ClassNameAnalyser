@@ -16,8 +16,18 @@ DMPackageModel >> classModels [
 ]
 
 { #category : #accessing }
+DMPackageModel >> classModels: aCollectionOfPackageModels [
+	classModels := aCollectionOfPackageModels 
+]
+
+{ #category : #accessing }
 DMPackageModel >> classes [ 
 	^ classes
+]
+
+{ #category : #accessing }
+DMPackageModel >> classes: 	aCollectionOfClasses [
+	classes := aCollectionOfClasses 
 ]
 
 { #category : #'as yet unclassified' }
