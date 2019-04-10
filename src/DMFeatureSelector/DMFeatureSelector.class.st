@@ -30,7 +30,7 @@ DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackages [
 			classModel := DMClassModel new.
 			classModel createFrom: aClass.
 			classModel concept: (self extractConceptFrom: aClass name).
-			classModel rootClass: (classModel extractRootClassFrom: classModel theClass).
+			classModel rootClass: (self extractRootClassFrom: aClass).
 			])  ]).
 	^conceptualModel.
 ]
