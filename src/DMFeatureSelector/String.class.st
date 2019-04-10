@@ -1022,7 +1022,7 @@ String >> correctAgainstEnumerator: wordBlock continuedFrom: oldCollection [
 	^ results
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #cutting }
 String >> cutWhereCamelCase [
 
 	| word tokenizer token allTokens resultedTokens|
@@ -2156,7 +2156,7 @@ String >> parseLiterals [
 	^ self class compiler parseLiterals: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #cutting }
 String >> piecesCutWhereNonAlphaNumeric [
 
 	| word nonAlphaNumericIndexes tokenizer pieces|

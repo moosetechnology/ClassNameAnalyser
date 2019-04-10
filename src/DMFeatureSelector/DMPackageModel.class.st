@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'packageName',
 		'classes',
-		'classModels',
-		'featureSelector'
+		'classModels'
 	],
 	#category : #DMFeatureSelector
 }
@@ -15,7 +14,7 @@ DMPackageModel >> classModels [
 	^ classModels 
 ]
 
-{ #category : #accessing }
+{ #category : #setter }
 DMPackageModel >> classModels: aCollectionOfPackageModels [
 	classModels := aCollectionOfPackageModels 
 ]
@@ -25,44 +24,21 @@ DMPackageModel >> classes [
 	^ classes
 ]
 
-{ #category : #accessing }
+{ #category : #setter }
 DMPackageModel >> classes: 	aCollectionOfClasses [
 	classes := aCollectionOfClasses 
 ]
 
-{ #category : #'as yet unclassified' }
-DMPackageModel >> createAClassModelFrom: aClass [
-
-		| classModel | 
-		classModel := DMClassModel new.
-		classModel createFrom: aClass with: self featureSelector.
-		^ classModel 
-]
-
-{ #category : #'as yet unclassified' }
-DMPackageModel >> createClassModelsFrom: aPackage with: aFeatureSelector [
-	
-	self packageName: aPackage.
-	featureSelector := aFeatureSelector.
-	classes := self extractClassesFrom: aPackage.
-	classModels := classes collect: [ :aClass | (self createAClassModelFrom: aClass) ].
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 DMPackageModel >> extractClassNamesFrom: aPackageName [
 	^ ((RPackageOrganizer default packageNamed: aPackageName)  definedClasses collect: [ :each | each instanceSide name ]).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 DMPackageModel >> extractClassesFrom: aPackageName [
 
 	^ ((RPackageOrganizer default packageNamed: aPackageName)  
 			definedClasses collect: [ :each | each  ]) asOrderedCollection
-]
-
-{ #category : #accessing }
-DMPackageModel >> featureSelector [
-	^ featureSelector 
 ]
 
 { #category : #initialization }
@@ -78,7 +54,7 @@ DMPackageModel >> packageName [
 	^ packageName 
 ]
 
-{ #category : #accessing }
+{ #category : #setter }
 DMPackageModel >> packageName: aPackageName [
 	packageName := aPackageName
 ]

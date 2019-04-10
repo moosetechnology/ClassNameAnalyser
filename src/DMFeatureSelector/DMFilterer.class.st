@@ -1,24 +1,22 @@
 Class {
 	#name : #DMFilterer,
 	#superclass : #Object,
-	#instVars : [
-		'tokens'
-	],
 	#category : #DMFeatureSelector
 }
 
-{ #category : #removing }
+{ #category : #filtering }
 DMFilterer >> removeAllDigitsAndSpecialCharsFrom: aName [
 
+	| tokens |
 	tokens := self removeAllDigitsFrom: aName.
 	tokens := self removeAllSpecialCharsFrom: tokens.
 	^ tokens
 ]
 
-{ #category : #removing }
+{ #category : #filtering }
 DMFilterer >> removeAllDigitsFrom: aName [
 
-	| token |
+	| tokens token |
 	token := ''.
 	tokens := aName piecesCutWhereCamelCase.
 	tokens := tokens reject: [ :each | each isAllDigits ].
@@ -27,19 +25,14 @@ DMFilterer >> removeAllDigitsFrom: aName [
 	^ token
 ]
 
-{ #category : #removing }
+{ #category : #filtering }
 DMFilterer >> removeAllSpecialCharsFrom: aName [
 
-	| tokenizer token |
+	| tokenizer token tokens|
 	token := ''.
 	tokenizer := DMNameTokenizer new.
 	tokens := aName piecesCutWhereNonAlphaNumeric.
 	tokens := tokens reject: [ :each | tokenizer checkSpecialChar: each ].
 	tokens do: [ :each | token := token , each asString ].	
 	^ token
-]
-
-{ #category : #accessing }
-DMFilterer >> tokens [ 
-	^ tokens
 ]

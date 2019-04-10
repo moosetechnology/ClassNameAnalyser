@@ -98,6 +98,7 @@ DMFeatureSelector >> initialize [
 
 { #category : #actions }
 DMFeatureSelector >> selectConceptFrom: tokens [
+	"By default the selected concept is the last word"
 
 	(selectFirstSymbol) 
 		ifTrue: [ ^ conceptualSymbolSelector selectFirstSymbolFrom: tokens ]

@@ -14,13 +14,13 @@ DMTokenStemmer >> initialize [
 	internalStemmer := MalPorterStemmer new.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #stemming }
 DMTokenStemmer >> stemToken: aToken [
 	^ internalStemmer stemming: aToken 
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #stemming }
 DMTokenStemmer >> stemTokens: aCollectionOfTokens [
 	^ aCollectionOfTokens collect: [ :each | internalStemmer stemming: each ]
 ]

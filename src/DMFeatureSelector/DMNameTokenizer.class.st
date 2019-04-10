@@ -1,14 +1,10 @@
 Class {
 	#name : #DMNameTokenizer,
 	#superclass : #Object,
-	#instVars : [
-		'name',
-		'tokens'
-	],
 	#category : #DMFeatureSelector
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #checking }
 DMNameTokenizer >> checkCapitalLetter: aCharacter [
 	
 	(((aCharacter asciiValue) > 64) and: [ ((aCharacter asciiValue) < 91) ] ) 
@@ -16,7 +12,7 @@ DMNameTokenizer >> checkCapitalLetter: aCharacter [
 		ifFalse: [ ^ false ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #checking }
 DMNameTokenizer >> checkSpecialChar: aCharacter [
 
 	| arrayOfNonAlphaNumerics |
@@ -26,25 +22,11 @@ DMNameTokenizer >> checkSpecialChar: aCharacter [
 		ifFalse: [ ^ false ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tokenizing }
 DMNameTokenizer >> cutWhereCamelCase: aName [
 	"This method is implemented in String"
 	
-	self name: aName.
-	^ self name cutWhereCamelCase.
-]
-
-{ #category : #accessing }
-DMNameTokenizer >> name [
-	^ name
-]
-
-{ #category : #accessing }
-DMNameTokenizer >> name: aName [
-	name := aName
-]
-
-{ #category : #accessing }
-DMNameTokenizer >> tokens [
-	^ tokens
+	| name |
+	name := aName.
+	^ name cutWhereCamelCase.
 ]
