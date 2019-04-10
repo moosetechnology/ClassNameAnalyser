@@ -20,7 +20,7 @@ ClassModelTest >> testClassWith [
 	featureSelector 
 		filterAllDigits: true; 
 		stemming: true; 
-		selectFirstSymbol.
+		selectFirstSymbol: true.
 	classModel createFrom: DMPackageModel with: featureSelector.
 	self assert: (classModel class) equals: DMPackageModel.
 	self assert: (classModel className) equals: 'DMPackageModel'.
@@ -38,7 +38,7 @@ ClassModelTest >> testEXtractConceptFrom [
 		filterAllDigits: true; 
 		filterAllDigitsAndSpecialChars: true; 
 		stemming: true; 	
-		selectLastSymbol.  	
+		selectLastSymbol: true. 	
 	aConcept := classModel extractConceptFrom: 'PackageModel' with: featureSelector .
 	self assert: aConcept equals: 'model'.
 	
@@ -58,7 +58,7 @@ ClassModelTest >> testExtractRootClassFromObject [
 	featureSelector
 		filterAllDigits: true; 
 		stemming: true; 
-		selectFirstSymbol.
+		selectFirstSymbol: true.
 	expectedRootClass := Object.
 	classModel createFrom: Object with: featureSelector.
 	self assert: expectedRootClass equals: Object.
@@ -75,7 +75,7 @@ ClassModelTest >> testExtractRootClassNoHierarchy [
 	featureSelector 
 		filterAllDigits: true; 
 		stemming: true; 
-		selectFirstSymbol.
+		selectFirstSymbol: true.
 	classModel createFrom: DMClassModel with: featureSelector.	
 	actualRootClass := classModel extractRootClassFrom: classModel class .
 	self assert: actualRootClass equals: expectedRootClass.

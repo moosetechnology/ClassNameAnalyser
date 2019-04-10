@@ -48,7 +48,7 @@ FeatureSelectorTest >> testFilterAllDigitsFirstSymbol [
 	| expected actual |
 	actual := featureSelector 
 					filterAllDigits: true ; 
-					selectFirstSymbol ;
+					selectFirstSymbol: true;
 					extractConceptFrom: '12ClassName34Blueprint56'.
 	expected := ''.
 	self assert: actual equals: expected.
@@ -60,7 +60,7 @@ FeatureSelectorTest >> testFilterAllSpecialCharsFirstSymbol [
 	| expected actual |
 	actual := featureSelector 
 					filterSpecialChars: true ; 
-					selectFirstSymbol;
+					selectFirstSymbol: true;
 					extractConceptFrom: '12ClassName34Blueprint%./?'.
 	expected := '12'.
 	self assert: actual equals: expected.
@@ -72,7 +72,7 @@ FeatureSelectorTest >> testFilterAllSpecialCharsLastSymbol [
 	| expected actual |
 	actual := featureSelector 
 					filterSpecialChars: true ; 
-					selectLastSymbol;
+					selectLastSymbol: true;
 					extractConceptFrom: '12ClassName34Blueprint%./?'.
 	expected := 'Blueprint'.
 	self assert: actual equals: expected.
@@ -84,7 +84,7 @@ FeatureSelectorTest >> testFilterAllSpecialCharsMiddleSymbol [
 	| expected actual |
 	actual := featureSelector 
 					filterSpecialChars: true ; 
-					selectMiddleSymbol;
+					selectMiddleSymbol: true;
 					extractConceptFrom: '12ClassName34Blueprint%./?'.
 	expected := 'Name34'.
 	self assert: actual equals: expected.
@@ -96,7 +96,7 @@ FeatureSelectorTest >> testFilterBothDigitsAndSpecialCharsFirstSymbol [
 	| expected actual |
 	actual := featureSelector 	
 					filterAllDigitsAndSpecialChars: true; 
-					selectFirstSymbol;
+					selectFirstSymbol: true;
 					extractConceptFrom: '12ClassName34Blueprint5%6/78'.							 							
 	expected := ''.
 	self assert: actual equals: expected.
@@ -108,7 +108,7 @@ FeatureSelectorTest >> testFilterBothDigitsAndSpecialCharsLastSymbol [
 	| expected actual |
 	actual := featureSelector 
 					filterAllDigitsAndSpecialChars: true; 
-					selectLastSymbol;
+					selectLastSymbol: true;
 					extractConceptFrom: '12ClassName34Blueprint5%6/78'.
 	expected := 'Blueprint'.
 	self assert: actual equals: expected.
@@ -120,7 +120,7 @@ FeatureSelectorTest >> testFilterBothDigitsAndSpecialCharsMiddleSymbol [
 	| expected actual |
 	actual := featureSelector 
 					filterAllDigitsAndSpecialChars: true; 
-					selectMiddleSymbol;
+					selectMiddleSymbol: true;
 					extractConceptFrom: '12ClassNa%34meBlueprint5%6/78'.
 	expected := 'Name'.
 	self assert: actual equals: expected.
@@ -133,7 +133,7 @@ FeatureSelectorTest >> testFilterDigitsAndSpecialCharsFirstSymbol [
 	actual := featureSelector 
 					filterAllDigits: true ; 
 					filterSpecialChars: true ;
-					selectFirstSymbol;
+					selectFirstSymbol: true;
 					extractConceptFrom: '%/12ClassName34Blueprint5%6/78'.								
 	expected := ''.
 	self assert: actual equals: expected.
@@ -146,7 +146,7 @@ FeatureSelectorTest >> testFilterDigitsAndSpecialCharsLastSymbol [
 	actual := featureSelector 
 					filterAllDigits: true ; 
 					filterSpecialChars: true ;
-					selectLastSymbol;
+					selectLastSymbol: true;
 					extractConceptFrom: '12ClassName34Blueprint5%6/78'.
 	expected := 'Blueprint'.
 	self assert: actual equals: expected.
@@ -159,7 +159,7 @@ FeatureSelectorTest >> testFilterDigitsAndSpecialCharsMiddleSymbol [
 	actual := featureSelector 
 					filterAllDigits: true ; 
 					filterSpecialChars: true ;
-					selectMiddleSymbol;
+					selectMiddleSymbol: true;
 					extractConceptFrom: '12ClassName%34Blueprint5%6/78'.
 	expected := 'Name'.
 	self assert: actual equals: expected.
@@ -171,7 +171,7 @@ FeatureSelectorTest >> testFilteringAllDigitsFirstSymbol [
 	| expected actual |
 	actual := featureSelector 
 					filterAllDigits: true ; 
-					selectFirstSymbol;
+					selectFirstSymbol: true;
 					extractConceptFrom: '12ClassName34Blueprint56'.
 	expected := ''.
 	self assert: actual equals: expected.
@@ -183,7 +183,7 @@ FeatureSelectorTest >> testFilteringAllDigitsLastSymbol [
 	| expected actual |
 	actual := featureSelector 
 					filterAllDigits: true ; 
-					selectLastSymbol;
+					selectLastSymbol: true;
 					extractConceptFrom: '12ClassName34Blueprint56'.
 	expected := 'Blueprint'.
 	self assert: actual equals: expected.
@@ -195,7 +195,7 @@ FeatureSelectorTest >> testFilteringAllDigitsMiddleSymbol [
 	| expected actual |
 	actual := featureSelector 
 					filterAllDigits: true ; 
-					selectMiddleSymbol;
+					selectMiddleSymbol: true;
 					extractConceptFrom: '12ClassName34Blueprint56'.					
 	expected := 'Name'.
 	self assert: actual equals: expected.
@@ -208,7 +208,7 @@ FeatureSelectorTest >> testStem [
 	actual := featureSelector 
 					filterAllDigits: true ; 
 					stemming: true;
-					selectLastSymbol;
+					selectLastSymbol: true;
 					extractConceptFrom: '12ClassName34Building56'.
 	expected := 'build'.
 	self assert: actual equals: expected.
@@ -222,7 +222,7 @@ FeatureSelectorTest >> testStemFirstSymbol [
 	actual := featureSelector 
 					filterAllDigits: true ; 
 					stemming: true;
-					selectLastSymbol;
+					selectLastSymbol: true;
 					extractConceptFrom: '12ClassName34Building56'.
 	expected := 'build'.
 	self assert: actual equals: expected.
@@ -237,7 +237,7 @@ FeatureSelectorTest >> testStemLastSymbol [
 					filterAllDigits: true ; 
 					filterSpecialChars: true; 
 					stemming: true;
-					selectLastSymbol;
+					selectLastSymbol: true;
 					extractConceptFrom: '12ClassBuil23%ding'.
 	expected := 'build'.
 	self assert: actual equals: expected.
@@ -251,7 +251,7 @@ FeatureSelectorTest >> testStemMiddleSymbol [
 	actual := featureSelector 
 					filterAllDigits: true ; 
 					stemming: true;
-					selectMiddleSymbol;
+					selectMiddleSymbol: true;
 					extractConceptFrom: '12ClassName34Building56'.
 	expected := 'name'.
 	self assert: actual equals: expected.
@@ -263,7 +263,7 @@ FeatureSelectorTest >> testWithoutFiltersFirstSymbol [
 
 	| expected actual |
 	actual := featureSelector
-					selectFirstSymbol;
+					selectFirstSymbol: true;
 					extractConceptFrom: '12ClassName34Blueprint56'.
 	expected := '12'.
 	self assert: actual equals: expected.
@@ -274,7 +274,7 @@ FeatureSelectorTest >> testWithoutFiltersLastSymbol [
 
 	| expected actual |
 	actual := featureSelector
-					selectLastSymbol;
+					selectLastSymbol: true;
 					extractConceptFrom: '12ClassName34Blueprint56'.
 	expected := 'Blueprint56'.
 	self assert: actual equals: expected.
@@ -285,7 +285,7 @@ FeatureSelectorTest >> testWithoutFiltersMiddleSymbol [
 
 	| expected actual |
 	actual := featureSelector 
-					selectMiddleSymbol;
+					selectMiddleSymbol: true;
 					extractConceptFrom: '12ClassName34Blueprint56'.
 	expected := 'Name34'.
 	self assert: actual equals: expected.
