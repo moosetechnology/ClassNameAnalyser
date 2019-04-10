@@ -16,7 +16,7 @@ Class {
 	#category : #DMFeatureSelector
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackages [
 
 	| conceptualModel |
@@ -33,7 +33,7 @@ DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackages [
 	^conceptualModel.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 DMFeatureSelector >> extractConceptFrom: aName [
 
 	| aConcept tokens|
@@ -44,7 +44,7 @@ DMFeatureSelector >> extractConceptFrom: aName [
 	^ aConcept
 ]
 
-{ #category : #accessing }
+{ #category : #actions }
 DMFeatureSelector >> filter: aConcept [
 
 	| symbol |
@@ -57,14 +57,14 @@ DMFeatureSelector >> filter: aConcept [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #setter }
 DMFeatureSelector >> filterAllDigits: aBoolean [
 
 	(aBoolean) 
 		ifTrue: [ filtererAllDigits := true ] 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #setter }
 DMFeatureSelector >> filterAllDigitsAndSpecialChars: aBoolean [
 
 	aBoolean
@@ -73,7 +73,7 @@ DMFeatureSelector >> filterAllDigitsAndSpecialChars: aBoolean [
 	self filterSpecialChars: true
 ]
 
-{ #category : #accessing }
+{ #category : #setter }
 DMFeatureSelector >> filterSpecialChars: aBoolean [
 
 	(aBoolean) 
@@ -96,7 +96,7 @@ DMFeatureSelector >> initialize [
 	filterSpecialChars := false.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 DMFeatureSelector >> selectConceptFrom: tokens [
 
 	(selectFirstSymbol) 
@@ -106,24 +106,31 @@ DMFeatureSelector >> selectConceptFrom: tokens [
 							ifFalse: [ ^ conceptualSymbolSelector selectLastSymbolFrom: tokens ] ]
 ]
 
-{ #category : #accessing }
-DMFeatureSelector >> selectFirstSymbol [
-	selectFirstSymbol := true.
+{ #category : #setter }
+DMFeatureSelector >> selectFirstSymbol: aBoolean [
+
+	(aBoolean)
+	ifTrue: [ selectFirstSymbol := true ]
+	
 
 ]
 
-{ #category : #accessing }
-DMFeatureSelector >> selectLastSymbol. [
-	selectLastSymbol := true.
+{ #category : #setter }
+DMFeatureSelector >> selectLastSymbol: aBoolean [
+
+	(aBoolean)
+	ifTrue: [ selectLastSymbol := true ]
 ]
 
-{ #category : #accessing }
-DMFeatureSelector >> selectMiddleSymbol [
-	selectMiddleSymbol := true.
+{ #category : #setter }
+DMFeatureSelector >> selectMiddleSymbol: aBoolean [
+	
+	(aBoolean)
+	ifTrue: [ selectMiddleSymbol := true ]
 
 ]
 
-{ #category : #accessing }
+{ #category : #actions }
 DMFeatureSelector >> stem: aConcept [
 
 	(stem) 
@@ -131,14 +138,14 @@ DMFeatureSelector >> stem: aConcept [
 		ifFalse: [ ^ aConcept ]
 ]
 
-{ #category : #accessing }
+{ #category : #setter }
 DMFeatureSelector >> stemming: aBoolean [
 
 	(aBoolean) 
 		ifTrue: [ stem := true ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 DMFeatureSelector >> tokenize: aName [
 	^ nameTokenizer cutWhereCamelCase: aName
 ]
