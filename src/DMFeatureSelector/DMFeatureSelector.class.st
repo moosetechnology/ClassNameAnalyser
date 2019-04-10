@@ -61,10 +61,7 @@ DMFeatureSelector >> extractConceptFrom: aName [
 { #category : #actions }
 DMFeatureSelector >> extractRootClassFrom: aClass [
 
-	(aClass == Object)
-		ifTrue: [ ^ aClass ].
-		
-	(aClass == ProtoObject)
+	({ Object . ProtoObject . TComparable } includes: aClass)
 		ifTrue: [ ^ aClass ].
 
 	(aClass superclass == Object)
