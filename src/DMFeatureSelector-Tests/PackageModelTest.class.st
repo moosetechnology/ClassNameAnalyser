@@ -19,7 +19,7 @@ PackageModelTest >> testCreateClassModelFrom [
 	| rootClasses featureSelector |
 	featureSelector := DMFeatureSelector new.
 	featureSelector 
-		stem: false; 
+		stemming: false; 
 		selectLastSymbol.
 	packageModel createClassModelsFrom: 'Kernel' with: featureSelector.
 	rootClasses := packageModel classModels collect: [ :aClassModel | aClassModel rootClass ].	
@@ -39,7 +39,7 @@ PackageModelTest >> testCreateClassModels [
 	featureSelector := DMFeatureSelector new.
 	featureSelector 
 		filterAllDigitsAndSpecialChars: true; 
-		stem: true; selectMiddleSymbol.
+		stemming: true; selectMiddleSymbol.
 	packageModel createClassModelsFrom: 'Kernel' with: featureSelector.
 	
 	self assert: packageModel packageName equals: 'Kernel'.

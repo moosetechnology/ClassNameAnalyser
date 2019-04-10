@@ -207,7 +207,7 @@ FeatureSelectorTest >> testStem [
 	| expected actual |
 	actual := featureSelector 
 					filterAllDigits: true ; 
-					stem: true;
+					stemming: true;
 					selectLastSymbol;
 					extractConceptFrom: '12ClassName34Building56'.
 	expected := 'build'.
@@ -221,7 +221,7 @@ FeatureSelectorTest >> testStemFirstSymbol [
 	| expected actual |
 	actual := featureSelector 
 					filterAllDigits: true ; 
-					stem: true;
+					stemming: true;
 					selectLastSymbol;
 					extractConceptFrom: '12ClassName34Building56'.
 	expected := 'build'.
@@ -236,7 +236,7 @@ FeatureSelectorTest >> testStemLastSymbol [
 	actual := featureSelector 
 					filterAllDigits: true ; 
 					filterSpecialChars: true; 
-					stem: true;
+					stemming: true;
 					selectLastSymbol;
 					extractConceptFrom: '12ClassBuil23%ding'.
 	expected := 'build'.
@@ -250,7 +250,7 @@ FeatureSelectorTest >> testStemMiddleSymbol [
 	| expected actual |
 	actual := featureSelector 
 					filterAllDigits: true ; 
-					stem: true;
+					stemming: true;
 					selectMiddleSymbol;
 					extractConceptFrom: '12ClassName34Building56'.
 	expected := 'name'.
