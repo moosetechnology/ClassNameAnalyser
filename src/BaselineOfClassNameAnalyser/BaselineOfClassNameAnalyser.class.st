@@ -11,6 +11,9 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 				
 		"Packages"
 		spec 
-			package: 'DMFeatureSelector';
-			package: 'DMFeatureSelector-Tests' with: [ spec requires: #('DMFeatureSelector'). ]].
+			package: 'DMConceptualModel';
+			package: 'DMFeatureSelector' with: [ spec requires: #('DMConceptualModel') ];
+			package: 'DMFeatureSelector-Tests' with: [ spec requires: #('DMFeatureSelector') ]
+				 ]		
+
 ]
