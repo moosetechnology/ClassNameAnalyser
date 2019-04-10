@@ -13,7 +13,18 @@ ClassModelTest >> setUp [
 ]
 
 { #category : #tests }
-ClassModelTest >> testClassWith [
+ClassModelTest >> testClassModelSettersAndGetters [
+
+	classModel class: DMClassModel.
+	classModel className: 'DMClassModel'.
+	classModel rootClass: (classModel extractRootClassFrom: DMClassModel).
+	self assert: (classModel class) equals: DMClassModel.
+	self assert: (classModel className) equals: 'DMClassModel'.
+	self assert: (classModel rootClass) equals: DMClassModel.
+]
+
+{ #category : #tests }
+ClassModelTest >> testCreateClassModelFromAClassWithAFeatureSelector [
 
 	| featureSelector |
 	featureSelector := DMFeatureSelector new.
@@ -30,7 +41,7 @@ ClassModelTest >> testClassWith [
 ]
 
 { #category : #tests }
-ClassModelTest >> testEXtractConceptFrom [
+ClassModelTest >> testEXtractConceptFromAClassName [
 
 	| featureSelector aConcept |
 	featureSelector := DMFeatureSelector new.
@@ -45,13 +56,13 @@ ClassModelTest >> testEXtractConceptFrom [
 ]
 
 { #category : #tests }
-ClassModelTest >> testExtractRootClassFrom [
+ClassModelTest >> testExtractRootClassFromAClass [
 
 	self assert: (classModel extractRootClassFrom: String) equals: Collection 
 ]
 
 { #category : #tests }
-ClassModelTest >> testExtractRootClassFromObject [
+ClassModelTest >> testExtractRootClassFromObjectClass [
 
 	| expectedRootClass featureSelector |
 	featureSelector := DMFeatureSelector new.
