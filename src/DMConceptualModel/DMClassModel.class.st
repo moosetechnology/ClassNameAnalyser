@@ -19,16 +19,6 @@ DMClassModel >> concept: aConcept [
 	concept := aConcept
 ]
 
-{ #category : #actions }
-DMClassModel >> createFrom: aClass [
-	"The root class should also be extracted here"
-	
-	self theClass:	aClass.
-	self concept.
-	^ self
-	
-]
-
 { #category : #accessing }
 DMClassModel >> rootClass [ 
 	^ rootClass 

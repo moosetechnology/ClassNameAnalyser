@@ -28,7 +28,7 @@ DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackages [
 		packageModel classes: (self extractClassesFrom: aPackageName).
 		packageModel classModels: (packageModel classes collect: [ :aClass | | classModel | 
 			classModel := DMClassModel new.
-			classModel createFrom: aClass.
+			classModel class: aClass.
 			classModel concept: (self extractConceptFrom: aClass name).
 			classModel rootClass: (self extractRootClassFrom: aClass).
 			])  ]).
