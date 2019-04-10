@@ -15,9 +15,11 @@ FeatureSelectorTest >> setUp [
 { #category : #tests }
 FeatureSelectorTest >> testApplyFeaturesOn [
 
-	| expectedPackagesNames actualPackagesNames |	
-	expectedPackagesNames := { 'Kernel' }.
-	featureSelector applyFeaturesOn: expectedPackagesNames.
+	| conceptualModel |	
+	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMFeatureSelector' }.
+	self assert: (conceptualModel packages) equals: { 'Kernel' . 'DMFeatureSelector' }.
+	self assert: (conceptualModel packageModels size) equals: 2.
+	self assert: (conceptualModel packageModels at: 1) size equals: (RPackageOrganizer default packageNamed: 'Kernel') definedClasses size.
 	
 ]
 
