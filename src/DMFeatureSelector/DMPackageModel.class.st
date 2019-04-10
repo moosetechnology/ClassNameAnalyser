@@ -30,10 +30,11 @@ DMPackageModel >> createAClassModelFrom: aClass [
 ]
 
 { #category : #'as yet unclassified' }
-DMPackageModel >> createClassModelsFrom: aCollectionOfClasses with: aFeatureSelector [
-
+DMPackageModel >> createClassModelsFrom: aPackage with: aFeatureSelector [
+	
+	self packageName: aPackage.
 	featureSelector := aFeatureSelector.
-	classes := aCollectionOfClasses.
+	classes := self extractClassesFrom: aPackage.
 	classModels := classes collect: [ :aClass | (self createAClassModelFrom: aClass) ].
 ]
 
@@ -65,4 +66,9 @@ DMPackageModel >> initialize [
 { #category : #accessing }
 DMPackageModel >> packageName [
 	^ packageName 
+]
+
+{ #category : #accessing }
+DMPackageModel >> packageName: aPackageName [
+	packageName := aPackageName
 ]

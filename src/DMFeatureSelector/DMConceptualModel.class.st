@@ -14,6 +14,7 @@ DMConceptualModel >> createPackageModelFrom: aPackage [
 
  		| packageModel |
 		packageModel := DMPackageModel new. 
+		packageModel packageName: aPackage.
 		packageModel createClassModelsFrom: aPackage with: self featureSelector.
 		^ packageModel 
 ]
