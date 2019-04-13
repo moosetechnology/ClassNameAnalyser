@@ -1,6 +1,9 @@
 Class {
 	#name : #DMClassNameBlueprintBuilder,
 	#superclass : #Object,
+	#classVars : [
+		'rootClassesColors'
+	],
 	#category : #DMClassNameBlueprint
 }
 
@@ -22,15 +25,17 @@ DMClassNameBlueprintBuilder >> attributeColorsTo: aCollectionOfRootClasses [
 		(anAssociation value -> (arrayOfColors at: index)).	
 		 ].
 	 ^ rootClassesColors 
-	
-	
-
 ]
 
 { #category : #'as yet unclassified' }
 DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 
-	^ self createViewModelFrom: aConceptualModel  
+	| viewModel |
+	viewModel := self createViewModelFrom: aConceptualModel.
+	rootClassesColors := self attributeColorsTo: (self extractAllRootClassesFrom: aConceptualModel).
+	^ viewModel 
+	
+	
 	
 ]
 
@@ -41,6 +46,7 @@ DMClassNameBlueprintBuilder >> createClassViewModelsFrom: aCollectionOfClassMode
 	classViewModels := aCollectionOfClassModels collect: [ :aClassModel | | aClassViewModel |
 		aClassViewModel := DMClassViewModel new.
 		aClassViewModel theClass: (aClassModel theClass).
+		aClassViewModel color: (self findTheColorOf: aClassViewModel theClass).
 		 ].
 	^classViewModels 
 ]
@@ -108,14 +114,24 @@ DMClassNameBlueprintBuilder >> extractConceptsFrom: aPackageModel [
 ]
 
 { #category : #'as yet unclassified' }
-DMClassNameBlueprintBuilder >> findTheColorOf: aClass From: anArraOfRootClassesColors [
+DMClassNameBlueprintBuilder >> findTheColorOf: aClass [ 
 
 	| featureSelector  theRootClass color theAssociation |
 	featureSelector := DMFeatureSelector new.
 	theRootClass := featureSelector extractRootClassFrom: aClass.
-	theAssociation := (anArraOfRootClassesColors select: [ :anAssociation | 
+	theAssociation := (rootClassesColors select: [ :anAssociation | 
 		(anAssociation key == theRootClass)
-		 ]) at: 1 value.
+		 ]).
 	color := theAssociation value.
 	^ color
+]
+
+{ #category : #accessing }
+DMClassNameBlueprintBuilder >> rootClassesColors [
+	^ rootClassesColors 
+]
+
+{ #category : #accessing }
+DMClassNameBlueprintBuilder >> rootClassesColors: aCollectionOfRootClassesAndTheirColors [
+	rootClassesColors := aCollectionOfRootClassesAndTheirColors 
 ]

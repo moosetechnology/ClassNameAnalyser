@@ -29,15 +29,16 @@ DMClassNameBlueprint >> testAttributeColors [
 { #category : #tests }
 DMClassNameBlueprint >> testBuildModelFrom [
 	
-	| featureSelector conceptualModel viewModel actualPackageViewNames |
+	| featureSelector conceptualModel viewModel actualPackageViewNames blueprintBuilder |
+	blueprintBuilder := DMClassNameBlueprintBuilder new.
 	featureSelector := DMFeatureSelector new.
 	featureSelector
 		stem: true;
 		selectMiddleSymbol: true;
 		filterAllDigits: true.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel' }.
-	viewModel := classNameBlueprintBuilder buildModelFrom: conceptualModel.
-	actualPackageViewNames := (viewModel packageViewModels collect: [ :aPackageViewModel | aPackageViewModel packageName ]).
+	viewModel := blueprintBuilder buildModelFrom: conceptualModel.
+	actualPackageViewNames := (viewModel packageViewModels collect: [ :aPackageViewModel | 	aPackageViewModel packageName ]).
 	self assert: actualPackageViewNames equals: { 'Kernel' . 'DMViewModel' }.
 	self assert: viewModel packageViewModels size equals: conceptualModel packageModels size.
 ]
@@ -152,15 +153,14 @@ DMClassNameBlueprint >> testExtractConceptsFromAPackageModel [
 { #category : #tests }
 DMClassNameBlueprint >> testFindTheColorOfAClassFromThehierarchyColors [
 
-	| classNameBlueprint classes featureSelector rootClasses rootClassesColors actualColor rootClass rootClassColor | 
+	| classNameBlueprint featureSelector actualColor rootClass  aConceptualModel  expectedColor | 
 	featureSelector := DMFeatureSelector new.
+	aConceptualModel := featureSelector applyFeaturesOn: { 'Kernel' }.
 	classNameBlueprint := DMClassNameBlueprintBuilder new.
-	classes := (RPackageOrganizer default packageNamed: 'Kernel') definedClasses.
-	rootClasses := classes collect: [ :each | (featureSelector extractRootClassFrom: each )].
-	rootClassesColors := classNameBlueprint attributeColorsTo: rootClasses. 
-	actualColor := classNameBlueprint findTheColorOf: SimulationExceptionWrapper From: rootClassesColors.
+	classNameBlueprint rootClassesColors: (classNameBlueprint attributeColorsTo: (classNameBlueprint 	extractAllRootClassesFrom: aConceptualModel)).
+	actualColor := classNameBlueprint findTheColorOf: SimulationExceptionWrapper.
 	rootClass := featureSelector extractRootClassFrom: SimulationExceptionWrapper.
-	rootClassColor := classNameBlueprint findTheColorOf: rootClass  From: rootClassesColors .
-	self assert: actualColor equals: rootClassColor 
+	expectedColor := classNameBlueprint findTheColorOf: rootClass.
+	self assert: actualColor equals: expectedColor.
 
 ]
