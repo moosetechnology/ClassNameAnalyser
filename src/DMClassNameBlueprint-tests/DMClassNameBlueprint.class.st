@@ -13,6 +13,19 @@ DMClassNameBlueprint >> setUp [
 ]
 
 { #category : #tests }
+DMClassNameBlueprint >> testAttributeColors [
+
+	| featureSelector conceptualModel actualRootClasses rootClassesColors |
+	featureSelector := DMFeatureSelector new.
+	featureSelector 
+	stem: true;
+	selectLastSymbol: true.
+	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel'  }.
+	actualRootClasses := classNameBlueprintBuilder extractAllRootClassesFrom: conceptualModel.
+	rootClassesColors := classNameBlueprintBuilder attributeColorsTo: actualRootClasses asOrderedCollection.
+]
+
+{ #category : #tests }
 DMClassNameBlueprint >> testBuildModelFrom [
 	
 	| featureSelector conceptualModel viewModel actualPackageViewNames |
@@ -114,7 +127,7 @@ DMClassNameBlueprint >> testExtractAllRootClasses [
 	classes add: (RPackageOrganizer default packageNamed: 'Kernel') definedClasses.
 	classes := classes flatCollect: [ :Classes | Classes ].
 	expectedRootClasses := classes collect: [ :aClass | featureSelector extractRootClassFrom: aClass ].
-	self assert: actualRootClasses asSet equals: expectedRootClasses asSet.
+	self assert: actualRootClasses asSet  equals: expectedRootClasses asSet.
 	
 ]
 

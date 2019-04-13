@@ -5,6 +5,29 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+DMClassNameBlueprintBuilder >> attributeColorsTo: aCollectionOfRootClasses [
+
+	| arrayOfColors rootClasses rootClassesColors index |
+	rootClasses := aCollectionOfRootClasses asBag sortedCounts.
+	arrayOfColors := {#red . #blue . #pink . #purple . #tan . #yellow.
+	#orange . #magenta . #green . #gray . #cyan . #brown . #darkGray.
+	#lightBlue . #lightBrown . #lightCyan . #lightGray . #lightGreen.
+	#lightMagenta . #lightOrange . #lightRed . #lightYellow . #paleBuff.
+	#paleGreen . #paleMagenta . #paleOrange . #palePeach . #paleRed . #paleTan.
+	#paleYellow . #black}.
+	index := 1.
+	rootClassesColors := rootClasses collect: [ :anAssociation | 
+		(index == arrayOfColors size)
+		ifFalse: [ index := index + 1 ]	.
+		(anAssociation value -> (arrayOfColors at: index)).	
+		 ].
+	 ^ rootClassesColors 
+	
+	
+
+]
+
+{ #category : #'as yet unclassified' }
 DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 
 	^ self createViewModelFrom: aConceptualModel  
