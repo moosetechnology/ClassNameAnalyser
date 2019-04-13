@@ -73,25 +73,30 @@ DMClassNameBlueprint >> testCreateConceptsViewModels [
 { #category : #tests }
 DMClassNameBlueprint >> testCreatePackageModeView [
 
-	| featureSelector conceptualModel packageModels actualPackageViewModels viewModel actualConceptsBag expectedConceptsBag actualConceptsViewModels actualPackageNames expectedPackageNames |
+	| featureSelector conceptualModel packageModels actualPackageViewModels viewModel actualConceptsBag 	expectedConceptsBag actualConceptsViewModels actualPackageNames expectedPackageNames 	packageViewModel  conceptsOfAPackageViewModel |
 	featureSelector := DMFeatureSelector new.
 	featureSelector  
 		selectLastSymbol: true.
 	conceptualModel := featureSelector applyFeaturesOn: {'Kernel' . 'DMFeatureSelector'}.
 	packageModels := conceptualModel packageModels.
 	viewModel := DMViewModel new.
-	viewModel packageViewModels: (classNameBlueprintBuilder createPackageViewModelsFrom: packageModels).
+	viewModel packageViewModels: (classNameBlueprintBuilder createPackageViewModelsFrom: 	packageModels).
 	actualPackageViewModels := viewModel packageViewModels.
-	actualPackageNames := actualPackageViewModels collect: [ :aPackageViewModel | aPackageViewModel packageName ].
-	actualConceptsViewModels := (actualPackageViewModels flatCollect: [ :aPackageViewModel | aPackageViewModel conceptViewModels ]) asOrderedCollection.
-	actualConceptsBag := (actualConceptsViewModels collect: [ :aConceptViewModel | aConceptViewModel conceptsName ]) asBag.
+	packageViewModel := actualPackageViewModels at: 1.
+	conceptsOfAPackageViewModel := OrderedCollection new.
+	conceptsOfAPackageViewModel := packageViewModel conceptViewModels.
+	conceptsOfAPackageViewModel := conceptsOfAPackageViewModel collect: [ :each | each conceptsName ].
+	actualPackageNames := actualPackageViewModels collect: [ :aPackageViewModel | aPackageViewModel 	packageName ].
+	actualConceptsViewModels := (actualPackageViewModels flatCollect: [ :aPackageViewModel | 	aPackageViewModel conceptViewModels ]) asOrderedCollection.
+	actualConceptsBag := (actualConceptsViewModels collect: [ :aConceptViewModel | aConceptViewModel 	conceptsName ]) asOrderedCollection.
 	expectedConceptsBag := (packageModels flatCollect: [ :aPackageModel | 
 		classNameBlueprintBuilder extractConceptsFrom: aPackageModel ]) asOrderedCollection.
 	expectedPackageNames := { 'Kernel' . 'DMFeatureSelector' }.
 	self assert: actualPackageViewModels size equals: packageModels size.
 	self assert: actualPackageNames equals: expectedPackageNames.
-	self assert: actualConceptsBag equals: expectedConceptsBag asBag .
-
+	self assert: actualConceptsBag asBag equals: expectedConceptsBag asBag.
+	self assert: conceptsOfAPackageViewModel equals: (classNameBlueprintBuilder extractConceptsFrom: 	(conceptualModel packageModels at: 1)).
+	
 ]
 
 { #category : #tests }
