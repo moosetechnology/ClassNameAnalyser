@@ -14,32 +14,18 @@ DMClassNameBlueprint >> setUp [
 
 { #category : #tests }
 DMClassNameBlueprint >> testBuildModelFrom [
-	| featureSelector conceptualModel viewModel actualPackageNames expectedPackageNames 		expectedConcepts actualConcepts|
-	classNameBlueprintBuilder := DMClassNameBlueprintBuilder new.
-	viewModel := DMViewModel new.
-	actualPackageNames := OrderedCollection new.
-	expectedPackageNames := OrderedCollection new.	
+	
+	| featureSelector conceptualModel viewModel actualPackageViewNames |
 	featureSelector := DMFeatureSelector new.
 	featureSelector
-		filterAllDigits: true;
 		stem: true;
-		selectLastSymbol: true.
-	conceptualModel := featureSelector
-		applyFeaturesOn: {'Kernel' . 'DMConceptualModel'}.
+		selectMiddleSymbol: true;
+		filterAllDigits: true.
+	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel' }.
 	viewModel := classNameBlueprintBuilder buildModelFrom: conceptualModel.
-	expectedPackageNames := conceptualModel packages.
-	actualPackageNames := (viewModel packageViewModels collect: [ :aPackageViewModel | 	aPackageViewModel packageName ]).
-	expectedConcepts := (conceptualModel packageModels
-				collect: [ :aPackageModel | 
-					aPackageModel classModels
-						collect: [ :aClassModel | aClassModel concept ] ]).
-	actualConcepts := (viewModel packageViewModels
-				collect: [ :aPackageViewModel | 
-					aPackageViewModel conceptViewModels
-						collect: [ :aConceptViewModel | aConceptViewModel title ] ]).
-	self assert:	actualPackageNames equals: expectedPackageNames.
-	self assert: actualConcepts equals: expectedConcepts.
-
+	actualPackageViewNames := (viewModel packageViewModels collect: [ :aPackageViewModel | aPackageViewModel packageName ]).
+	self assert: actualPackageViewNames equals: { 'Kernel' . 'DMViewModel' }.
+	self assert: viewModel packageViewModels size equals: conceptualModel packageModels size.
 ]
 
 { #category : #tests }
