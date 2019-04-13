@@ -64,6 +64,19 @@ DMClassNameBlueprintBuilder >> createViewModelFrom: aConceptualModel [
 ]
 
 { #category : #'as yet unclassified' }
+DMClassNameBlueprintBuilder >> extractAllRootClassesFrom: aConceptualModel [
+
+	| rootClasses packageModels classModels |
+	rootClasses := OrderedCollection new.
+	packageModels := aConceptualModel packageModels.
+	classModels := packageModels flatCollect: [ :aPackageModel | aPackageModel classModels ].
+	rootClasses := classModels collect: [ :aClassViewModel | aClassViewModel rootClass ].
+	^ rootClasses 
+	
+	
+]
+
+{ #category : #'as yet unclassified' }
 DMClassNameBlueprintBuilder >> extractConceptsFrom: aPackageModel [
 
 	| conceptsBag |

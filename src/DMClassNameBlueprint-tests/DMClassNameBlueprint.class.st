@@ -100,6 +100,25 @@ DMClassNameBlueprint >> testCreatePackageModeView [
 ]
 
 { #category : #tests }
+DMClassNameBlueprint >> testExtractAllRootClasses [
+
+	| featureSelector conceptualModel actualRootClasses expectedRootClasses classes |
+	classes := OrderedCollection new.
+	featureSelector := DMFeatureSelector new.
+	featureSelector 
+	stem: true;
+	selectLastSymbol: true.
+	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel'  }.
+	actualRootClasses := classNameBlueprintBuilder extractAllRootClassesFrom: conceptualModel.
+	classes add: (RPackageOrganizer default packageNamed: 'DMViewModel') definedClasses.
+	classes add: (RPackageOrganizer default packageNamed: 'Kernel') definedClasses.
+	classes := classes flatCollect: [ :Classes | Classes ].
+	expectedRootClasses := classes collect: [ :aClass | featureSelector extractRootClassFrom: aClass ].
+	self assert: actualRootClasses asSet equals: expectedRootClasses asSet.
+	
+]
+
+{ #category : #tests }
 DMClassNameBlueprint >> testExtractConceptsFromAPackageModel [
 
 	| conceptualModel featureSelector actualConceptsBags expectedConceptsBags aPackageModel |
