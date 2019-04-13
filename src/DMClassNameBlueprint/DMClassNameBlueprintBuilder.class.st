@@ -15,7 +15,7 @@ DMClassNameBlueprintBuilder >> attributeColorsTo: aCollectionOfRootClasses [
 	#lightMagenta . #lightOrange . #lightRed . #lightYellow . #paleBuff.
 	#paleGreen . #paleMagenta . #paleOrange . #palePeach . #paleRed . #paleTan.
 	#paleYellow . #black}.
-	index := 1.
+	index := 0.
 	rootClassesColors := rootClasses collect: [ :anAssociation | 
 		(index == arrayOfColors size)
 		ifFalse: [ index := index + 1 ]	.
@@ -105,4 +105,17 @@ DMClassNameBlueprintBuilder >> extractConceptsFrom: aPackageModel [
 	| conceptsBag |
 	conceptsBag := (aPackageModel classModels collect: [ :aClassModel | aClassModel concept ]) asBag.
 	^ conceptsBag 
+]
+
+{ #category : #'as yet unclassified' }
+DMClassNameBlueprintBuilder >> findTheColorOf: aClass From: anArraOfRootClassesColors [
+
+	| featureSelector  theRootClass color theAssociation |
+	featureSelector := DMFeatureSelector new.
+	theRootClass := featureSelector extractRootClassFrom: aClass.
+	theAssociation := (anArraOfRootClassesColors select: [ :anAssociation | 
+		(anAssociation key == theRootClass)
+		 ]) at: 1 value.
+	color := theAssociation value.
+	^ color
 ]
