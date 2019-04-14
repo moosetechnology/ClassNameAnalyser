@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'rootClasses',
-		'rootClassesColors'
+		'rootClassesColors',
+		'concepts'
 	],
 	#category : #DMClassNameBlueprint
 }
@@ -38,6 +39,16 @@ DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 	
 	
 	
+]
+
+{ #category : #accessing }
+DMClassNameBlueprintBuilder >> concepts [
+	^concepts
+]
+
+{ #category : #accessing }
+DMClassNameBlueprintBuilder >> concepts: aCollectionOfConcepts [
+	concepts := aCollectionOfConcepts 
 ]
 
 { #category : #'as yet unclassified' }
@@ -91,6 +102,17 @@ DMClassNameBlueprintBuilder >> createViewModelFrom: aConceptualModel [
 	aViewModel := DMViewModel new.
 	aViewModel packageViewModels: (self createPackageViewModelsFrom: aConceptualModel packageModels).
 	^aViewModel 
+]
+
+{ #category : #'as yet unclassified' }
+DMClassNameBlueprintBuilder >> extractAllConceptsFrom: aConceptualModel [
+
+	| packageModels classModels |
+	rootClasses := OrderedCollection new.
+	packageModels := aConceptualModel packageModels.
+	classModels := packageModels flatCollect: [ :aPackageModel | aPackageModel classModels ].
+	concepts := classModels collect: [ :aClassModel | aClassModel concept ].
+	^ concepts asOrderedCollection 
 ]
 
 { #category : #'as yet unclassified' }

@@ -122,6 +122,22 @@ DMClassNameBlueprint >> testCreatePackageViewModel [
 ]
 
 { #category : #tests }
+DMClassNameBlueprint >> testExtractAllConceptsFromaConceptualModel [
+
+	| conceptualModel classes featureSelector expectedConcepts actualConcepts |
+	classes := OrderedCollection new.
+	featureSelector := DMFeatureSelector new.
+	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' .'DMFeatureSelector' }.
+	classes add: (RPackageOrganizer default packageNamed: 'Kernel') definedClasses.
+	classes add:(RPackageOrganizer default packageNamed: 'DMFeatureSelector') definedClasses.
+	classes := classes flatCollect: [ :packageClasses | packageClasses ].
+	expectedConcepts := classes collect: [ :aClass | featureSelector extractConceptFrom: aClass 	asString].
+	actualConcepts := classNameBlueprintBuilder extractAllConceptsFrom: conceptualModel.
+	self assert: actualConcepts asSet equals: expectedConcepts asSet.
+	
+]
+
+{ #category : #tests }
 DMClassNameBlueprint >> testExtractAllRootClasses [
 
 	| featureSelector conceptualModel actualRootClasses expectedRootClasses classes |
