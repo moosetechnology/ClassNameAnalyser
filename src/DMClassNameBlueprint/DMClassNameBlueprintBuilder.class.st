@@ -1,7 +1,8 @@
 Class {
 	#name : #DMClassNameBlueprintBuilder,
 	#superclass : #Object,
-	#classVars : [
+	#instVars : [
+		'rootClasses',
 		'rootClassesColors'
 	],
 	#category : #DMClassNameBlueprint
@@ -10,8 +11,7 @@ Class {
 { #category : #'as yet unclassified' }
 DMClassNameBlueprintBuilder >> attributeColorsTo: aCollectionOfRootClasses [
 
-	| arrayOfColors rootClasses rootClassesColors index |
-	rootClasses := aCollectionOfRootClasses asBag sortedCounts.
+	| arrayOfColors index |
 	arrayOfColors := {#red . #blue . #pink . #purple . #tan . #yellow.
 	#orange . #magenta . #green . #gray . #cyan . #brown . #darkGray.
 	#lightBlue . #lightBrown . #lightCyan . #lightGray . #lightGreen.
@@ -19,7 +19,7 @@ DMClassNameBlueprintBuilder >> attributeColorsTo: aCollectionOfRootClasses [
 	#paleGreen . #paleMagenta . #paleOrange . #palePeach . #paleRed . #paleTan.
 	#paleYellow . #black}.
 	index := 0.
-	rootClassesColors := rootClasses collect: [ :anAssociation | 
+	rootClassesColors := (aCollectionOfRootClasses asBag sortedCounts) collect: [ :anAssociation | 
 		(index == arrayOfColors size)
 		ifFalse: [ index := index + 1 ]	.
 		(anAssociation value -> (arrayOfColors at: index)).	
@@ -31,8 +31,9 @@ DMClassNameBlueprintBuilder >> attributeColorsTo: aCollectionOfRootClasses [
 DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 
 	| viewModel |
+	rootClasses := self extractAllRootClassesFrom: aConceptualModel.
+	rootClassesColors := self attributeColorsTo: (rootClasses).
 	viewModel := self createViewModelFrom: aConceptualModel.
-	rootClassesColors := self attributeColorsTo: (self extractAllRootClassesFrom: aConceptualModel).
 	^ viewModel 
 	
 	
@@ -46,7 +47,7 @@ DMClassNameBlueprintBuilder >> createClassViewModelsFrom: aCollectionOfClassMode
 	classViewModels := aCollectionOfClassModels collect: [ :aClassModel | | aClassViewModel |
 		aClassViewModel := DMClassViewModel new.
 		aClassViewModel theClass: (aClassModel theClass).
-		aClassViewModel color: (self findTheColorOf: aClassViewModel theClass).
+		aClassViewModel color: (self findColorOf: aClassViewModel theClass).
 		 ].
 	^classViewModels 
 ]
@@ -95,12 +96,12 @@ DMClassNameBlueprintBuilder >> createViewModelFrom: aConceptualModel [
 { #category : #'as yet unclassified' }
 DMClassNameBlueprintBuilder >> extractAllRootClassesFrom: aConceptualModel [
 
-	| rootClasses packageModels classModels |
+	| packageModels classModels |
 	rootClasses := OrderedCollection new.
 	packageModels := aConceptualModel packageModels.
 	classModels := packageModels flatCollect: [ :aPackageModel | aPackageModel classModels ].
 	rootClasses := classModels collect: [ :aClassViewModel | aClassViewModel rootClass ].
-	^ rootClasses 
+	^ rootClasses asOrderedCollection.
 	
 	
 ]
@@ -114,7 +115,7 @@ DMClassNameBlueprintBuilder >> extractConceptsFrom: aPackageModel [
 ]
 
 { #category : #'as yet unclassified' }
-DMClassNameBlueprintBuilder >> findTheColorOf: aClass [ 
+DMClassNameBlueprintBuilder >> findColorOf: aClass [ 
 
 	| featureSelector  theRootClass color theAssociation |
 	featureSelector := DMFeatureSelector new.
@@ -124,6 +125,16 @@ DMClassNameBlueprintBuilder >> findTheColorOf: aClass [
 		 ]).
 	color := theAssociation value.
 	^ color
+]
+
+{ #category : #accessing }
+DMClassNameBlueprintBuilder >> rootClasses [ 
+	^rootClasses 
+]
+
+{ #category : #accessing }
+DMClassNameBlueprintBuilder >> rootClasses: aCollectionOfRootClasses [
+	rootClasses := aCollectionOfRootClasses 
 ]
 
 { #category : #accessing }

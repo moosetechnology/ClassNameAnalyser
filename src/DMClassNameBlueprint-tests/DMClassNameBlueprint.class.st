@@ -15,14 +15,14 @@ DMClassNameBlueprint >> setUp [
 { #category : #tests }
 DMClassNameBlueprint >> testAttributeColors [
 
-	| featureSelector conceptualModel actualRootClasses rootClassesColors |
+	| featureSelector conceptualModel actualRootClasses actualRootClassesColors |
 	featureSelector := DMFeatureSelector new.
 	featureSelector 
 	stem: true;
 	selectLastSymbol: true.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel'  }.
 	actualRootClasses := classNameBlueprintBuilder extractAllRootClassesFrom: conceptualModel.
-	rootClassesColors := classNameBlueprintBuilder attributeColorsTo: actualRootClasses asOrderedCollection.
+	actualRootClassesColors := classNameBlueprintBuilder attributeColorsTo: actualRootClasses asOrderedCollection.
 	
 ]
 
@@ -44,7 +44,7 @@ DMClassNameBlueprint >> testBuildModelFrom [
 ]
 
 { #category : #tests }
-DMClassNameBlueprint >> testCreateClassViewModels [
+DMClassNameBlueprint >> testCreateClassViewModelsFromClassModels [
 
 	| featureSelector conceptualModel classViewModels packageModel classModels |
 	featureSelector := DMFeatureSelector new.
@@ -53,10 +53,13 @@ DMClassNameBlueprint >> testCreateClassViewModels [
 	conceptualModel := featureSelector applyFeaturesOn: {'Kernel'}.
 	packageModel := conceptualModel packageModels at: 1.
 	classModels := packageModel classModels.
+	classNameBlueprintBuilder rootClasses: (classNameBlueprintBuilder extractAllRootClassesFrom: 	conceptualModel).
+	classNameBlueprintBuilder rootClassesColors: (classNameBlueprintBuilder attributeColorsTo: 	(classNameBlueprintBuilder rootClasses) ).
 	classViewModels := classNameBlueprintBuilder createClassViewModelsFrom: classModels.
-	self assert: (classViewModels collect: [ :aClassViewModel | aClassViewModel theClass ]) equals: 
-	(classModels collect: [ :aClassModel | aClassModel theClass  ])
 	
+	self assert: (classViewModels collect: [ :aClassViewModel | aClassViewModel theClass ]) equals: 
+	(classModels collect: [ :aClassModel | aClassModel theClass  ]).
+	self assert: (classViewModels collect: [ :aClassViewModel | featureSelector extractRootClassFrom: 	aClassViewModel theClass]) asOrderedCollection equals:( classNameBlueprintBuilder rootClasses 	asOrderedCollection).
 	
 
 ]
@@ -70,6 +73,8 @@ DMClassNameBlueprint >> testCreateConceptsViewModels [
 		selectLastSymbol: true.
 	conceptualModel := featureSelector applyFeaturesOn: {'Kernel'}.
 	packageModel := conceptualModel packageModels at: 1.
+	classNameBlueprintBuilder rootClasses: (classNameBlueprintBuilder extractAllRootClassesFrom: 	conceptualModel).
+	classNameBlueprintBuilder rootClassesColors: (classNameBlueprintBuilder attributeColorsTo: 	(classNameBlueprintBuilder rootClasses) ).
 	conceptsViewModels := classNameBlueprintBuilder createConceptsViewModelsFrom: packageModel.
 	actualConceptsBag := (conceptsViewModels collect: [ :aConceptViewModel | aConceptViewModel  	conceptsName ]) asBag.
 	expectedConceptsBag := classNameBlueprintBuilder extractConceptsFrom: packageModel.
@@ -86,7 +91,7 @@ DMClassNameBlueprint >> testCreateConceptsViewModels [
 ]
 
 { #category : #tests }
-DMClassNameBlueprint >> testCreatePackageModeView [
+DMClassNameBlueprint >> testCreatePackageViewModel [
 
 	| featureSelector conceptualModel packageModels actualPackageViewModels viewModel actualConceptsBag 	expectedConceptsBag actualConceptsViewModels actualPackageNames expectedPackageNames 	packageViewModel  conceptsOfAPackageViewModel |
 	featureSelector := DMFeatureSelector new.
@@ -95,6 +100,8 @@ DMClassNameBlueprint >> testCreatePackageModeView [
 	conceptualModel := featureSelector applyFeaturesOn: {'Kernel' . 'DMFeatureSelector'}.
 	packageModels := conceptualModel packageModels.
 	viewModel := DMViewModel new.
+	classNameBlueprintBuilder rootClasses: (classNameBlueprintBuilder extractAllRootClassesFrom: 	conceptualModel).
+	classNameBlueprintBuilder rootClassesColors: (classNameBlueprintBuilder attributeColorsTo: 	(classNameBlueprintBuilder rootClasses) ).
 	viewModel packageViewModels: (classNameBlueprintBuilder createPackageViewModelsFrom: 	packageModels).
 	actualPackageViewModels := viewModel packageViewModels.
 	packageViewModel := actualPackageViewModels at: 1.
@@ -129,7 +136,7 @@ DMClassNameBlueprint >> testExtractAllRootClasses [
 	classes add: (RPackageOrganizer default packageNamed: 'Kernel') definedClasses.
 	classes := classes flatCollect: [ :Classes | Classes ].
 	expectedRootClasses := classes collect: [ :aClass | featureSelector extractRootClassFrom: aClass ].
-	self assert: actualRootClasses asSet  equals: expectedRootClasses asSet.
+	self assert: actualRootClasses asSet equals: expectedRootClasses asSet.
 	
 ]
 
@@ -158,9 +165,9 @@ DMClassNameBlueprint >> testFindTheColorOfAClassFromThehierarchyColors [
 	aConceptualModel := featureSelector applyFeaturesOn: { 'Kernel' }.
 	classNameBlueprint := DMClassNameBlueprintBuilder new.
 	classNameBlueprint rootClassesColors: (classNameBlueprint attributeColorsTo: (classNameBlueprint 	extractAllRootClassesFrom: aConceptualModel)).
-	actualColor := classNameBlueprint findTheColorOf: SimulationExceptionWrapper.
+	actualColor := classNameBlueprint findColorOf: SimulationExceptionWrapper.
 	rootClass := featureSelector extractRootClassFrom: SimulationExceptionWrapper.
-	expectedColor := classNameBlueprint findTheColorOf: rootClass.
+	expectedColor := classNameBlueprint findColorOf: rootClass.
 	self assert: actualColor equals: expectedColor.
 
 ]
