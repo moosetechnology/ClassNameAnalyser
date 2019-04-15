@@ -17,7 +17,6 @@ FeatureSelectorTest >> testApplyFeaturesOn [
 
 	| conceptualModel |	
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMFeatureSelector' }.
-	self assert: (conceptualModel packages) equals: { 'Kernel' . 'DMFeatureSelector' }.
 	self assert: (conceptualModel packageModels size) equals: 2.
 	self assert: (conceptualModel packageModels at: 1) packageName equals: 'Kernel'.
 	self assert: (conceptualModel packageModels at: 2) packageName equals: 'DMFeatureSelector'.
@@ -67,7 +66,7 @@ FeatureSelectorTest >> testExtractRootClassFromObjectClass [
 		stemming: true; 
 		selectFirstSymbol: true.
 	expectedRootClass := Object.
-	classModel theClass: Object.
+	classModel classRef: Object.
 	classModel concept: (featureSelector extractConceptFrom: Object name).
 	classModel rootClass: (featureSelector extractRootClassFrom: Object).
 	self assert: expectedRootClass equals: Object.
@@ -85,7 +84,7 @@ FeatureSelectorTest >> testExtractRootClassNoHierarchy [
 		filterAllDigits: true; 
 		stemming: true; 
 		selectFirstSymbol: true.
-	classModel theClass: DMClassModel.
+	classModel classRef: DMClassModel.
 	classModel concept: (featureSelector extractConceptFrom: (DMClassModel name)).
 	classModel rootClass: (featureSelector extractRootClassFrom: DMClassModel).
 	actualRootClass := DMClassModel.

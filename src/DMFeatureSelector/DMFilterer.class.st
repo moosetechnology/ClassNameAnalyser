@@ -32,7 +32,7 @@ DMFilterer >> removeAllSpecialCharsFrom: aName [
 	token := ''.
 	tokenizer := DMNameTokenizer new.
 	tokens := aName piecesCutWhereNonAlphaNumeric.
-	tokens := tokens reject: [ :each | tokenizer checkSpecialChar: each ].
+	tokens := tokens reject: [ :each | each asString isAllAlphaNumerics not ].
 	tokens do: [ :each | token := token , each asString ].	
 	^ token
 ]

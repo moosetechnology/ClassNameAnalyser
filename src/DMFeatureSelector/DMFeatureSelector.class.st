@@ -17,18 +17,17 @@ Class {
 }
 
 { #category : #actions }
-DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackages [
+DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackageNames [
 
 	| conceptualModel |
 	conceptualModel := DMConceptualModel new.
-	conceptualModel packages: aCollectionOfPackages.
-	conceptualModel packageModels: (conceptualModel packages collect: [ :aPackageName |		| packageModel |
+	conceptualModel packageModels: (aCollectionOfPackageNames collect: [ :aPackageName |		| packageModel |
 		packageModel := DMPackageModel new. 
 		packageModel packageName: aPackageName.
 		packageModel classes: (self extractClassesFrom: aPackageName).
 		packageModel classModels: (packageModel classes collect: [ :aClass | | classModel | 
 			classModel := DMClassModel new.
-			classModel theClass: aClass.
+			classModel classRef: aClass.
 			classModel concept: (self extractConceptFrom: aClass name).
 			classModel rootClass: (self extractRootClassFrom: aClass).
 			])  ]).
@@ -85,25 +84,19 @@ DMFeatureSelector >> filter: aConcept [
 
 { #category : #setter }
 DMFeatureSelector >> filterAllDigits: aBoolean [
-
-	(aBoolean) 
-		ifTrue: [ filtererAllDigits := true ] 
+	 filtererAllDigits := aBoolean
 ]
 
 { #category : #setter }
 DMFeatureSelector >> filterAllDigitsAndSpecialChars: aBoolean [
 
-	aBoolean
-		ifFalse: [ ^ self ].
-	self filterAllDigits: true.
-	self filterSpecialChars: true
+	self filterAllDigits: aBoolean .
+	self filterSpecialChars: aBoolean
 ]
 
 { #category : #setter }
 DMFeatureSelector >> filterSpecialChars: aBoolean [
-
-	(aBoolean) 
-		ifTrue: [ filterSpecialChars := true ] 
+	 filterSpecialChars := aBoolean 
 ]
 
 { #category : #initialization }
@@ -174,5 +167,5 @@ DMFeatureSelector >> stemming: aBoolean [
 
 { #category : #actions }
 DMFeatureSelector >> tokenize: aName [
-	^ nameTokenizer cutWhereCamelCase: aName
+	^ nameTokenizer tokenize: aName
 ]

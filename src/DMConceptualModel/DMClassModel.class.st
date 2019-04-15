@@ -4,19 +4,30 @@ Class {
 	#instVars : [
 		'class',
 		'concept',
-		'rootClass'
+		'rootClass',
+		'theConcept'
 	],
 	#category : #DMConceptualModel
 }
 
 { #category : #accessing }
+DMClassModel >> classRef [
+	^ class
+]
+
+{ #category : #setter }
+DMClassModel >> classRef: aClass [
+	class := aClass
+]
+
+{ #category : #accessing }
 DMClassModel >> concept [
-	^ concept 
+	^ theConcept 
 ]
 
 { #category : #setter }
 DMClassModel >> concept: aConcept [
-	concept := aConcept
+	theConcept := aConcept
 ]
 
 { #category : #accessing }
@@ -28,14 +39,4 @@ DMClassModel >> rootClass [
 { #category : #setter }
 DMClassModel >> rootClass: aRootClass [
 	rootClass := aRootClass.
-]
-
-{ #category : #accessing }
-DMClassModel >> theClass [
-	^ class
-]
-
-{ #category : #setter }
-DMClassModel >> theClass: aClass [
-	class := aClass
 ]

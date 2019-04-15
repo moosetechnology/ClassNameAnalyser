@@ -13,7 +13,7 @@ Class {
 { #category : #stemming }
 DMMalStemmer class >> English [
 
-	^ English ifNil: [English := MalPorterStemmer new].
+	^ English ifNil: [English := DMMalAbstractStemmer new].
 ]
 
 { #category : #stemming }

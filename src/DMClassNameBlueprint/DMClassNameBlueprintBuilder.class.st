@@ -4,15 +4,18 @@ Class {
 	#instVars : [
 		'rootClasses',
 		'rootClassesColors',
+		'conceptsColors',
+		'conceptsBag',
+		'conceptsClasses',
 		'concepts'
 	],
 	#category : #DMClassNameBlueprint
 }
 
-{ #category : #'as yet unclassified' }
-DMClassNameBlueprintBuilder >> attributeColorsTo: aCollectionOfRootClasses [
+{ #category : #actions }
+DMClassNameBlueprintBuilder >> attributeColorsTo: aCollection [
 
-	| arrayOfColors index |
+	| arrayOfColors index resultedColors|
 	arrayOfColors := {#red . #blue . #pink . #purple . #tan . #yellow.
 	#orange . #magenta . #green . #gray . #cyan . #brown . #darkGray.
 	#lightBlue . #lightBrown . #lightCyan . #lightGray . #lightGreen.
@@ -20,20 +23,22 @@ DMClassNameBlueprintBuilder >> attributeColorsTo: aCollectionOfRootClasses [
 	#paleGreen . #paleMagenta . #paleOrange . #palePeach . #paleRed . #paleTan.
 	#paleYellow . #black}.
 	index := 0.
-	rootClassesColors := (aCollectionOfRootClasses asBag sortedCounts) collect: [ :anAssociation | 
+	resultedColors := (aCollection asBag sortedCounts) collect: [ :anAssociation | 
 		(index == arrayOfColors size)
 		ifFalse: [ index := index + 1 ]	.
 		(anAssociation value -> (arrayOfColors at: index)).	
 		 ].
-	 ^ rootClassesColors 
+	 ^ resultedColors 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 
 	| viewModel |
 	rootClasses := self extractAllRootClassesFrom: aConceptualModel.
 	rootClassesColors := self attributeColorsTo: (rootClasses).
+	concepts := (self extractAllConceptsFrom: aConceptualModel) asSet.
+	concepts do: [ :aConceptAssociation | (conceptsClasses add: ((aConceptAssociation 	value)->(OrderedCollection new))) ].
 	viewModel := self createViewModelFrom: aConceptualModel.
 	^ viewModel 
 	
@@ -42,46 +47,48 @@ DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 ]
 
 { #category : #accessing }
+DMClassNameBlueprintBuilder >> concept: aCollectionOfConcepts [
+	concepts := aCollectionOfConcepts 
+]
+
+{ #category : #accessing }
 DMClassNameBlueprintBuilder >> concepts [
 	^concepts
 ]
 
 { #category : #accessing }
-DMClassNameBlueprintBuilder >> concepts: aCollectionOfConcepts [
-	concepts := aCollectionOfConcepts 
+DMClassNameBlueprintBuilder >> conceptsClasses [
+	^ conceptsClasses 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 DMClassNameBlueprintBuilder >> createClassViewModelsFrom: aCollectionOfClassModels [
 
 	| classViewModels |
 	classViewModels := aCollectionOfClassModels collect: [ :aClassModel | | aClassViewModel |
 		aClassViewModel := DMClassViewModel new.
-		aClassViewModel theClass: (aClassModel theClass).
-		aClassViewModel color: (self findColorOf: aClassViewModel theClass).
+		aClassViewModel classRef: (aClassModel classRef).
+		aClassViewModel color: (self findColorOf: aClassViewModel classRef) value.
 		 ].
 	^classViewModels 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 DMClassNameBlueprintBuilder >> createConceptsViewModelsFrom: aPackageModel [
 
-	| conceptsViewModels  classModels conceptsBag |
+	| conceptsViewModels packageConcepts |
 	conceptsViewModels := OrderedCollection new.
-	conceptsBag := self extractConceptsFrom: aPackageModel.
-	conceptsViewModels := conceptsBag collect: [ :aConceptAssociation | 
+	packageConcepts := (self extractConceptsFrom: aPackageModel) asSet.
+	conceptsViewModels := packageConcepts collect: [ :aConcept | 
 		| aConceptViewModel |
 		aConceptViewModel := DMConceptViewModel new.
-		aConceptViewModel conceptsName: aConceptAssociation value.
-		classModels := aPackageModel classModels select: [ :aClassModel | 
-			(aClassModel concept == aConceptViewModel conceptsName) ].
-		aConceptViewModel classViewModels: (self createClassViewModelsFrom: classModels)
+		aConceptViewModel conceptsName: aConcept.
+		aConceptViewModel classViewModels: (self createClassViewModelsFrom: ((aPackageModel classModels select: [ :aClassModel | aClassModel concept = aConcept ]))) .
 		 ].
-	^ conceptsViewModels 
-	
+	^conceptsViewModels 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 DMClassNameBlueprintBuilder >> createPackageViewModelsFrom: aCollectionOfPackageModels [
 	
 	| packageViewModels |
@@ -95,7 +102,7 @@ DMClassNameBlueprintBuilder >> createPackageViewModelsFrom: aCollectionOfPackage
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 DMClassNameBlueprintBuilder >> createViewModelFrom: aConceptualModel [
 	
 	| aViewModel |
@@ -104,39 +111,39 @@ DMClassNameBlueprintBuilder >> createViewModelFrom: aConceptualModel [
 	^aViewModel 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 DMClassNameBlueprintBuilder >> extractAllConceptsFrom: aConceptualModel [
 
-	| packageModels classModels |
+	| packageModels classModels resultedConcepts |
 	rootClasses := OrderedCollection new.
 	packageModels := aConceptualModel packageModels.
 	classModels := packageModels flatCollect: [ :aPackageModel | aPackageModel classModels ].
-	concepts := classModels collect: [ :aClassModel | aClassModel concept ].
-	^ concepts asOrderedCollection 
+	resultedConcepts := classModels collect: [ :aClassModel | aClassModel concept ].
+	^ resultedConcepts asOrderedCollection 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 DMClassNameBlueprintBuilder >> extractAllRootClassesFrom: aConceptualModel [
 
-	| packageModels classModels |
-	rootClasses := OrderedCollection new.
+	| packageModels classModels resultedHierarchies |
+	resultedHierarchies := OrderedCollection new.
 	packageModels := aConceptualModel packageModels.
 	classModels := packageModels flatCollect: [ :aPackageModel | aPackageModel classModels ].
-	rootClasses := classModels collect: [ :aClassViewModel | aClassViewModel rootClass ].
-	^ rootClasses asOrderedCollection.
+	resultedHierarchies := classModels collect: [ :aClassViewModel | aClassViewModel rootClass ].
+	^ resultedHierarchies asOrderedCollection.
 	
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 DMClassNameBlueprintBuilder >> extractConceptsFrom: aPackageModel [
 
-	| conceptsBag |
-	conceptsBag := (aPackageModel classModels collect: [ :aClassModel | aClassModel concept ]) asBag.
-	^ conceptsBag 
+	| resultedConcepts |
+	resultedConcepts := (aPackageModel classModels collect: [ :aClassModel | aClassModel concept ]).
+	^resultedConcepts 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 DMClassNameBlueprintBuilder >> findColorOf: aClass [ 
 
 	| featureSelector  theRootClass color theAssociation |
@@ -147,6 +154,13 @@ DMClassNameBlueprintBuilder >> findColorOf: aClass [
 		 ]).
 	color := theAssociation value.
 	^ color
+]
+
+{ #category : #actions }
+DMClassNameBlueprintBuilder >> initialize [ 
+	
+	super initialize.
+	conceptsClasses := Dictionary new.
 ]
 
 { #category : #accessing }

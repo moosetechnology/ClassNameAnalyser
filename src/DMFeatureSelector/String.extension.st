@@ -1,36 +1,6 @@
 Extension { #name : #String }
 
 { #category : #'*DMFeatureSelector' }
-String >> cutWhereCamelCase [
-
-	| word tokenizer token allTokens resultedTokens|
-	word := self deepCopy.
-	token := ''.
-	tokenizer := DMNameTokenizer new.
-	allTokens := OrderedCollection new.
-	resultedTokens := OrderedCollection new.
-	1 to: word size do: [ :index | (tokenizer checkCapitalLetter: (word at: index)) 
-		ifTrue: [ 
-			allTokens add: token.
-			token := (word at: index) asString.
-			 ] 
-		ifFalse: [ token := token , (word at: index) asString  ].
-		(index == word size) 
-		ifTrue: [ allTokens add: token ]
-		].
-	token := ''.
-	allTokens do:  [ :each | (each size == 1)
-		ifTrue: [ token := token , each asString ]
-		ifFalse: [ resultedTokens add: token. 
-			token := ''.
-			resultedTokens add: each ]
-		 ].
-	resultedTokens add: token.
-	^ resultedTokens reject: [ :each | each size ==0 ]
-
-]
-
-{ #category : #'*DMFeatureSelector' }
 String >> piecesCutWhereCamelCase [
 	"Breaks apart words written in camel case.
 	
@@ -72,7 +42,7 @@ String >> piecesCutWhereNonAlphaNumeric [
 	word := self deepCopy.
 	(word isEmptyOrNil)
 	ifFalse: [  
-	(1 to: word size) do: [ :index | (tokenizer checkSpecialChar: (word at: index) asString )
+	(1 to: word size) do: [ :index | ((word at: index) asString isAllAlphaNumerics not)
 		ifTrue: [ nonAlphaNumericIndexes add: index ]
 		] ].
 	

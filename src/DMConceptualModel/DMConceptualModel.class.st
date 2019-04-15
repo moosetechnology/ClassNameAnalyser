@@ -24,13 +24,3 @@ DMConceptualModel >> packageModels [
 DMConceptualModel >> packageModels: aCollectionOfPackageModels [
 	packageModels := aCollectionOfPackageModels 
 ]
-
-{ #category : #accessing }
-DMConceptualModel >> packages [ 
-	^ packages
-]
-
-{ #category : #accessing }
-DMConceptualModel >> packages: aCollectionOfPackageNames [
-	packages := aCollectionOfPackageNames 
-]

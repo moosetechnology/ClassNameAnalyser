@@ -9,6 +9,16 @@ Class {
 }
 
 { #category : #accessing }
+DMClassViewModel >> classRef [
+	^ class 
+]
+
+{ #category : #accessing }
+DMClassViewModel >> classRef: aClass [
+	class := aClass 
+]
+
+{ #category : #accessing }
 DMClassViewModel >> color [
 	^ color
 ]
@@ -16,14 +26,4 @@ DMClassViewModel >> color [
 { #category : #accessing }
 DMClassViewModel >> color: aColor [
 	color := aColor 
-]
-
-{ #category : #accessing }
-DMClassViewModel >> theClass [
-	^ class 
-]
-
-{ #category : #accessing }
-DMClassViewModel >> theClass: aClass [
-	class := aClass 
 ]
