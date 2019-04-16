@@ -17,11 +17,13 @@ Class {
 { #category : #building }
 DMClassNameBlueprintBuilder >> attributeColors: aViewModel [
 
-	| allConceptsViewModels |
+	| allConceptsViewModels allClassViewModels |
 
 	self conceptsColors: (self concepts collect: [ :aConcept | (aConcept)-> (self findColorOf: ((self 	selectBiggestHierarchy: (conceptsClasses at: aConcept)))) ] ) asDictionary.
 	allConceptsViewModels := aViewModel packageViewModels flatCollect: [ :aPackageModel | aPackageModel 	conceptViewModels ].
 	allConceptsViewModels do: [ :aConceptViewModel | aConceptViewModel color: (self selectConceptsColor: 	aConceptViewModel conceptsName)  ].
+	allClassViewModels := allConceptsViewModels flatCollect: [ :aConceptVModel | aConceptVModel classViewModels  ].
+	allClassViewModels do: [ :aClassViewModel | aClassViewModel color:(self findColorOf: aClassViewModel classRef) value ].
  	^aViewModel
 ]
 
@@ -48,10 +50,11 @@ DMClassNameBlueprintBuilder >> attributeColorsTo: aCollection [
 DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 
 	| viewModel |
-	self rootClasses: (self extractAllRootClassesFrom: aConceptualModel).
+	
 	self rootClassesColors: (self attributeColorsTo: (rootClasses)).
-	self concepts: (self extractAllConceptsFrom: aConceptualModel) asSet.
+	self rootClasses: (self extractAllRootClassesFrom: aConceptualModel).
 	self conceptsHierarchies: (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 		asDictionary.
+	self concepts: (self extractAllConceptsFrom: aConceptualModel) asSet.
 	viewModel := self createViewModelFrom: aConceptualModel.
 	^( self attributeColors: viewModel).
 	
@@ -96,7 +99,6 @@ DMClassNameBlueprintBuilder >> createClassViewModelsFrom: aCollectionOfClassMode
 	classViewModels := aCollectionOfClassModels collect: [ :aClassModel | | aClassViewModel |
 		aClassViewModel := DMClassViewModel new.
 		aClassViewModel classRef: (aClassModel classRef).
-		aClassViewModel color: (self findColorOf: aClassViewModel classRef) value.
 		 ].
 	^classViewModels
 ]
