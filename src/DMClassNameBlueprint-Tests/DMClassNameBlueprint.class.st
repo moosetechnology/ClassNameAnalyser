@@ -95,10 +95,9 @@ DMClassNameBlueprint >> testCreateConceptsViewModelsFromAPackageModel [
 		selectLastSymbol: true.
 	conceptualModel := featureSelector applyFeaturesOn: {'Kernel'}.
 	packageModel := conceptualModel packageModels at: 1.
-	classNameBlueprintBuilder concept: (classNameBlueprintBuilder extractAllConceptsFrom: conceptualModel).
+	classNameBlueprintBuilder concepts: (classNameBlueprintBuilder extractAllConceptsFrom: conceptualModel) asSet.
 	classNameBlueprintBuilder rootClasses: (classNameBlueprintBuilder extractAllRootClassesFrom: 	conceptualModel).
 	classNameBlueprintBuilder rootClassesColors: (classNameBlueprintBuilder attributeColorsTo: 	(classNameBlueprintBuilder rootClasses) ).
-	classNameBlueprintBuilder concepts asBag sortedCounts do: [ :aConceptAssociation | (classNameBlueprintBuilder conceptsClasses add: ((aConceptAssociation 	value)->(OrderedCollection new))) ].
 	conceptsViewModels := classNameBlueprintBuilder createConceptsViewModelsFrom: packageModel.
 	actualConceptsBag := (conceptsViewModels collect: [ :aConceptViewModel | aConceptViewModel  	conceptsName ]) asSet.
 	expectedConceptsBag := (classNameBlueprintBuilder extractConceptsFrom: packageModel) asSet.
@@ -124,10 +123,9 @@ DMClassNameBlueprint >> testCreatePackageViewModelFromPackageModels [
 	conceptualModel := featureSelector applyFeaturesOn: {'Kernel' . 'DMFeatureSelector'}.
 	packageModels := conceptualModel packageModels.
 	viewModel := DMViewModel new.
-		classNameBlueprintBuilder concept: (classNameBlueprintBuilder extractAllConceptsFrom: 	conceptualModel).
+		classNameBlueprintBuilder concepts: (classNameBlueprintBuilder extractAllConceptsFrom: 	conceptualModel) asSet.
 	classNameBlueprintBuilder rootClasses: (classNameBlueprintBuilder extractAllRootClassesFrom: 	conceptualModel).
 	classNameBlueprintBuilder rootClassesColors: (classNameBlueprintBuilder attributeColorsTo: 	(classNameBlueprintBuilder rootClasses) ).
-	classNameBlueprintBuilder concepts asBag sortedCounts do: [ :aConceptAssociation | (classNameBlueprintBuilder conceptsClasses add: ((aConceptAssociation 	value)->(OrderedCollection new))) ].
 	viewModel packageViewModels: (classNameBlueprintBuilder createPackageViewModelsFrom: 	packageModels).
 	actualPackageViewModels := viewModel packageViewModels.
 	packageViewModel := actualPackageViewModels at: 1.
@@ -189,7 +187,7 @@ DMClassNameBlueprint >> testExtractConceptsFromAPackageModel [
 	featureSelector := DMFeatureSelector new.
 	featureSelector   
 		selectLastSymbol: true.
-	conceptualModel := featureSelector applyFeaturesOn: {'Kernel' . 'Kernel-Tests'}.
+	conceptualModel := featureSelector applyFeaturesOn: {'DMViewModel' . 'DMFeatureSelector'}.
 	firstPackageConcepts := (classNameBlueprintBuilder extractConceptsFrom: (conceptualModel packageModels at: 1 )).
 	secondPackageoncepts := (classNameBlueprintBuilder extractConceptsFrom: (conceptualModel packageModels at: 2 )).
 	actualConcepts add: firstPackageConcepts; add: secondPackageoncepts.

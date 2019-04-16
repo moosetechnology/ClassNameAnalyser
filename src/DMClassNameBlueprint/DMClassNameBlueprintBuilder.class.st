@@ -5,7 +5,6 @@ Class {
 		'rootClasses',
 		'rootClassesColors',
 		'conceptsColors',
-		'conceptsBag',
 		'conceptsClasses',
 		'concepts'
 	],
@@ -38,7 +37,6 @@ DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 	rootClasses := self extractAllRootClassesFrom: aConceptualModel.
 	rootClassesColors := self attributeColorsTo: (rootClasses).
 	concepts := (self extractAllConceptsFrom: aConceptualModel) asSet.
-	conceptsClasses := (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) asDictionary.
 	viewModel := self createViewModelFrom: aConceptualModel.
 	^ viewModel 
 	
@@ -47,18 +45,23 @@ DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 ]
 
 { #category : #accessing }
-DMClassNameBlueprintBuilder >> concept: aCollectionOfConcepts [
-	concepts := aCollectionOfConcepts 
-]
-
-{ #category : #accessing }
 DMClassNameBlueprintBuilder >> concepts [
 	^concepts
 ]
 
 { #category : #accessing }
+DMClassNameBlueprintBuilder >> concepts: aCollectionOfConcepts [
+	concepts := aCollectionOfConcepts 
+]
+
+{ #category : #accessing }
 DMClassNameBlueprintBuilder >> conceptsClasses [
 	^ conceptsClasses 
+]
+
+{ #category : #accessing }
+DMClassNameBlueprintBuilder >> conceptsClasses: aCollectionOfAssociations [
+	conceptsClasses := aCollectionOfAssociations 
 ]
 
 { #category : #actions }
@@ -79,11 +82,14 @@ DMClassNameBlueprintBuilder >> createConceptsViewModelsFrom: aPackageModel [
 	| conceptsViewModels packageConcepts |
 	conceptsViewModels := OrderedCollection new.
 	packageConcepts := (self extractConceptsFrom: aPackageModel) asSet.
-	conceptsViewModels := packageConcepts collect: [ :aConcept | 
-		| aConceptViewModel |
-		aConceptViewModel := DMConceptViewModel new.
-		aConceptViewModel conceptsName: aConcept.
-		aConceptViewModel classViewModels: (self createClassViewModelsFrom: ((aPackageModel classModels select: [ :aClassModel | aClassModel concept = aConcept ]))) .
+	self conceptsClasses: (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 		asDictionary.
+	conceptsViewModels := packageConcepts collect: [ :aConcept | | classModels classes aConceptViewModel |
+	classModels := aPackageModel classModels select: [ :aClassModel | aClassModel concept = 			aConcept].
+	classes := classModels collect: [ :aClassModel | aClassModel classRef ].
+	(self conceptsClasses at: aConcept) add: classes.
+	aConceptViewModel := DMConceptViewModel new.
+	aConceptViewModel conceptsName: aConcept.
+		aConceptViewModel classViewModels: (self createClassViewModelsFrom: (classModels)).
 		 ].
 	^conceptsViewModels 
 ]
