@@ -45,7 +45,7 @@ DMClassNameBlueprint >> testBuildModelFromAConceptualModel [
 		concepts := blueprintBuilder extractAllConceptsFrom: conceptualModel.
 	self assert: actualPackageViewNames equals: { 'Kernel' . 'DMViewModel' }.
 	self assert: viewModel packageViewModels size equals: conceptualModel packageModels size.
-	self assert: concepts asSet equals:( blueprintBuilder conceptsClasses keys) asSet.
+	self assert: concepts asSet equals:( blueprintBuilder conceptsHierarchies keys) asSet.
 ]
 
 { #category : #tests }
@@ -62,8 +62,8 @@ DMClassNameBlueprint >> testConceptsClasses [
 	viewModel := blueprintBuilder buildModelFrom: conceptualModel.
 	concepts := viewModel packageViewModels collect: [ :aPackageViewModel | aPackageViewModel conceptViewModels collect: [ :aConceptViewModel | aConceptViewModel conceptsName ] ].
 	concepts := concepts flatCollect: [ :each | each ].
-		self assert: (blueprintBuilder concepts includesAll: blueprintBuilder conceptsClasses keys).
-		self assert: (blueprintBuilder conceptsClasses keys includesAll: concepts).
+		self assert: (blueprintBuilder concepts includesAll: blueprintBuilder conceptsHierarchies keys).
+		self assert: (blueprintBuilder conceptsHierarchies keys includesAll: concepts).
 		
 	
 ]
@@ -99,7 +99,7 @@ DMClassNameBlueprint >> testCreateConceptsViewModelsFromAPackageModel [
 	conceptualModel := featureSelector applyFeaturesOn: {'Kernel'}.
 	packageModel := conceptualModel packageModels at: 1.
 	classNameBlueprintBuilder concepts: (classNameBlueprintBuilder extractAllConceptsFrom: conceptualModel) asSet.
-	classNameBlueprintBuilder conceptsClasses: (classNameBlueprintBuilder concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) asDictionary.
+	classNameBlueprintBuilder conceptsHierarchies: (classNameBlueprintBuilder concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) asDictionary.
 	classNameBlueprintBuilder rootClasses: (classNameBlueprintBuilder extractAllRootClassesFrom: 	conceptualModel).
 	classNameBlueprintBuilder rootClassesColors: (classNameBlueprintBuilder attributeColorsTo: 	(classNameBlueprintBuilder rootClasses) ).
 	conceptsViewModels := classNameBlueprintBuilder createConceptsViewModelsFrom: packageModel.
@@ -128,7 +128,7 @@ DMClassNameBlueprint >> testCreatePackageViewModelFromPackageModels [
 	packageModels := conceptualModel packageModels.
 	viewModel := DMViewModel new.
 		classNameBlueprintBuilder concepts: (classNameBlueprintBuilder extractAllConceptsFrom: 	conceptualModel) asSet.
-		classNameBlueprintBuilder conceptsClasses: (classNameBlueprintBuilder concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) asDictionary.
+		classNameBlueprintBuilder conceptsHierarchies: (classNameBlueprintBuilder concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) asDictionary.
 	classNameBlueprintBuilder rootClasses: (classNameBlueprintBuilder extractAllRootClassesFrom: 	conceptualModel).
 	classNameBlueprintBuilder rootClassesColors: (classNameBlueprintBuilder attributeColorsTo: 	(classNameBlueprintBuilder rootClasses) ).
 	viewModel packageViewModels: (classNameBlueprintBuilder createPackageViewModelsFrom: 	packageModels).
@@ -217,4 +217,12 @@ DMClassNameBlueprint >> testFindTheColorOfAClassFromThehierarchyColors [
 	expectedColor := classNameBlueprint findColorOf: rootClass.
 	self assert: actualColor equals: expectedColor.
 
+]
+
+{ #category : #tests }
+DMClassNameBlueprint >> testSelectBiggestHierarchy [
+
+	| aCollection |
+	aCollection := { Object . Point . Magnitude . DMFeatureSelector . Point . Object . Point }.
+	self assert: (classNameBlueprintBuilder selectBiggestHierarchy: aCollection) equals: Point. 
 ]

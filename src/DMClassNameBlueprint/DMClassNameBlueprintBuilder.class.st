@@ -40,8 +40,10 @@ DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 	rootClasses := self extractAllRootClassesFrom: aConceptualModel.
 	rootClassesColors := self attributeColorsTo: (rootClasses).
 	concepts := (self extractAllConceptsFrom: aConceptualModel) asSet.
-	self conceptsClasses: (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 		asDictionary.
+	self conceptsHierarchies: (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 		asDictionary.
 	viewModel := self createViewModelFrom: aConceptualModel.
+	self conceptsColors: self conceptsHierarchies deepCopy.
+	self conceptsColors: (concepts collect: [ :aConcept | (aConcept)-> (self findColorOf: ((self selectBiggestHierarchy: (conceptsClasses at: aConcept)))) ] ) asDictionary.
 	^ viewModel 
 	
 	
@@ -59,12 +61,22 @@ DMClassNameBlueprintBuilder >> concepts: aCollectionOfConcepts [
 ]
 
 { #category : #accessing }
-DMClassNameBlueprintBuilder >> conceptsClasses [ 
+DMClassNameBlueprintBuilder >> conceptsColors [
+	^conceptsColors 
+]
+
+{ #category : #accessing }
+DMClassNameBlueprintBuilder >> conceptsColors: aCollectionOfAssociation [
+	conceptsColors := aCollectionOfAssociation 
+]
+
+{ #category : #accessing }
+DMClassNameBlueprintBuilder >> conceptsHierarchies [ 
 	^ conceptsClasses
 ]
 
 { #category : #accessing }
-DMClassNameBlueprintBuilder >> conceptsClasses: aCollectionOfAssociations [
+DMClassNameBlueprintBuilder >> conceptsHierarchies: aCollectionOfAssociations [
 	conceptsClasses := aCollectionOfAssociations 
 ]
 
@@ -86,10 +98,10 @@ DMClassNameBlueprintBuilder >> createConceptsViewModelsFrom: aPackageModel [
 	| conceptsViewModels packageConcepts |
 	conceptsViewModels := OrderedCollection new.
 	packageConcepts := (self extractConceptsFrom: aPackageModel) asSet.
-	conceptsViewModels := packageConcepts collect: [ :aConcept | | classModels classes aConceptViewModel |
+	conceptsViewModels := packageConcepts collect: [ :aConcept | | classModels hierarchies aConceptViewModel |
 	classModels := aPackageModel classModels select: [ :aClassModel | aClassModel concept = 			aConcept].
-	classes := classModels collect: [ :aClassModel | aClassModel classRef ].
-	(self conceptsClasses at: aConcept) add: classes .
+	hierarchies := classModels collect: [ :aClassModel | aClassModel rootClass ].
+	(self conceptsHierarchies at: aConcept) addAll: hierarchies.
 	aConceptViewModel := DMConceptViewModel new.
 	aConceptViewModel conceptsName: aConcept.
 		aConceptViewModel classViewModels: (self createClassViewModelsFrom: (classModels)).
@@ -155,13 +167,13 @@ DMClassNameBlueprintBuilder >> extractConceptsFrom: aPackageModel [
 { #category : #actions }
 DMClassNameBlueprintBuilder >> findColorOf: aClass [ 
 
-	| featureSelector  theRootClass color theAssociation |
+	| featureSelector  theRootClass color selectedItem |
 	featureSelector := DMFeatureSelector new.
 	theRootClass := featureSelector extractRootClassFrom: aClass.
-	theAssociation := (rootClassesColors select: [ :anAssociation | 
+	selectedItem := (rootClassesColors select: [ :anAssociation | 
 		(anAssociation key == theRootClass)
 		 ]).
-	color := theAssociation value.
+	color := (selectedItem at: 1) value.
 	^ color
 ]
 
@@ -190,4 +202,9 @@ DMClassNameBlueprintBuilder >> rootClassesColors [
 { #category : #accessing }
 DMClassNameBlueprintBuilder >> rootClassesColors: aCollectionOfRootClassesAndTheirColors [
 	rootClassesColors := aCollectionOfRootClassesAndTheirColors 
+]
+
+{ #category : #'as yet unclassified' }
+DMClassNameBlueprintBuilder >> selectBiggestHierarchy: aCollection [
+	^ aCollection asBag sortedCounts first value
 ]
