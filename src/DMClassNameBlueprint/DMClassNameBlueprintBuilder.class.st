@@ -6,7 +6,7 @@ Class {
 		'rootClassesColors',
 		'conceptsColors',
 		'concepts',
-		'conceptsClasses'
+		'conceptsHierarchies'
 	],
 	#classInstVars : [
 		'conceptsClasses'
@@ -18,13 +18,14 @@ Class {
 DMClassNameBlueprintBuilder >> attributeColors: aViewModel [
 
 	| allConceptsViewModels allClassViewModels |
+	
 
-	self conceptsColors: (self concepts collect: [ :aConcept | (aConcept)-> (self findColorOf: ((self 	selectBiggestHierarchy: (conceptsClasses at: aConcept)))) ] ) asDictionary.
+	allConceptsViewModels := aViewModel packageViewModels flatCollect: [ :aPackageModel | aPackageModel conceptViewModels ].
 	allConceptsViewModels := aViewModel packageViewModels flatCollect: [ :aPackageModel | aPackageModel 	conceptViewModels ].
-	allConceptsViewModels do: [ :aConceptViewModel | aConceptViewModel color: (self selectConceptsColor: 	aConceptViewModel conceptsName)  ].
-	allClassViewModels := allConceptsViewModels flatCollect: [ :aConceptVModel | aConceptVModel classViewModels  ].
-	allClassViewModels do: [ :aClassViewModel | aClassViewModel color:(self findColorOf: aClassViewModel classRef) value ].
- 	^aViewModel
+	allConceptsViewModels do: [ :aConceptViewModel | aConceptViewModel color: (self 	selectConceptsColor: 	aConceptViewModel conceptsName)  ].
+	allClassViewModels := allConceptsViewModels flatCollect: [ :aConceptVModel | aConceptVModel 	classViewModels  ].
+	allClassViewModels do: [ :aClassViewModel | aClassViewModel color:(self findColorOf: 	aClassViewModel classRef) value ].
+	^aViewModel 
 ]
 
 { #category : #actions }
@@ -49,15 +50,14 @@ DMClassNameBlueprintBuilder >> attributeColorsTo: aCollection [
 { #category : #building }
 DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 
-	| viewModel |
-	
-	self rootClassesColors: (self attributeColorsTo: (rootClasses)).
-	self rootClasses: (self extractAllRootClassesFrom: aConceptualModel).
-	self conceptsHierarchies: (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 		asDictionary.
-	self concepts: (self extractAllConceptsFrom: aConceptualModel) asSet.
+	| viewModel|
+	rootClasses := (self extractAllRootClassesFrom: aConceptualModel).
+	rootClassesColors:= (self attributeColorsTo: (rootClasses)).	
+	concepts := (self extractAllConceptsFrom: aConceptualModel) asSet.
+	conceptsHierarchies:= (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 	asDictionary.
 	viewModel := self createViewModelFrom: aConceptualModel.
-	^( self attributeColors: viewModel).
 	
+	^viewModel 
 	
 	
 ]
@@ -84,12 +84,12 @@ DMClassNameBlueprintBuilder >> conceptsColors: aCollectionOfAssociation [
 
 { #category : #accessing }
 DMClassNameBlueprintBuilder >> conceptsHierarchies [ 
-	^ conceptsClasses
+	^ conceptsHierarchies
 ]
 
 { #category : #accessing }
 DMClassNameBlueprintBuilder >> conceptsHierarchies: aCollectionOfAssociations [
-	conceptsClasses := aCollectionOfAssociations 
+	conceptsHierarchies := aCollectionOfAssociations 
 ]
 
 { #category : #building }
@@ -114,8 +114,7 @@ DMClassNameBlueprintBuilder >> createConceptsViewModelsFrom: aPackageModel [
 	 classModels := aPackageModel classModels 
 		select: [ :aClassModel | aClassModel concept = aConcept].
 	hierarchies := classModels collect: [ :aClassModel | aClassModel rootClass ].
-	(self conceptsHierarchies at: aConcept) addAll: hierarchies.
-	
+	(conceptsHierarchies at: aConcept) addAll: hierarchies.
 	aConceptViewModel := DMConceptViewModel new.
 	aConceptViewModel conceptsName: aConcept.
 		aConceptViewModel classViewModels: (self createClassViewModelsFrom: (classModels)).
@@ -184,7 +183,7 @@ DMClassNameBlueprintBuilder >> findColorOf: aClass [
 	| featureSelector  theRootClass color selectedItem |
 	featureSelector := DMFeatureSelector new.
 	theRootClass := featureSelector extractRootClassFrom: aClass.
-	selectedItem := (self rootClassesColors select: [ :anAssociation | 
+	selectedItem := (rootClassesColors select: [ :anAssociation | 
 		(anAssociation key == theRootClass)
 		 ]).
 	color := (selectedItem at: 1) value.
@@ -195,7 +194,7 @@ DMClassNameBlueprintBuilder >> findColorOf: aClass [
 DMClassNameBlueprintBuilder >> initialize [ 
 	
 	super initialize.
-	conceptsClasses := Dictionary new.
+	conceptsHierarchies := Dictionary new.
 ]
 
 { #category : #building }
@@ -230,5 +229,5 @@ DMClassNameBlueprintBuilder >> selectBiggestHierarchy: aCollection [
 
 { #category : #building }
 DMClassNameBlueprintBuilder >> selectConceptsColor: aConcept [
-	^ conceptsColors at: aConcept 
+	^ (conceptsColors at: aConcept) 
 ]
