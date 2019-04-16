@@ -17,15 +17,17 @@ DMColorAttributorTest >> setUp [
 { #category : #tests }
 DMColorAttributorTest >> testAttributeColorsToACollection [
 
-	| featureSelector conceptualModel  viewModel actualHierarchiesColors |
+	| featureSelector conceptualModel  viewModel actualHierarchiesColors hierarchies concepts conceptsHierarchies |
 	featureSelector := DMFeatureSelector new.
 	featureSelector 
 	stem: true;
 	selectLastSymbol: true.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel'  }.
 	viewModel := builder buildModelFrom: conceptualModel.
-	colorAttributor hierarchies: (colorAttributor extractAllRootClassesFrom: viewModel).
-	actualHierarchiesColors := colorAttributor attributeColorsTo: (colorAttributor hierarchies).
+	hierarchies := colorAttributor  extractAllRootClassesFrom: viewModel.
+		concepts := colorAttributor  extractAllConceptsFrom: viewModel.
+		conceptsHierarchies:= (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 	asDictionary.
+	actualHierarchiesColors := colorAttributor setColorsOf: (hierarchies).
 		self assert: actualHierarchiesColors isDictionary equals: true.
 	
 ]
@@ -41,12 +43,12 @@ DMColorAttributorTest >> testConceptsClasses [
 		filterAllDigits: true.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel' }.
 	viewModel := builder buildModelFrom: conceptualModel.
-	hierarchies := colorAttributor extractAllRootClassesFrom: viewModel.
+	hierarchies := colorAttributor  extractAllRootClassesFrom: viewModel.
 		concepts := colorAttributor  extractAllConceptsFrom: viewModel.
 		conceptsHierarchies:= (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 	asDictionary.
 	concepts := viewModel packageViewModels collect: [ :aPackageViewModel | aPackageViewModel 	conceptViewModels collect: [ :aConceptViewModel | aConceptViewModel conceptsName ] ].
 	concepts := concepts flatCollect: [ :each | each ].
-		self assert: (concepts includesAll: colorAttributor conceptsHierarchies keys).
+		self assert: (concepts includesAll: conceptsHierarchies keys).
 		self assert: (conceptsHierarchies keys includesAll: concepts).
 		
 	
@@ -92,15 +94,15 @@ DMColorAttributorTest >> testExtractAllRootClassesFromAViewModel [
 { #category : #tests }
 DMColorAttributorTest >> testFindTheColorOfAClassFromThehierarchyColors [
 
-	| featureSelector actualColor rootClass  aConceptualModel  expectedColor aViewModel | 
+	| featureSelector actualColor rootClass  aConceptualModel  expectedColor aViewModel hierarchies   hierarchiesColors | 
 	featureSelector := DMFeatureSelector new.
 	aConceptualModel := featureSelector applyFeaturesOn: { 'Kernel' }.
 	aViewModel := builder buildModelFrom: aConceptualModel.
-	colorAttributor hierarchies: (colorAttributor extractAllRootClassesFrom: aViewModel).
-	colorAttributor hierarchiesColors: (colorAttributor attributeColorsTo: (colorAttributor hierarchies)	asOrderedCollection).
-	actualColor := colorAttributor findColorOf: SimulationExceptionWrapper.
+	hierarchies := colorAttributor  extractAllRootClassesFrom: aViewModel.
+	hierarchiesColors := colorAttributor setColorsOf: (hierarchies).
+	actualColor := colorAttributor selectColorOf: SimulationExceptionWrapper From: hierarchiesColors .
 	rootClass := featureSelector extractRootClassFrom: SimulationExceptionWrapper.
-	expectedColor := colorAttributor findColorOf: rootClass.
+	expectedColor := colorAttributor selectColorOf: rootClass From:hierarchiesColors.
 	self assert: actualColor equals: expectedColor.
 
 ]

@@ -1,13 +1,6 @@
 Class {
 	#name : #DMClassNameBlueprintBuilder,
 	#superclass : #Object,
-	#instVars : [
-		'hierarchies',
-		'hierarchiesColors',
-		'conceptsColors',
-		'concepts',
-		'conceptsHierarchies'
-	],
 	#classInstVars : [
 		'conceptsClasses'
 	],
@@ -18,7 +11,6 @@ Class {
 DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 
 	| viewModel |
-
 	viewModel := self createViewModelFrom: aConceptualModel.
 	^ viewModel 
 	
