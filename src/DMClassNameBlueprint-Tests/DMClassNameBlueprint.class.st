@@ -4,6 +4,9 @@ Class {
 	#instVars : [
 		'classNameBlueprintBuilder'
 	],
+	#classInstVars : [
+		'classNameBlueprintBuilder'
+	],
 	#category : #'DMClassNameBlueprint-Tests'
 }
 
@@ -96,6 +99,7 @@ DMClassNameBlueprint >> testCreateConceptsViewModelsFromAPackageModel [
 	conceptualModel := featureSelector applyFeaturesOn: {'Kernel'}.
 	packageModel := conceptualModel packageModels at: 1.
 	classNameBlueprintBuilder concepts: (classNameBlueprintBuilder extractAllConceptsFrom: conceptualModel) asSet.
+	classNameBlueprintBuilder conceptsClasses: (classNameBlueprintBuilder concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) asDictionary.
 	classNameBlueprintBuilder rootClasses: (classNameBlueprintBuilder extractAllRootClassesFrom: 	conceptualModel).
 	classNameBlueprintBuilder rootClassesColors: (classNameBlueprintBuilder attributeColorsTo: 	(classNameBlueprintBuilder rootClasses) ).
 	conceptsViewModels := classNameBlueprintBuilder createConceptsViewModelsFrom: packageModel.
@@ -124,6 +128,7 @@ DMClassNameBlueprint >> testCreatePackageViewModelFromPackageModels [
 	packageModels := conceptualModel packageModels.
 	viewModel := DMViewModel new.
 		classNameBlueprintBuilder concepts: (classNameBlueprintBuilder extractAllConceptsFrom: 	conceptualModel) asSet.
+		classNameBlueprintBuilder conceptsClasses: (classNameBlueprintBuilder concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) asDictionary.
 	classNameBlueprintBuilder rootClasses: (classNameBlueprintBuilder extractAllRootClassesFrom: 	conceptualModel).
 	classNameBlueprintBuilder rootClassesColors: (classNameBlueprintBuilder attributeColorsTo: 	(classNameBlueprintBuilder rootClasses) ).
 	viewModel packageViewModels: (classNameBlueprintBuilder createPackageViewModelsFrom: 	packageModels).
