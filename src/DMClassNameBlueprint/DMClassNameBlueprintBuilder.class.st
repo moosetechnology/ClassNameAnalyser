@@ -33,10 +33,10 @@ DMClassNameBlueprintBuilder >> attributeColorsTo: aCollection [
 	 ^ resultedColors 
 ]
 
-{ #category : #actions }
+{ #category : #building }
 DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 
-	| viewModel |
+	| viewModel allConceptsViewModels |
 	rootClasses := self extractAllRootClassesFrom: aConceptualModel.
 	rootClassesColors := self attributeColorsTo: (rootClasses).
 	concepts := (self extractAllConceptsFrom: aConceptualModel) asSet.
@@ -44,6 +44,8 @@ DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 	viewModel := self createViewModelFrom: aConceptualModel.
 	self conceptsColors: self conceptsHierarchies deepCopy.
 	self conceptsColors: (concepts collect: [ :aConcept | (aConcept)-> (self findColorOf: ((self selectBiggestHierarchy: (conceptsClasses at: aConcept)))) ] ) asDictionary.
+	allConceptsViewModels := viewModel packageViewModels flatCollect: [ :aPackageModel | aPackageModel conceptViewModels ].
+	allConceptsViewModels do: [ :aConceptViewModel | aConceptViewModel color: (self selectConceptsColor: aConceptViewModel conceptsName)  ].
 	^ viewModel 
 	
 	
@@ -80,7 +82,7 @@ DMClassNameBlueprintBuilder >> conceptsHierarchies: aCollectionOfAssociations [
 	conceptsClasses := aCollectionOfAssociations 
 ]
 
-{ #category : #actions }
+{ #category : #building }
 DMClassNameBlueprintBuilder >> createClassViewModelsFrom: aCollectionOfClassModels [
 
 	| classViewModels |
@@ -92,7 +94,7 @@ DMClassNameBlueprintBuilder >> createClassViewModelsFrom: aCollectionOfClassMode
 	^classViewModels 
 ]
 
-{ #category : #actions }
+{ #category : #building }
 DMClassNameBlueprintBuilder >> createConceptsViewModelsFrom: aPackageModel [
 
 	| conceptsViewModels packageConcepts |
@@ -109,7 +111,7 @@ DMClassNameBlueprintBuilder >> createConceptsViewModelsFrom: aPackageModel [
 	^conceptsViewModels 
 ]
 
-{ #category : #actions }
+{ #category : #building }
 DMClassNameBlueprintBuilder >> createPackageViewModelsFrom: aCollectionOfPackageModels [
 	
 	| packageViewModels |
@@ -123,7 +125,7 @@ DMClassNameBlueprintBuilder >> createPackageViewModelsFrom: aCollectionOfPackage
 
 ]
 
-{ #category : #actions }
+{ #category : #building }
 DMClassNameBlueprintBuilder >> createViewModelFrom: aConceptualModel [
 	
 	| aViewModel |
@@ -204,7 +206,12 @@ DMClassNameBlueprintBuilder >> rootClassesColors: aCollectionOfRootClassesAndThe
 	rootClassesColors := aCollectionOfRootClassesAndTheirColors 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 DMClassNameBlueprintBuilder >> selectBiggestHierarchy: aCollection [
 	^ aCollection asBag sortedCounts first value
+]
+
+{ #category : #building }
+DMClassNameBlueprintBuilder >> selectConceptsColor: aConcept [
+	^ conceptsColors at: aConcept 
 ]
