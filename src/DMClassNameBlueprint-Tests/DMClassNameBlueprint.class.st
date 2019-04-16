@@ -60,7 +60,7 @@ DMClassNameBlueprint >> testConceptsClasses [
 		filterAllDigits: true.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel' }.
 	viewModel := blueprintBuilder buildModelFrom: conceptualModel.
-	concepts := viewModel packageViewModels collect: [ :aPackageViewModel | aPackageViewModel conceptViewModels collect: [ :aConceptViewModel | aConceptViewModel conceptsName ] ].
+	concepts := viewModel packageViewModels collect: [ :aPackageViewModel | aPackageViewModel 	conceptViewModels collect: [ :aConceptViewModel | aConceptViewModel conceptsName ] ].
 	concepts := concepts flatCollect: [ :each | each ].
 		self assert: (blueprintBuilder concepts includesAll: blueprintBuilder conceptsHierarchies keys).
 		self assert: (blueprintBuilder conceptsHierarchies keys includesAll: concepts).

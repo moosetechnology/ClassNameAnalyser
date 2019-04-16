@@ -14,6 +14,17 @@ Class {
 	#category : #DMClassNameBlueprint
 }
 
+{ #category : #building }
+DMClassNameBlueprintBuilder >> attributeColors: aViewModel [
+
+	| allConceptsViewModels |
+
+	self conceptsColors: (self concepts collect: [ :aConcept | (aConcept)-> (self findColorOf: ((self 	selectBiggestHierarchy: (conceptsClasses at: aConcept)))) ] ) asDictionary.
+	allConceptsViewModels := aViewModel packageViewModels flatCollect: [ :aPackageModel | aPackageModel 	conceptViewModels ].
+	allConceptsViewModels do: [ :aConceptViewModel | aConceptViewModel color: (self selectConceptsColor: 	aConceptViewModel conceptsName)  ].
+ 	^aViewModel
+]
+
 { #category : #actions }
 DMClassNameBlueprintBuilder >> attributeColorsTo: aCollection [
 
@@ -36,17 +47,13 @@ DMClassNameBlueprintBuilder >> attributeColorsTo: aCollection [
 { #category : #building }
 DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 
-	| viewModel allConceptsViewModels |
-	rootClasses := self extractAllRootClassesFrom: aConceptualModel.
-	rootClassesColors := self attributeColorsTo: (rootClasses).
-	concepts := (self extractAllConceptsFrom: aConceptualModel) asSet.
+	| viewModel |
+	self rootClasses: (self extractAllRootClassesFrom: aConceptualModel).
+	self rootClassesColors: (self attributeColorsTo: (rootClasses)).
+	self concepts: (self extractAllConceptsFrom: aConceptualModel) asSet.
 	self conceptsHierarchies: (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 		asDictionary.
 	viewModel := self createViewModelFrom: aConceptualModel.
-	self conceptsColors: self conceptsHierarchies deepCopy.
-	self conceptsColors: (concepts collect: [ :aConcept | (aConcept)-> (self findColorOf: ((self selectBiggestHierarchy: (conceptsClasses at: aConcept)))) ] ) asDictionary.
-	allConceptsViewModels := viewModel packageViewModels flatCollect: [ :aPackageModel | aPackageModel conceptViewModels ].
-	allConceptsViewModels do: [ :aConceptViewModel | aConceptViewModel color: (self selectConceptsColor: aConceptViewModel conceptsName)  ].
-	^ viewModel 
+	^( self attributeColors: viewModel).
 	
 	
 	
@@ -91,7 +98,7 @@ DMClassNameBlueprintBuilder >> createClassViewModelsFrom: aCollectionOfClassMode
 		aClassViewModel classRef: (aClassModel classRef).
 		aClassViewModel color: (self findColorOf: aClassViewModel classRef) value.
 		 ].
-	^classViewModels 
+	^classViewModels
 ]
 
 { #category : #building }
@@ -100,10 +107,13 @@ DMClassNameBlueprintBuilder >> createConceptsViewModelsFrom: aPackageModel [
 	| conceptsViewModels packageConcepts |
 	conceptsViewModels := OrderedCollection new.
 	packageConcepts := (self extractConceptsFrom: aPackageModel) asSet.
-	conceptsViewModels := packageConcepts collect: [ :aConcept | | classModels hierarchies aConceptViewModel |
-	classModels := aPackageModel classModels select: [ :aClassModel | aClassModel concept = 			aConcept].
+	conceptsViewModels := packageConcepts collect: [ :aConcept |
+	 | classModels hierarchies 	aConceptViewModel |
+	 classModels := aPackageModel classModels 
+		select: [ :aClassModel | aClassModel concept = aConcept].
 	hierarchies := classModels collect: [ :aClassModel | aClassModel rootClass ].
 	(self conceptsHierarchies at: aConcept) addAll: hierarchies.
+	
 	aConceptViewModel := DMConceptViewModel new.
 	aConceptViewModel conceptsName: aConcept.
 		aConceptViewModel classViewModels: (self createClassViewModelsFrom: (classModels)).
@@ -172,7 +182,7 @@ DMClassNameBlueprintBuilder >> findColorOf: aClass [
 	| featureSelector  theRootClass color selectedItem |
 	featureSelector := DMFeatureSelector new.
 	theRootClass := featureSelector extractRootClassFrom: aClass.
-	selectedItem := (rootClassesColors select: [ :anAssociation | 
+	selectedItem := (self rootClassesColors select: [ :anAssociation | 
 		(anAssociation key == theRootClass)
 		 ]).
 	color := (selectedItem at: 1) value.
@@ -184,6 +194,11 @@ DMClassNameBlueprintBuilder >> initialize [
 	
 	super initialize.
 	conceptsClasses := Dictionary new.
+]
+
+{ #category : #building }
+DMClassNameBlueprintBuilder >> orderAttributor: aCollectionOfConceptsViewModels [
+
 ]
 
 { #category : #accessing }
