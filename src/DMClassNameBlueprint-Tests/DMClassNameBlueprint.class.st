@@ -29,7 +29,7 @@ DMClassNameBlueprint >> testAttributeColorsToACollection [
 { #category : #tests }
 DMClassNameBlueprint >> testBuildModelFromAConceptualModel [
 	
-	| featureSelector conceptualModel viewModel actualPackageViewNames blueprintBuilder |
+	| featureSelector conceptualModel viewModel actualPackageViewNames blueprintBuilder concepts |
 	blueprintBuilder := DMClassNameBlueprintBuilder new.
 	featureSelector := DMFeatureSelector new.
 	featureSelector
@@ -39,8 +39,10 @@ DMClassNameBlueprint >> testBuildModelFromAConceptualModel [
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel' }.
 	viewModel := blueprintBuilder buildModelFrom: conceptualModel.
 	actualPackageViewNames := (viewModel packageViewModels collect: [ :aPackageViewModel | 	aPackageViewModel packageName ]).
+		concepts := blueprintBuilder extractAllConceptsFrom: conceptualModel.
 	self assert: actualPackageViewNames equals: { 'Kernel' . 'DMViewModel' }.
 	self assert: viewModel packageViewModels size equals: conceptualModel packageModels size.
+	self assert: concepts asSet equals:( blueprintBuilder conceptsClasses keys) asSet.
 ]
 
 { #category : #tests }
@@ -182,15 +184,18 @@ DMClassNameBlueprint >> testExtractAllRootClassesFromAConceptualModel [
 { #category : #tests }
 DMClassNameBlueprint >> testExtractConceptsFromAPackageModel [
 
-	| conceptualModel featureSelector actualConceptsBags expectedConceptsBags aPackageModel |
+	| conceptualModel featureSelector actualConcepts expectedConcepts firstPackageConcepts secondPackageoncepts  |
+	actualConcepts := Set new.
 	featureSelector := DMFeatureSelector new.
 	featureSelector   
 		selectLastSymbol: true.
-	conceptualModel := featureSelector applyFeaturesOn: {'Kernel'}.
-	aPackageModel := conceptualModel packageModels at: 1.
-	actualConceptsBags := (classNameBlueprintBuilder extractConceptsFrom: aPackageModel) asBag.
-	expectedConceptsBags := ((RPackageOrganizer default packageNamed: 'Kernel') definedClasses 	asOrderedCollection  collect: [ :aClass | 	(featureSelector extractConceptFrom: (aClass asString)) ]) asBag.
-	self assert: actualConceptsBags equals: expectedConceptsBags 
+	conceptualModel := featureSelector applyFeaturesOn: {'Kernel' . 'Kernel-Tests'}.
+	firstPackageConcepts := (classNameBlueprintBuilder extractConceptsFrom: (conceptualModel packageModels at: 1 )).
+	secondPackageoncepts := (classNameBlueprintBuilder extractConceptsFrom: (conceptualModel packageModels at: 2 )).
+	actualConcepts add: firstPackageConcepts; add: secondPackageoncepts.
+	actualConcepts := (actualConcepts flatCollect: [ :aConceptsCollection | aConceptsCollection ]).
+	expectedConcepts := (classNameBlueprintBuilder extractAllConceptsFrom: conceptualModel).
+	self assert: actualConcepts asSet equals: expectedConcepts asSet.
 	
 	
 	

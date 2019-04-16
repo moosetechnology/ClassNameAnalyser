@@ -38,7 +38,7 @@ DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 	rootClasses := self extractAllRootClassesFrom: aConceptualModel.
 	rootClassesColors := self attributeColorsTo: (rootClasses).
 	concepts := (self extractAllConceptsFrom: aConceptualModel) asSet.
-	concepts do: [ :aConceptAssociation | (conceptsClasses add: ((aConceptAssociation 	value)->(OrderedCollection new))) ].
+	conceptsClasses := (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) asDictionary.
 	viewModel := self createViewModelFrom: aConceptualModel.
 	^ viewModel 
 	
