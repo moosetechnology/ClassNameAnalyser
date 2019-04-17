@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'sizeAttributor',
 		'orderderAttributor',
-		'colorAttributor'
+		'colorAttributor',
+		'orderFromBiggest',
+		'orderFromSmallest'
 	],
 	#classInstVars : [
 		'conceptsClasses'
