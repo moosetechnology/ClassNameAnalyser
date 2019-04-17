@@ -3,10 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'sizeAttributor',
-		'orderderAttributor',
-		'colorAttributor',
-		'orderFromBiggest',
-		'orderFromSmallest'
+		'orderAttributor',
+		'colorAttributor'
 	],
 	#classInstVars : [
 		'conceptsClasses'
@@ -21,6 +19,7 @@ DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 	viewModel := self createViewModelFrom: aConceptualModel.
 	viewModel := colorAttributor attributeColors: viewModel.
 	viewModel := sizeAttributor setSize: viewModel.
+	viewModel := orderAttributor setOrder: viewModel.
 	^ viewModel 
 	
 	
@@ -90,6 +89,11 @@ DMClassNameBlueprintBuilder >> initialize [
 	
 	super initialize.
 	sizeAttributor := DMSizeAttributor new.
-	orderderAttributor := DMOrderAttributor new.
+	orderAttributor := DMOrderAttributor new.
 	colorAttributor := DMColorAttributor new.
+]
+
+{ #category : #accessing }
+DMClassNameBlueprintBuilder >> orderAttributor [
+	^ orderAttributor
 ]
