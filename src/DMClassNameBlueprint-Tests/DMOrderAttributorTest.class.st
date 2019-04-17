@@ -25,6 +25,7 @@ DMOrderAttributorTest >> testOrderFromSmallest [
 	orderedViewModel := orderAttributor setOrder: viewModel.
 	self assert: (orderedViewModel == viewModel ) equals: false.
 	self assert:( (viewModel packageViewModels collect: [ :aPVM | aPVM size ]) == (orderedViewModel 	packageViewModels collect: [ :aPVM | aPVM size ]) asSortedCollection ) equals: false.
+	self assert: (viewModel packageViewModels collect: [ :aPackageViewModel | aPackageViewModel 	conceptViewModels ]) == (orderedViewModel packageViewModels collect: [ :aPackageVM | aPackageVM 	conceptViewModels ]) equals: false.
 
 ]
 

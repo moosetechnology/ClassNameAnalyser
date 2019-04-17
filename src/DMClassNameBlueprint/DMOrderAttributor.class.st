@@ -64,7 +64,8 @@ DMOrderAttributor >> setOrderFromBiggest: aViewModel [
 { #category : #action }
 DMOrderAttributor >> setOrderFromSmallest: aViewModel [
 			
-	| viewModel allPackageVMs orderedPackageVMs conceptVMs classVMs allPackageVMSizes allConceptVMSizes allClassVMSizes |
+	| viewModel allPackageVMs orderedPackageVMs conceptVMs classVMs 
+				allPackageVMSizes 	allClassVMSizes |
 	viewModel := DMViewModel new.
 	viewModel := aViewModel deepCopy.
 	allPackageVMs := viewModel packageViewModels.
@@ -74,10 +75,13 @@ DMOrderAttributor >> setOrderFromSmallest: aViewModel [
 			 ]).
 		viewModel packageViewModels: orderedPackageVMs.
 	
-	
-		
-	
-
+	viewModel packageViewModels collect: [ :aPackageVVM | | orderedConceptVMs allConceptVMSizes |
+		allConceptVMSizes := (aPackageVVM conceptViewModels collect: [ :aConceptVM |aConceptVM size ]) 			asSet.
+		orderedConceptVMs := (allConceptVMSizes asSortedCollection flatCollect: [ :aConceptVMSize |
+			aPackageVVM conceptViewModels select: [ :aConceptVM | aConceptVM size == aConceptVMSize ]	
+			 ]).
+		aPackageVVM conceptViewModels: orderedConceptVMs.		
+		 ].
 
 	^viewModel 
 ]
