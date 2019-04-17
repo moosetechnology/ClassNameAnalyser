@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'packageName',
 		'conceptViewModels',
-		'color'
+		'color',
+		'size'
 	],
 	#category : #DMViewModel
 }
@@ -37,4 +38,14 @@ DMPackageViewModel >> packageName [
 { #category : #accessing }
 DMPackageViewModel >> packageName: aPackageName [
 	packageName := aPackageName 
+]
+
+{ #category : #accessing }
+DMPackageViewModel >> size [
+	^size
+]
+
+{ #category : #accessing }
+DMPackageViewModel >> size: aSize [
+	size := aSize
 ]

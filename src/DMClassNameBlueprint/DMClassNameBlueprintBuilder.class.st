@@ -1,6 +1,11 @@
 Class {
 	#name : #DMClassNameBlueprintBuilder,
 	#superclass : #Object,
+	#instVars : [
+		'sizeAttributor',
+		'orderderAttributor',
+		'colorAttributor'
+	],
 	#classInstVars : [
 		'conceptsClasses'
 	],
@@ -12,6 +17,8 @@ DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 
 	| viewModel |
 	viewModel := self createViewModelFrom: aConceptualModel.
+	viewModel := colorAttributor attributeColors: viewModel.
+	viewModel := sizeAttributor setSize: viewModel.
 	^ viewModel 
 	
 	
@@ -74,4 +81,13 @@ DMClassNameBlueprintBuilder >> extractConceptsFrom: aPackageModel [
 	| resultedConcepts |
 	resultedConcepts := (aPackageModel classModels collect: [ :aClassModel | aClassModel concept ]).
 	^resultedConcepts 
+]
+
+{ #category : #initialization }
+DMClassNameBlueprintBuilder >> initialize [ 
+	
+	super initialize.
+	sizeAttributor := DMSizeAttributor new.
+	orderderAttributor := DMOrderAttributor new.
+	colorAttributor := DMColorAttributor new.
 ]

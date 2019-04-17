@@ -5,7 +5,8 @@ Class {
 		'title',
 		'classViewModels',
 		'color',
-		'conceptsName'
+		'conceptsName',
+		'size'
 	],
 	#category : #DMViewModel
 }
@@ -38,4 +39,14 @@ DMConceptViewModel >> conceptsName [
 { #category : #accessing }
 DMConceptViewModel >> conceptsName: aConcept [
 	conceptsName := aConcept 
+]
+
+{ #category : #accessing }
+DMConceptViewModel >> size [
+	^size
+]
+
+{ #category : #accessing }
+DMConceptViewModel >> size: aSize [
+	size := aSize
 ]

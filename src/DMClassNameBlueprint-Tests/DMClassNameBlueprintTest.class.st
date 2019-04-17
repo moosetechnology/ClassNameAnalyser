@@ -23,10 +23,6 @@ DMClassNameBlueprintTest >> testBuildModelFromAConceptualModel [
 	| featureSelector conceptualModel viewModel actualPackageViewNames blueprintBuilder |
 	blueprintBuilder := DMClassNameBlueprintBuilder new.
 	featureSelector := DMFeatureSelector new.
-	featureSelector
-		stem: true;
-		selectMiddleSymbol: true;
-		filterAllDigits: true.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel' }.
 	viewModel := blueprintBuilder buildModelFrom: conceptualModel.
 	actualPackageViewNames := (viewModel packageViewModels collect: [ :aPackageViewModel | 	aPackageViewModel packageName ]).

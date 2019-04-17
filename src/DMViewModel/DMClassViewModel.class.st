@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'class',
-		'color'
+		'color',
+		'size'
 	],
 	#category : #DMViewModel
 }

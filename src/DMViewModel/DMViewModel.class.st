@@ -2,7 +2,8 @@ Class {
 	#name : #DMViewModel,
 	#superclass : #Object,
 	#instVars : [
-		'packageViewModels'
+		'packageViewModels',
+		'size'
 	],
 	#category : #DMViewModel
 }
@@ -15,4 +16,14 @@ DMViewModel >> packageViewModels [
 { #category : #accessing }
 DMViewModel >> packageViewModels: aCollectionOfPackageViewModels [
 	packageViewModels := aCollectionOfPackageViewModels 
+]
+
+{ #category : #accessing }
+DMViewModel >> size [ 
+	^size
+]
+
+{ #category : #accessing }
+DMViewModel >> size: aSize [
+	size := aSize
 ]
