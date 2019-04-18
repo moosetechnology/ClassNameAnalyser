@@ -22,7 +22,7 @@ DMSizeAttributorTest >> testSetSizeForAViewModel [
 	aConceptualModal := featureSeletor applyFeaturesOn: { 'Kernel' . 'DMFeatureSelector' }.
 	aViewModel := builder buildModelFrom: aConceptualModal.
 	aViewModel := colorAttributor attributeColors: aViewModel.
-	sizeAttributor setSize: aViewModel.
+	sizeAttributor attributeSize: aViewModel.
 	self assert: aViewModel packageViewModels size equals: aConceptualModal packageModels size.
 	self assert: (aViewModel packageViewModels 
 		collect: [ :aPackageViewModel | aPackageViewModel size ]) 

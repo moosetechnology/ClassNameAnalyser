@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #initialization }
-DMSizeAttributor >> setSize: aViewModel [
+DMSizeAttributor >> attributeSize: aViewModel [
 
 	| viewModel allPackageViewModels allConceptViewModels |
 	viewModel := DMViewModel new.

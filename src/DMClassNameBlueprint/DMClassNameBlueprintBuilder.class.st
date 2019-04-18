@@ -18,7 +18,7 @@ DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 	| viewModel |
 	viewModel := self createViewModelFrom: aConceptualModel.
 	viewModel := colorAttributor attributeColors: viewModel.
-	viewModel := sizeAttributor setSize: viewModel.
+	viewModel := sizeAttributor attributeSize: viewModel.
 	viewModel := orderAttributor setOrder: viewModel.
 	^ viewModel 
 	
