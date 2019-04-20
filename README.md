@@ -15,3 +15,16 @@ Metacello new
   repository: 'github://NourDjihan/ClassNameAnalyser/src';
   load.
 ```
+## How to use the ClassNameAnalyser
+
+In this section i show how to use the code of the ClassNameAnalyser.
+First, we define our features by creating a feature selector:
+
+featureSelector := DMFeatureSelector new.
+featureSelector 
+  stemming: true;
+  filterAllDigits: true; 
+  filterSpecialChars: true;
+  selectLastSymbol: true.
+  
+By default everything is false.
