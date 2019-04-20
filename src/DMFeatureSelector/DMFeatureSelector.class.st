@@ -8,7 +8,7 @@ Class {
 		'nameTokenizer',
 		'tokenStemmer',
 		'conceptualSymbolSelector',
-		'stem',
+		'stemming',
 		'selectLastSymbol',
 		'selectMiddleSymbol',
 		'selectFirstSymbol'
@@ -107,7 +107,7 @@ DMFeatureSelector >> initialize [
 	tokenStemmer := DMTokenStemmer new.
 	conceptualSymbolSelector := DMConceptualSymbolSelector new.
 	filterer := DMFilterer new.
-	stem := false.
+	stemming := false.
 	selectFirstSymbol := false.
 	selectLastSymbol := false.
 	selectMiddleSymbol := false.
@@ -153,7 +153,7 @@ DMFeatureSelector >> selectMiddleSymbol: aBoolean [
 { #category : #actions }
 DMFeatureSelector >> stem: aConcept [
 
-	(stem) 
+	(stemming) 
 		ifTrue: [ ^tokenStemmer stemToken: aConcept ]
 		ifFalse: [ ^ aConcept ]
 ]
@@ -162,7 +162,7 @@ DMFeatureSelector >> stem: aConcept [
 DMFeatureSelector >> stemming: aBoolean [
 
 	(aBoolean) 
-		ifTrue: [ stem := true ]
+		ifTrue: [ stemming := true ]
 ]
 
 { #category : #actions }
