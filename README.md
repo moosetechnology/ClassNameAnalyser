@@ -36,7 +36,8 @@ conceptualModel := featureSelector applyFeaturesOn: aCollectionOfPackageNames
   Thrid, we build the view model which contains all the informations concerning the visualisation:
   ```Smalltalk
   builder := DMClassNameBlueprintBuilder new.
-  builder orderAttributor orderFromBiggest: true.
+  builder orderAttributor 
+    orderFromBiggest: true.
  viewModel := builder buildModelFrom: conceptualModel.
    ``` 
   
