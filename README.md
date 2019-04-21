@@ -29,3 +29,15 @@ featureSelector
   selectLastSymbol: true.
   ```  
 By default everything is false.
+Second, we create a conceptual model from package names by applying the features already defined:
+```Smalltalk
+conceptualModel := featureSelector applyFeaturesOn: aCollectionOfPackageNames
+  ``` 
+  Thrid, we build the view model which contains all the informations concerning the visualisation:
+  ```Smalltalk
+  builder := DMClassNameBlueprintBuilder new.
+  builder orderAttributor 
+    orderFromBiggest: true.
+ viewModel := builder buildModelFrom: conceptualModel.
+   ``` 
+  
