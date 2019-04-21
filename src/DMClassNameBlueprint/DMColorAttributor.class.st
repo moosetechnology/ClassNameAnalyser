@@ -43,7 +43,7 @@ DMColorAttributor >> extractAllConceptsFrom: aViewModel [
 	packageViewModels := aViewModel packageViewModels.
 	conceptsViewModels := packageViewModels flatCollect: [ :aPackageViewModel | aPackageViewModel 	conceptViewModels ].
 	resultedConcepts := conceptsViewModels collect: [ :aConceptViewModel | aConceptViewModel  	conceptsName  ].
-	^ resultedConcepts asOrderedCollection 
+	^ resultedConcepts asSet
 ]
 
 { #category : #actions }
