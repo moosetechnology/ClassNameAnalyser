@@ -7,10 +7,12 @@ Class {
 { #category : #baselines }
 BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
-	spec for: #common do: [	
+	spec for: #(#'Pharo32-8.0' #'Pharo-7.0' #'Pharo64-8.0' #'Pharo64-7.0')
+	 do: [	
 		"Dependencies"
 		self moose: spec.
-				
+		].
+	spec for: #common do: [	
 		"Packages"
 		spec 
 			package: 'DMConceptualModel';
@@ -29,6 +31,5 @@ BaselineOfClassNameAnalyser >> moose: spec [
 		spec 
 			baseline: 'Moose'
 			with: [ 
-				spec repository:  'github://moosetechnology/Moose:development/src'		
-								  ]
+				spec repository:  'github://moosetechnology/Moose:development/src' ]
 ]
