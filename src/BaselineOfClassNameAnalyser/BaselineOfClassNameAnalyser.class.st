@@ -20,14 +20,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 						]
 					].
 			"Dependencies"
-			spec for: #(#'Pharo-6.1' #'Pharo64-6.1' ) do: [	
-				spec project: 'Moose'
-				with: [ spec 
-							className: #ConfigurationOfMoose;
-							version: #developement;
-							repository: 'http://smalltalkhub.com/mc/Moose/Moose/main'
-						 ]
-		].
+	
 		spec for: #(#'Pharo64-8.0' #'Pharo32-8.0' #'Pharo-7.0' #'Pharo64-7.0' ) do: [ 
 			spec 
 				baseline: 'Moose'
