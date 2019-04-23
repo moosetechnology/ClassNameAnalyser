@@ -28,8 +28,7 @@ BaselineOfClassNameAnalyser >> moose: spec [
 	
 		spec 
 			baseline: 'Moose'
-			with: [ spec 
-								loads: #('Extensions');
-								repository:  'github://moosetechnology/Moose:development/src'
+			with: [ 
+				spec repository:  'github://moosetechnology/Moose:development/src'		
 								  ]
 ]
