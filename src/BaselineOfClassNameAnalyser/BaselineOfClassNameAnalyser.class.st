@@ -20,7 +20,6 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 						]
 					].
 			"Dependencies"
-	
 		spec for: #(#'Pharo64-8.0' #'Pharo32-8.0' #'Pharo-7.0' #'Pharo64-7.0' ) do: [ 
 			spec 
 				baseline: 'Moose'
