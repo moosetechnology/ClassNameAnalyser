@@ -23,7 +23,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 						]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #baselines }
 BaselineOfClassNameAnalyser >> moose: spec [
 	
 		spec 
