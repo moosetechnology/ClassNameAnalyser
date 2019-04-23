@@ -19,7 +19,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 			package: 'DMRoassalClassNameBlueprint' with: [ spec requires: #('DMClassNameBlueprint') ]
 						].
 			"Dependencies"
-			spec for: #(#'Pharo-6.1' #'Pharo64-6.1' ) do: [	
+			spec for: #(#'Pharo32-6.1' #'Pharo64-6.1' ) do: [	
 				self moose: spec.
 						 ]
 		].
