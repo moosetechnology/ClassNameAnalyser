@@ -8,6 +8,8 @@ Class {
 BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
 	spec for: #common do: [	
+		"Dependencies"
+		self moose: spec.
 				
 		"Packages"
 		spec 
@@ -20,4 +22,15 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 			package: 'DMRoassalClassNameBlueprint' with: [ spec requires: #('DMClassNameBlueprint') ].
 				 ]		
 
+]
+
+{ #category : #'as yet unclassified' }
+BaselineOfClassNameAnalyser >> moose: spec [
+	
+		spec 
+			baseline: 'Moose'
+			with: [ spec 
+								loads: #('Extensions');
+								repository:  'github://moosetechnology/Moose:development/src'
+								  ]
 ]
