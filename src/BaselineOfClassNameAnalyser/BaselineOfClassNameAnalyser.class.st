@@ -20,13 +20,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 						].
 			"Dependencies"
 			spec for: #(#'Pharo-6.1' #'Pharo64-6.1' ) do: [	
-			spec 
-				project: 'Moose'
-				with: [ spec 
-							className: #ConfigurationOfMoose;
-							versionString: #'developement';
-							repository: 'http://smalltalkhub.com/mc/Moose/Moose/main'
-					 ]				
+				self moose: spec.
 						 ]
 		].
 ]
@@ -34,8 +28,11 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 { #category : #baselines }
 BaselineOfClassNameAnalyser >> moose: spec [
 	
-		spec 
-			baseline: 'Moose'
-			with: [ 
-				spec repository:  'github://moosetechnology/Moose:development/src' ]
+	spec 
+				project: 'Moose'
+				with: [ spec 
+							className: #ConfigurationOfMoose;
+							versionString: #'developement';
+							repository: 'http://smalltalkhub.com/mc/Moose/Moose/main'
+					 ]				
 ]
