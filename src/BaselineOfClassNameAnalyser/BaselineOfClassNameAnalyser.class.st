@@ -14,6 +14,14 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 				baseline: 'Moose'
 				with: [ spec repository: 'github://moosetechnology/Moose:development/src' ]
 			 ].
+	spec for: #('Pharo-6.1' #'Pharo64-6.1') do: [ 
+			spec 
+				project: 'Moose'
+				with: [ spec 
+							className: #ConfigurationOfMoose;
+							versionString: #'developement';
+							repository: 'http://smalltalkhub/mc/Moose/Moose/main/'   ]
+		 ].
 	spec for: #common do: [	
 		"Packages"
 		spec 
@@ -24,8 +32,15 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 			package: 'DMClassNameBlueprint' with: [ spec requires: #('DMViewModel') ];
 			package: 'DMClassNameBlueprint-Tests' with: [ spec requires: #('DMClassNameBlueprint') ]
 		].
+	spec for: #(#'Pharo64-8.0' #'Pharo32-8.0' #'Pharo-7.0' #'Pharo64-7.0') do: [ 
 			spec 
-		for: #(#'Pharo64-8.0' #'Pharo32-8.0' #'Pharo-7.0' #'Pharo64-7.0')
-		do: [ spec package: 'DMRoassalClassNameBlueprint' with: [ spec requires: 				#('DMClassNameBlueprint' 'Moose') ]
+				package: 'DMRoassalClassNameBlueprint' 
+				with: [ spec requires: #('DMClassNameBlueprint' 'Moose') ]
 			].
+	spec for: #('Pharo-6.1' #'Pharo64-6.1') do: [ 
+				spec
+					package: 'DMRoassalClassNameBlueprint' 
+					with: [ spec requires: #('DMClassNameBlueprint' 'Moose') ]
+				 ]
+			
 ]
