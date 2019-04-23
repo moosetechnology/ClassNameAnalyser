@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #baselines }
-BaselineOfClassNameAnalyser >> baseline: spec [
+BaselineOfClassNameAnalyser >> baseline: spec [ 
 	<baseline>
 	spec for: #common do: [	
 		"Packages"
@@ -21,14 +21,14 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 					].
 			"Dependencies"
 			spec for: #(#'Pharo-6.1' #'Pharo64-6.1' ) do: [	
-				spec 
-				project: 'Moose'
+				spec project: 'Moose'
 				with: [ spec 
 							className: #ConfigurationOfMoose;
-							versionString: #'developement';
-							repository: 'http://smalltalkhub.com/mc/Moose/Moose/main/'
+							version: #developement;
+							repository: 'http://smalltalkhub.com/mc/Moose/Moose/main'
 						 ]
 		]
+	
 ]
 
 { #category : #baselines }
