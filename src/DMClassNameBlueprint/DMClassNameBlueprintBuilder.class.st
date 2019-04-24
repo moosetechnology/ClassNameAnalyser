@@ -45,7 +45,7 @@ DMClassNameBlueprintBuilder >> createConceptsViewModelsFrom: aPackageModel [
 	conceptsViewModels := packageConcepts collect: [ :aConcept |
 	 | classModels 	aConceptViewModel |
 	 classModels := aPackageModel classModels 
-		select: [ :aClassModel | aClassModel concept = aConcept].
+		select: [ :aClassModel | aClassModel conceptName = aConcept].
 	aConceptViewModel := DMConceptViewModel new.
 	aConceptViewModel conceptName: aConcept.
 		aConceptViewModel classViewModels: (self createClassViewModelsFrom: (classModels)).
@@ -80,7 +80,7 @@ DMClassNameBlueprintBuilder >> createViewModelFrom: aConceptualModel [
 DMClassNameBlueprintBuilder >> extractConceptsFrom: aPackageModel [
 
 	| resultedConcepts |
-	resultedConcepts := (aPackageModel classModels collect: [ :aClassModel | aClassModel concept ]).
+	resultedConcepts := (aPackageModel classModels collect: [ :aClassModel | aClassModel conceptName ]).
 	^resultedConcepts 
 ]
 

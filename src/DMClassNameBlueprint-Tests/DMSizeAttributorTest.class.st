@@ -27,5 +27,5 @@ DMSizeAttributorTest >> testSetSizeForAViewModel [
 	self assert: (aViewModel packageViewModels 
 		collect: [ :aPackageViewModel | aPackageViewModel size ]) 
 		equals: (aConceptualModal packageModels collect: [ :aPackageModel | 
-		(aPackageModel classModels collect: [ :aClassModel | aClassModel concept ]) asSet size ]).
+		(aPackageModel classModels collect: [ :aClassModel | aClassModel conceptName ]) asSet size ]).
 ]

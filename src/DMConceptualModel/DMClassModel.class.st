@@ -3,9 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'class',
-		'concept',
 		'rootClass',
-		'theConcept'
+		'conceptName'
 	],
 	#category : #DMConceptualModel
 }
@@ -21,13 +20,13 @@ DMClassModel >> classRef: aClass [
 ]
 
 { #category : #accessing }
-DMClassModel >> concept [
-	^ theConcept 
+DMClassModel >> conceptName [
+	^ conceptName 
 ]
 
 { #category : #setter }
-DMClassModel >> concept: aConcept [
-	theConcept := aConcept
+DMClassModel >> conceptName: aConcept [
+	conceptName := aConcept
 ]
 
 { #category : #accessing }
