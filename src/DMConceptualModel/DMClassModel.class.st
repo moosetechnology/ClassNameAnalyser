@@ -2,7 +2,7 @@ Class {
 	#name : #DMClassModel,
 	#superclass : #Object,
 	#instVars : [
-		'class',
+		'classRef',
 		'rootClass',
 		'conceptName'
 	],
@@ -11,12 +11,12 @@ Class {
 
 { #category : #accessing }
 DMClassModel >> classRef [
-	^ class
+	^ classRef
 ]
 
 { #category : #setter }
 DMClassModel >> classRef: aClass [
-	class := aClass
+	classRef := aClass
 ]
 
 { #category : #accessing }

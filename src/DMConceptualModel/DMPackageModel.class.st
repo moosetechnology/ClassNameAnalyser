@@ -29,14 +29,6 @@ DMPackageModel >> classes: 	aCollectionOfClasses [
 	classes := aCollectionOfClasses 
 ]
 
-{ #category : #initialization }
-DMPackageModel >> initialize [ 
-
-	super initialize.
-	classes := OrderedCollection new.
-
-]
-
 { #category : #accessing }
 DMPackageModel >> packageName [
 	^ packageName 

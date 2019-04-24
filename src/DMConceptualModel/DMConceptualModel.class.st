@@ -2,18 +2,10 @@ Class {
 	#name : #DMConceptualModel,
 	#superclass : #Object,
 	#instVars : [
-		'packageModels',
-		'packages'
+		'packageModels'
 	],
 	#category : #DMConceptualModel
 }
-
-{ #category : #initialization }
-DMConceptualModel >> initialize [ 
-
-	packages := OrderedCollection new.
-	packageModels := OrderedCollection new.
-]
 
 { #category : #accessing }
 DMConceptualModel >> packageModels [
