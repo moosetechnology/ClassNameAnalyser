@@ -4,7 +4,7 @@ Class {
 	#category : #DMRoassalClassNameBlueprint
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #visualization }
 DMRoassalClassNameBlueprint >> visualize: aViewModel [
 	
 	| b |
