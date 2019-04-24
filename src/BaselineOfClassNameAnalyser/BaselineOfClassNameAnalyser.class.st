@@ -7,7 +7,12 @@ Class {
 { #category : #baselines }
 BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
-	spec for: #common do: [					
+	spec for: #common do: [	
+		"External dependencies"
+		spec
+			baseline: 'Roassal2'
+			with: [ spec repository: 'github://ObjectProfile/Roassal2/src' ].
+											
 		"Packages"
 		spec 
 			package: 'DMConceptualModel';
@@ -16,7 +21,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 			package: 'DMViewModel' with: [ spec requires: #('DMConceptualModel') ];
 			package: 'DMClassNameBlueprint' with: [ spec requires: #('DMViewModel') ];
 			package: 'DMClassNameBlueprint-Tests' with: [ spec requires: #('DMClassNameBlueprint') ];
-			package: 'DMRoassalClassNameBlueprint' with: [ spec requires: #('DMClassNameBlueprint') ]
+			package: 'DMRoassalClassNameBlueprint' with: [ spec requires: #('DMClassNameBlueprint' 'Roassal2' ) ]
 				 ].
 
 ]
