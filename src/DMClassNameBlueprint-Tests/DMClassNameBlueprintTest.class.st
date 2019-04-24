@@ -59,7 +59,7 @@ DMClassNameBlueprintTest >> testCreateConceptsViewModelsFromAPackageModel [
 	conceptualModel := featureSelector applyFeaturesOn: {'Kernel'}.
 	packageModel := conceptualModel packageModels at: 1.
 	conceptsViewModels := builder createConceptsViewModelsFrom: packageModel.
-	actualConcepts := (conceptsViewModels collect: [ :aConceptViewModel | aConceptViewModel  	conceptsName ]) asSet.
+	actualConcepts := (conceptsViewModels collect: [ :aConceptViewModel | aConceptViewModel  	conceptName ]) asSet.
 	expectedConcepts := (builder extractConceptsFrom: packageModel) asSet.
 	actualClassViewModels := (conceptsViewModels flatCollect: [ :aConceptViewModel | 	
 		aConceptViewModel classViewModels ]) asOrderedCollection.
@@ -85,7 +85,7 @@ DMClassNameBlueprintTest >> testCreatePackageViewModelFromPackageModels [
 	actualPackageViewModels := viewModel packageViewModels.
 	actualPackageNames := actualPackageViewModels collect: [ :aPackageViewModel | aPackageViewModel 	packageName ].
 	actualConceptsViewModels := (actualPackageViewModels flatCollect: [ :aPackageViewModel | 	aPackageViewModel conceptViewModels ]) asOrderedCollection.
-	actualConcepts := (actualConceptsViewModels collect: [ :aConceptViewModel | aConceptViewModel 	conceptsName ]) asSet.
+	actualConcepts := (actualConceptsViewModels collect: [ :aConceptViewModel | aConceptViewModel 	conceptName ]) asSet.
 	expectedPackageNames := { 'Kernel' . 'DMFeatureSelector' }.
 	self assert: actualPackageViewModels size equals: packageModels size.
 	self assert: actualPackageNames equals: expectedPackageNames.

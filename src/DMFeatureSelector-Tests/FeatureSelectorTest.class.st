@@ -67,7 +67,7 @@ FeatureSelectorTest >> testExtractRootClassFromObjectClass [
 		selectFirstSymbol: true.
 	expectedRootClass := Object.
 	classModel classRef: Object.
-	classModel concepts: (featureSelector extractConceptFrom: Object name).
+	classModel concept: (featureSelector extractConceptFrom: Object name).
 	classModel rootClass: (featureSelector extractRootClassFrom: Object).
 	self assert: expectedRootClass equals: Object.
 
@@ -85,7 +85,7 @@ FeatureSelectorTest >> testExtractRootClassNoHierarchy [
 		stemming: true; 
 		selectFirstSymbol: true.
 	classModel classRef: DMClassModel.
-	classModel concepts: (featureSelector extractConceptFrom: (DMClassModel name)).
+	classModel concept: (featureSelector extractConceptFrom: (DMClassModel name)).
 	classModel rootClass: (featureSelector extractRootClassFrom: DMClassModel).
 	actualRootClass := DMClassModel.
 	self assert: actualRootClass equals: expectedRootClass.

@@ -2,7 +2,7 @@ Class {
 	#name : #DMClassViewModel,
 	#superclass : #Object,
 	#instVars : [
-		'class',
+		'classRef',
 		'color',
 		'size'
 	],
@@ -11,12 +11,12 @@ Class {
 
 { #category : #accessing }
 DMClassViewModel >> classRef [
-	^ class 
+	^ classRef
 ]
 
 { #category : #accessing }
-DMClassViewModel >> classRef: aClass [
-	class := aClass 
+DMClassViewModel >> classRef: aClassRef [
+	classRef := aClassRef
 ]
 
 { #category : #accessing }

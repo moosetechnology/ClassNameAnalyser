@@ -2,10 +2,9 @@ Class {
 	#name : #DMConceptViewModel,
 	#superclass : #Object,
 	#instVars : [
-		'title',
 		'classViewModels',
 		'color',
-		'conceptsName',
+		'conceptName',
 		'size'
 	],
 	#category : #DMViewModel
@@ -32,13 +31,13 @@ DMConceptViewModel >> color: aColor [
 ]
 
 { #category : #accessing }
-DMConceptViewModel >> conceptsName [
-	^ conceptsName
+DMConceptViewModel >> conceptName [
+	^ conceptName
 ]
 
 { #category : #accessing }
-DMConceptViewModel >> conceptsName: aConcept [
-	conceptsName := aConcept 
+DMConceptViewModel >> conceptName: aConcept [
+	conceptName := aConcept 
 ]
 
 { #category : #accessing }

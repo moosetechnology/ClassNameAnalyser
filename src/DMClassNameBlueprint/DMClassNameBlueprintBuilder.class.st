@@ -47,7 +47,7 @@ DMClassNameBlueprintBuilder >> createConceptsViewModelsFrom: aPackageModel [
 	 classModels := aPackageModel classModels 
 		select: [ :aClassModel | aClassModel concept = aConcept].
 	aConceptViewModel := DMConceptViewModel new.
-	aConceptViewModel conceptsName: aConcept.
+	aConceptViewModel conceptName: aConcept.
 		aConceptViewModel classViewModels: (self createClassViewModelsFrom: (classModels)).
 		 ].
 	^conceptsViewModels 

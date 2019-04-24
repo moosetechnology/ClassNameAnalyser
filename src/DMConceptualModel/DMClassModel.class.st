@@ -26,7 +26,7 @@ DMClassModel >> concept [
 ]
 
 { #category : #setter }
-DMClassModel >> concepts: aConcept [
+DMClassModel >> concept: aConcept [
 	theConcept := aConcept
 ]
 

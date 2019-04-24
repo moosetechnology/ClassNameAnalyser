@@ -28,7 +28,7 @@ DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackageNames [
 		packageModel classModels: (packageModel classes collect: [ :aClass | | classModel | 
 			classModel := DMClassModel new.
 			classModel classRef: aClass.
-			classModel concepts: (self extractConceptFrom: aClass name).
+			classModel concept: (self extractConceptFrom: aClass name).
 			classModel rootClass: (self extractRootClassFrom: aClass).
 			])  ]).
 	^conceptualModel.
@@ -60,7 +60,10 @@ DMFeatureSelector >> extractConceptFrom: aName [
 { #category : #actions }
 DMFeatureSelector >> extractRootClassFrom: aClass [
 
-	({ Object . ProtoObject . TComparable } includes: aClass)
+	({ Object . ProtoObject } includes: aClass)
+		ifTrue: [ ^ aClass ].
+		
+	aClass isTrait
 		ifTrue: [ ^ aClass ].
 
 	(aClass superclass == Object)

@@ -19,7 +19,7 @@ DMColorAttributor >> attributeColors: aViewModel [
 		| Hierarchies |
 		Hierarchies := aConceptViewModel classViewModels
 		collect: [ :aClassModel | featureSelector extractRootClassFrom: (aClassModel classRef) ].
-		(conceptsHierarchies at: aConceptViewModel conceptsName) addAll: Hierarchies ].
+		(conceptsHierarchies at: aConceptViewModel conceptName) addAll: Hierarchies ].
 	
 	conceptsColors := (concepts collect: [ :aConcept |
 		| color conceptsBiggestHierarchy |
@@ -28,7 +28,7 @@ DMColorAttributor >> attributeColors: aViewModel [
 		(aConcept->color) ]) asDictionary.	
 						
 	allConceptsViewModels do: [ :aConceptViewModel | 
-		aConceptViewModel color: (self selectConceptsColor: 	aConceptViewModel conceptsName From: conceptsColors) ].			
+		aConceptViewModel color: (self selectConceptsColor: 	aConceptViewModel conceptName From: conceptsColors) ].			
 	allClassViewModels := allConceptsViewModels 
 		flatCollect: [ :aConceptVModel | aConceptVModel classViewModels ].	
 	allClassViewModels do: [ :aClassViewModel |
@@ -42,7 +42,7 @@ DMColorAttributor >> extractAllConceptsFrom: aViewModel [
 	| packageViewModels conceptsViewModels  resultedConcepts |
 	packageViewModels := aViewModel packageViewModels.
 	conceptsViewModels := packageViewModels flatCollect: [ :aPackageViewModel | aPackageViewModel 	conceptViewModels ].
-	resultedConcepts := conceptsViewModels collect: [ :aConceptViewModel | aConceptViewModel  	conceptsName  ].
+	resultedConcepts := conceptsViewModels collect: [ :aConceptViewModel | aConceptViewModel  	conceptName  ].
 	^ resultedConcepts asSet
 ]
 

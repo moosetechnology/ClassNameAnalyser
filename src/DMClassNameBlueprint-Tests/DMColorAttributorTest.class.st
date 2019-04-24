@@ -46,7 +46,7 @@ DMColorAttributorTest >> testConceptsClasses [
 	hierarchies := colorAttributor  extractAllRootClassesFrom: viewModel.
 		concepts := colorAttributor  extractAllConceptsFrom: viewModel.
 		conceptsHierarchies:= (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 	asDictionary.
-	concepts := viewModel packageViewModels collect: [ :aPackageViewModel | aPackageViewModel 	conceptViewModels collect: [ :aConceptViewModel | aConceptViewModel conceptsName ] ].
+	concepts := viewModel packageViewModels collect: [ :aPackageViewModel | aPackageViewModel 	conceptViewModels collect: [ :aConceptViewModel | aConceptViewModel conceptName ] ].
 	concepts := concepts flatCollect: [ :each | each ].
 		self assert: (concepts includesAll: conceptsHierarchies keys).
 		self assert: (conceptsHierarchies keys includesAll: concepts).
