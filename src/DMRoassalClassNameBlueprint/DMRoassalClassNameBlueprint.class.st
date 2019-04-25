@@ -17,10 +17,14 @@ DMRoassalClassNameBlueprint >> visualize: aViewModel [
 		forEach: [ :pVM | 
 			b shape rectangle 
 			color: [ :each | Color value: each color ].
+			b interaction popup 
+					text: [ :conceptVM | conceptVM conceptName ] .
 			b nodes: (pVM conceptViewModels collect: [ :conceptVM | conceptVM ])
 			forEach: [ :conceptVM | 
 				b shape rectangle
 				color: [ :classVM | Color value: classVM color ].
+				b interaction popup 
+					text: conceptVM conceptName.
 				b nodes: (conceptVM classViewModels collect: [ :classVm | classVm  ]).
 				b layout grid.
 			 ].
