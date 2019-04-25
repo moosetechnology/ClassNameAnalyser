@@ -85,8 +85,7 @@ DMColorAttributor >> selectConceptsColor: aConcept From: conceptsColors [
 DMColorAttributor >> setColorsOf: aCollection [
 
 	| arrayOfColors index resultedColors|
-	arrayOfColors := {#red . #blue . #pink . #purple . #tan . #yellow.
-	#orange . #magenta . #green . #gray . #cyan . #brown . #darkGray.
+	arrayOfColors := {#red . #brown . #blue . #purple . #magenta . #orange . #green . #yellow . #pink . #tan . #gray . #cyan . #darkGray.
 	#lightBlue . #lightBrown . #lightCyan . #lightGray . #lightGreen.
 	#lightMagenta . #lightOrange . #lightRed . #lightYellow . #paleBuff.
 	#paleGreen . #paleMagenta . #paleOrange . #palePeach . #paleRed . #paleTan.
