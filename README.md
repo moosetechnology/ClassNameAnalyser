@@ -40,4 +40,8 @@ conceptualModel := featureSelector applyFeaturesOn: aCollectionOfPackageNames
     orderFromBiggest: true.
  viewModel := builder buildModelFrom: conceptualModel.
    ``` 
-  
+   Finally, in order to visualize our view model we use:
+   ```Smalltalk
+   roassalView := DMRoassalClassNameBlueprint new.
+   roassalView visualize: viewModel
+   ``` 
