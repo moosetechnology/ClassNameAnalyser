@@ -10,7 +10,9 @@ DMRoassalClassNameBlueprint >> visualize: aViewModel [
 	| b |
 	b := RTMondrian new.
 	b shape rectangle withTextAbove: [ :packageVM | packageVM packageName ].
-	b 
+	b interaction popup 
+		text: [ :aPackageVM | aPackageVM packageName ].
+	b
 		nodes: (aViewModel packageViewModels collect: [ :packageVM | packageVM ])
 		forEach: [ :pVM | 
 			b shape rectangle 
