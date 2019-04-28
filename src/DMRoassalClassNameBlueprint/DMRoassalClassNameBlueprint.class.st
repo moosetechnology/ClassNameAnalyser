@@ -25,6 +25,8 @@ DMRoassalClassNameBlueprint >> visualize: aViewModel [
 				color: [ :classVM | Color value: classVM color ].
 				b interaction popup 
 					text: conceptVM conceptName.
+				b interaction 
+					when: TRMouseClick  do: [ conceptVM classViewModels inspect ].
 				b nodes: (conceptVM classViewModels collect: [ :classVm | classVm  ]).
 				b layout grid.
 			 ].
