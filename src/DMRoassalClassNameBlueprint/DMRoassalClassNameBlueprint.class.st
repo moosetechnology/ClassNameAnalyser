@@ -23,7 +23,7 @@ DMRoassalClassNameBlueprint >> visualize: aViewModel [
 			b nodes: (pVM conceptViewModels collect: [ :conceptVM | conceptVM ])
 			forEach: [ :conceptVM | 
 				b shape rectangle
-				borderColor: [ :aClassVM | (Color value: aClassVM color) paler ];
+				borderColor: [ :aClassVM | (Color value: aClassVM color) lighter ];
 				color: [ :classVM | Color value: classVM color ].
 				b interaction popup 
 					text: [ :each | each classRef ].
