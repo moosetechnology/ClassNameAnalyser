@@ -45,3 +45,11 @@ conceptualModel := featureSelector applyFeaturesOn: aCollectionOfPackageNames
    roassalView := DMRoassalClassNameBlueprint new.
    roassalView visualize: viewModel
    ``` 
+   ## Visualization Example:
+   A Distribution Map
+  
+   ![](images/DistributionMap.png)
+   
+   A ClassNameBlueprint
+   
+   ![](images/ClassNameBlueprint.png)
