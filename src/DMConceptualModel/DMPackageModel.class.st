@@ -15,8 +15,8 @@ DMPackageModel >> classModels [
 ]
 
 { #category : #setter }
-DMPackageModel >> classModels: aCollectionOfPackageModels [
-	classModels := aCollectionOfPackageModels 
+DMPackageModel >> classModels: aCollectionOfClassModels [
+	classModels := aCollectionOfClassModels 
 ]
 
 { #category : #accessing }

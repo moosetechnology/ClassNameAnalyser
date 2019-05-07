@@ -16,8 +16,7 @@ DMRoassalClassNameBlueprint >> visualize: aViewModel [
 		nodes: (aViewModel packageViewModels collect: [ :packageVM | packageVM ])
 		forEach: [ :pVM | 
 			b shape rectangle 
-			color: [ :eachConcept | Color value: eachConcept color ];
-			withTextAbove: [ :concept | concept conceptName ] color: Color darkGray.
+			color: [ :eachConcept | Color value: eachConcept color ].
 			b interaction popup 
 					text: [ :conceptVM | 'Concept: ' , conceptVM conceptName ] .
 			b nodes: (pVM conceptViewModels collect: [ :conceptVM | conceptVM ])
