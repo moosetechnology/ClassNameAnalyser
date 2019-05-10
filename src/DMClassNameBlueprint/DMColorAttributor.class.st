@@ -89,7 +89,7 @@ DMColorAttributor >> setColorsOf: aCollection [
 	#lightBlue . #lightBrown . #lightCyan . #lightGray . #lightGreen.
 	#lightMagenta . #lightOrange . #lightRed . #lightYellow . #paleBuff.
 	#paleGreen . #paleMagenta . #paleOrange . #palePeach . #paleRed . #paleTan.
-	#paleYellow . #black}.
+	#paleYellow . #gray . #black}.
 	index := 0.
 	resultedColors := ((aCollection asBag sortedCounts) collect: [ :anAssociation | 
 		(index == arrayOfColors size)
