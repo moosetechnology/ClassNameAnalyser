@@ -20,8 +20,7 @@ DMFilterer >> removeAllDigitsFrom: aName [
 	token := ''.
 	tokens := aName piecesCutWhereCamelCase.
 	tokens := tokens reject: [ :each | each isAllDigits ].
-	tokens do: [ :each | token := token , each .
-	 ]. 	
+	tokens do: [ :each | token := token , each ]. 	
 	^ token
 ]
 

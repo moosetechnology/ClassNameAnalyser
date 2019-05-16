@@ -93,7 +93,7 @@ DMFeatureSelector >> filterAllDigits: aBoolean [
 { #category : #setter }
 DMFeatureSelector >> filterAllDigitsAndSpecialChars: aBoolean [
 
-	self filterAllDigits: aBoolean .
+	self filterAllDigits: aBoolean.
 	self filterSpecialChars: aBoolean
 ]
 
@@ -131,25 +131,19 @@ DMFeatureSelector >> selectConceptFrom: tokens [
 
 { #category : #setter }
 DMFeatureSelector >> selectFirstSymbol: aBoolean [
-
-	(aBoolean)
-	ifTrue: [ selectFirstSymbol := true ]
+	selectFirstSymbol := aBoolean 
 	
 
 ]
 
 { #category : #setter }
 DMFeatureSelector >> selectLastSymbol: aBoolean [
-
-	(aBoolean)
-	ifTrue: [ selectLastSymbol := true ]
+	selectLastSymbol := aBoolean 
 ]
 
 { #category : #setter }
 DMFeatureSelector >> selectMiddleSymbol: aBoolean [
-	
-	(aBoolean)
-	ifTrue: [ selectMiddleSymbol := true ]
+	selectMiddleSymbol := aBoolean 
 
 ]
 
