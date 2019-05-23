@@ -4,21 +4,10 @@ Class {
 	#instVars : [
 		'packageName',
 		'conceptViewModels',
-		'color',
 		'size'
 	],
 	#category : #DMViewModel
 }
-
-{ #category : #accessing }
-DMPackageViewModel >> color [
-	^ color
-]
-
-{ #category : #accessing }
-DMPackageViewModel >> color: aColor [
-	color := aColor 
-]
 
 { #category : #accessing }
 DMPackageViewModel >> conceptViewModels [
