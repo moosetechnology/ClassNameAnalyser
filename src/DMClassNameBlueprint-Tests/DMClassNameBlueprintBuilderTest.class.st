@@ -26,7 +26,7 @@ DMClassNameBlueprintBuilderTest >> testBuildModelFromAConceptualModel [
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel' }.
 	blueprintBuilder orderAttributor orderFromBiggest: true.
 	viewModel := blueprintBuilder buildModelFrom: conceptualModel.
-	actualPackageViewNames := (viewModel packageViewModels collect: [ :aPackageViewModel | 	aPackageViewModel packageName ]).
+	actualPackageViewNames := (viewModel packageViewModels collect: [ :aPackageViewModel | 	aPackageViewModel packageRef ]).
 	self assert: actualPackageViewNames equals: { 'Kernel' . 'DMViewModel' } asOrderedCollection.
 	self assert: viewModel packageViewModels size equals: conceptualModel packageModels size.
 	
@@ -83,7 +83,7 @@ DMClassNameBlueprintBuilderTest >> testCreatePackageViewModelFromPackageModels [
 	viewModel := DMViewModel new.
 	viewModel packageViewModels: (builder createPackageViewModelsFrom: 	packageModels).
 	actualPackageViewModels := viewModel packageViewModels.
-	actualPackageNames := actualPackageViewModels collect: [ :aPackageViewModel | aPackageViewModel 	packageName ].
+	actualPackageNames := actualPackageViewModels collect: [ :aPackageViewModel | aPackageViewModel 	packageRef ].
 	actualConceptsViewModels := (actualPackageViewModels flatCollect: [ :aPackageViewModel | 	aPackageViewModel conceptViewModels ]) asOrderedCollection.
 	actualConcepts := (actualConceptsViewModels collect: [ :aConceptViewModel | aConceptViewModel 	conceptName ]) asSet.
 	expectedPackageNames := { 'Kernel' . 'DMFeatureSelector' }.

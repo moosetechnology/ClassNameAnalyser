@@ -19,13 +19,13 @@ Class {
 { #category : #actions }
 DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackageNames [
 
-	| conceptualModel |
+	| conceptualModel classes |
 	conceptualModel := DMConceptualModel new.
 	conceptualModel packageModels: (aCollectionOfPackageNames collect: [ :aPackageName |		| packageModel |
 		packageModel := DMPackageModel new. 
-		packageModel packageName: aPackageName.
-		packageModel classes: (self extractClassesFrom: aPackageName).
-		packageModel classModels: (packageModel classes collect: [ :aClass | | classModel | 
+		packageModel packageRef: aPackageName.
+		classes := self extractClassesFrom: aPackageName.
+		packageModel classModels: (classes collect: [ :aClass | | classModel | 
 			classModel := DMClassModel new.
 			classModel classRef: aClass.
 			classModel conceptName: (self extractConceptFrom: aClass name).

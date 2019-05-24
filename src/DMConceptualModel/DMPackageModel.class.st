@@ -2,8 +2,7 @@ Class {
 	#name : #DMPackageModel,
 	#superclass : #Object,
 	#instVars : [
-		'packageName',
-		'classes',
+		'packageRef',
 		'classModels'
 	],
 	#category : #DMConceptualModel
@@ -20,21 +19,11 @@ DMPackageModel >> classModels: aCollectionOfClassModels [
 ]
 
 { #category : #accessing }
-DMPackageModel >> classes [ 
-	^ classes
+DMPackageModel >> packageRef [
+	^ packageRef
 ]
 
 { #category : #setter }
-DMPackageModel >> classes: 	aCollectionOfClasses [
-	classes := aCollectionOfClasses 
-]
-
-{ #category : #accessing }
-DMPackageModel >> packageName [
-	^ packageName 
-]
-
-{ #category : #setter }
-DMPackageModel >> packageName: aPackageName [
-	packageName := aPackageName
+DMPackageModel >> packageRef: aPackageName [
+	packageRef := aPackageName
 ]

@@ -60,7 +60,7 @@ DMClassNameBlueprintBuilder >> createPackageViewModelsFrom: aCollectionOfPackage
 	packageViewModels := OrderedCollection new.
 	packageViewModels := aCollectionOfPackageModels collect: [ :aPackageModel | | packageViewModel |
 		packageViewModel := DMPackageViewModel new.
-		packageViewModel packageName: aPackageModel packageName.
+		packageViewModel packageRef: aPackageModel packageRef.
 		packageViewModel conceptViewModels: (self createConceptsViewModelsFrom: aPackageModel).
 		 ].
 	^packageViewModels 

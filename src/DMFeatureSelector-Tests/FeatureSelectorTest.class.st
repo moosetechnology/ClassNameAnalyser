@@ -18,8 +18,8 @@ FeatureSelectorTest >> testApplyFeaturesOn [
 	| conceptualModel |	
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMFeatureSelector' }.
 	self assert: (conceptualModel packageModels size) equals: 2.
-	self assert: (conceptualModel packageModels at: 1) packageName equals: 'Kernel'.
-	self assert: (conceptualModel packageModels at: 2) packageName equals: 'DMFeatureSelector'.
+	self assert: (conceptualModel packageModels at: 1) packageRef equals: 'Kernel'.
+	self assert: (conceptualModel packageModels at: 2) packageRef equals: 'DMFeatureSelector'.
 	self assert: (conceptualModel packageModels at: 1) classModels size equals: (RPackageOrganizer default packageNamed: 'Kernel') 	definedClasses size.
 	
 	

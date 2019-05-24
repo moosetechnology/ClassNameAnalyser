@@ -25,7 +25,12 @@ DMPackageViewModel >> packageName [
 ]
 
 { #category : #accessing }
-DMPackageViewModel >> packageName: aPackageName [
+DMPackageViewModel >> packageRef [ 
+	^ packageName
+]
+
+{ #category : #accessing }
+DMPackageViewModel >> packageRef: aPackageName [
 	packageName := aPackageName 
 ]
 
