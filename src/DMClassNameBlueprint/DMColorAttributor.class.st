@@ -7,9 +7,10 @@ Class {
 { #category : #building }
 DMColorAttributor >> attributeColors: aViewModel [
 
-	| allConceptsViewModels allClassViewModels featureSelector hierarchies concepts 		conceptsHierarchies hierarchiesColors conceptsColors |	
+	| allConceptsViewModels allClassViewModels featureSelector hierarchies concepts 		conceptsHierarchies hierarchiesColors conceptsColors conceptualSymbolSelector |	
 	
-	featureSelector := DMFeatureSelector new.					
+	featureSelector := DMFeatureSelector new.	
+	conceptualSymbolSelector := DMConceptualSymbolSelector new.				
 	hierarchies := self extractAllRootClassesFrom: aViewModel.
 	concepts := self extractAllConceptsFrom: aViewModel.
 	conceptsHierarchies:= (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 		asDictionary.
@@ -38,8 +39,8 @@ DMColorAttributor >> attributeColors: aViewModel [
 		root := featureSelector extractRootClassFrom: aClassViewModel classRef.
 		(root == aClassViewModel classRef) 
 		ifTrue: [ aClassViewModel color: #white ] 
-		ifFalse: [ rootSymbol := featureSelector selectLastSymbol: (root asString).
-			classSymbol := featureSelector selectLastSymbol: ((aClassViewModel classRef) asString).
+		ifFalse: [ rootSymbol := conceptualSymbolSelector selectLastSymbol: (root asString).
+			classSymbol := conceptualSymbolSelector selectLastSymbol: ((aClassViewModel classRef) asString).
 			(rootSymbol = classSymbol)
 			ifTrue: [ aClassViewModel color: #gray ] ifFalse:  [aClassViewModel color:(self selectColorOf: (aClassViewModel classRef) From: hierarchiesColors) ]].
 			 ].
@@ -47,7 +48,19 @@ DMColorAttributor >> attributeColors: aViewModel [
 ]
 
 { #category : #'as yet unclassified' }
-DMColorAttributor >> checkIfMonoSuffix: aClass [
+DMColorAttributor >> checkIfMonoSuffix: aRoot From: aViewModel [
+
+	| classes subclasses conceptualSymbolSelector symbol featureSelector |
+	featureSelector := DMFeatureSelector new.
+	conceptualSymbolSelector := DMConceptualSymbolSelector new.
+	classes := self extractAllClasses: aViewModel.
+	subclasses := classes select: [ :aClass | (featureSelector extractRootClassFrom: aClass) = aRoot ].
+	symbol := (conceptualSymbolSelector selectLastSymbol: aRoot asString).
+	subclasses do: [ :aSubClass | | subSymbol |
+	subSymbol := conceptualSymbolSelector selectLastSymbol: aSubClass.
+		^(subSymbol = symbol)
+		 ]	
+	
 ]
 
 { #category : #'as yet unclassified' }
@@ -82,6 +95,17 @@ DMColorAttributor >> extractAllRootClassesFrom: aViewModel [
 	resultedHierarchies := classViewModels collect: [ :aClassViewModel | (featureSelector 	extractRootClassFrom: aClassViewModel classRef ) ].
 	^ resultedHierarchies asOrderedCollection.
 	
+	
+]
+
+{ #category : #'as yet unclassified' }
+DMColorAttributor >> extractMonoHierarchies: aViewModel [
+
+	| rootClasses collectionOfMonos |
+	rootClasses := self extractAllRootClassesFrom: aViewModel.
+	collectionOfMonos := OrderedCollection new.
+	^(rootClasses select: [ :aRootClass | (self checkIfMonoSuffix: aRootClass From: aViewModel )
+		]) asSet
 	
 ]
 
