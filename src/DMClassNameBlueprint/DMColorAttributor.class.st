@@ -28,11 +28,21 @@ DMColorAttributor >> attributeColors: aViewModel [
 		(aConcept->color) ]) asDictionary.	
 						
 	allConceptsViewModels do: [ :aConceptViewModel | 
-		aConceptViewModel color: (self selectConceptsColor: 	aConceptViewModel conceptName From: conceptsColors) ].			
+		aConceptViewModel color: (self selectConceptsColor: 	aConceptViewModel conceptName From: conceptsColors).
+			aConceptViewModel root: (self selectBiggestHierarchy: (conceptsHierarchies at: aConceptViewModel conceptName)	).
+			].			
 	allClassViewModels := allConceptsViewModels 
 		flatCollect: [ :aConceptVModel | aConceptVModel classViewModels ].	
 	allClassViewModels do: [ :aClassViewModel |
-		aClassViewModel color:(self selectColorOf: (aClassViewModel classRef) From: hierarchiesColors) ].
+		| root rootSymbol classSymbol |
+		root := featureSelector extractRootClassFrom: aClassViewModel classRef.
+		(root == aClassViewModel classRef) 
+		ifTrue: [ aClassViewModel color: #white ] 
+		ifFalse: [ rootSymbol := featureSelector selectLastSymbol: (root asString).
+			classSymbol := featureSelector selectLastSymbol: ((aClassViewModel classRef) asString).
+			(rootSymbol = classSymbol)
+			ifTrue: [ aClassViewModel color: #gray ] ifFalse:  [aClassViewModel color:(self selectColorOf: (aClassViewModel classRef) From: hierarchiesColors) ]].
+			 ].
 	^aViewModel 
 ]
 

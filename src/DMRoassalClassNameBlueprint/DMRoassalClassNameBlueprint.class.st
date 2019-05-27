@@ -9,9 +9,9 @@ DMRoassalClassNameBlueprint >> visualize: aViewModel [
 	
 	| b |
 	b := RTMondrian new.
-	b shape rectangle withTextAbove: [ :packageVM | packageVM packageRef ].
+	b shape rectangle withTextAbove: [ :packageVM | packageVM packageName ].
 	b interaction popup 
-		text: [ :aPackageVM | aPackageVM packageRef ].
+		text: [ :aPackageVM | aPackageVM packageName ].
 	b
 		nodes: (aViewModel packageViewModels collect: [ :packageVM | packageVM ])
 		forEach: [ :pVM | 
@@ -22,8 +22,11 @@ DMRoassalClassNameBlueprint >> visualize: aViewModel [
 					text: [ :conceptVM | 'Concept: ' , conceptVM conceptName ] .
 			b nodes: (pVM conceptViewModels collect: [ :conceptVM | conceptVM ])
 			forEach: [ :conceptVM | 
+				conceptVM classViewModels add:(DMClassViewModel 	new classRef: conceptVM 	root; color: conceptVM color).
 				b shape rectangle
-				borderColor: [ :aClassVM | (Color value: aClassVM color) slightlyLighter ];
+				borderColor: [ :aClassVM | 
+					(aClassVM classRef = conceptVM root)
+					ifTrue: [ Color black ] ifFalse: (Color value: aClassVM color) slightlyLighter ];
 				color: [ :classVM | Color value: classVM color ].
 				b interaction popup 
 					text: [ :each | each classRef ].
