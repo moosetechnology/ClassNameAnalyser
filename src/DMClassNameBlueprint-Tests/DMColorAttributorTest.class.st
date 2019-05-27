@@ -55,6 +55,18 @@ DMColorAttributorTest >> testConceptsClasses [
 ]
 
 { #category : #tests }
+DMColorAttributorTest >> testExtractAllClasses [
+
+	| featureSelector viewModel conceptualModel  |
+	
+	featureSelector := DMFeatureSelector new.
+	conceptualModel := featureSelector applyFeaturesOn: #('AST-Core').
+	builder := DMClassNameBlueprintBuilder new.
+	viewModel := builder buildModelFrom: conceptualModel.
+	self assert: (colorAttributor extractAllClasses: viewModel ) asSet equals: (RPackageOrganizer default packageNamed: 'AST-Core' ) definedClasses asSet
+]
+
+{ #category : #tests }
 DMColorAttributorTest >> testExtractAllConceptsFromaConceptualModel [
 
 	| conceptualModel classes featureSelector expectedConcepts actualConcepts viewModel |

@@ -46,6 +46,20 @@ DMColorAttributor >> attributeColors: aViewModel [
 	^aViewModel 
 ]
 
+{ #category : #'as yet unclassified' }
+DMColorAttributor >> checkIfMonoSuffix: aClass [
+]
+
+{ #category : #'as yet unclassified' }
+DMColorAttributor >> extractAllClasses: aViewModel [
+
+	| classes classVMs conceptVMs |
+	conceptVMs := aViewModel packageViewModels flatCollect: [ :aPackageVM | aPackageVM conceptViewModels 		].
+	classVMs := conceptVMs flatCollect: [ :aConceptVM | aConceptVM classViewModels ].
+	classes := classVMs collect: [ :aClassVM | aClassVM classRef ].
+	^classes 
+]
+
 { #category : #actions }
 DMColorAttributor >> extractAllConceptsFrom: aViewModel [
 
