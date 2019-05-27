@@ -5,7 +5,8 @@ Class {
 		'classViewModels',
 		'color',
 		'conceptName',
-		'size'
+		'size',
+		'root'
 	],
 	#category : #DMViewModel
 }
@@ -38,6 +39,16 @@ DMConceptViewModel >> conceptName [
 { #category : #accessing }
 DMConceptViewModel >> conceptName: aConcept [
 	conceptName := aConcept 
+]
+
+{ #category : #accessing }
+DMConceptViewModel >> root [
+	^root
+]
+
+{ #category : #accessing }
+DMConceptViewModel >> root: aRootClass [
+	root := aRootClass 
 ]
 
 { #category : #accessing }
