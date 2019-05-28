@@ -40,6 +40,13 @@ self assert: (colorAttributor checkIfMonoClass: RBComment) equals: false.
 ]
 
 { #category : #tests }
+DMColorAttributorTest >> testCheckIfMonoSuffixHierarchy [
+
+self assert: (colorAttributor checkIfMonoSuffix: RBLintRule) equals: true.
+self assert: (colorAttributor checkIfMonoSuffix: RBNode) equals: false.
+]
+
+{ #category : #tests }
 DMColorAttributorTest >> testConceptsClasses [
 
 	| featureSelector conceptualModel viewModel  concepts hierarchies conceptsHierarchies |
