@@ -25,6 +25,11 @@ DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 	
 ]
 
+{ #category : #accessing }
+DMClassNameBlueprintBuilder >> colorAttributor [
+	^colorAttributor 
+]
+
 { #category : #building }
 DMClassNameBlueprintBuilder >> createClassViewModelsFrom: aCollectionOfClassModels [
 
@@ -74,6 +79,15 @@ DMClassNameBlueprintBuilder >> createViewModelFrom: aConceptualModel [
 	aViewModel := DMViewModel new.
 	aViewModel packageViewModels: (self createPackageViewModelsFrom: aConceptualModel packageModels).
 	^aViewModel 
+]
+
+{ #category : #'as yet unclassified' }
+DMClassNameBlueprintBuilder >> extractAllClasses: aConceptualModel [
+
+	| classes classMDs |
+	classMDs := aConceptualModel packageModels flatCollect: [ :aPackageMD | aPackageMD classModels 		].
+	classes := classMDs collect: [ :aClassMD | aClassMD classRef ].
+	^classes 
 ]
 
 { #category : #actions }

@@ -27,9 +27,16 @@ DMColorAttributorTest >> testAttributeColorsToACollection [
 	hierarchies := colorAttributor  extractAllRootClassesFrom: viewModel.
 		concepts := colorAttributor  extractAllConceptsFrom: viewModel.
 		conceptsHierarchies:= (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 	asDictionary.
-	actualHierarchiesColors := colorAttributor setColorsOf: (hierarchies).
+	actualHierarchiesColors := colorAttributor setColorsOf: (hierarchies) From: viewModel.
 		self assert: actualHierarchiesColors isDictionary equals: true.
 	
+]
+
+{ #category : #tests }
+DMColorAttributorTest >> testCheckIfMonoClass [
+
+self assert: (colorAttributor checkIfMonoClass: DMFeatureSelector) equals: true.
+self assert: (colorAttributor checkIfMonoClass: RBComment) equals: false.
 ]
 
 { #category : #tests }
@@ -52,18 +59,6 @@ DMColorAttributorTest >> testConceptsClasses [
 		self assert: (conceptsHierarchies keys includesAll: concepts).
 		
 	
-]
-
-{ #category : #tests }
-DMColorAttributorTest >> testExtractAllClasses [
-
-	| featureSelector viewModel conceptualModel  |
-	
-	featureSelector := DMFeatureSelector new.
-	conceptualModel := featureSelector applyFeaturesOn: #('AST-Core').
-	builder := DMClassNameBlueprintBuilder new.
-	viewModel := builder buildModelFrom: conceptualModel.
-	self assert: (colorAttributor extractAllClasses: viewModel ) asSet equals: (RPackageOrganizer default packageNamed: 'AST-Core' ) definedClasses asSet
 ]
 
 { #category : #tests }
@@ -111,7 +106,7 @@ DMColorAttributorTest >> testFindTheColorOfAClassFromThehierarchyColors [
 	aConceptualModel := featureSelector applyFeaturesOn: { 'Kernel' }.
 	aViewModel := builder buildModelFrom: aConceptualModel.
 	hierarchies := colorAttributor  extractAllRootClassesFrom: aViewModel.
-	hierarchiesColors := colorAttributor setColorsOf: (hierarchies).
+	hierarchiesColors := colorAttributor setColorsOf: (hierarchies) From: aViewModel.
 	actualColor := colorAttributor selectColorOf: SimulationExceptionWrapper From: hierarchiesColors .
 	rootClass := featureSelector extractRootClassFrom: SimulationExceptionWrapper.
 	expectedColor := colorAttributor selectColorOf: rootClass From:hierarchiesColors.

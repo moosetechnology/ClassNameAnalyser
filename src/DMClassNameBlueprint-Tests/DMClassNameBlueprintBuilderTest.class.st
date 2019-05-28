@@ -94,6 +94,16 @@ DMClassNameBlueprintBuilderTest >> testCreatePackageViewModelFromPackageModels [
 ]
 
 { #category : #tests }
+DMClassNameBlueprintBuilderTest >> testExtractAllClasses [
+
+	| featureSelector conceptualModel |
+	
+	featureSelector := DMFeatureSelector new.
+	conceptualModel := featureSelector applyFeaturesOn: #('AST-Core').
+	self assert: (builder extractAllClasses: conceptualModel) asSet equals: (RPackageOrganizer default packageNamed: 'AST-Core' ) definedClasses asSet
+]
+
+{ #category : #tests }
 DMClassNameBlueprintBuilderTest >> testExtractConceptsFromAPackageModel [
 
 	| conceptualModel featureSelector actualConcepts aViewModel conceptsViewModels  expectedConcepts |
