@@ -8,10 +8,7 @@ Class {
 		'nameTokenizer',
 		'tokenStemmer',
 		'conceptualSymbolSelector',
-		'stemming',
-		'selectLastSymbol',
-		'selectMiddleSymbol',
-		'selectFirstSymbol'
+		'stemming'
 	],
 	#category : #DMFeatureSelector
 }
@@ -111,40 +108,14 @@ DMFeatureSelector >> initialize [
 	conceptualSymbolSelector := DMConceptualSymbolSelector new.
 	filterer := DMFilterer new.
 	stemming := false.
-	selectFirstSymbol := false.
-	selectLastSymbol := false.
-	selectMiddleSymbol := false.
 	filtererAllDigits := false.
 	filterSpecialChars := false.
 ]
 
 { #category : #actions }
 DMFeatureSelector >> selectConceptFrom: tokens [
-	"By default the selected concept is the last word"
 
-	(selectFirstSymbol) 
-		ifTrue: [ ^ conceptualSymbolSelector selectFirstSymbolFrom: tokens ]
- 		ifFalse: [ (selectMiddleSymbol)
-							ifTrue: [ ^ conceptualSymbolSelector selectMiddleSymbolFrom: tokens ] 
-							ifFalse: [ ^ conceptualSymbolSelector selectLastSymbolFrom: tokens ] ]
-]
-
-{ #category : #setter }
-DMFeatureSelector >> selectFirstSymbol: aBoolean [
-	selectFirstSymbol := aBoolean 
-	
-
-]
-
-{ #category : #setter }
-DMFeatureSelector >> selectLastSymbol: aBoolean [
-	selectLastSymbol := aBoolean 
-]
-
-{ #category : #setter }
-DMFeatureSelector >> selectMiddleSymbol: aBoolean [
-	selectMiddleSymbol := aBoolean 
-
+ ^conceptualSymbolSelector selectLastSymbolFrom: tokens
 ]
 
 { #category : #actions }

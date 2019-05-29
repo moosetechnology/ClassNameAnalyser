@@ -26,8 +26,6 @@ DMRoassalClassNameBlueprint >> visualize: aViewModel [
 					text: [ :conceptVM | 'Concept: ' , conceptVM conceptName ].
 			b nodes: (pVM conceptViewModels collect: [ :conceptVM | conceptVM ])
 			forEach: [ :conceptVM | 
-				(conceptVM classViewModels includes: [ :aClassVm | aClassVm classRef = conceptVM root ])
-				ifFalse: (conceptVM classViewModels addFirst:(DMClassViewModel new classRef: conceptVM root; color: conceptVM color)). 
 				b shape rectangle
 				borderColor: [ :aClassVM | 
 					(aClassVM classRef = conceptVM root)

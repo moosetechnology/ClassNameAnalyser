@@ -17,16 +17,13 @@ DMColorAttributorTest >> setUp [
 { #category : #tests }
 DMColorAttributorTest >> testAttributeColorsToACollection [
 
-	| featureSelector conceptualModel  viewModel actualHierarchiesColors hierarchies concepts conceptsHierarchies |
+	| featureSelector conceptualModel  viewModel actualHierarchiesColors hierarchies concepts conceptsHierarchies|
 	featureSelector := DMFeatureSelector new.
-	featureSelector 
-	stem: true;
-	selectLastSymbol: true.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel'  }.
 	viewModel := builder buildModelFrom: conceptualModel.
 	hierarchies := colorAttributor  extractAllRootClassesFrom: viewModel.
 		concepts := colorAttributor  extractAllConceptsFrom: viewModel.
-		conceptsHierarchies:= (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 	asDictionary.
+		conceptsHierarchies := (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 	asDictionary.
 	actualHierarchiesColors := colorAttributor setColorsOf: (hierarchies) From: viewModel.
 		self assert: actualHierarchiesColors isDictionary equals: true.
 	
@@ -51,10 +48,6 @@ DMColorAttributorTest >> testConceptsClasses [
 
 	| featureSelector conceptualModel viewModel  concepts hierarchies conceptsHierarchies |
 	featureSelector := DMFeatureSelector new.
-	featureSelector
-		stem: true;
-		selectMiddleSymbol: true;
-		filterAllDigits: true.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel' }.
 	viewModel := builder buildModelFrom: conceptualModel.
 	hierarchies := colorAttributor  extractAllRootClassesFrom: viewModel.
@@ -91,9 +84,6 @@ DMColorAttributorTest >> testExtractAllRootClassesFromAViewModel [
 	| featureSelector conceptualModel actualRootClasses expectedRootClasses classes viewModel |
 	classes := OrderedCollection new.
 	featureSelector := DMFeatureSelector new.
-	featureSelector 
-	stem: true;
-	selectLastSymbol: true.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel'  }.
 	viewModel := builder buildModelFrom: conceptualModel.
 	actualRootClasses := colorAttributor extractAllRootClassesFrom: viewModel.
