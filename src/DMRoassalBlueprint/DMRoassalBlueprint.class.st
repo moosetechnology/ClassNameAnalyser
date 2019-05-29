@@ -21,7 +21,7 @@ DMRoassalBlueprint >> visualizeConceptualBlueprint: aViewModel [
 			b interaction popup 
 					text: [ :conceptVM | 'Concept: ' , conceptVM conceptName ] .
 			b nodes: (pVM conceptViewModels collect: [ :conceptVM | conceptVM ])
-			forEach: [ :conceptVM | 
+			forEach: [ :conceptVM |  
 				b shape rectangle
 				borderColor: [ :aClassVM | 
 					(aClassVM classRef = conceptVM root)
