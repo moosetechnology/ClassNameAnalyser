@@ -16,17 +16,12 @@ DMRoassalClassNameBlueprint >> visualize: aViewModel [
 		nodes: (aViewModel packageViewModels collect: [ :packageVM | packageVM ])
 		forEach: [ :pVM | 
 			b shape rectangle 
-			color: [ :eachConcept | Color value: eachConcept color ];
-			withTextAbove: [ :cpt | cpt conceptName ] color: Color darkGray.
+			color: [ :eachConcept | Color value: eachConcept color ].
 			b interaction popup 
 					text: [ :conceptVM | 'Concept: ' , conceptVM conceptName ] .
 			b nodes: (pVM conceptViewModels collect: [ :conceptVM | conceptVM ])
 			forEach: [ :conceptVM | 
-				conceptVM classViewModels add:(DMClassViewModel 	new classRef: conceptVM 	root; color: conceptVM color).
 				b shape rectangle
-				borderColor: [ :aClassVM | 
-					(aClassVM classRef = conceptVM root)
-					ifTrue: [ Color black ] ifFalse: (Color value: aClassVM color) slightlyLighter ];
 				color: [ :classVM | Color value: classVM color ].
 				b interaction popup 
 					text: [ :each | each classRef ].

@@ -7,20 +7,19 @@ Class {
 { #category : #building }
 DMColorAttributor >> attributeColors: aViewModel [
 
-	| allConceptsViewModels allClassViewModels featureSelector hierarchies concepts 		conceptsHierarchies hierarchiesColors conceptsColors conceptualSymbolSelector |	
+	| allConceptsViewModels allClassViewModels featureSelector hierarchies concepts 		conceptsHierarchies hierarchiesColors conceptsColors  |	
 	
-	featureSelector := DMFeatureSelector new.	
-	conceptualSymbolSelector := DMConceptualSymbolSelector new.				
+	featureSelector := DMFeatureSelector new.				
 	hierarchies := self extractAllRootClassesFrom: aViewModel.
 	concepts := self extractAllConceptsFrom: aViewModel.
 	conceptsHierarchies:= (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 		asDictionary.
 	hierarchiesColors := (self setColorsOf: hierarchies).
 	allConceptsViewModels := aViewModel packageViewModels flatCollect: [ :aPackageModel | 		aPackageModel	conceptViewModels ].	
 	allConceptsViewModels do: [ :aConceptViewModel | 
-		| Hierarchies |
-		Hierarchies := aConceptViewModel classViewModels
+		| roots |
+		roots := aConceptViewModel classViewModels
 		collect: [ :aClassModel | featureSelector extractRootClassFrom: (aClassModel classRef) ].
-		(conceptsHierarchies at: aConceptViewModel conceptName) addAll: Hierarchies ].
+		(conceptsHierarchies at: aConceptViewModel conceptName) addAll: roots ].
 	
 	conceptsColors := (concepts collect: [ :aConcept |
 		| color conceptsBiggestHierarchy |
@@ -35,15 +34,8 @@ DMColorAttributor >> attributeColors: aViewModel [
 	allClassViewModels := allConceptsViewModels 
 		flatCollect: [ :aConceptVModel | aConceptVModel classViewModels ].	
 	allClassViewModels do: [ :aClassViewModel |
-		| root rootSymbol classSymbol |
-		root := featureSelector extractRootClassFrom: aClassViewModel classRef.
-		(root == aClassViewModel classRef) 
-		ifTrue: [ aClassViewModel color: #white ] 
-		ifFalse: [ rootSymbol := conceptualSymbolSelector selectLastSymbol: (root asString).
-			classSymbol := conceptualSymbolSelector selectLastSymbol: ((aClassViewModel classRef) asString).
-			(rootSymbol = classSymbol)
-			ifTrue: [ aClassViewModel color: #gray ] ifFalse:  [aClassViewModel color:(self selectColorOf: (aClassViewModel classRef) From: hierarchiesColors) ]].
-			 ].
+aClassViewModel color:(self selectColorOf: (aClassViewModel classRef) From: hierarchiesColors) ].
+
 	^aViewModel 
 ]
 
