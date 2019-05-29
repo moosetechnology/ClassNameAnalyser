@@ -101,20 +101,6 @@ DMColorAttributorTest >> testExtractAllRootClassesFromAViewModel [
 ]
 
 { #category : #tests }
-DMColorAttributorTest >> testFindTheColorOfAClassFromThehierarchyColors [
-
-	| featureSelector actualColor rootClass  aConceptualModel  expectedColor aViewModel | 
-	featureSelector := DMFeatureSelector new.
-	aConceptualModel := featureSelector applyFeaturesOn: { 'Kernel' }.
-	aViewModel := builder buildModelFrom: aConceptualModel.
-	rootClass := featureSelector extractRootClassFrom: DelayMillisecondTickerSimulation.
-	expectedColor := builder colorAttributor hierarchiesColors at: rootClass.
-	actualColor := builder colorAttributor selectColorOf: DelayMillisecondTickerSimulation.
-	self assert: actualColor equals: expectedColor.
-
-]
-
-{ #category : #tests }
 DMColorAttributorTest >> testSelectBiggestHierarchy [
 
 	| aCollection |
