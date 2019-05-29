@@ -25,6 +25,11 @@ DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 	
 ]
 
+{ #category : #accessing }
+DMClassNameBlueprintBuilder >> colorAttributor [
+	^colorAttributor 
+]
+
 { #category : #building }
 DMClassNameBlueprintBuilder >> createClassViewModelsFrom: aCollectionOfClassModels [
 

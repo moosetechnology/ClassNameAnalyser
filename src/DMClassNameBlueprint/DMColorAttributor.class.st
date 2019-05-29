@@ -1,31 +1,36 @@
 Class {
 	#name : #DMColorAttributor,
 	#superclass : #Object,
+	#instVars : [
+		'hierarchiesColors'
+	],
 	#category : #DMClassNameBlueprint
 }
 
 { #category : #building }
 DMColorAttributor >> attributeColors: aViewModel [
 
-	| allConceptsViewModels allClassViewModels featureSelector hierarchies concepts 		conceptsHierarchies hierarchiesColors conceptsColors  |	
+	| allConceptsViewModels allClassViewModels featureSelector hierarchies concepts 		conceptsHierarchies conceptsColors  |	
 	
-	featureSelector := DMFeatureSelector new.				
+	featureSelector := DMFeatureSelector new.		
 	hierarchies := self extractAllRootClassesFrom: aViewModel.
+	hierarchiesColors := (self setColorsOf: hierarchies From: aViewModel).
+	
 	concepts := self extractAllConceptsFrom: aViewModel.
 	conceptsHierarchies:= (concepts collect: [ :aConcept | ((aConcept)->(OrderedCollection new)) ]) 		asDictionary.
-	hierarchiesColors := (self setColorsOf: hierarchies).
 	allConceptsViewModels := aViewModel packageViewModels flatCollect: [ :aPackageModel | 		aPackageModel	conceptViewModels ].	
 	allConceptsViewModels do: [ :aConceptViewModel | 
 		| roots |
-		roots := aConceptViewModel classViewModels
-		collect: [ :aClassModel | featureSelector extractRootClassFrom: (aClassModel classRef) ].
+		roots := aConceptViewModel classViewModels collect: [ :aClassModel | featureSelector 		extractRootClassFrom: (aClassModel classRef) ].
 		(conceptsHierarchies at: aConceptViewModel conceptName) addAll: roots ].
 	
 	conceptsColors := (concepts collect: [ :aConcept |
-		| color conceptsBiggestHierarchy |
-	conceptsBiggestHierarchy := self selectBiggestHierarchy: (conceptsHierarchies at: aConcept).	
-	color := (self selectColorOf:conceptsBiggestHierarchy From: hierarchiesColors).	
-		(aConcept->color) ]) asDictionary.	
+		| color conceptsBiggestHierarchy  |
+		conceptsBiggestHierarchy := self selectBiggestHierarchy: (conceptsHierarchies at: aConcept).	
+		color := (self selectColorOf:conceptsBiggestHierarchy).
+		(((conceptsHierarchies at: aConcept) asSet size > 1) and: [color == #gray])
+		ifTrue: [ (aConcept -> #lightGray) ] ifFalse: [(aConcept->color)]
+		 ]) asDictionary.	
 						
 	allConceptsViewModels do: [ :aConceptViewModel | 
 		aConceptViewModel color: (self selectConceptsColor: 	aConceptViewModel conceptName From: conceptsColors).
@@ -34,34 +39,32 @@ DMColorAttributor >> attributeColors: aViewModel [
 	allClassViewModels := allConceptsViewModels 
 		flatCollect: [ :aConceptVModel | aConceptVModel classViewModels ].	
 	allClassViewModels do: [ :aClassViewModel |
-aClassViewModel color:(self selectColorOf: (aClassViewModel classRef) From: hierarchiesColors) ].
-
+aClassViewModel color:(self selectColorOf: (aClassViewModel classRef)) ].
 	^aViewModel 
 ]
 
 { #category : #'as yet unclassified' }
-DMColorAttributor >> checkIfMonoSuffix: aRoot From: aViewModel [
+DMColorAttributor >> checkIfMonoSuffix: aRoot [
 
-	| classes subclasses conceptualSymbolSelector symbol featureSelector |
-	featureSelector := DMFeatureSelector new.
+	| subclasses conceptualSymbolSelector symbol  |
+
 	conceptualSymbolSelector := DMConceptualSymbolSelector new.
-	classes := self extractAllClasses: aViewModel.
-	subclasses := classes select: [ :aClass | (featureSelector extractRootClassFrom: aClass) = aRoot ].
 	symbol := (conceptualSymbolSelector selectLastSymbol: aRoot asString).
-	subclasses do: [ :aSubClass | | subSymbol |
-	subSymbol := conceptualSymbolSelector selectLastSymbol: aSubClass.
-		^(subSymbol = symbol)
-		 ]	
+	subclasses := aRoot allSubclasses.
+	subclasses do: [ :aSubClass | ((conceptualSymbolSelector selectLastSymbol: aSubClass) = symbol)
+		ifFalse: [ ^false ]
+		 ].
+	^true
 	
 ]
 
 { #category : #'as yet unclassified' }
 DMColorAttributor >> extractAllClasses: aViewModel [
 
-	| classes classVMs conceptVMs |
-	conceptVMs := aViewModel packageViewModels flatCollect: [ :aPackageVM | aPackageVM conceptViewModels 		].
+	| conceptVMs classVMs classes |
+	conceptVMs := aViewModel packageViewModels flatCollect: [ :aPackageVMs | aPackageVMs conceptViewModels 	].
 	classVMs := conceptVMs flatCollect: [ :aConceptVM | aConceptVM classViewModels ].
-	classes := classVMs collect: [ :aClassVM | aClassVM classRef ].
+	classes := classVMs collect: [ :aClassMD | aClassMD classRef ].
 	^classes 
 ]
 
@@ -101,13 +104,18 @@ DMColorAttributor >> extractMonoHierarchies: aViewModel [
 	
 ]
 
+{ #category : #accessing }
+DMColorAttributor >> hierarchiesColors [
+	^hierarchiesColors
+]
+
 { #category : #building }
 DMColorAttributor >> selectBiggestHierarchy: aCollection [
 	^ aCollection asBag sortedCounts first value
 ]
 
 { #category : #actions }
-DMColorAttributor >> selectColorOf: aClass From: hierarchiesColors [
+DMColorAttributor >> selectColorOf: aClass [
 
 	| featureSelector  theRootClass color |
 	featureSelector := DMFeatureSelector new.
@@ -122,19 +130,24 @@ DMColorAttributor >> selectConceptsColor: aConcept From: conceptsColors [
 ]
 
 { #category : #actions }
-DMColorAttributor >> setColorsOf: aCollection [
+DMColorAttributor >> setColorsOf: aCollection From: aViewModel [
 
-	| arrayOfColors index resultedColors|
-	arrayOfColors := {#red . #brown . #blue . #purple . #magenta . #orange . #green . #yellow . #pink . #tan . #gray . #cyan . #darkGray.
-	#lightBlue . #lightBrown . #lightCyan . #lightGray . #lightGreen.
+	| arrayOfColors index multiSuffixesColors monoClasses monoSuffixes resultedColors |
+	arrayOfColors := {#red . #yellow . #blue . #purple . #magenta . #orange . #green . #pink . #tan  . #cyan . #lightBlue . #lightBrown . #lightCyan  . #lightGreen.
 	#lightMagenta . #lightOrange . #lightRed . #lightYellow . #paleBuff.
 	#paleGreen . #paleMagenta . #paleOrange . #palePeach . #paleRed . #paleTan.
-	#paleYellow . #gray . #black}.
+	#paleYellow . #black}.
 	index := 0.
-	resultedColors := ((aCollection asBag sortedCounts) collect: [ :anAssociation | 
+	resultedColors := Dictionary new.
+	monoClasses := aCollection select: [ :anHierarchy | anHierarchy subclasses isEmpty ].
+	aCollection removeAll: monoClasses.
+	monoSuffixes := aCollection select: [ :anHierarchy | (self checkIfMonoSuffix: anHierarchy )].
+	aCollection removeAll: monoSuffixes.
+	multiSuffixesColors := ((aCollection asBag sortedCounts) collect: [ :anAssociation | 
 		(index == arrayOfColors size)
 		ifFalse: [ index := index + 1 ].
-		(anAssociation value -> (arrayOfColors at: index)).	
-		 ]).
+		(anAssociation value -> (arrayOfColors at: index))	
+		 ]) asDictionary.
+	resultedColors addAll: multiSuffixesColors; addAll: (monoClasses asSet collect: [ :aMonoClass | (aMonoClass -> #white)]) asDictionary; addAll: (monoSuffixes asSet collect: [ :aMonoSuffix | (aMonoSuffix -> #gray) ]) asDictionary .
 	 ^ resultedColors asDictionary
 ]
