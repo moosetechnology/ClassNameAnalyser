@@ -20,8 +20,7 @@ DMColorAttributorTest >> testAttributeColorsToACollection [
 	| featureSelector conceptualModel  viewModel actualHierarchiesColors hierarchies concepts conceptsHierarchies |
 	featureSelector := DMFeatureSelector new.
 	featureSelector 
-	stem: true;
-	selectLastSymbol: true.
+	stem: true.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel'  }.
 	viewModel := builder buildModelFrom: conceptualModel.
 	hierarchies := colorAttributor  extractAllRootClassesFrom: viewModel.
@@ -39,7 +38,6 @@ DMColorAttributorTest >> testConceptsClasses [
 	featureSelector := DMFeatureSelector new.
 	featureSelector
 		stem: true;
-		selectMiddleSymbol: true;
 		filterAllDigits: true.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel' }.
 	viewModel := builder buildModelFrom: conceptualModel.
@@ -90,8 +88,7 @@ DMColorAttributorTest >> testExtractAllRootClassesFromAViewModel [
 	classes := OrderedCollection new.
 	featureSelector := DMFeatureSelector new.
 	featureSelector 
-	stem: true;
-	selectLastSymbol: true.
+	stem: true.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel'  }.
 	viewModel := builder buildModelFrom: conceptualModel.
 	actualRootClasses := colorAttributor extractAllRootClassesFrom: viewModel.

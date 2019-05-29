@@ -35,10 +35,8 @@ DMClassNameBlueprintBuilderTest >> testBuildModelFromAConceptualModel [
 { #category : #tests }
 DMClassNameBlueprintBuilderTest >> testCreateClassViewModelsFromClassModels [
 
-	| featureSelector conceptualModel classViewModels packageModel classModels conceptViewModel |
+	| featureSelector conceptualModel classViewModels packageModel classModels |
 	featureSelector := DMFeatureSelector new.
-	featureSelector  
-		selectLastSymbol: true.
 	conceptualModel := featureSelector applyFeaturesOn: {'Kernel'}.
 	packageModel := conceptualModel packageModels at: 1.
 	classModels := packageModel classModels.
@@ -54,8 +52,6 @@ DMClassNameBlueprintBuilderTest >> testCreateConceptsViewModelsFromAPackageModel
 
 	| featureSelector conceptualModel conceptsViewModels packageModel expectedConcepts 	actualConcepts expectedClasses actualClasses  actualClassViewModels |
 	featureSelector := DMFeatureSelector new.
-	featureSelector  
-		selectLastSymbol: true.
 	conceptualModel := featureSelector applyFeaturesOn: {'Kernel'}.
 	packageModel := conceptualModel packageModels at: 1.
 	conceptsViewModels := builder createConceptsViewModelsFrom: packageModel.
@@ -76,8 +72,6 @@ DMClassNameBlueprintBuilderTest >> testCreatePackageViewModelFromPackageModels [
 
 	| featureSelector conceptualModel packageModels actualPackageViewModels viewModel   	actualConceptsViewModels actualPackageNames expectedPackageNames actualConcepts |
 	featureSelector := DMFeatureSelector new.
-	featureSelector  
-		selectLastSymbol: true.
 	conceptualModel := featureSelector applyFeaturesOn: {'Kernel' . 'DMFeatureSelector'}.
 	packageModels := conceptualModel packageModels.
 	viewModel := DMViewModel new.
@@ -96,12 +90,10 @@ DMClassNameBlueprintBuilderTest >> testCreatePackageViewModelFromPackageModels [
 { #category : #tests }
 DMClassNameBlueprintBuilderTest >> testExtractConceptsFromAPackageModel [
 
-	| conceptualModel featureSelector actualConcepts aViewModel conceptsViewModels  expectedConcepts |
+	| conceptualModel featureSelector actualConcepts aViewModel expectedConcepts |
 	actualConcepts := Set new.
 	colorAttributor := DMColorAttributor new.
 	featureSelector := DMFeatureSelector new.
-	featureSelector   
-		selectLastSymbol: true.
 	conceptualModel := featureSelector applyFeaturesOn: {'DMFeatureSelector'}.
 	aViewModel := builder buildModelFrom: conceptualModel.	
 	actualConcepts := builder extractConceptsFrom: (conceptualModel packageModels at: 1).
