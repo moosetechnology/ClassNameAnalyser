@@ -1,11 +1,11 @@
 Class {
-	#name : #DMRoassalClassNameBlueprint,
+	#name : #DMRoassalBlueprint,
 	#superclass : #Object,
 	#category : #DMRoassalBlueprint
 }
 
 { #category : #visualization }
-DMRoassalClassNameBlueprint >> visualizeConceptualBlueprint: aViewModel [
+DMRoassalBlueprint >> visualizeConceptualBlueprint: aViewModel [
 	
 	| b |
 	b := RTMondrian new.
@@ -22,7 +22,6 @@ DMRoassalClassNameBlueprint >> visualizeConceptualBlueprint: aViewModel [
 					text: [ :conceptVM | 'Concept: ' , conceptVM conceptName ] .
 			b nodes: (pVM conceptViewModels collect: [ :conceptVM | conceptVM ])
 			forEach: [ :conceptVM | 
-				conceptVM classViewModels addFirst:(DMClassViewModel 	new classRef: conceptVM 	root; color: conceptVM color).
 				b shape rectangle
 				borderColor: [ :aClassVM | 
 					(aClassVM classRef = conceptVM root)

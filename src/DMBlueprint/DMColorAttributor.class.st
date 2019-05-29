@@ -35,7 +35,7 @@ DMColorAttributor >> attributeColors: aViewModel [
 	allClassViewModels := allConceptsViewModels 
 		flatCollect: [ :aConceptVModel | aConceptVModel classViewModels ].	
 	allClassViewModels do: [ :aClassViewModel |
-		| root rootSymbol classSymbol |
+		| root |
 		root := featureSelector extractRootClassFrom: aClassViewModel classRef.
 		(root == aClassViewModel classRef) 
 		ifTrue: [ aClassViewModel color: #white ] 
