@@ -7,8 +7,9 @@ Class {
 { #category : #visualization }
 DMRoassalClassNameBlueprint >> visualize: aViewModel [
 	
-	| b colorAttributor |
+	| b colorAttributor featureSelector |
 	b := RTMondrian new.
+	featureSelector := DMFeatureSelector new.
 	colorAttributor := DMColorAttributor new.
 	b shape rectangle withTextAbove: [ :packageVM | packageVM packageName ].
 	b interaction popup 
@@ -27,10 +28,10 @@ DMRoassalClassNameBlueprint >> visualize: aViewModel [
 			b nodes: (pVM conceptViewModels collect: [ :conceptVM | conceptVM ])
 			forEach: [ :conceptVM | 
 				b shape rectangle
-				borderColor: [ :aClassVM | 
-					(aClassVM classRef = conceptVM root)
-					ifTrue: [ Color black ] ifFalse: (Color value: aClassVM color) slightlyLighter ];
-				color: [ :classVM | Color value: classVM color ].
+				color: [ :classVM | Color value: classVM color ];
+				borderColor: [ :aClass | (aClass classRef = (featureSelector extractRootClassFrom: aClass classRef))
+					ifTrue: [ Color black ] ifFalse: [(Color value: aClass color) darker ] ].
+					
 				b interaction popup 
 					text: [ :each | each classRef ].
 				b 
