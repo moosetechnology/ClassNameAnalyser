@@ -32,6 +32,20 @@ DMColorAttributorTest >> testAttributeColorsToACollection [
 ]
 
 { #category : #tests }
+DMColorAttributorTest >> testCheckIfAllMonoSuffix [
+self assert: (colorAttributor checkIfAllMonoSuffix: {RBLintRule . Collection} ) equals: false.
+self assert: (colorAttributor checkIfAllMonoSuffix: { RBNode } ) equals: false.
+self assert: (colorAttributor checkIfAllMonoSuffix: { RBLintRule } ) equals: true.
+]
+
+{ #category : #tests }
+DMColorAttributorTest >> testCheckIfMonoSuffix [
+
+self assert: (colorAttributor checkIfMonoSuffix: RBLintRule) equals: true.
+self assert: (colorAttributor checkIfMonoSuffix: Collection) equals: false.
+]
+
+{ #category : #tests }
 DMColorAttributorTest >> testConceptsClasses [
 
 	| featureSelector conceptualModel viewModel  concepts hierarchies conceptsHierarchies |

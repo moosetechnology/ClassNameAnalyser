@@ -10,7 +10,7 @@ Class {
 { #category : #building }
 DMColorAttributor >> attributeColors: aViewModel [
 
-	| allConceptsViewModels allClassViewModels featureSelector hierarchies concepts 		conceptsHierarchies conceptsColors  |	
+	| allConceptsViewModels allClassViewModels featureSelector hierarchies concepts conceptsHierarchies conceptsColors |	
 	
 	featureSelector := DMFeatureSelector new.		
 	hierarchies := self extractAllRootClassesFrom: aViewModel.
@@ -21,7 +21,7 @@ DMColorAttributor >> attributeColors: aViewModel [
 	allConceptsViewModels := aViewModel packageViewModels flatCollect: [ :aPackageModel | 		aPackageModel	conceptViewModels ].	
 	allConceptsViewModels do: [ :aConceptViewModel | 
 		| roots |
-		roots := aConceptViewModel classViewModels collect: [ :aClassModel | featureSelector 		extractRootClassFrom: (aClassModel classRef) ].
+		roots := aConceptViewModel classViewModels collect: [ :aClassModel | featureSelector extractRootClassFrom: (aClassModel classRef) ].
 		(conceptsHierarchies at: aConceptViewModel conceptName) addAll: roots ].
 	
 	conceptsColors := (concepts collect: [ :aConcept |
@@ -29,7 +29,11 @@ DMColorAttributor >> attributeColors: aViewModel [
 		conceptsBiggestHierarchy := self selectBiggestHierarchy: (conceptsHierarchies at: aConcept).	
 		color := (self selectColorOf:conceptsBiggestHierarchy).
 		(((conceptsHierarchies at: aConcept) asSet size > 1) and: [color == #gray])
-		ifTrue: [ (aConcept -> #lightGray) ] ifFalse: [(aConcept->color)]
+		ifTrue: [ 
+			(self checkIfAllMonoSuffix: (conceptsHierarchies at: aConcept) )
+				ifTrue: [ (aConcept -> #monoHierarchies) ]
+				ifFalse: [(aConcept -> #lightGray) ] ]
+		ifFalse: [(aConcept->color)]
 		 ]) asDictionary.	
 						
 	allConceptsViewModels do: [ :aConceptViewModel | 
@@ -41,6 +45,16 @@ DMColorAttributor >> attributeColors: aViewModel [
 	allClassViewModels do: [ :aClassViewModel |
 aClassViewModel color:(self selectColorOf: (aClassViewModel classRef)) ].
 	^aViewModel 
+]
+
+{ #category : #'as yet unclassified' }
+DMColorAttributor >> checkIfAllMonoSuffix: aCollection [
+
+	aCollection do: [ :eachClass | 
+		(self checkIfMonoSuffix: eachClass)
+			ifFalse: [ ^false ]
+	  ].
+^true.
 ]
 
 { #category : #'as yet unclassified' }
