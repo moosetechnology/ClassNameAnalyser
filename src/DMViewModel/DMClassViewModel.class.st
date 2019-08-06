@@ -31,5 +31,5 @@ DMClassViewModel >> color: aColor [
 { #category : #printing }
 DMClassViewModel >> printOn: aStream [
 	"Print class name"
-	aStream nextPutAll: self classRef name.
+	aStream nextPutAll: self classRef name. 
 ]
