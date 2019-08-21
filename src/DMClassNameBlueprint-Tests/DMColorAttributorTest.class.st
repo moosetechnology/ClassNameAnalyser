@@ -40,7 +40,7 @@ self assert: (colorAttributor checkIfAllMonoSuffix: { RBLintRule } ) equals: tru
 { #category : #tests }
 DMColorAttributorTest >> testCheckIfMonoSuffix [
 
-self assert: (colorAttributor checkIfMonoSuffix: RBLintRule) equals: true.
+self assert: (colorAttributor checkIfMonoSuffix: DMFeatureSelector) equals: true.
 self assert: (colorAttributor checkIfMonoSuffix: Collection) equals: false.
 ]
 
