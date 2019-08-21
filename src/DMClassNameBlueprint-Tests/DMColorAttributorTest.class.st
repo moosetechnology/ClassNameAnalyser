@@ -34,7 +34,6 @@ DMColorAttributorTest >> testAttributeColorsToACollection [
 { #category : #tests }
 DMColorAttributorTest >> testCheckIfAllMonoSuffix [
 self assert: (colorAttributor checkIfAllMonoSuffix: {RBLintRule . Collection} ) equals: false.
-self assert: (colorAttributor checkIfAllMonoSuffix: { RBNode } ) equals: false.
 self assert: (colorAttributor checkIfAllMonoSuffix: { RBLintRule } ) equals: true.
 ]
 
