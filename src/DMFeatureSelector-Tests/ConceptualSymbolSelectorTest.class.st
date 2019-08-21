@@ -1,5 +1,5 @@
 Class {
-	#name : #ConceptualSymbolSelector,
+	#name : #ConceptualSymbolSelectorTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'conceptualSymbolSelector'
@@ -8,25 +8,25 @@ Class {
 }
 
 { #category : #running }
-ConceptualSymbolSelector >> setUp [ 
+ConceptualSymbolSelectorTest >> setUp [ 
 	conceptualSymbolSelector := DMConceptualSymbolSelector new.
 
 ]
 
 { #category : #tests }
-ConceptualSymbolSelector >> testSelectFirstSymbolFrom [
+ConceptualSymbolSelectorTest >> testSelectFirstSymbolFrom [
 
 	self assert: (conceptualSymbolSelector selectFirstSymbolFrom: { 'Class34' . 'Name' . 'Blueprint%' }) 	equals: 'Class34'.
 ]
 
 { #category : #tests }
-ConceptualSymbolSelector >> testSelectLastSymbolFrom [
+ConceptualSymbolSelectorTest >> testSelectLastSymbolFrom [
 	
 	self assert: (conceptualSymbolSelector selectLastSymbolFrom: { 'Class34' . 'Name' . 'Blueprint%' }) 	equals: 'Blueprint%'.
 ]
 
 { #category : #tests }
-ConceptualSymbolSelector >> testSelectMiddleSymbolFrom [
+ConceptualSymbolSelectorTest >> testSelectMiddleSymbolFrom [
 
 	self assert: (conceptualSymbolSelector selectMiddleSymbolFrom: { 'Class34' . 'Name' . 'Blueprint%' }) 	equals: 'Name'.
 	self assert: (conceptualSymbolSelector selectMiddleSymbolFrom: { 'Class34' . 'Blueprint%' }) equals: 	'Blueprint%'.

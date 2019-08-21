@@ -10,7 +10,7 @@ Class {
 
 { #category : #initialization }
 DMColorAttributorTest >> setUp [ 
-	builder := DMClassNameBlueprintBuilder new.
+	builder := DMClassNamesBlueprintBuilder new.
 	colorAttributor := DMColorAttributor new.
 ]
 
@@ -33,12 +33,15 @@ DMColorAttributorTest >> testAttributeColorsToACollection [
 
 { #category : #tests }
 DMColorAttributorTest >> testCheckIfAllMonoSuffix [
-self assert: (colorAttributor checkIfAllMonoSuffix: { Collection . Collection } ) equals: false.
+self assert: (colorAttributor checkIfAllMonoSuffix: {RBLintRule . Collection} ) equals: false.
+self assert: (colorAttributor checkIfAllMonoSuffix: { RBNode } ) equals: false.
+self assert: (colorAttributor checkIfAllMonoSuffix: { RBLintRule } ) equals: true.
 ]
 
 { #category : #tests }
 DMColorAttributorTest >> testCheckIfMonoSuffix [
 
+self assert: (colorAttributor checkIfMonoSuffix: RBLintRule) equals: true.
 self assert: (colorAttributor checkIfMonoSuffix: Collection) equals: false.
 ]
 
@@ -70,7 +73,7 @@ DMColorAttributorTest >> testExtractAllClasses [
 	
 	featureSelector := DMFeatureSelector new.
 	conceptualModel := featureSelector applyFeaturesOn: #('AST-Core').
-	builder := DMClassNameBlueprintBuilder new.
+	builder := DMClassNamesBlueprintBuilder new.
 	viewModel := builder buildModelFrom: conceptualModel.
 	self assert: (colorAttributor extractAllClasses: viewModel ) asSet equals: (RPackageOrganizer default packageNamed: 'AST-Core' ) definedClasses asSet
 ]

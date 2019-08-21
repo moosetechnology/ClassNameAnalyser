@@ -16,7 +16,7 @@ DMSizeAttributorTest >> setUp [
 DMSizeAttributorTest >> testSetSizeForAViewModel [
 
 	| aConceptualModal aViewModel featureSeletor builder colorAttributor |
-	builder := DMClassNameBlueprintBuilder new.
+	builder := DMClassNamesBlueprintBuilder new.
 	featureSeletor := DMFeatureSelector new.
 	colorAttributor := DMColorAttributor new.
 	aConceptualModal := featureSeletor applyFeaturesOn: { 'Kernel' . 'DMFeatureSelector' }.

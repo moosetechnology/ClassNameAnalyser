@@ -1,5 +1,5 @@
 Class {
-	#name : #DMClassNameBlueprintBuilder,
+	#name : #DMClassNamesBlueprintBuilder,
 	#superclass : #Object,
 	#instVars : [
 		'sizeAttributor',
@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : #building }
-DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
+DMClassNamesBlueprintBuilder >> buildModelFrom: aConceptualModel [
 
 	| viewModel |
 	viewModel := self createViewModelFrom: aConceptualModel.
@@ -26,12 +26,12 @@ DMClassNameBlueprintBuilder >> buildModelFrom: aConceptualModel [
 ]
 
 { #category : #accessing }
-DMClassNameBlueprintBuilder >> colorAttributor [
+DMClassNamesBlueprintBuilder >> colorAttributor [
 	^colorAttributor 
 ]
 
 { #category : #building }
-DMClassNameBlueprintBuilder >> createClassViewModelsFrom: aCollectionOfClassModels [
+DMClassNamesBlueprintBuilder >> createClassViewModelsFrom: aCollectionOfClassModels [
 
 	| classViewModels |
 	classViewModels := aCollectionOfClassModels collect: [ :aClassModel | | aClassViewModel |
@@ -42,7 +42,7 @@ DMClassNameBlueprintBuilder >> createClassViewModelsFrom: aCollectionOfClassMode
 ]
 
 { #category : #building }
-DMClassNameBlueprintBuilder >> createConceptsViewModelsFrom: aPackageModel [
+DMClassNamesBlueprintBuilder >> createConceptsViewModelsFrom: aPackageModel [
 
 	| conceptsViewModels packageConcepts |
 	conceptsViewModels := OrderedCollection new.
@@ -59,7 +59,7 @@ DMClassNameBlueprintBuilder >> createConceptsViewModelsFrom: aPackageModel [
 ]
 
 { #category : #building }
-DMClassNameBlueprintBuilder >> createPackageViewModelsFrom: aCollectionOfPackageModels [
+DMClassNamesBlueprintBuilder >> createPackageViewModelsFrom: aCollectionOfPackageModels [
 	
 	| packageViewModels |
 	packageViewModels := OrderedCollection new.
@@ -73,7 +73,7 @@ DMClassNameBlueprintBuilder >> createPackageViewModelsFrom: aCollectionOfPackage
 ]
 
 { #category : #building }
-DMClassNameBlueprintBuilder >> createViewModelFrom: aConceptualModel [
+DMClassNamesBlueprintBuilder >> createViewModelFrom: aConceptualModel [
 	
 	| aViewModel |
 	aViewModel := DMViewModel new.
@@ -82,7 +82,7 @@ DMClassNameBlueprintBuilder >> createViewModelFrom: aConceptualModel [
 ]
 
 { #category : #actions }
-DMClassNameBlueprintBuilder >> extractConceptsFrom: aPackageModel [
+DMClassNamesBlueprintBuilder >> extractConceptsFrom: aPackageModel [
 
 	| resultedConcepts |
 	resultedConcepts := (aPackageModel classModels collect: [ :aClassModel | aClassModel conceptName ]).
@@ -90,7 +90,7 @@ DMClassNameBlueprintBuilder >> extractConceptsFrom: aPackageModel [
 ]
 
 { #category : #initialization }
-DMClassNameBlueprintBuilder >> initialize [ 
+DMClassNamesBlueprintBuilder >> initialize [ 
 	
 	super initialize.
 	sizeAttributor := DMSizeAttributor new.
@@ -99,6 +99,6 @@ DMClassNameBlueprintBuilder >> initialize [
 ]
 
 { #category : #accessing }
-DMClassNameBlueprintBuilder >> orderAttributor [
+DMClassNamesBlueprintBuilder >> orderAttributor [
 	^ orderAttributor
 ]

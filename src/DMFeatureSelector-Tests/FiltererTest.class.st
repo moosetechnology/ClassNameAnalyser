@@ -13,14 +13,14 @@ FiltererTest >> setUp [
 ]
 
 { #category : #tests }
-FiltererTest >> testRemoveAllDigitsAndSpecialCharsFrom [
+FiltererTest >> testRemoveAllDigitsAndSpecialCharsFromAlphaNumerics [
 
 	self assert: (filterer removeAllDigitsAndSpecialCharsFrom: 'Class34%')  equals: 'Class'.
 	self assert: (filterer removeAllDigitsAndSpecialCharsFrom: 'Class%34')  equals: 'Class'.
 ]
 
 { #category : #tests }
-FiltererTest >> testRemoveAllDigitsFrom [
+FiltererTest >> testRemoveAllDigitsFromAlphaNumAndSpecialChars [
 
 	self assert: (filterer removeAllDigitsFrom: 'Class1234%') equals: 'Class%'.
 

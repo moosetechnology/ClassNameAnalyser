@@ -107,17 +107,6 @@ DMColorAttributor >> extractAllRootClassesFrom: aViewModel [
 	
 ]
 
-{ #category : #'as yet unclassified' }
-DMColorAttributor >> extractMonoHierarchies: aViewModel [
-
-	| rootClasses collectionOfMonos |
-	rootClasses := self extractAllRootClassesFrom: aViewModel.
-	collectionOfMonos := OrderedCollection new.
-	^(rootClasses select: [ :aRootClass | (self checkIfMonoSuffix: aRootClass From: aViewModel )
-		]) asSet
-	
-]
-
 { #category : #accessing }
 DMColorAttributor >> hierarchiesColors [
 	^hierarchiesColors
@@ -144,20 +133,19 @@ DMColorAttributor >> selectConceptsColor: aConcept From: conceptsColors [
 ]
 
 { #category : #actions }
-DMColorAttributor >> setColorsOf: aCollection From: aViewModel [
+DMColorAttributor >> setColorsOf: aCollectionOfHierarchies From: aViewModel [
 
 	| arrayOfColors index multiSuffixesColors monoClasses monoSuffixes resultedColors |
 	arrayOfColors := {#red . #yellow . #blue . #purple . #magenta . #orange . #green . #pink . #tan  . #cyan . #lightBlue . #lightBrown . #lightCyan  . #lightGreen.
-	#lightMagenta . #lightOrange . #lightRed . #lightYellow . #paleBuff.
-	#paleGreen . #paleMagenta . #paleOrange . #palePeach . #paleRed . #paleTan.
-	#paleYellow . #black}.
+	#lightMagenta . #lightOrange . #lightRed .
+	#paleGreen . #paleMagenta . #paleOrange . #palePeach . #paleRed . #paleTan . #black}.
 	index := 0.
 	resultedColors := Dictionary new.
-	monoClasses := aCollection select: [ :anHierarchy | anHierarchy subclasses isEmpty ].
-	aCollection removeAll: monoClasses.
-	monoSuffixes := aCollection select: [ :anHierarchy | (self checkIfMonoSuffix: anHierarchy )].
-	aCollection removeAll: monoSuffixes.
-	multiSuffixesColors := ((aCollection asBag sortedCounts) collect: [ :anAssociation | 
+	monoClasses := aCollectionOfHierarchies select: [ :anHierarchy | anHierarchy subclasses isEmpty ].
+	aCollectionOfHierarchies removeAll: monoClasses.
+	monoSuffixes := aCollectionOfHierarchies select: [ :anHierarchy | (self checkIfMonoSuffix: anHierarchy )].
+	aCollectionOfHierarchies removeAll: monoSuffixes.
+	multiSuffixesColors := ((aCollectionOfHierarchies asBag sortedCounts) collect: [ :anAssociation | 
 		(index == arrayOfColors size)
 		ifFalse: [ index := index + 1 ].
 		(anAssociation value -> (arrayOfColors at: index))	

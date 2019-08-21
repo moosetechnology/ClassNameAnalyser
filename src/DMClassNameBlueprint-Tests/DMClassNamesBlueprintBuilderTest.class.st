@@ -1,5 +1,5 @@
 Class {
-	#name : #DMClassNameBlueprintBuilderTest,
+	#name : #DMClassNamesBlueprintBuilderTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'classNameBlueprintBuilder',
@@ -13,15 +13,15 @@ Class {
 }
 
 { #category : #running }
-DMClassNameBlueprintBuilderTest >> setUp [ 
-	builder := DMClassNameBlueprintBuilder new.
+DMClassNamesBlueprintBuilderTest >> setUp [ 
+	builder := DMClassNamesBlueprintBuilder new.
 ]
 
 { #category : #tests }
-DMClassNameBlueprintBuilderTest >> testBuildModelFromAConceptualModel [
+DMClassNamesBlueprintBuilderTest >> testBuildModelFromAConceptualModel [
 	
 	| featureSelector conceptualModel viewModel actualPackageViewNames blueprintBuilder |
-	blueprintBuilder := DMClassNameBlueprintBuilder new.
+	blueprintBuilder := DMClassNamesBlueprintBuilder new.
 	featureSelector := DMFeatureSelector new.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel' }.
 	blueprintBuilder orderAttributor orderFromBiggest: true.
@@ -33,7 +33,7 @@ DMClassNameBlueprintBuilderTest >> testBuildModelFromAConceptualModel [
 ]
 
 { #category : #tests }
-DMClassNameBlueprintBuilderTest >> testCreateClassViewModelsFromClassModels [
+DMClassNamesBlueprintBuilderTest >> testCreateClassViewModelsFromClassModels [
 
 	| featureSelector conceptualModel classViewModels packageModel classModels |
 	featureSelector := DMFeatureSelector new.
@@ -48,7 +48,7 @@ DMClassNameBlueprintBuilderTest >> testCreateClassViewModelsFromClassModels [
 ]
 
 { #category : #tests }
-DMClassNameBlueprintBuilderTest >> testCreateConceptsViewModelsFromAPackageModel [
+DMClassNamesBlueprintBuilderTest >> testCreateConceptsViewModelsFromAPackageModel [
 
 	| featureSelector conceptualModel conceptsViewModels packageModel expectedConcepts 	actualConcepts expectedClasses actualClasses  actualClassViewModels |
 	featureSelector := DMFeatureSelector new.
@@ -68,7 +68,7 @@ DMClassNameBlueprintBuilderTest >> testCreateConceptsViewModelsFromAPackageModel
 ]
 
 { #category : #tests }
-DMClassNameBlueprintBuilderTest >> testCreatePackageViewModelFromPackageModels [
+DMClassNamesBlueprintBuilderTest >> testCreatePackageViewModelFromPackageModels [
 
 	| featureSelector conceptualModel packageModels actualPackageViewModels viewModel   	actualConceptsViewModels actualPackageNames expectedPackageNames actualConcepts |
 	featureSelector := DMFeatureSelector new.
@@ -88,7 +88,7 @@ DMClassNameBlueprintBuilderTest >> testCreatePackageViewModelFromPackageModels [
 ]
 
 { #category : #tests }
-DMClassNameBlueprintBuilderTest >> testExtractConceptsFromAPackageModel [
+DMClassNamesBlueprintBuilderTest >> testExtractConceptsFromAPackageModel [
 
 	| conceptualModel featureSelector actualConcepts aViewModel expectedConcepts |
 	actualConcepts := Set new.

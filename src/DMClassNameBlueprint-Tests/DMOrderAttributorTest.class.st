@@ -17,7 +17,7 @@ DMOrderAttributorTest >> testOrderFromBiggestPackageViewModels [
 
 	| featureSelector conceptualModel viewModel  builder orderedViewModel |
 	featureSelector := DMFeatureSelector new.
-	builder := DMClassNameBlueprintBuilder new.
+	builder := DMClassNamesBlueprintBuilder new.
 	orderedViewModel := DMViewModel new.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel' 	.'DMFeatureSelector'}.
 	viewModel := builder buildModelFrom: conceptualModel.
@@ -33,7 +33,7 @@ DMOrderAttributorTest >> testOrderFromSmallestPackageViewModels [
 
 	| featureSelector conceptualModel viewModel  builder orderedViewModel |
 	featureSelector := DMFeatureSelector new.
-	builder := DMClassNameBlueprintBuilder new.
+	builder := DMClassNamesBlueprintBuilder new.
 	orderedViewModel := DMViewModel new.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel' 	.'DMFeatureSelector'}.
 	viewModel := builder buildModelFrom: conceptualModel.
@@ -50,7 +50,7 @@ DMOrderAttributorTest >> testSetOrderFromSmallest [
 
 	| featureSelector conceptualModel viewModel  builder orderedViewModel |
 	featureSelector := DMFeatureSelector new.
-	builder := DMClassNameBlueprintBuilder new.
+	builder := DMClassNamesBlueprintBuilder new.
 	orderedViewModel := DMViewModel new.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel' 	.'DMFeatureSelector'}.
 	viewModel := builder buildModelFrom: conceptualModel.
@@ -64,7 +64,7 @@ DMOrderAttributorTest >> testsetOrderByDefault [
 
 	| featureSelector conceptualModel viewModel  builder actualViewModel |
 	featureSelector := DMFeatureSelector new.
-	builder := DMClassNameBlueprintBuilder new.
+	builder := DMClassNamesBlueprintBuilder new.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel' }.
 	viewModel := builder buildModelFrom: conceptualModel.
 	actualViewModel := orderAttributor setOrder: viewModel.
@@ -78,7 +78,7 @@ DMOrderAttributorTest >> testsetOrderFromBiggest [
 
 	| featureSelector conceptualModel viewModel  builder orderedViewModel |
 	featureSelector := DMFeatureSelector new.
-	builder := DMClassNameBlueprintBuilder new.
+	builder := DMClassNamesBlueprintBuilder new.
 	orderedViewModel := DMViewModel new.
 	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMViewModel' 	.'DMFeatureSelector'}.
 	viewModel := builder buildModelFrom: conceptualModel.
