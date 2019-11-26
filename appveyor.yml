@@ -12,6 +12,7 @@ environment:
     - SMALLTALK: Pharo64-8.0
     - SMALLTALK: Pharo-7.0
     - SMALLTALK: Pharo-6.1
+#
 #    - SMALLTALK: Pharo-5.0
     # ...
 
