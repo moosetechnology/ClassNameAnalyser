@@ -35,7 +35,7 @@ BaselineOfClassNameAnalyser >> loadRoassal2: spec [
                         versionString:#'stable';
                         repository: 'https://smalltalkhub.com/mc/ObjectProfile/Roassal2/main'] ].
             spec
-                for: (self pharoVersionsFrom: 7)
+                for:#(#'pharo7.x' #'pharo8.x')
                 do: [ spec
                     baseline: 'Roassal2'
                     with: [ spec repository: 'github://ObjectProfile/Roassal2/src' ].] 
