@@ -7,14 +7,7 @@
 
 ## Installation
 
-In order to install this project, make sure to load the Roassal project first in the Playground Pharo:
-```SmallTalk
-	Gofer it
-	    smalltalkhubUser: 'ObjectProfile' project: 'Roassal2';
-	    configurationOf: 'Roassal2';
-	    loadStable.
-```
-Then execute (Do-it, Ctrl+D) the following script in the Playground of your Pharo image:
+In order to install this project, execute (Do-it, Ctrl+D) the following script in the Playground of your Pharo image:
 
 ```Smalltalk
 Metacello new
