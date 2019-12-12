@@ -25,8 +25,7 @@ featureSelector := DMFeatureSelector new.
 featureSelector 
   stemming: true;
   filterAllDigits: true; 
-  filterSpecialChars: true;
-  selectLastSymbol: true.
+  filterSpecialChars: true.
   ```  
 By default everything is false.
 Second, we create a conceptual model from package names by applying the features already defined:
@@ -35,14 +34,14 @@ conceptualModel := featureSelector applyFeaturesOn: aCollectionOfPackageNames
   ``` 
   Thrid, we build the view model which contains all the informations concerning the visualisation:
   ```Smalltalk
-  builder := DMClassNameBlueprintBuilder new.
+  builder := DMClassNamesBlueprintBuilder new.
   builder orderAttributor 
     orderFromBiggest: true.
  viewModel := builder buildModelFrom: conceptualModel.
    ``` 
    Finally, in order to visualize our view model we use:
    ```Smalltalk
-   roassalView := DMRoassalClassNameBlueprint new.
+   roassalView := DMRoassalClassNamesBlueprint new.
    roassalView visualize: viewModel
    ``` 
    ## Visualization Example:
