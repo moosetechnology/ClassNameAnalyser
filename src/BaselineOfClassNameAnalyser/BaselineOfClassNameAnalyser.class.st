@@ -9,7 +9,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
 	spec for: #common do: [	
 		"dependencies"
-		self loadMoose: spec.		
+		self loadMoose: spec.	
 											
 		"Packages"
 		spec 
@@ -19,7 +19,8 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 			package: 'DMViewModel' with: [ spec requires: #('DMConceptualModel') ];
 			package: 'DMClassNameBlueprint' with: [ spec requires: #('DMViewModel') ];
 			package: 'DMClassNameBlueprint-Tests' with: [ spec requires: #('DMClassNameBlueprint') ];
-			package: 'DMRoassalClassNameBlueprint' with: [ spec requires: #('DMClassNameBlueprint' 'Moose' ) ]
+			package: 'DMMooseClassNameBlueprint' with: [ spec requires: #('DMClassNameBlueprint' 'Moose') 			];
+			package: 'DMRoassalClassNameBlueprint' with: [ spec requires: #('DMClassNameBlueprint' 			'Moose') ]
 				 ].
 			
 
