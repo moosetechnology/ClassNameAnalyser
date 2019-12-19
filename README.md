@@ -45,4 +45,4 @@ conceptualModel := featureSelector applyFeaturesOn: aCollectionOfPackageNames
    roassalView visualize: viewModel
    ``` 
 ## How to use the ClassNameAnalyser with Moose
-After loading this project and creating your Moose model of packages in the same Pharo image, check for "Class Names Blueprint" in the navigation panel.
+After loading this project and creating your Moose model of packages in the same Pharo image, select your model and check for "Class Names Blueprint" in the navigation panel.
