@@ -15,7 +15,7 @@ Metacello new
   repository: 'github://NourDjihan/ClassNameAnalyser/src';
   load.
 ```
-## How to use the ClassNameAnalyser
+## How to use the ClassNameAnalyser With Only Roassal
 
 In this section i show how to use the code of the ClassNameAnalyser.
 First, we define our features by creating a feature selector:
@@ -44,9 +44,5 @@ conceptualModel := featureSelector applyFeaturesOn: aCollectionOfPackageNames
    roassalView := DMRoassalClassNamesBlueprint new.
    roassalView visualize: viewModel
    ``` 
-   ## Visualization Example:
-
-  
-   ![](images/DistributionMap.png)
-   
-   ![](images/ClassNameBlueprint.png)
+## How to use the ClassNameAnalyser with Moose
+After loading this project and creating your Moose model of packages in the same Pharo image, check for "Class Names Blueprint" in the navigation panel.
