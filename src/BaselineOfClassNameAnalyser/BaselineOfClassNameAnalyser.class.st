@@ -31,7 +31,7 @@ BaselineOfClassNameAnalyser >> loadMoose: spec [
             spec
                 for: #'pharo6.x'
                 do: [ spec
-                    project:'Roassal2'
+                    project:'Moose'
                     with: [ spec
                         className: #ConfigurationOfMoose;
                         versionString:#'development';
