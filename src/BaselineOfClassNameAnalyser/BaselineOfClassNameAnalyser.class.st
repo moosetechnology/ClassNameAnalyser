@@ -33,8 +33,8 @@ BaselineOfClassNameAnalyser >> loadMoose: spec [
 				do: [ spec 
 						project: 'Moose' 
 						with: [ spec
-									className: 'ConfigurationOfMoose';
-									versionString: 'development';
+									className: #ConfigurationOfMoose;
+									versionString: #'development';
 									repository: 'http://smalltalkhub.com/mc/Moose/Moose/main'
 								]
 					 ].
