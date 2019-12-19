@@ -34,7 +34,7 @@ BaselineOfClassNameAnalyser >> loadMoose: spec [
 						with: [ spec
 									className: #ConfigurationOfMoose;
 									versionString: #'development';
-									repository: 'http://smalltalkhub.com/mc/Moose/Moose/main'
+									repository: 'https://smalltalkhub.com/mc/Moose/Moose/main'
 								]
 					 ].
 				spec
