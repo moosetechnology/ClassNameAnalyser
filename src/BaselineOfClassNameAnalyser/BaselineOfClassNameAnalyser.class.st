@@ -9,7 +9,8 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
 	spec for: #common do: [	
 		"dependencies"
-		self loadRoassal2: spec.											
+		self loadMoose: spec.		
+											
 		"Packages"
 		spec 
 			package: 'DMConceptualModel';
@@ -20,6 +21,32 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 			package: 'DMClassNameBlueprint-Tests' with: [ spec requires: #('DMClassNameBlueprint') ];
 			package: 'DMRoassalClassNameBlueprint' with: [ spec requires: #('DMClassNameBlueprint' 'Roassal2' ) ]
 				 ].
+			
+
+]
+
+{ #category : #'as yet unclassified' }
+BaselineOfClassNameAnalyser >> loadMoose: spec [
+		
+			spec 
+				for: #'pharo6.x'
+				do: [ spec 
+						project: 'Moose' 
+						with: [ spec
+									className: 'ConfigurationOfMoose';
+									versionString: 'development';
+									repository: 'http://smalltalkhub.com/mc/Moose/Moose/main'
+								]
+					 ].
+				spec
+					for: #(#'pharo7.x' #'pharo8.x')
+					do: [ spec 
+							baseline: 'Moose';
+							with: [ spec 
+								repository: 'github://moosetechnologie/Moose:development/src'
+									]
+						 ]
+					
 			
 
 ]
