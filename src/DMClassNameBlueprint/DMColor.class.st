@@ -1,5 +1,5 @@
 Class {
-	#name : #DMColorAttributor,
+	#name : #DMColor,
 	#superclass : #Object,
 	#instVars : [
 		'hierarchiesColors'
@@ -8,12 +8,12 @@ Class {
 }
 
 { #category : #building }
-DMColorAttributor >> attributeColors: aViewModel [
+DMColor >> attributeColors: aViewModel [
 
 	| allConceptsViewModels allClassViewModels featureSelector hierarchies concepts conceptsHierarchies conceptsColors |	
 	
 	featureSelector := DMFeatureSelector new.		
-	hierarchies := self extractAllRootClassesFrom: aViewModel.
+	hierarchies := aViewModel hierarchies.
 	hierarchiesColors := (self setColorsOf: hierarchies From: aViewModel).
 	
 	concepts := self extractAllConceptsFrom: aViewModel.
@@ -48,7 +48,7 @@ aClassViewModel color:(self selectColorOf: (aClassViewModel classRef)) ].
 ]
 
 { #category : #'as yet unclassified' }
-DMColorAttributor >> checkIfAllMonoSuffix: aCollection [
+DMColor >> checkIfAllMonoSuffix: aCollection [
 
 	aCollection do: [ :eachClass | 
 		(self checkIfMonoSuffix: eachClass)
@@ -58,7 +58,7 @@ DMColorAttributor >> checkIfAllMonoSuffix: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
-DMColorAttributor >> checkIfMonoSuffix: aRoot [
+DMColor >> checkIfMonoSuffix: aRoot [
 
 	| subclasses conceptualSymbolSelector symbol  |
 
@@ -73,7 +73,7 @@ DMColorAttributor >> checkIfMonoSuffix: aRoot [
 ]
 
 { #category : #'as yet unclassified' }
-DMColorAttributor >> extractAllClasses: aViewModel [
+DMColor >> extractAllClasses: aViewModel [
 
 	| conceptVMs classVMs classes |
 	conceptVMs := aViewModel packageViewModels flatCollect: [ :aPackageVMs | aPackageVMs conceptViewModels 	].
@@ -83,7 +83,7 @@ DMColorAttributor >> extractAllClasses: aViewModel [
 ]
 
 { #category : #actions }
-DMColorAttributor >> extractAllConceptsFrom: aViewModel [
+DMColor >> extractAllConceptsFrom: aViewModel [
 
 	| packageViewModels conceptsViewModels  resultedConcepts |
 	packageViewModels := aViewModel packageViewModels.
@@ -93,7 +93,7 @@ DMColorAttributor >> extractAllConceptsFrom: aViewModel [
 ]
 
 { #category : #actions }
-DMColorAttributor >> extractAllRootClassesFrom: aViewModel [
+DMColor >> extractAllRootClassesFrom: aViewModel [
 
 	| packageViewModels resultedHierarchies conceptViewModels featureSelector classViewModels |
 	featureSelector := DMFeatureSelector new.
@@ -108,17 +108,17 @@ DMColorAttributor >> extractAllRootClassesFrom: aViewModel [
 ]
 
 { #category : #accessing }
-DMColorAttributor >> hierarchiesColors [
+DMColor >> hierarchiesColors [
 	^hierarchiesColors
 ]
 
 { #category : #building }
-DMColorAttributor >> selectBiggestHierarchy: aCollection [
+DMColor >> selectBiggestHierarchy: aCollection [
 	^ aCollection asBag sortedCounts first value
 ]
 
 { #category : #actions }
-DMColorAttributor >> selectColorOf: aClass [
+DMColor >> selectColorOf: aClass [
 
 	| featureSelector  theRootClass color |
 	featureSelector := DMFeatureSelector new.
@@ -128,12 +128,12 @@ DMColorAttributor >> selectColorOf: aClass [
 ]
 
 { #category : #building }
-DMColorAttributor >> selectConceptsColor: aConcept From: conceptsColors [
+DMColor >> selectConceptsColor: aConcept From: conceptsColors [
 	^ (conceptsColors at: aConcept) 
 ]
 
 { #category : #actions }
-DMColorAttributor >> setColorsOf: aCollectionOfHierarchies From: aViewModel [
+DMColor >> setColorsOf: aCollectionOfHierarchies From: aViewModel [
 
 	| arrayOfColors index multiSuffixesColors monoClasses monoSuffixes resultedColors |
 	arrayOfColors := {#red . #yellow . #blue . #purple . #magenta . #orange . #green . #pink . #tan  . #cyan . #lightBlue . #lightBrown . #lightCyan  . #lightGreen.

@@ -1,29 +1,43 @@
 Class {
 	#name : #DMPackageModel,
-	#superclass : #Object,
+	#superclass : #DMModel,
 	#instVars : [
-		'packageRef',
-		'classModels'
+		'name',
+		'classmodels'
 	],
 	#category : #DMConceptualModel
 }
 
 { #category : #accessing }
-DMPackageModel >> classModels [
-	^ classModels 
-]
-
-{ #category : #setter }
-DMPackageModel >> classModels: aCollectionOfClassModels [
-	classModels := aCollectionOfClassModels 
+DMPackageModel >> classmodels [
+	^classmodels
 ]
 
 { #category : #accessing }
-DMPackageModel >> packageRef [
-	^ packageRef
+DMPackageModel >> classmodels: classModels [
+
+	classmodels := classModels
 ]
 
-{ #category : #setter }
-DMPackageModel >> packageRef: aPackageName [
-	packageRef := aPackageName
+{ #category : #initialization }
+DMPackageModel >> initialize [
+	super initialize.
+	classmodels := DMClassModelGroup new.
+]
+
+{ #category : #accessing }
+DMPackageModel >> name [
+	^name
+]
+
+{ #category : #accessing }
+DMPackageModel >> name: aName [
+	name := aName
+]
+
+{ #category : #initialization }
+DMPackageModel >> name: aName with: aClassModelGroup [
+
+	self name: aName.
+	self classmodels: aClassModelGroup
 ]

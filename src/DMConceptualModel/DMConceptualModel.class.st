@@ -1,18 +1,55 @@
 Class {
 	#name : #DMConceptualModel,
-	#superclass : #Object,
+	#superclass : #DMModel,
 	#instVars : [
-		'packageModels'
+		'name',
+		'packagemodels',
+		'hierarchies'
 	],
 	#category : #DMConceptualModel
 }
 
-{ #category : #accessing }
-DMConceptualModel >> packageModels [
-	^ packageModels 
+{ #category : #'instance creation' }
+DMConceptualModel >> from: aModel [
+	^ aModel buildConceptualModel.
 ]
 
 { #category : #accessing }
-DMConceptualModel >> packageModels: aCollectionOfPackageModels [
-	packageModels := aCollectionOfPackageModels 
+DMConceptualModel >> hierarchies [ 	
+	^hierarchies
+]
+
+{ #category : #accessing }
+DMConceptualModel >> hierarchies: Hierarchies [
+
+	hierarchies := Hierarchies
+]
+
+{ #category : #accessing }
+DMConceptualModel >> name [
+	^name
+]
+
+{ #category : #accessing }
+DMConceptualModel >> name: aName [
+	name := aName
+]
+
+{ #category : #'as yet unclassified' }
+DMConceptualModel >> name: aName with: conceptualpackagemodels [
+
+	self name: aName.
+	self packagemodels: conceptualpackagemodels.
+	self hierarchies: (DMHierarchy elements copy) asSet.
+	DMHierarchy elements removeAll
+]
+
+{ #category : #accessing }
+DMConceptualModel >> packagemodels [
+	^packagemodels
+]
+
+{ #category : #accessing }
+DMConceptualModel >> packagemodels: aCollectionOfPackageModels [
+	packagemodels := aCollectionOfPackageModels 
 ]

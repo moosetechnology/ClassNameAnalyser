@@ -1,41 +1,79 @@
 Class {
 	#name : #DMClassModel,
-	#superclass : #Object,
+	#superclass : #DMModel,
 	#instVars : [
-		'classRef',
-		'rootClass',
-		'conceptName'
+		'name',
+		'concept',
+		'root',
+		'superclass',
+		'level'
 	],
 	#category : #DMConceptualModel
 }
 
-{ #category : #accessing }
-DMClassModel >> classRef [
-	^ classRef
-]
+{ #category : #viewModel }
+DMClassModel >> classViewModel [
 
-{ #category : #setter }
-DMClassModel >> classRef: aClass [
-	classRef := aClass
+	^DMClassViewModel name: self name with: 'not yet'
 ]
 
 { #category : #accessing }
-DMClassModel >> conceptName [
-	^ conceptName 
-]
-
-{ #category : #setter }
-DMClassModel >> conceptName: aConcept [
-	conceptName := aConcept
+DMClassModel >> concept [
+	^concept
 ]
 
 { #category : #accessing }
-DMClassModel >> rootClass [ 
-	^ rootClass 
-	
+DMClassModel >> concept: className [
+
+	concept := DMFeatureSelector new extractConceptFrom: className
 ]
 
-{ #category : #setter }
-DMClassModel >> rootClass: aRootClass [
-	rootClass := aRootClass.
+{ #category : #accessing }
+DMClassModel >> level [
+	^level
+]
+
+{ #category : #accessing }
+DMClassModel >> level: aLevel [
+
+	level := aLevel
+]
+
+{ #category : #accessing }
+DMClassModel >> name [
+	^name
+]
+
+{ #category : #accessing }
+DMClassModel >> name: aName [
+	name:= aName.
+	self concept: self name.
+]
+
+{ #category : #initialization }
+DMClassModel >> name: className with: itsRootClassName [
+
+	self name: className.
+	self root: itsRootClassName.
+	self concept: self name.
+]
+
+{ #category : #accessing }
+DMClassModel >> root [
+	^root
+]
+
+{ #category : #accessing }
+DMClassModel >> root: aRootClassName [
+	root := aRootClassName 
+]
+
+{ #category : #accessing }
+DMClassModel >> superclass [
+	^superclass
+]
+
+{ #category : #accessing }
+DMClassModel >> superclass: aFamixClass [
+	superclass := aFamixClass 
 ]
