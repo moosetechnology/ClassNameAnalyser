@@ -48,14 +48,7 @@ DMClassModel >> name [
 DMClassModel >> name: aName [
 	name:= aName.
 	self concept: self name.
-]
 
-{ #category : #initialization }
-DMClassModel >> name: className with: itsRootClassName [
-
-	self name: className.
-	self root: itsRootClassName.
-	self concept: self name.
 ]
 
 { #category : #accessing }
@@ -64,8 +57,8 @@ DMClassModel >> root [
 ]
 
 { #category : #accessing }
-DMClassModel >> root: aRootClassName [
-	root := aRootClassName 
+DMClassModel >> root: aRoot [
+	root := aRoot.
 ]
 
 { #category : #accessing }

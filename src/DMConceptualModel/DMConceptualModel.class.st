@@ -25,6 +25,13 @@ DMConceptualModel >> hierarchies: Hierarchies [
 	hierarchies := Hierarchies
 ]
 
+{ #category : #initialization }
+DMConceptualModel >> initialize [ 
+
+	super initialize.
+	hierarchies := Set new.
+]
+
 { #category : #accessing }
 DMConceptualModel >> name [
 	^name
@@ -40,8 +47,7 @@ DMConceptualModel >> name: aName with: conceptualpackagemodels [
 
 	self name: aName.
 	self packagemodels: conceptualpackagemodels.
-	self hierarchies: (DMHierarchy elements copy) asSet.
-	DMHierarchy elements removeAll
+	self hierarchies: (DMHierarchy elements copy)..
 ]
 
 { #category : #accessing }

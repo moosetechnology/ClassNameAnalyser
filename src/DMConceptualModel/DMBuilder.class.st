@@ -30,7 +30,7 @@ DMBuilder class >> buildViewModelFrom: aConceptualModel [
 DMBuilder >> buildClassViewModelsFrom: aCollectionOfClassModels [
 
 	^DMClassModelGroup new addAll: (aCollectionOfClassModels collect: [ :aClassModel | 
-		DMClassViewModel name: (aClassModel name) with: 'not yet identified'
+		DMClassViewModel new name: (aClassModel name); root: aClassModel root; color: 'not yet identified'
 		 ]).
 ]
 
@@ -57,14 +57,14 @@ DMBuilder >> buildConceptualModelFrom: aMooseModel [
 		
 		^DMConceptualModel 
 		name: aMooseModel name 
-		with: ((aMooseModel allModelNamespaces ifEmpty: aMooseModel allModelPackages) asMooseGroup) 		conceptualPackageModels
+		with: (((aMooseModel allModelNamespaces ifEmpty: aMooseModel allModelPackages) asMooseGroup) 		conceptualPackageModels)
 ]
 
 { #category : #'as yet unclassified' }
 DMBuilder >> buildPackageViewModelsFrom: aConceptualModel [
  
 	 
-	DMPackageModelGroup new addAll:(
+	^DMPackageModelGroup new addAll:(
 		aConceptualModel packagemodels collect: [ :packageModel | DMPackageViewModel
 		name: (packageModel name)
 		with: (self buildConceptViewModelsFrom: packageModel)]).
@@ -74,10 +74,13 @@ DMBuilder >> buildPackageViewModelsFrom: aConceptualModel [
 { #category : #building }
 DMBuilder >> buildViewModelFrom: aConceptualModel [
 
-	
-	^DMViewModel new name: aConceptualModel name with: 
-	 (self buildPackageViewModelsFrom: aConceptualModel); hierarchies: aConceptualModel hierarchies
-	
+	| viewmodel |
+	viewmodel := DMViewModel new
+	name: aConceptualModel name.
+	DMHierarchy initializeRoots.
+	viewmodel packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel). 
+	viewmodel hierarchies: DMHierarchy rootsANDclasses copy.
+	^viewmodel
 ]
 
 { #category : #accessing }

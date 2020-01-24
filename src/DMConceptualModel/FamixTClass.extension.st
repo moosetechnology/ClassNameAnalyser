@@ -3,30 +3,28 @@ Extension { #name : #FamixTClass }
 { #category : #'*DMConceptualModel' }
 FamixTClass >> classmodel [
 	
-	 DMHierarchy add: (self rootOf: self).
+	 DMHierarchy add: (self root name).
 	^DMClassModel new 
 	name: self name;
 	concept: self name;
-	"level: self level;"
-	root: self rootmodel;
-	superclass: self superclassmodel
+	level: self level;
+	root: self root name.
+
 ]
 
 { #category : #'*DMConceptualModel' }
 FamixTClass >> level [ 
 
-	(self isTrait) 
-	ifTrue: [ ^self ].
+	| c depth |	
+	depth := 0.	
+	c := self superclass.
 	
-	({'ProtoObject' . 'Object'} includes: self name)
-	ifTrue: [ ^self ].
-	
-	(self superclass name = 'Object')
-	ifTrue: [ ^self ].
-	
-	self rootOf: (self superclass )
-	
-
+	[c isNil]		
+	whileFalse: [ 
+			depth := depth + 1.
+			c := c superclass.
+		 ].
+	^depth
 ]
 
 { #category : #'*DMConceptualModel' }
@@ -52,9 +50,7 @@ FamixTClass >> rootmodel [
 	^DMRootModel new
 	name: self root name;
 	concept: self root name.
-	"subclasses: root submodels;
-	type: self root type;
-	color: self root color."
+	
 	
 ]
 
@@ -67,10 +63,8 @@ FamixTClass >> submodels [
 { #category : #'*DMConceptualModel' }
 FamixTClass >> superclassmodel [
 
-	(self superclass) 
-	ifNotNil: [ ^ (self superclass) classmodel ].
 	
-	^self classmodel
+	^self superclass classmodel ifNil: [ ^self classmodel ]
 ]
 
 { #category : #'*DMConceptualModel' }

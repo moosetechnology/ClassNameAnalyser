@@ -26,6 +26,12 @@ DMViewModel >> hierarchies: aCollectionOfRootClasses [
 	hierarchies := aCollectionOfRootClasses 
 ]
 
+{ #category : #initialization }
+DMViewModel >> initialize [
+
+	hierarchies := Dictionary new.
+]
+
 { #category : #accessing }
 DMViewModel >> name [ 
 	^name
