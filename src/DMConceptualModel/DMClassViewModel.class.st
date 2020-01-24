@@ -47,5 +47,5 @@ DMClassViewModel >> root [
 DMClassViewModel >> root: aRoot [
 
 	root := aRoot.
-	(DMHierarchy rootsANDclasses at: aRoot) add: self name.
+	(DMHierarchy rootsANDclasses at: aRoot) add: self.
 ]

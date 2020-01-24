@@ -3,12 +3,12 @@ Extension { #name : #FamixTClass }
 { #category : #'*DMConceptualModel' }
 FamixTClass >> classmodel [
 	
-	 DMHierarchy add: (self root name).
+	 DMHierarchy add: (self root).
 	^DMClassModel new 
 	name: self name;
 	concept: self name;
 	level: self level;
-	root: self root name.
+	root: self root.
 
 ]
 

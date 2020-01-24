@@ -80,6 +80,7 @@ DMBuilder >> buildViewModelFrom: aConceptualModel [
 	DMHierarchy initializeRoots.
 	viewmodel packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel). 
 	viewmodel hierarchies: DMHierarchy rootsANDclasses copy.
+	DMHierarchy rootsANDclasses removeAll.
 	^viewmodel
 ]
 
