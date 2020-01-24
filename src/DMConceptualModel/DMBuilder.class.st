@@ -2,9 +2,8 @@ Class {
 	#name : #DMBuilder,
 	#superclass : #Object,
 	#instVars : [
-		'sizeAttributor',
-		'orderAttributor',
-		'colorAttributor'
+		'palette',
+		'index'
 	],
 	#classInstVars : [
 		'conceptsClasses'
@@ -30,6 +29,33 @@ DMBuilder class >> buildRootModelsFrom: aCollectionOfRoots [
 DMBuilder class >> buildViewModelFrom: aConceptualModel [
 
 	^self new buildViewModelFrom: aConceptualModel
+]
+
+{ #category : #'as yet unclassified' }
+DMBuilder >> aColorFromPalette [
+
+	"we have 24 important colors"
+	index := index +1.
+	(index <= 24)
+	ifTrue: [ ^palette at: index ].
+	
+	^#black
+]
+
+{ #category : #'as yet unclassified' }
+DMBuilder >> attributeColorByType: aType [
+
+	(aType == #Trait)
+	ifTrue: [ ^ #white ].
+	
+	(aType == #monoClass)
+	ifTrue: [ ^ #white ].
+	
+	(aType == #monoSuffix)
+	ifTrue: [ ^#gray ].
+	
+	(aType == #multiSuffix)
+	ifTrue: [ ^self aColorFromPalette ].
 ]
 
 { #category : #'as yet unclassified' }
@@ -81,14 +107,15 @@ DMBuilder >> buildPackageViewModelsFrom: aConceptualModel [
 DMBuilder >> buildRootModelsFrom: aCollectionOfRoots [
 
 	| collection |
+	self initialize.
 	collection := OrderedCollection new.
 	aCollectionOfRoots associationsDo: [ :anAssociation | collection add: (DMRootModel new 
 		name: 	anAssociation key name;
 		concept: anAssociation key classmodel concept;
 		subclasses: (DMClassModelGroup new addAll: (anAssociation value));
 		type: 	(self classTypeWithSubclasses: anAssociation value);
-		color: 'not yet')].
-	^collection
+		color: (self attributeColorByType: (self classTypeWithSubclasses: anAssociation value)) ). ].
+	^collection.
 			
 
 	
@@ -110,10 +137,10 @@ DMBuilder >> buildViewModelFrom: aConceptualModel [
 { #category : #'as yet unclassified' }
 DMBuilder >> classTypeWithSubclasses: aSet [
 
-	aSet value isTrait
+	(aSet value isTrait)
 	ifTrue: [ ^ #Trait ].
 	
-	aSet isEmpty 
+	(aSet size == 1)
 	ifTrue: [ ^ #monoClass ].
 	
 	((aSet collect: [ :each | each concept ]) asSet size == 1)
@@ -122,18 +149,18 @@ DMBuilder >> classTypeWithSubclasses: aSet [
 	^ #multiSuffix
 ]
 
-{ #category : #accessing }
-DMBuilder >> colorAttributor [
-	^colorAttributor 
-]
-
 { #category : #actions }
 DMBuilder >> extractConceptsFrom: aPackageModel [
 
 	^aPackageModel classmodels collect: [ :aClassModel | aClassModel concept ]
 ]
 
-{ #category : #accessing }
-DMBuilder >> orderAttributor [
-	^ orderAttributor
+{ #category : #'as yet unclassified' }
+DMBuilder >> initialize [
+
+	super initialize.
+	palette := {#red . #yellow . #blue . #purple . #magenta . #orange . #green . #pink . #tan  . #cyan . #lightBlue . #lightBrown . #lightCyan  . #lightGreen.
+	#lightMagenta . #lightOrange . #lightRed .
+	#paleGreen . #paleMagenta . #paleOrange . #palePeach . #paleRed . #paleTan . #black}.
+	index := 0
 ]

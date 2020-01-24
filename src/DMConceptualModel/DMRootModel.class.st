@@ -64,6 +64,5 @@ DMRootModel >> type [
 
 { #category : #'as yet unclassified' }
 DMRootModel >> type: aType [
-	type := aType
-
+	type := aType.
 ]
