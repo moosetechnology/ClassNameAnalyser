@@ -80,13 +80,16 @@ DMBuilder >> buildPackageViewModelsFrom: aConceptualModel [
 { #category : #'as yet unclassified' }
 DMBuilder >> buildRootModelsFrom: aCollectionOfRoots [
 
-	aCollectionOfRoots associationsDo: [ :anAssociation | ^(DMRootModel new 
+	| collection |
+	collection := OrderedCollection new.
+	aCollectionOfRoots associationsDo: [ :anAssociation | collection add: (DMRootModel new 
 		name: 	anAssociation key name;
 		concept: anAssociation key classmodel concept;
 		subclasses: (DMClassModelGroup new addAll: (anAssociation value));
 		type: 	(self classTypeWithSubclasses: anAssociation value);
-		color: 'not yet').
-			]
+		color: 'not yet')].
+	^collection
+			
 
 	
 ]
