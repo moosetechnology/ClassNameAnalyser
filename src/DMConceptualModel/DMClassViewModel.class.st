@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'color',
 		'name',
-		'root'
+		'root',
+		'concept'
 	],
 	#category : #DMConceptualModel
 }
@@ -17,6 +18,18 @@ DMClassViewModel >> color [
 { #category : #accessing }
 DMClassViewModel >> color: aColor [
 	color := aColor 
+]
+
+{ #category : #accessing }
+DMClassViewModel >> concept [
+
+	^concept
+]
+
+{ #category : #accessing }
+DMClassViewModel >> concept: aName [
+
+	concept := DMFeatureSelector new extractConceptFrom: aName.
 ]
 
 { #category : #accessing }
