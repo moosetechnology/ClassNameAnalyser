@@ -6,7 +6,7 @@ Class {
 		'subclasses',
 		'color',
 		'type',
-		'concept'
+		'concepts'
 	],
 	#classVars : [
 		'all'
@@ -25,15 +25,14 @@ DMRootModel >> color: aColor [
 ]
 
 { #category : #accessing }
-DMRootModel >> concept [ 
-
-	^concept
+DMRootModel >> concepts [ 
+	^concepts
 ]
 
 { #category : #accessing }
-DMRootModel >> concept: aClassName [
+DMRootModel >> concepts: aCollection [
 
-	concept := DMFeatureSelector new extractConceptFrom: aClassName
+	concepts := aCollection
 ]
 
 { #category : #accessing }

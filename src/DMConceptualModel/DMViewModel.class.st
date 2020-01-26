@@ -3,7 +3,7 @@ Class {
 	#superclass : #DMModel,
 	#instVars : [
 		'packageViewModels',
-		'hierarchies',
+		'rootmodels',
 		'name'
 	],
 	#category : #DMConceptualModel
@@ -16,20 +16,10 @@ DMViewModel >> from: aConceptualModel [
 	
 ]
 
-{ #category : #accessing }
-DMViewModel >> hierarchies [
-	^hierarchies
-]
-
-{ #category : #accessing }
-DMViewModel >> hierarchies: aCollectionOfRootClasses [
-	hierarchies := aCollectionOfRootClasses 
-]
-
 { #category : #initialization }
 DMViewModel >> initialize [
 
-	hierarchies := Dictionary new.
+	rootmodels := Dictionary new.
 ]
 
 { #category : #accessing }
@@ -58,4 +48,14 @@ DMViewModel >> packageViewModels [
 DMViewModel >> packageViewModels: collectionOfPackageViewModels [
 
 	packageViewModels := collectionOfPackageViewModels 
+]
+
+{ #category : #accessing }
+DMViewModel >> rootmodels [ 
+	^rootmodels
+]
+
+{ #category : #accessing }
+DMViewModel >> rootmodels: aCollectionOfRootClasses [
+	rootmodels := aCollectionOfRootClasses 
 ]
