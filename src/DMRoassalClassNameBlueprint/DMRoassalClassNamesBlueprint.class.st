@@ -9,27 +9,26 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 	
 	| b colorAttributor |
 	b := RTMondrian new.
-	colorAttributor := DMColorAttributor new.
-	b shape rectangle withTextAbove: [ :packageVM | packageVM packageName ].
+	b shape rectangle withTextAbove: [ :packageVM | packageVM name ].
 	b interaction popup 
-		text: [ :aPackageVM | aPackageVM packageName ].
+		text: [ :aPackageVM | aPackageVM name ].
 	b
 		nodes: (aViewModel packageViewModels collect: [ :packageVM | packageVM ])
 		forEach: [ :pVM | 
 			b shape rectangle 
-			borderColor: [ :aConcept | ((aConcept color = #monoHierarchies) and: [ (colorAttributor checkIfMonoSuffix: aConcept root) and: [ aConcept color ~= #white ] ])
+			borderColor: [ :aConcept | ((aConcept classViewModels collect: #name) includes:  aConcept root name)
 				ifTrue: [ Color black ]				
 					 ];
-			color: [ :eachConcept | (eachConcept color = #monoHierarchies)
+			color: [ :eachConcept | (eachConcept root type = #monoSuffix)
 				ifTrue: [ Color lightGray ] ifFalse: [ Color value: eachConcept color ] ];
-			withTextAbove: [ :cpt | cpt conceptName ] color: Color darkGray.
+			withTextAbove: [ :cpt | cpt name ] color: Color darkGray.
 			b interaction popup 
-					text: [ :conceptVM | 'Concept: ' , conceptVM conceptName ].
+					text: [ :conceptVM | 'Concept: ' , conceptVM name ].
 			b nodes: (pVM conceptViewModels collect: [ :conceptVM | conceptVM ])
 			forEach: [ :conceptVM | 
 				b shape rectangle
 				color: [ :classVM | Color value: classVM color ];
-				borderColor: [ :aClass | (((aClass classRef) asString = (conceptVM root) asString) or: [ (aClass color =#white)  and: [(aClass classRef subclasses isEmpty)] ])
+				borderColor: [ :aClass | (((aClass name) asString = (conceptVM root) asString) or: [ (aClass color =#white)  and: [(conceptVM root type == #monoClass)] ])
 					ifTrue: [ Color black ] ifFalse: [( Color value: (aClass color)) darker  ]	].
 				b nodes: (conceptVM classViewModels collect: [ :aClassVm | aClassVm ] ).
 				b layout grid.
