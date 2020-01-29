@@ -35,7 +35,7 @@ DMHierarchy class >> initialize [
 DMHierarchy class >> initializeRoots [
 
 
-	rootsANDclasses := (elements asSet collect: [ :aRoot | aRoot->Set new ]) asDictionary
+	rootsANDclasses := (elements asSet collect: [ :aRoot | aRoot->OrderedCollection new ]) asDictionary
 ]
 
 { #category : #'as yet unclassified' }

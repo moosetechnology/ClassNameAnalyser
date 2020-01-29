@@ -22,7 +22,7 @@ DMConceptualModel >> hierarchies [
 { #category : #accessing }
 DMConceptualModel >> hierarchies: Hierarchies [
 
-	hierarchies := Hierarchies
+	hierarchies := Hierarchies asSet
 ]
 
 { #category : #initialization }

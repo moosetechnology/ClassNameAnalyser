@@ -1,10 +1,4 @@
-Class {
-	#name : #FamixStPackage,
-	#superclass : #FamixStScopingEntity,
-	#traits : 'FamixTCohesionCouplingMetrics + FamixTPackage',
-	#classTraits : 'FamixTCohesionCouplingMetrics classTrait + FamixTPackage classTrait',
-	#category : #DMModels
-}
+Extension { #name : #FamixStPackage }
 
 { #category : #'*DMModels' }
 FamixStPackage >> classmodels [

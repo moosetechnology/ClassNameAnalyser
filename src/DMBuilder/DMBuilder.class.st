@@ -1,8 +1,8 @@
 Class {
 	#name : #DMBuilder,
 	#superclass : #Object,
-	#traits : 'DMTBuilder',
-	#classTraits : 'DMTBuilder classTrait',
+	#traits : 'DMTBuilder + DMTColorAttributor',
+	#classTraits : 'DMTBuilder classTrait + DMTColorAttributor classTrait',
 	#instVars : [
 		'palette',
 		'index'
@@ -58,6 +58,24 @@ DMBuilder >> attributeColorByType: aType [
 	
 	(aType == #multiSuffix)
 	ifTrue: [ ^self aColorFromPalette ].
+]
+
+{ #category : #building }
+DMBuilder >> buildRootModelsFrom: aCollectionOfRoots [
+
+	| collection |
+	self initialize.
+	collection := OrderedCollection new.
+	aCollectionOfRoots associationsDo: [ :anAssociation | collection add: (DMRootModel new 
+		name: 	anAssociation key name;
+		subclasses: (DMClassModelGroup new addAll: (anAssociation value));
+		type: 	(self classTypeWithSubclasses: anAssociation value);
+		color: (self attributeColorByType: (self classTypeWithSubclasses: anAssociation value)) ). ].
+	self initialize.
+	^collection.
+			
+
+	
 ]
 
 { #category : #initialize }

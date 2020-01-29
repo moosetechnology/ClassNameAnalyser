@@ -5,10 +5,23 @@ Class {
 		'color',
 		'name',
 		'root',
-		'concept'
+		'concept',
+		'reference',
+		'level'
 	],
 	#category : #DMModels
 }
+
+{ #category : #'as yet unclassified' }
+DMClassViewModel >> classmodel [
+
+	^DMClassModel new
+	name: self name;
+	root: self root;
+	level: self level;
+	reference: self reference;
+	concept: self concept.
+]
 
 { #category : #accessing }
 DMClassViewModel >> color [
@@ -33,13 +46,23 @@ DMClassViewModel >> concept: aName [
 ]
 
 { #category : #accessing }
+DMClassViewModel >> level [
+	^level
+]
+
+{ #category : #accessing }
+DMClassViewModel >> level: aLevel [
+	level := aLevel
+]
+
+{ #category : #accessing }
 DMClassViewModel >> name [
 	^name
 ]
 
 { #category : #accessing }
 DMClassViewModel >> name: aClassName [
-	name := aClassName.
+	name := aClassName
 	
 
 ]
@@ -52,6 +75,17 @@ DMClassViewModel >> name: aClassName with: aColor [
 ]
 
 { #category : #accessing }
+DMClassViewModel >> reference [ 
+	^reference
+]
+
+{ #category : #accessing }
+DMClassViewModel >> reference: aReference [
+
+	reference := aReference
+]
+
+{ #category : #accessing }
 DMClassViewModel >> root [ 
 	^root
 ]
@@ -60,5 +94,5 @@ DMClassViewModel >> root [
 DMClassViewModel >> root: aRoot [
 
 	root := aRoot.
-	(DMHierarchy rootsANDclasses at: aRoot) add: self.
+	(DMHierarchy rootsANDclasses at: aRoot) add: self classmodel
 ]

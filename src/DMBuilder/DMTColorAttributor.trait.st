@@ -34,12 +34,17 @@ DMTColorAttributor >> colorConceptViewModels [
 { #category : #actions }
 DMTColorAttributor >> selectBiggestHierarchyFor: aConcept [
 
-	| biggest rootModels |
+	| biggest rootModels index |
+	index := 2.
 	rootModels := viewModel rootmodels select: [ :each | (each concepts includes: aConcept) ].
-	biggest := rootModels at: 1.
-	2 to: rootModels size do: [ :aRootModel | (aRootModel subclasses size > biggest size)
-		ifTrue: [ biggest := aRootModel ]
-		 ].
+	(rootModels isNotEmpty) ifTrue:[ biggest := rootModels at: 1].
+	(rootModels size == 1)
+	ifTrue: [ ^biggest ].
+	
+	[index <= rootModels size] whileTrue: [ rootModels do: [ :aRootModel | ((aRootModel subclasses size) > (biggest subclasses size))
+		ifTrue: [ biggest := aRootModel ].
+		index := index +1.
+		 ]].
 	^biggest
 	
 
@@ -57,4 +62,15 @@ DMTColorAttributor >> selectColorFor: aConcept [
 DMTColorAttributor >> selectRootOf: aClassVM [
 
 	^viewModel rootmodels select: [ :aRootModel | aRootModel subclasses includes: aClassVM ]
+]
+
+{ #category : #accessing }
+DMTColorAttributor >> viewModel [
+	^viewModel
+]
+
+{ #category : #accessing }
+DMTColorAttributor >> viewModel: aViewModel [
+
+	^viewModel
 ]

@@ -8,8 +8,14 @@ Trait {
 { #category : #building }
 DMTBuilder >> buildClassViewModelsFrom: aCollectionOfClassModels [
 
-	^DMClassModelGroup new addAll: (aCollectionOfClassModels collect: [ :aClassModel | 
-		DMClassViewModel new name: (aClassModel name); root: aClassModel root; color: 'not yet identified'; concept: aClassModel name.
+	^DMClassModelGroup new 
+		addAll: (aCollectionOfClassModels collect: [ :aClassModel | 
+			DMClassViewModel new
+			name: (aClassModel name); 
+			root: aClassModel root; 
+			concept: aClassModel name;
+			reference: aClassModel reference;
+			level: aClassModel level
 		 ]).
 ]
 
@@ -35,13 +41,13 @@ DMTBuilder >> buildConceptualModelFrom: aModel [
 
 		(aModel class == MooseModel)
 		ifTrue: [^DMConceptualModel 
-		name: aModel name 
-		with: ((((aModel allModelNamespaces) ifEmpty: aModel allModelPackages) asMooseGroup) 	conceptualPackageModels)].
+		name: aModel name , 'MSE'
+		with: ((((aModel allModelNamespaces) ifEmpty: aModel allModelPackages) asMooseGroup) conceptualPackageModels)].
 			
 		(aModel class == FamixStModel)
 		ifTrue: [ ^DMConceptualModel 
-			name: aModel name 
-		with: (((aModel allModelPackages ifNil: self allModelNamespaces) asMooseGroup) 	conceptualPackageModels)] .
+			name: aModel name , 'Famix'
+		with: (((aModel allModelPackages ifNil: aModel allModelNamespaces) asMooseGroup) conceptualPackageModels)] .
 ]
 
 { #category : #building }
@@ -62,9 +68,13 @@ DMTBuilder >> buildPackagesFrom: aConceptualModel [
 	viewmodel := DMViewModel new
 	name: aConceptualModel name.
 	DMHierarchy initializeRoots.
-	viewmodel packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel). 
-	viewmodel rootmodels: (DMHierarchy rootmodels).
-	DMHierarchy rootsANDclasses removeAll.
+	
+	(aConceptualModel name endsWith: 'Famix')
+	ifTrue: [ DMHierarchy rootsANDclasses associationsDo: [ :each | each value add: ((each key name) asClass submodels)]  ]. 
+	 	viewmodel packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel). 
+		viewmodel rootmodels: (DMHierarchy rootmodels).
+		DMHierarchy rootsANDclasses removeAll .
+		
 	^viewmodel 
 ]
 
@@ -98,6 +108,7 @@ DMTBuilder >> buildViewModelFrom: aConceptualModel [
 
 { #category : #actions }
 DMTBuilder >> classTypeWithSubclasses: aSet [
+
 
 	(aSet value isTrait)
 	ifTrue: [ ^ #Trait ].

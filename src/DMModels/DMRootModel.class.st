@@ -29,10 +29,10 @@ DMRootModel >> concepts [
 	^concepts
 ]
 
-{ #category : #accessing }
-DMRootModel >> concepts: aCollection [
+{ #category : #initialization }
+DMRootModel >> initialize [ 
+	concepts := Set new
 
-	concepts := aCollection
 ]
 
 { #category : #accessing }
@@ -53,7 +53,8 @@ DMRootModel >> subclasses [
 { #category : #accessing }
 DMRootModel >> subclasses: classVMGroup [
 
-	subclasses := classVMGroup 
+	subclasses := classVMGroup.
+	concepts addAll: (classVMGroup collect: #concept)
 ]
 
 { #category : #accessing }

@@ -8,7 +8,8 @@ FamixTClass >> classmodel [
 	name: self name;
 	concept: self name;
 	level: self level;
-	root: self root.
+	root: self root;
+	reference: self.
 
 ]
 
@@ -44,40 +45,8 @@ FamixTClass >> root [
 ]
 
 { #category : #'*DMModels' }
-FamixTClass >> rootmodel [
-
-	
-	^DMRootModel new
-	name: self root name;
-	concept: self root name.
-	
-	
-]
-
-{ #category : #'*DMModels' }
-FamixTClass >> submodels [
-
-	^(DMClassModelGroup new addAll: (self subclasses collect: [ :each | each classmodel ]))
-]
-
-{ #category : #'*DMModels' }
 FamixTClass >> superclassmodel [
 
 	
 	^self superclass classmodel ifNil: [ ^self classmodel ]
-]
-
-{ #category : #'*DMModels' }
-FamixTClass >> type [ 
-
-	self isTrait
-	ifTrue: [ ^ #Trait ].
-	
-	self subclasses isEmpty 
-	ifTrue: [ ^ #monoClass ].
-	
-	((self submodels collect: [ :each | each concept ] asSet) equals: 1)
-	ifTrue: [ ^ #monoSuffix ].
-	
-	^ #multiSuffix
 ]

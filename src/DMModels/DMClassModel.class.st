@@ -6,7 +6,8 @@ Class {
 		'concept',
 		'root',
 		'superclass',
-		'level'
+		'level',
+		'reference'
 	],
 	#category : #DMModels
 }
@@ -43,6 +44,17 @@ DMClassModel >> name: aName [
 	name:= aName.
 	self concept: self name.
 
+]
+
+{ #category : #accessing }
+DMClassModel >> reference [
+	^reference
+]
+
+{ #category : #accessing }
+DMClassModel >> reference: aReference [
+
+	reference := aReference
 ]
 
 { #category : #accessing }
