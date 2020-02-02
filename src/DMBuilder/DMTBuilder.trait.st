@@ -70,7 +70,7 @@ DMTBuilder >> buildPackagesFrom: aConceptualModel [
 	DMHierarchy initializeRoots.
 	
 	(aConceptualModel name endsWith: 'Famix')
-	ifTrue: [ DMHierarchy rootsANDclasses associationsDo: [ :each | each value add: ((each key name) asClass submodels)]  ]. 
+	ifTrue: [ DMHierarchy rootsANDclasses associationsDo: [ :each | each value addAll: ((each key name) asClass submodels)]  ]. 
 	 	viewmodel packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel). 
 		viewmodel rootmodels: (DMHierarchy rootmodels).
 		DMHierarchy rootsANDclasses removeAll .

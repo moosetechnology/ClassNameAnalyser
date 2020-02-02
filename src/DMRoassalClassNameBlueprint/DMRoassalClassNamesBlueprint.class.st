@@ -7,7 +7,7 @@ Class {
 { #category : #visualization }
 DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 	
-	| b colorAttributor |
+	| b |
 	b := RTMondrian new.
 	b shape rectangle withTextAbove: [ :packageVM | packageVM name ].
 	b interaction popup 
@@ -28,7 +28,7 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 			forEach: [ :conceptVM | 
 				b shape rectangle
 				color: [ :classVM | Color value: classVM color ];
-				borderColor: [ :aClass | (((aClass name) asString = (conceptVM root) asString) or: [ (aClass color =#white)  and: [(conceptVM root type == #monoClass)] ])
+				borderColor: [ :aClass | ((aClass name = conceptVM root name) or: [ (aClass color =#white)  and: [(conceptVM root type == #monoClass)] ])
 					ifTrue: [ Color black ] ifFalse: [( Color value: (aClass color)) darker  ]	].
 				b nodes: (conceptVM classViewModels collect: [ :aClassVm | aClassVm ] ).
 				b layout grid.

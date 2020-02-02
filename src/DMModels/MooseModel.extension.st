@@ -1,20 +1,6 @@
 Extension { #name : #MooseModel }
 
 { #category : #'*DMModels' }
-MooseModel >> AllClassNamesBlueprint [
-
-	<navigation: 'AllClassNamesBlueprint'>
-	| conceptualModel viewModel mooseView |
-	conceptualModel := self buildConceptualModel.
-	viewModel := DMViewModel new from: conceptualModel.
-	mooseView := DMRoassalClassNamesBlueprint new visualize: viewModel.
-	^mooseView
-
-	
-	
-]
-
-{ #category : #'*DMModels' }
 MooseModel >> buildConceptualModel [
 	^ DMBuilder buildConceptualModelFrom: self
 

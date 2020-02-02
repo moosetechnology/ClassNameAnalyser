@@ -20,7 +20,7 @@ DMClassViewModel >> classmodel [
 	root: self root;
 	level: self level;
 	reference: self reference;
-	concept: self concept.
+	concept: self name.
 ]
 
 { #category : #accessing }
