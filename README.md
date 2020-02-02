@@ -17,5 +17,6 @@ Metacello new
 ```
 ## How to use the ClassNameAnalyser With Moose
 Load your project/packages into your Moose Panel, scroll to see the ClassNames Blueprint visualisation, the conceptual model and the view model of your packages.
-If you are not familiar with Moose, I suggest you have a look at the [Moose Book](http://www.themoosebook.org/book/), already!
+
+In case you are not familiar with Moose, I suggest you have a look at the [Moose Book](http://www.themoosebook.org/book/).
 
