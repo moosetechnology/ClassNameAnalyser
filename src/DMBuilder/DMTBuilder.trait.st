@@ -22,16 +22,15 @@ DMTBuilder >> buildClassViewModelsFrom: aCollectionOfClassModels [
 { #category : #building }
 DMTBuilder >> buildConceptViewModelsFrom: aPackageModel [
 
-	| concepts |
+	| concepts classmodels |
 	concepts := (self extractConceptsFrom: aPackageModel) asSet.
-
 	^DMConceptModelGroup new addAll: 
 	(concepts collect: [ :aConcept | 
-		DMConceptViewModel 
-		name: aConcept 
-		with: (self buildClassViewModelsFrom: 
-		(aPackageModel classmodels 
-		select: [ :aClassModel | aClassModel concept = aConcept])).
+		classmodels := (aPackageModel classmodels 
+		select: [ :aClassModel | aClassModel concept = aConcept]).
+		DMConceptViewModel new
+		name: aConcept;
+		classViewModels: (self buildClassViewModelsFrom: classmodels)
 		 ])
 	
 ]
@@ -40,14 +39,14 @@ DMTBuilder >> buildConceptViewModelsFrom: aPackageModel [
 DMTBuilder >> buildConceptualModelFrom: aModel [
 
 		(aModel class == MooseModel)
-		ifTrue: [^DMConceptualModel 
-		name: aModel name , 'MSE'
-		with: ((((aModel allModelNamespaces) ifEmpty: aModel allModelPackages) asMooseGroup) conceptualPackageModels)].
+		ifTrue: [^DMConceptualModel new
+		name: aModel name , 'MSE';
+		packagemodels: ((((aModel allModelNamespaces) ifEmpty: aModel allModelPackages) asMooseGroup) conceptualPackageModels)].
 			
 		(aModel class == FamixStModel)
-		ifTrue: [ ^DMConceptualModel 
-			name: aModel name , 'Famix'
-		with: (((aModel allModelPackages ifNil: aModel allModelNamespaces) asMooseGroup) conceptualPackageModels)] .
+		ifTrue: [ ^DMConceptualModel new 
+			name: aModel name , 'Famix';
+		packagemodels: (((aModel allModelPackages ifNil: aModel allModelNamespaces) asMooseGroup) conceptualPackageModels)] .
 ]
 
 { #category : #building }

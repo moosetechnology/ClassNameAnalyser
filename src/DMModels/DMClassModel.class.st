@@ -35,18 +35,6 @@ DMClassModel >> level: aLevel [
 ]
 
 { #category : #accessing }
-DMClassModel >> name [
-	^name
-]
-
-{ #category : #accessing }
-DMClassModel >> name: aName [
-	name:= aName.
-	self concept: self name.
-
-]
-
-{ #category : #accessing }
 DMClassModel >> reference [
 	^reference
 ]

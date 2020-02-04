@@ -33,24 +33,6 @@ DMConceptualModel >> initialize [
 ]
 
 { #category : #accessing }
-DMConceptualModel >> name [
-	^name
-]
-
-{ #category : #accessing }
-DMConceptualModel >> name: aName [
-	name := aName
-]
-
-{ #category : #'as yet unclassified' }
-DMConceptualModel >> name: aName with: conceptualpackagemodels [
-
-	self name: aName.
-	self packagemodels: conceptualpackagemodels.
-	self hierarchies: (DMHierarchy elements copy)..
-]
-
-{ #category : #accessing }
 DMConceptualModel >> packagemodels [
 	^packagemodels
 ]

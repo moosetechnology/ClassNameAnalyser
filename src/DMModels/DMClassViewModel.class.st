@@ -3,7 +3,6 @@ Class {
 	#superclass : #DMModel,
 	#instVars : [
 		'color',
-		'name',
 		'root',
 		'concept',
 		'reference',
@@ -56,22 +55,10 @@ DMClassViewModel >> level: aLevel [
 ]
 
 { #category : #accessing }
-DMClassViewModel >> name [
-	^name
-]
-
-{ #category : #accessing }
 DMClassViewModel >> name: aClassName [
 	name := aClassName
 	
 
-]
-
-{ #category : #'instance creation' }
-DMClassViewModel >> name: aClassName with: aColor [
-
-	self name: aClassName.
-	self color: aColor
 ]
 
 { #category : #accessing }

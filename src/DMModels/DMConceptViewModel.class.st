@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'classViewModels',
 		'color',
-		'root',
-		'name'
+		'root'
 	],
 	#category : #DMModels
 }
@@ -28,23 +27,6 @@ DMConceptViewModel >> color [
 { #category : #accessing }
 DMConceptViewModel >> color: aColor [
 	color := aColor 
-]
-
-{ #category : #accessing }
-DMConceptViewModel >> name [
-	^name
-]
-
-{ #category : #accessing }
-DMConceptViewModel >> name: aConceptName [
-	name := aConceptName 
-]
-
-{ #category : #'instance creation' }
-DMConceptViewModel >> name: aConceptName with: classVMs [
-
-	self name: aConceptName.
-	self classViewModels: classVMs.
 ]
 
 { #category : #accessing }

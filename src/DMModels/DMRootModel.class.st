@@ -1,8 +1,7 @@
 Class {
 	#name : #DMRootModel,
-	#superclass : #Object,
+	#superclass : #DMModel,
 	#instVars : [
-		'name',
 		'subclasses',
 		'color',
 		'type',
@@ -33,16 +32,6 @@ DMRootModel >> concepts [
 DMRootModel >> initialize [ 
 	concepts := Set new
 
-]
-
-{ #category : #accessing }
-DMRootModel >> name [ 
-	^name
-]
-
-{ #category : #accessing }
-DMRootModel >> name: aName [
-	name := aName
 ]
 
 { #category : #accessing }

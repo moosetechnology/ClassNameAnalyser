@@ -19,14 +19,3 @@ DMPackageViewModel >> conceptViewModels: aConceptModelGroup [
 
 	conceptViewModels := aConceptModelGroup 
 ]
-
-{ #category : #accessing }
-DMPackageViewModel >> name [
-	^name
-]
-
-{ #category : #accessing }
-DMPackageViewModel >> name: aPackageName [
-
-	name := aPackageName
-]

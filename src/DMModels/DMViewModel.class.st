@@ -3,8 +3,7 @@ Class {
 	#superclass : #DMModel,
 	#instVars : [
 		'packageViewModels',
-		'rootmodels',
-		'name'
+		'rootmodels'
 	],
 	#category : #DMModels
 }
@@ -20,23 +19,6 @@ DMViewModel >> from: aConceptualModel [
 DMViewModel >> initialize [
 
 	rootmodels := Dictionary new.
-]
-
-{ #category : #accessing }
-DMViewModel >> name [ 
-	^name
-]
-
-{ #category : #accessing }
-DMViewModel >> name: aName [
-	name := aName
-]
-
-{ #category : #'instance creation' }
-DMViewModel >> name: aName with: packagemodelGroup [
-
-	self name: aName.
-	self packageViewModels: packagemodelGroup
 ]
 
 { #category : #accessing }
