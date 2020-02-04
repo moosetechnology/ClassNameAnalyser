@@ -43,10 +43,3 @@ FamixTClass >> root [
 	^self superclass root
 	
 ]
-
-{ #category : #'*DMModels' }
-FamixTClass >> superclassmodel [
-
-	
-	^self superclass classmodel ifNil: [ ^self classmodel ]
-]

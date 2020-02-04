@@ -60,6 +60,7 @@ DMClassModel >> reference: aReference [
 { #category : #accessing }
 DMClassModel >> root [
 	^root
+	
 ]
 
 { #category : #accessing }
