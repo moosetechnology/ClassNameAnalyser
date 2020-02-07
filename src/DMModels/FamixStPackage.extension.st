@@ -12,5 +12,8 @@ FamixStPackage >> conceptualClassModels [
 
 { #category : #'*DMModels' }
 FamixStPackage >> packagemodel [
-	^DMPackageModel name: self name with: self conceptualClassModels  
+
+	^DMPackageModel new 
+	name: self name;
+	classmodels: self conceptualClassModels  
 ]

@@ -18,11 +18,11 @@ DMModel class >> name: aName with: something and: else [
 ]
 
 { #category : #accessing }
-DMModel >> name [
-	^self name
+DMModel >> name [ 
+	^name
 ]
 
 { #category : #accessing }
 DMModel >> name: aName [
-	name:= aName
+	name := aName
 ]

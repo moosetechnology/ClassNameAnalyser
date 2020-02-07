@@ -30,6 +30,7 @@ FamixTClass >> level [
 
 { #category : #'*DMModels' }
 FamixTClass >> root [
+
 	self isTrait
 		ifTrue: [ ^ self ].
 	({'ProtoObject' . 'Object'} includes: self name)

@@ -7,9 +7,6 @@ Class {
 		'type',
 		'concepts'
 	],
-	#classVars : [
-		'all'
-	],
 	#category : #DMModels
 }
 
