@@ -13,19 +13,6 @@ FeatureSelectorTest >> setUp [
 ]
 
 { #category : #tests }
-FeatureSelectorTest >> testApplyFeaturesOn [
-
-	| conceptualModel |	
-	conceptualModel := featureSelector applyFeaturesOn: { 'Kernel' . 'DMFeatureSelector' }.
-	self assert: (conceptualModel packageModels size) equals: 2.
-	self assert: (conceptualModel packageModels at: 1) packageRef equals: 'Kernel'.
-	self assert: (conceptualModel packageModels at: 2) packageRef equals: 'DMFeatureSelector'.
-	self assert: (conceptualModel packageModels at: 1) classModels size equals: (RPackageOrganizer default packageNamed: 'Kernel') 	definedClasses size.
-	
-	
-]
-
-{ #category : #tests }
 FeatureSelectorTest >> testEXtractConceptFromAClassName [
 
 	| classModel aConcept |
@@ -49,34 +36,6 @@ FeatureSelectorTest >> testExtractConceptFromNameByDefault [
 	self assert: (featureSelector extractConceptFrom: 'ClassName34') equals: 'Name34'.
 	self assert: (featureSelector extractConceptFrom: '%ClassName34%') equals: 'Name34%'.
 	self assert: (featureSelector extractConceptFrom: '%Class%') equals: 'Class%'.
-]
-
-{ #category : #tests }
-FeatureSelectorTest >> testExtractRootClassFromObjectClass [
-
-	| expectedRootClass classModel |
-	classModel := DMClassModel new.
-	expectedRootClass := Object.
-	classModel classRef: Object.
-	classModel conceptName: (featureSelector extractConceptFrom: Object name).
-	classModel rootClass: (featureSelector extractRootClassFrom: Object).
-	self assert: expectedRootClass equals: Object.
-
-]
-
-{ #category : #tests }
-FeatureSelectorTest >> testExtractRootClassNoHierarchy [
-
-	| expectedRootClass actualRootClass classModel |
-	
-	expectedRootClass := DMClassModel.
-	classModel := DMClassModel new.
-	classModel classRef: DMClassModel.
-	classModel conceptName: (featureSelector extractConceptFrom: (DMClassModel name)).
-	classModel rootClass: (featureSelector extractRootClassFrom: DMClassModel).
-	actualRootClass := DMClassModel.
-	self assert: actualRootClass equals: expectedRootClass.
-
 ]
 
 { #category : #tests }

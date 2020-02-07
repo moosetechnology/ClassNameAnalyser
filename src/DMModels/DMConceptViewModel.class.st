@@ -1,14 +1,12 @@
 Class {
 	#name : #DMConceptViewModel,
-	#superclass : #Object,
+	#superclass : #DMModel,
 	#instVars : [
 		'classViewModels',
 		'color',
-		'conceptName',
-		'size',
 		'root'
 	],
-	#category : #DMViewModel
+	#category : #DMModels
 }
 
 { #category : #accessing }
@@ -31,14 +29,11 @@ DMConceptViewModel >> color: aColor [
 	color := aColor 
 ]
 
-{ #category : #accessing }
-DMConceptViewModel >> conceptName [
-	^ conceptName
-]
+{ #category : #'instance creation' }
+DMConceptViewModel >> name: aConceptName with: classVMs [
 
-{ #category : #accessing }
-DMConceptViewModel >> conceptName: aConcept [
-	conceptName := aConcept 
+	self name: aConceptName.
+	self classViewModels: classVMs.
 ]
 
 { #category : #accessing }
@@ -47,16 +42,6 @@ DMConceptViewModel >> root [
 ]
 
 { #category : #accessing }
-DMConceptViewModel >> root: aRootClass [
-	root := aRootClass 
-]
-
-{ #category : #accessing }
-DMConceptViewModel >> size [
-	^size
-]
-
-{ #category : #accessing }
-DMConceptViewModel >> size: aSize [
-	size := aSize
+DMConceptViewModel >> root: biggestHierarchy [
+	root := biggestHierarchy
 ]
