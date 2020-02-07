@@ -2,7 +2,6 @@ Class {
 	#name : #DMClassModel,
 	#superclass : #DMModel,
 	#instVars : [
-		'name',
 		'concept',
 		'root',
 		'superclass',

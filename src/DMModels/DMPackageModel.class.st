@@ -2,7 +2,6 @@ Class {
 	#name : #DMPackageModel,
 	#superclass : #DMModel,
 	#instVars : [
-		'name',
 		'classmodels'
 	],
 	#category : #DMModels

@@ -2,7 +2,6 @@ Class {
 	#name : #DMConceptualModel,
 	#superclass : #DMModel,
 	#instVars : [
-		'name',
 		'packagemodels',
 		'hierarchies'
 	],

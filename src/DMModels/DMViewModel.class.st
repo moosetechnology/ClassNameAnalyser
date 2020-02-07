@@ -3,8 +3,7 @@ Class {
 	#superclass : #DMModel,
 	#instVars : [
 		'packageViewModels',
-		'rootmodels',
-		'name'
+		'rootmodels'
 	],
 	#category : #DMModels
 }

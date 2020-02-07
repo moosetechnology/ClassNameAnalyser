@@ -2,7 +2,6 @@ Class {
 	#name : #DMPackageViewModel,
 	#superclass : #DMModel,
 	#instVars : [
-		'name',
 		'conceptViewModels'
 	],
 	#category : #DMModels
