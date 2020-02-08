@@ -7,7 +7,7 @@
 
 ## Installation
 
-In order to install this project, execute (Do-it, Ctrl+D) the following script in the Playground of your Pharo image:
+In order to install this project, execute (Do-it, Ctrl+D) the following script in the Playground of your Pharo 7 image
 
 ```Smalltalk
 Metacello new
