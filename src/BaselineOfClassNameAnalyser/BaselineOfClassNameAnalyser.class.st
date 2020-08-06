@@ -35,10 +35,16 @@ BaselineOfClassNameAnalyser >> loadMoose: spec [
                         versionString:#'development';
                         repository: 'http://smalltalkhub.com/mc/Moose/Moose/main'] ].
             spec
-                for:#(#'pharo7.x' #'pharo8.x')
+                for: #'pharo7.x'
                 do: [ spec
                     baseline: 'Moose'
-                    with: [ spec repository: 'github://moosetechnology/Moose:development/src' ].] 
+                    with: [ spec repository: 'github://moosetechnology/Moose:v7.x.x/src' ] ].
+	
+				spec 
+					for: #'pharo8.x'
+					do: [ spec
+						baseline: 'Moose'
+						with: [ spec repository: 'github://moosetechnology/Moose:development/src' ] ]
 ]
 
 { #category : #'as yet unclassified' }
