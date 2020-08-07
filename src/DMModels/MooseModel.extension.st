@@ -18,8 +18,7 @@ MooseModel >> conceptualModel [
 MooseModel >> viewModel [ 
 
 	<navigation: 'CNB View Model'>
-	| conceptualModel viewModel |
-	conceptualModel := self buildConceptualModel.
-	viewModel := DMViewModel new from: conceptualModel.
+	| viewModel |
+	viewModel := DMViewModel new from: self conceptualModel.
 	^viewModel
 ]
