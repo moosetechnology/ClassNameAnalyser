@@ -1,20 +1,7 @@
-Extension { #name : #FamixTClass }
+Extension { #name : #ProtoObject }
 
 { #category : #'*DMModels' }
-FamixTClass >> classmodel [
-	
-	 DMHierarchy add: (self root).
-	^DMClassModel new 
-	name: self name;
-	concept: self name;
-	level: self hierarchyLevel;
-	root: self root;
-	reference: self.
-
-]
-
-{ #category : #'*DMModels' }
-FamixTClass >> level [ 
+ProtoObject >> hierarchyLevel [ 
 
 	| c depth |	
 	depth := 0.	
@@ -29,7 +16,7 @@ FamixTClass >> level [
 ]
 
 { #category : #'*DMModels' }
-FamixTClass >> root [
+ProtoObject >> root [
 
 	self isTrait
 		ifTrue: [ ^ self ].
@@ -40,4 +27,5 @@ FamixTClass >> root [
 	self superclass name = 'Object'
 		ifTrue: [ ^ self ].
 	^ self superclass root
+	
 ]

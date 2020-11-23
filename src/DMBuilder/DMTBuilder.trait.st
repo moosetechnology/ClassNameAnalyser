@@ -39,12 +39,12 @@ DMTBuilder >> buildConceptViewModelsFrom: aPackageModel [
 { #category : #building }
 DMTBuilder >> buildConceptualModelFrom: aModel [
 
-		(aModel class == MooseModel)
+		(aModel class name == 'MooseModel')
 		ifTrue: [^DMConceptualModel 
 		name: aModel name , 'MSE'
 		with: ((((aModel allModelNamespaces) ifEmpty: aModel allModelPackages) asMooseGroup) conceptualPackageModels)].
 			
-		(aModel class == FamixStModel)
+		(aModel class name == 'FamixStModel')
 		ifTrue: [ ^DMConceptualModel 
 			name: aModel name , 'Famix'
 		with: (((aModel allModelPackages ifNil: aModel allModelNamespaces) asMooseGroup) conceptualPackageModels)] .

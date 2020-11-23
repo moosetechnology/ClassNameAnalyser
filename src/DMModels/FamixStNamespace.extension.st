@@ -1,19 +1,19 @@
-Extension { #name : #FAMIXPackage }
+Extension { #name : #FamixStNamespace }
 
 { #category : #'*DMModels' }
-FAMIXPackage >> classmodels [
+FamixStNamespace >> classmodels [
 	^self classes collect: [ :each | each classmodel ]
 ]
 
 { #category : #'*DMModels' }
-FAMIXPackage >> conceptualClassModels [ 
+FamixStNamespace >> conceptualClassModels [ 
 	^DMClassModelGroup new addAll: (self classmodels)
 ]
 
 { #category : #'*DMModels' }
-FAMIXPackage >> packagemodel [
+FamixStNamespace >> packagemodel [
 
-	^DMPackageModel new
+	^DMPackageModel new 
 	name: self name;
 	classmodels: self conceptualClassModels  
 ]

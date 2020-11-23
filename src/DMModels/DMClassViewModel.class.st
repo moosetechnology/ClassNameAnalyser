@@ -17,7 +17,7 @@ DMClassViewModel >> classmodel [
 	^DMClassModel new
 	name: self name;
 	root: self root;
-	level: self level;
+	level: self hierarchyLevel;
 	reference: self reference;
 	concept: self name.
 ]
