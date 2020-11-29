@@ -38,16 +38,31 @@ DMTBuilder >> buildConceptViewModelsFrom: aPackageModel [
 
 { #category : #building }
 DMTBuilder >> buildConceptualModelFrom: aModel [
-	| packages |
-	packages := (aModel allModelNamespaces
+
+	| msePackages famixPackages |
+	msePackages := (aModel allModelNamespaces
 		ifEmpty: aModel allModelPackages) asMooseGroup.
+	famixPackages := (aModel allModelPackages 
+		ifNil: aModel allModelNamespaces) asMooseGroup.
+		(aModel class name = 'MooseModel')
+		ifTrue: [  
 	^ DMConceptualModel new
 		packagemodels:
-			(packages
+			(msePackages
+				collect: [ :eachPackage | 
+					DMPackageModel new
+						name: eachPackage name;
+						classmodels: (eachPackage classes collect: [ :each | each classmodel ]) ])].
+		(aModel class name ='FamixStModel')
+		ifTrue: [ 
+			^ DMConceptualModel new
+		packagemodels:
+			(famixPackages
 				collect: [ :eachPackage | 
 					DMPackageModel new
 						name: eachPackage name;
 						classmodels: (eachPackage classes collect: [ :each | each classmodel ]) ])
+			 ]
 ]
 
 { #category : #building }
