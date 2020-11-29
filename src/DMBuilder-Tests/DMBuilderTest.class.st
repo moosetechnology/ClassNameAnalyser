@@ -33,7 +33,7 @@ DMBuilderTest >> testBuildRootModels [
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion5) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	rootModels := builder buildRootModelsFrom: conceptualModel.
-	self assert: (rootModels size) equals: (conceptualModel hierarchies size)
+	self assert: (rootModels collect: #name) asArray equals: (conceptualModel hierarchies collect: #name) asArray
 	
 ]
 
@@ -43,10 +43,11 @@ DMBuilderTest >> testBuildViewModel [
 
 { #category : #tests }
 DMBuilderTest >> testClassType [
-
+	"the collection of classmodels must be of the same hierarchy (have the same root)"
 	self assert: (builder classTypeWithSubclasses: {DMTBuilder classmodel}) equals: #Trait.
 	self assert: (builder classTypeWithSubclasses: { DMBuilder classmodel} ) equals: #monoClass.
-	self assert: (builder classTypeWithSubclasses: { DMConceptualModel classmodel . DMViewModel classmodel} ) equals: #monoSuffix
+	self assert: (builder classTypeWithSubclasses: { DMConceptualModel classmodel . DMViewModel classmodel} ) equals: #monoSuffix.
+	self assert: (builder classTypeWithSubclasses: { DMFeature classmodel }) equals: #multiSuffix
 ]
 
 { #category : #tests }

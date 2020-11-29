@@ -34,31 +34,36 @@ DMTBuilder >> buildConceptualModelFrom: aModel [
 
 { #category : #'as yet unclassified' }
 DMTBuilder >> buildRootModelsFrom: aConceptualModel [
-
 	| classmodels rootModels |
 	self initialize.
-	
 	classmodels := self extractClassModelsFrom: aConceptualModel.
-	rootModels := aConceptualModel hierarchies collect: [ :eachHierarchy | DMRootModel new 
-		name: 	eachHierarchy name;
-		subclasses: (classmodels select: [ :eachClass | eachClass root = eachHierarchy ]) ;
-		type: 	(self classTypeWithSubclasses: (classmodels select: [ :eachClass | eachClass root = eachHierarchy ]));
-		color: (self attributeColorByType: (classmodels select: [ :eachClass | eachClass root = eachHierarchy ])) ].
-	^rootModels 	
-		
-	
+	rootModels := aConceptualModel hierarchies
+		collect: [ :eachHierarchy | 
+			DMRootModel new
+				name: eachHierarchy name;
+				subclasses: (classmodels select: [ :eachClass | eachClass root = eachHierarchy ]);
+				type:
+					(self
+						classTypeWithSubclasses: (classmodels select: [ :eachClass | eachClass root = eachHierarchy ]));
+				color:
+					(self
+						attributeColorByType:
+							(self
+								classTypeWithSubclasses: (classmodels select: [ :eachClass | eachClass root = eachHierarchy ]))) ].
+	^ rootModels
 ]
 
 { #category : #'as yet unclassified' }
-DMTBuilder >> classTypeWithSubclasses: anArrayOfClassModels [
-	
-	(anArrayOfClassModels size = 1)
-	ifTrue: [ (anArrayOfClassModels at: 1) reference isTrait 
-		ifTrue: [^#Trait ]
-		ifFalse: [ ^#monoClass ] ].
-	
-	((anArrayOfClassModels collect: [ :each | each concept ]) asSet size = 1)
-	ifTrue: [ ^ #monoSuffix ].
-	
+DMTBuilder >> classTypeWithSubclasses: anArrayOfClassModelsOfTheSameRoot [
+	anArrayOfClassModelsOfTheSameRoot size = 1
+		ifTrue: [ (anArrayOfClassModelsOfTheSameRoot at: 1) reference isTrait
+				ifTrue: [ ^ #Trait ]
+				ifFalse: [ (anArrayOfClassModelsOfTheSameRoot at: 1) root
+						= (anArrayOfClassModelsOfTheSameRoot at: 1) reference
+						ifTrue: [ ^ #monoClass ] ] ].
+				
+	((anArrayOfClassModelsOfTheSameRoot collect: [ :each | each concept ])
+		asSet size = 1) & ((anArrayOfClassModelsOfTheSameRoot atRandom) concept = (DMFeatureSelector new extractConceptFrom: (anArrayOfClassModelsOfTheSameRoot atRandom) root name))
+		ifTrue: [ ^ #monoSuffix ].
 	^ #multiSuffix
 ]
