@@ -37,10 +37,10 @@ DMRootModel >> subclasses [
 ]
 
 { #category : #accessing }
-DMRootModel >> subclasses: classVMGroup [
+DMRootModel >> subclasses: classesCollection [
 
-	subclasses := classVMGroup.
-	concepts addAll: (classVMGroup collect: #concept)
+	subclasses := classesCollection collect: [ :eachClass | eachClass classmodel ].
+	concepts addAll: (subclasses collect: #concept)
 ]
 
 { #category : #accessing }
