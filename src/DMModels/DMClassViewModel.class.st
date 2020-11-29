@@ -11,17 +11,6 @@ Class {
 	#category : #DMModels
 }
 
-{ #category : #'as yet unclassified' }
-DMClassViewModel >> classmodel [
-
-	^DMClassModel new
-	name: self name;
-	root: self root;
-	level: self hierarchyLevel;
-	reference: self reference;
-	concept: self name.
-]
-
 { #category : #accessing }
 DMClassViewModel >> color [
 	^ color
@@ -34,14 +23,12 @@ DMClassViewModel >> color: aColor [
 
 { #category : #accessing }
 DMClassViewModel >> concept [
-
 	^concept
 ]
 
 { #category : #accessing }
-DMClassViewModel >> concept: aName [
-
-	concept := DMFeatureSelector new extractConceptFrom: aName.
+DMClassViewModel >> concept: aClassName [
+	concept := DMFeatureSelector new extractConceptFrom: aClassName
 ]
 
 { #category : #accessing }
@@ -52,6 +39,16 @@ DMClassViewModel >> level [
 { #category : #accessing }
 DMClassViewModel >> level: aLevel [
 	level := aLevel
+]
+
+{ #category : #accessing }
+DMClassViewModel >> name [
+	^name
+]
+
+{ #category : #accessing }
+DMClassViewModel >> name: aName [
+	name := aName
 ]
 
 { #category : #'instance creation' }
@@ -81,5 +78,7 @@ DMClassViewModel >> root [
 DMClassViewModel >> root: aRoot [
 
 	root := aRoot.
-	(DMHierarchy rootsANDclasses at: aRoot) add: self classmodel
+	(DMHierarchy rootsANDclasses 
+		at: aRoot) add: self
+		
 ]

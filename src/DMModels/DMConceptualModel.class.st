@@ -8,11 +8,6 @@ Class {
 	#category : #DMModels
 }
 
-{ #category : #'instance creation' }
-DMConceptualModel >> from: aModel [
-	^ aModel buildConceptualModel.
-]
-
 { #category : #accessing }
 DMConceptualModel >> hierarchies [ 	
 	^hierarchies
@@ -31,14 +26,6 @@ DMConceptualModel >> initialize [
 	hierarchies := Set new.
 ]
 
-{ #category : #'as yet unclassified' }
-DMConceptualModel >> name: aName with: conceptualpackagemodels [
-
-	self name: aName.
-	self packagemodels: conceptualpackagemodels.
-	self hierarchies: (DMHierarchy elements copy)..
-]
-
 { #category : #accessing }
 DMConceptualModel >> packagemodels [
 	^packagemodels
@@ -46,5 +33,7 @@ DMConceptualModel >> packagemodels [
 
 { #category : #accessing }
 DMConceptualModel >> packagemodels: aCollectionOfPackageModels [
-	packagemodels := aCollectionOfPackageModels 
+
+	packagemodels := aCollectionOfPackageModels.
+	self hierarchies: (DMHierarchy elements copy).
 ]

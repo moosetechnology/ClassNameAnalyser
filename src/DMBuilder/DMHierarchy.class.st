@@ -42,7 +42,7 @@ DMHierarchy class >> initializeRoots [
 { #category : #'as yet unclassified' }
 DMHierarchy class >> rootmodels [
 
-	^DMBuilder buildRootModelsFrom: rootsANDclasses copy.
+	^(DMBuilder buildRootModelsFrom: rootsANDclasses copy).
 ]
 
 { #category : #'as yet unclassified' }

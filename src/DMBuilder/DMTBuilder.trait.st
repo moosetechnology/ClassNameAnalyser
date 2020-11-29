@@ -8,15 +8,15 @@ Trait {
 { #category : #building }
 DMTBuilder >> buildClassViewModelsFrom: aCollectionOfClassModels [
 
-	^DMClassModelGroup new 
-		addAll: (aCollectionOfClassModels collect: [ :aClassModel | 
+	
+	^(aCollectionOfClassModels collect: [ :aClassModel | 
 			DMClassViewModel new
 			name: (aClassModel name); 
 			root: aClassModel root; 
 			concept: aClassModel name;
 			reference: aClassModel reference;
 			level: aClassModel level
-		 ]).
+		 ])
 ]
 
 { #category : #building }
@@ -38,26 +38,24 @@ DMTBuilder >> buildConceptViewModelsFrom: aPackageModel [
 
 { #category : #building }
 DMTBuilder >> buildConceptualModelFrom: aModel [
-
-		(aModel class name == 'MooseModel')
-		ifTrue: [^DMConceptualModel 
-		name: aModel name , 'MSE'
-		with: ((((aModel allModelNamespaces) ifEmpty: aModel allModelPackages) asMooseGroup) conceptualPackageModels)].
-			
-		(aModel class name == 'FamixStModel')
-		ifTrue: [ ^DMConceptualModel 
-			name: aModel name , 'Famix'
-		with: (((aModel allModelPackages ifNil: aModel allModelNamespaces) asMooseGroup) conceptualPackageModels)] .
+	| packages |
+	packages := (aModel allModelNamespaces
+		ifEmpty: aModel allModelPackages) asMooseGroup.
+	^ DMConceptualModel new
+		packagemodels:
+			(packages
+				collect: [ :eachPackage | 
+					DMPackageModel new
+						name: eachPackage name;
+						classmodels: (eachPackage classes collect: [ :each | each classmodel ]) ])
 ]
 
 { #category : #building }
 DMTBuilder >> buildPackageViewModelsFrom: aConceptualModel [
  
-	 
-	^DMPackageModelGroup new addAll:(
-		aConceptualModel packagemodels collect: [ :packageModel | DMPackageViewModel new
+		^aConceptualModel packagemodels collect: [ :packageModel | DMPackageViewModel new
 		name: (packageModel name);
-		conceptViewModels: (self buildConceptViewModelsFrom: packageModel)]).
+		conceptViewModels: (self buildConceptViewModelsFrom: packageModel)]
  
 ]
 
@@ -65,12 +63,10 @@ DMTBuilder >> buildPackageViewModelsFrom: aConceptualModel [
 DMTBuilder >> buildPackagesFrom: aConceptualModel [
 
 	| viewmodel |
-	viewmodel := DMViewModel new
-	name: aConceptualModel name.
+	viewmodel := DMViewModel new.
 	DMHierarchy initializeRoots.
 	
-	(aConceptualModel name endsWith: 'Famix')
-	ifTrue: [ DMHierarchy rootsANDclasses associationsDo: [ :each | each value addAll: ((each key name) asClass submodels)]  ]. 
+	DMHierarchy rootsANDclasses associationsDo: [ :each | each value addAll: ((each key name) asClass submodels)].
 	 	viewmodel packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel). 
 		viewmodel rootmodels: (DMHierarchy rootmodels).
 		DMHierarchy rootsANDclasses removeAll .

@@ -5,10 +5,14 @@ MooseModel >> AllClassNamesBlueprint [
 
 	<navigation: 'AllClassNamesBlueprint'>
 	| conceptualModel viewModel mooseView |
-	conceptualModel := self buildConceptualModel.
+	conceptualModel := (DMBuilder buildConceptualModelFrom: self).
 	viewModel := DMViewModel new from: conceptualModel.
 	mooseView := DMRoassalClassNamesBlueprint new visualize: viewModel.
 	^mooseView
+
+	
+	
+
 
 	
 	

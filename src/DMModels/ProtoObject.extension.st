@@ -1,6 +1,21 @@
 Extension { #name : #ProtoObject }
 
 { #category : #'*DMModels' }
+ProtoObject >> classmodel [
+
+	(DMHierarchy add: self root).
+	^(DMClassModel new 
+	name: self name;
+	root: self root;
+	level: self hierarchyLevel;
+	concept: self name;
+	reference: self;
+	superclass: self superclass)
+	
+	
+]
+
+{ #category : #'*DMModels' }
 ProtoObject >> hierarchyLevel [ 
 
 	| c depth |	

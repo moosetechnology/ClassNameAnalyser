@@ -11,7 +11,7 @@ Class {
 { #category : #'instance creation' }
 DMViewModel >> from: aConceptualModel [
 
-	^DMBuilder new buildViewModelFrom: aConceptualModel
+	^(DMBuilder new buildViewModelFrom: aConceptualModel)
 	
 ]
 

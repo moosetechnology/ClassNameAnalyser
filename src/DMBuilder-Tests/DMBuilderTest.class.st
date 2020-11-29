@@ -21,7 +21,7 @@ DMBuilderTest >> testBuildConceptualModel [
 	mooseSample := MooseSampleData new.
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion5) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	self assert: conceptualModel hierarchies size equals: 1
+	self assert: conceptualModel class name equals: 'DMConceptualModel'
 	
 ]
 
