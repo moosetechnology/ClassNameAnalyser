@@ -3,10 +3,16 @@ Class {
 	#superclass : #DMModel,
 	#instVars : [
 		'packagemodels',
-		'hierarchies'
+		'hierarchies',
+		'concepts'
 	],
 	#category : #DMModels
 }
+
+{ #category : #accessing }
+DMConceptualModel >> concepts [
+	^concepts
+]
 
 { #category : #accessing }
 DMConceptualModel >> hierarchies [ 	
@@ -14,9 +20,9 @@ DMConceptualModel >> hierarchies [
 ]
 
 { #category : #accessing }
-DMConceptualModel >> hierarchies: Hierarchies [
+DMConceptualModel >> hierarchies: hierarchiesCollection [
 
-	hierarchies := Hierarchies asSet
+	hierarchies := hierarchiesCollection asSet
 ]
 
 { #category : #initialization }
@@ -35,5 +41,8 @@ DMConceptualModel >> packagemodels [
 DMConceptualModel >> packagemodels: aCollectionOfPackageModels [
 
 	packagemodels := aCollectionOfPackageModels.
-	self hierarchies: (DMHierarchy elements copy).
+	concepts := (aCollectionOfPackageModels flatCollect: [ :eachPackageModel | 
+		DMBuilder new extractConceptsFrom: eachPackageModel ]) asSet.
+	hierarchies := (aCollectionOfPackageModels flatCollect: [ :eachPackageM | 
+		DMBuilder new extractHierarchiesFrom: eachPackageM ] ) asSet.
 ]

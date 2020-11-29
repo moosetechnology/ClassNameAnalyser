@@ -3,7 +3,6 @@ Extension { #name : #ProtoObject }
 { #category : #'*DMModels' }
 ProtoObject >> classmodel [
 
-	(DMHierarchy add: self root).
 	^(DMClassModel new 
 	name: self name;
 	root: self root;
