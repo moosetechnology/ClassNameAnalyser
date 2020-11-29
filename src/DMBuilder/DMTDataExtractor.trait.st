@@ -11,5 +11,5 @@ DMTDataExtractor >> extractConceptsFrom: aPackageModel [
 
 { #category : #'as yet unclassified' }
 DMTDataExtractor >> extractHierarchiesFrom: aDMPackageModel [ 
-	^(aDMPackageModel classmodels collect: [ :each | each classmodel concept ])
+	^(aDMPackageModel classmodels collect: [ :each | each classmodel root ])
 ]
