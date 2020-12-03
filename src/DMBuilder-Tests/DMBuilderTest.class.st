@@ -63,8 +63,8 @@ DMBuilderTest >> testBuildViewModel [
 	rootModels := builder buildRootModelsFrom: conceptualModel.
 	viewmodel := DMBuilder new buildViewModelFrom: conceptualModel.
 	
-	self assert: (conceptualModel name) equals: (viewmodel name)
-	
+	self assert: (conceptualModel name) equals: (viewmodel name).
+	self assert: (builder extractAllHierarchiesFrom: conceptualModel packagemodels) size equals: (viewmodel rootmodels) size
 ]
 
 { #category : #tests }
@@ -90,7 +90,7 @@ DMBuilderTest >> testClassViewModel [
 	aRandomCVMRoot := rootModels detect: [ :each | each name = aClassVM root name ].
 	
 	self assert: (classViewModels size) equals: (classmodels size).
-	self assert: (aClassVM color) equals: aRandomCVMRoot color
+	self assert: (aClassVM color) equals: aRandomCVMRoot color.
 ]
 
 { #category : #tests }
@@ -125,16 +125,13 @@ DMBuilderTest >> testExtractClassViewModels [
 DMBuilderTest >> testExtractRootModelsForaConcept [ 
 
 	"mooseSample has only one hierarchy that's how I know that the result would be 1 daaah there is only one hierarchy"
-	| mooseSample mooseModel rootModels  |
+	| mooseSample mooseModel rootModels conceptualmodel|
 	mooseSample := MooseSampleData new.
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion5) readStream.
-	builder buildConceptualModelFrom: mooseModel.
+	conceptualmodel := builder buildConceptualModelFrom: mooseModel.
+	builder buildRootModelsFrom: conceptualmodel.
 	rootModels := builder extractRootModelsFor: 'E'.
 	self assert: (rootModels size) equals: 1
-]
-
-{ #category : #tests }
-DMBuilderTest >> testHierarchies [
 ]
 
 { #category : #tests }

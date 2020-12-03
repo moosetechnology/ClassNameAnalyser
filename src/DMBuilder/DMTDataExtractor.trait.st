@@ -4,6 +4,12 @@ Trait {
 }
 
 { #category : #'as yet unclassified' }
+DMTDataExtractor >> extractAllHierarchiesFrom: aCollectionofPackageModels [
+
+	^(aCollectionofPackageModels collect: [ :eachPackageModel | self extractHierarchiesFrom: eachPackageModel ])
+]
+
+{ #category : #'as yet unclassified' }
 DMTDataExtractor >> extractClassModelsFrom: aConceptualModel [
 
 	^(aConceptualModel packagemodels flatCollect: [ :eachPackageModel | eachPackageModel classmodels ]) asOrderedCollection 
