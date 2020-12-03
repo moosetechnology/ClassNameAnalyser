@@ -8,24 +8,10 @@ Class {
 	#category : #DMModels
 }
 
-{ #category : #'instance creation' }
-DMViewModel >> from: aConceptualModel [
-
-	^(DMBuilder new buildViewModelFrom: aConceptualModel)
-	
-]
-
 { #category : #initialization }
 DMViewModel >> initialize [
 
 	rootmodels := Dictionary new.
-]
-
-{ #category : #'instance creation' }
-DMViewModel >> name: aName with: packagemodelGroup [
-
-	self name: aName.
-	self packageViewModels: packagemodelGroup
 ]
 
 { #category : #accessing }
