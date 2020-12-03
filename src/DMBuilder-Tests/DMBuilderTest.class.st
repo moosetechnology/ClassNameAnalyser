@@ -14,6 +14,10 @@ DMBuilderTest >> setUp [
 	builder := DMBuilder new
 ]
 
+{ #category : #tests }
+DMBuilderTest >> testAttribueColor [
+]
+
 { #category : #'as yet unclassified' }
 DMBuilderTest >> testBuildConceptualModel [
 
@@ -132,6 +136,18 @@ DMBuilderTest >> testExtractRootModelsForaConcept [
 	builder buildRootModelsFrom: conceptualmodel.
 	rootModels := builder extractRootModelsFor: 'E'.
 	self assert: (rootModels size) equals: 1
+]
+
+{ #category : #tests }
+DMBuilderTest >> testSelectBiggestHierarchyFor [
+
+	| mooseSample mooseModel conceptualModel viewmodel rootModels |
+	mooseSample := MooseSampleData new.
+	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
+	conceptualModel := builder buildConceptualModelFrom: mooseModel.
+	rootModels := builder buildRootModelsFrom: conceptualModel.
+	
+	
 ]
 
 { #category : #tests }

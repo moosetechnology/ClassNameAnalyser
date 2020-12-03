@@ -38,8 +38,11 @@ DMRootModel >> subclasses [
 
 { #category : #accessing }
 DMRootModel >> subclasses: classesCollection [
-
-	subclasses := classesCollection collect: [ :eachClass | eachClass classmodel ].
+	classesCollection size = 1
+		& ((classesCollection at: 1) name = self name)
+		ifTrue: [ ^ self ].
+	subclasses := classesCollection
+		collect: [ :eachClass | eachClass classmodel ].
 	concepts addAll: (subclasses collect: #concept)
 ]
 
