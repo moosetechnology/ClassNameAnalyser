@@ -16,8 +16,8 @@ smalltalk:
 
 #  - Pharo-alpha
 #  - Pharo-stable
-#  - Pharo32-8.0
-  - Pharo-7.0
+ - Pharo32-8.0
+#  - Pharo-7.0
  # - Pharo-6.1
 #  - Pharo-5.0
 #  - Pharo-4.0
@@ -26,7 +26,7 @@ smalltalk:
 #  - Pharo64-alpha
 #  - Pharo64-stable
   - Pharo64-8.0
-  - Pharo64-7.0
+ # - Pharo64-7.0
 #  - Pharo64-6.1
 
 #  - GemStone-3.3.0
