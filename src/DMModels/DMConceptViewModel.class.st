@@ -29,13 +29,6 @@ DMConceptViewModel >> color: aColor [
 	color := aColor 
 ]
 
-{ #category : #'instance creation' }
-DMConceptViewModel >> name: aConceptName with: classVMs [
-
-	self name: aConceptName.
-	self classViewModels: classVMs.
-]
-
 { #category : #accessing }
 DMConceptViewModel >> root [
 	^root

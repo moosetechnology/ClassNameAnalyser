@@ -41,16 +41,6 @@ DMClassViewModel >> level: aLevel [
 	level := aLevel
 ]
 
-{ #category : #accessing }
-DMClassViewModel >> name [
-	^name
-]
-
-{ #category : #accessing }
-DMClassViewModel >> name: aName [
-	name := aName
-]
-
 { #category : #'instance creation' }
 DMClassViewModel >> name: aClassName with: aColor [
 
@@ -77,8 +67,6 @@ DMClassViewModel >> root [
 { #category : #accessing }
 DMClassViewModel >> root: aRoot [
 
-	root := aRoot.
-	(DMHierarchy rootsANDclasses 
-		at: aRoot) add: self
+	root := aRoot
 		
 ]

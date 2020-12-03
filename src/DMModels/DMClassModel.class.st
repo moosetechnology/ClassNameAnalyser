@@ -34,16 +34,6 @@ DMClassModel >> level: aLevel [
 ]
 
 { #category : #accessing }
-DMClassModel >> name [
-	^name
-]
-
-{ #category : #accessing }
-DMClassModel >> name: aName [
-	name := aName
-]
-
-{ #category : #accessing }
 DMClassModel >> reference [
 	^reference
 ]

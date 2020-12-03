@@ -3,8 +3,13 @@ Extension { #name : #MooseModel }
 { #category : #'*DMMooseCNB' }
 MooseModel >> AllClassNamesBlueprint [
 
-	<navigation: 'Conceptual Model'>
-	^(DMBuilder buildConceptualModelFrom: self)
+	<navigation: 'AllClassNamesBlueprint'>
+	| conceptualModel viewModel mooseView |
+	conceptualModel := (DMBuilder new buildConceptualModelFrom: self).
+	viewModel := DMViewModel new from: conceptualModel.
+	mooseView := DMRoassalClassNamesBlueprint new visualize: viewModel.
+	^mooseView
+
 	
 	
 
@@ -17,7 +22,7 @@ MooseModel >> AllClassNamesBlueprint [
 MooseModel >> AllConceptualModel [
 
 	<navigation: 'Conceptual Model'>
-	^(DMBuilder buildConceptualModelFrom: self)
+	^(DMBuilder new buildConceptualModelFrom: self)
 	
 	
 

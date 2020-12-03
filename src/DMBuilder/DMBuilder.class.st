@@ -8,29 +8,35 @@ Class {
 		'index'
 	],
 	#classInstVars : [
-		'conceptsClasses'
+		'rootmodels',
+		'conceptualmodel'
 	],
 	#category : #DMBuilder
 }
 
-{ #category : #'as yet unclassified' }
-DMBuilder class >> buildConceptualModelFrom: aMooseModel [
-
-
-	DMHierarchy initialize.
-	^self new buildConceptualModelFrom: aMooseModel 
+{ #category : #accessing }
+DMBuilder class >> conceptualmodel [
+	^conceptualmodel 
 ]
 
-{ #category : #'as yet unclassified' }
-DMBuilder class >> buildRootModelsFrom: aCollectionOfRoots [
-
-	^self new buildRootModelsFrom: aCollectionOfRoots
+{ #category : #accessing }
+DMBuilder class >> conceptualmodel: aConceptualModel [ 
+	conceptualmodel := aConceptualModel 
 ]
 
-{ #category : #building }
-DMBuilder class >> buildViewModelFrom: aConceptualModel [
+{ #category : #'class initialization' }
+DMBuilder class >> initialize [
+	rootmodels := OrderedCollection new
+]
 
-	^self new buildViewModelFrom: aConceptualModel
+{ #category : #accessing }
+DMBuilder class >> rootmodels [
+	^rootmodels
+]
+
+{ #category : #accessing }
+DMBuilder class >> rootmodels: collectionOfRootModels [
+	rootmodels := collectionOfRootModels 
 ]
 
 { #category : #coloring }

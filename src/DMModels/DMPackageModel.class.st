@@ -23,10 +23,3 @@ DMPackageModel >> initialize [
 	super initialize.
 	classmodels := DMClassModelGroup new.
 ]
-
-{ #category : #initialization }
-DMPackageModel >> name: aName with: aClassModelGroup [
-
-	self name: aName.
-	self classmodels: aClassModelGroup
-]
