@@ -20,10 +20,10 @@ DMTBuilder >> buildClassViewModelsFrom: classmodels [
 ]
 
 { #category : #'as yet unclassified' }
-DMTBuilder >> buildConceptViewModelsFrom: aCollectionOfConcepts using: aPackageClassModels [
+DMTBuilder >> buildConceptViewModelsFrom: aCollectionOfConcepts using: aPackagesClassModels [
 	"On enveloppe chaque class du package dans son concept box "
 	^(aCollectionOfConcepts collect: [ :eachConcept | | classmodels |
-		classmodels := aPackageClassModels select: [ :eachClassmodel | eachClassmodel concept = eachConcept ].
+		classmodels := aPackagesClassModels select: [ :eachClassmodel | eachClassmodel concept = eachConcept ].
 			DMConceptViewModel new
 			name: eachConcept;
 				classViewModels: (self buildClassViewModelsFrom: classmodels);
@@ -61,6 +61,18 @@ DMTBuilder >> buildConceptualModelFrom: aModel [
 ]
 
 { #category : #'as yet unclassified' }
+DMTBuilder >> buildPackageViewModelsFrom: packageModels [
+
+	^(packageModels collect: [ :eachPackageModel | | concepts |
+		concepts := (eachPackageModel classmodels collect: #concept).
+		DMPackageViewModel new
+						name: eachPackageModel name;
+						conceptViewModels:
+							(self
+								buildConceptViewModelsFrom: concepts using: (eachPackageModel classmodels)) ])
+]
+
+{ #category : #'as yet unclassified' }
 DMTBuilder >> buildRootModelsFrom: aConceptualModel [
 	| classmodels rootModels |
 	self initialize.
@@ -85,22 +97,12 @@ DMTBuilder >> buildRootModelsFrom: aConceptualModel [
 ]
 
 { #category : #'as yet unclassified' }
-DMTBuilder >> buildViewModelFrom: aConceptualModel using: itsRootModels [
-	| aViewModel |
-	aViewModel := DMViewModel new.
-	aViewModel
+DMTBuilder >> buildViewModelFrom: aConceptualModel [
+	
+	^(DMViewModel new 
 	name: aConceptualModel name;
-		packageViewModels:
-			(aConceptualModel packagemodels
-				collect: [ :eachPackageModel | 
-					DMPackageViewModel new
-						name: eachPackageModel name;
-						conceptViewModels:
-							(self
-								buildConceptViewModelsFrom: (eachPackageModel classmodels collect: #concept)
-								using: eachPackageModel classmodels) ]);
-		rootmodels: itsRootModels.
-	^ aViewModel
+		packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel packagemodels);
+		rootmodels: self class rootmodels )
 ]
 
 { #category : #'as yet unclassified' }

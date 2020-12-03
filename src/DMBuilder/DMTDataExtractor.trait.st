@@ -9,6 +9,12 @@ DMTDataExtractor >> extractClassModelsFrom: aConceptualModel [
 	^(aConceptualModel packagemodels flatCollect: [ :eachPackageModel | eachPackageModel classmodels ]) asOrderedCollection 
 ]
 
+{ #category : #'as yet unclassified' }
+DMTDataExtractor >> extractClassViewModelsFrom: aViewModel [
+
+	^(aViewModel packageViewModels flatCollect: [ :eachPackageViewModel |  eachPackageViewModel conceptViewModels flatCollect: #classViewModels])
+]
+
 { #category : #ambiguous }
 DMTDataExtractor >> extractConceptsFrom: aPackageModel [
 
@@ -46,6 +52,6 @@ DMTDataExtractor >> selectBiggestHierarchyFor: aConcept [
 				do: [ :aRootModel | 
 					aRootModel subclasses size > biggest subclasses size
 						ifTrue: [ biggest := aRootModel ].
-					index += 1 ] ].
-	^ biggest name
+					index := index + 1 ] ].
+	^ biggest
 ]
