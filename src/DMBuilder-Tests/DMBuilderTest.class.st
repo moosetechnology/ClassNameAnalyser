@@ -18,6 +18,20 @@ DMBuilderTest >> setUp [
 DMBuilderTest >> testAttribueColor [
 ]
 
+{ #category : #tests }
+DMBuilderTest >> testBuildConceptViewModels [
+
+	| mooseSample mooseModel conceptualModel rootModels conceptVModels |
+	mooseSample := MooseSampleData new.
+	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
+	conceptualModel := builder buildConceptualModelFrom: mooseModel.
+	rootModels := builder buildRootModelsFrom: conceptualModel.
+	conceptVModels := builder buildConceptViewModelsFrom: conceptualModel concepts using:( builder extractClassModelsFrom: conceptualModel).
+	self assert: (conceptVModels size) equals: conceptualModel concepts size.
+	self assert: (conceptVModels collect: #name) equals: conceptualModel concepts.
+	
+]
+
 { #category : #'as yet unclassified' }
 DMBuilderTest >> testBuildConceptualModel [
 
@@ -124,7 +138,7 @@ DMBuilderTest >> testExtractClassViewModels [
 	classModels := builder extractClassModelsFrom: conceptualModel.
 	classViewModels := builder extractClassViewModelsFrom: viewModel.
 	self assert: (classViewModels size) equals: (classModels size).
-	self assert: (classViewModels collect: #reference) asArray equals: (classModels collect: #reference) asArray
+	self assert: (classViewModels collect: #reference) asSet equals: (classModels collect: #reference) asSet
 ]
 
 { #category : #tests }

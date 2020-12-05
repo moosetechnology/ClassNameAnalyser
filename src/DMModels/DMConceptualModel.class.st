@@ -30,6 +30,7 @@ DMConceptualModel >> initialize [
 
 	super initialize.
 	hierarchies := Set new.
+	concepts := Set new.
 ]
 
 { #category : #accessing }

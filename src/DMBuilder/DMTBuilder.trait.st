@@ -22,7 +22,7 @@ DMTBuilder >> buildClassViewModelsFrom: classmodels [
 { #category : #'as yet unclassified' }
 DMTBuilder >> buildConceptViewModelsFrom: aCollectionOfConcepts using: aPackagesClassModels [
 	"On enveloppe chaque class du package dans son concept box "
-	^(aCollectionOfConcepts collect: [ :eachConcept | | classmodels |
+	^(aCollectionOfConcepts asSet collect: [ :eachConcept | | classmodels |
 		classmodels := aPackagesClassModels select: [ :eachClassmodel | eachClassmodel concept = eachConcept ].
 			DMConceptViewModel new
 			name: eachConcept;
@@ -56,7 +56,7 @@ DMTBuilder >> buildConceptualModelFrom: aModel [
 							DMPackageModel new
 								name: eachPackage name;
 								classmodels: (eachPackage classes collect: [ :each | each classmodel ]) ])) ].
-		^DMBuilder conceptualmodel
+		^self class conceptualmodel
 		
 ]
 
@@ -64,7 +64,7 @@ DMTBuilder >> buildConceptualModelFrom: aModel [
 DMTBuilder >> buildPackageViewModelsFrom: packageModels [
 
 	^(packageModels collect: [ :eachPackageModel | | concepts |
-		concepts := (eachPackageModel classmodels collect: #concept).
+		concepts := (eachPackageModel classmodels collect: #concept) asSet.
 		DMPackageViewModel new
 						name: eachPackageModel name;
 						conceptViewModels:
