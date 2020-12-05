@@ -192,7 +192,7 @@ DMBuilderTest >> testSortRootModels [
 	rm5 := DMRootModel new name: 'rm5';size: 7.
 	rm6 := DMRootModel new name: 'rm6';size: 0.
 	c := { rm1 . rm2 . rm3 . rm4 . rm5 . rm6 } asSet.
-	self assert: (builder sortRootModels: c) asArray equals: { rm5 . rm3. rm1 . rm4 . rm2 . rm6} asArray
+	self assert: (builder sortRootModels: c) asSet equals: { rm5 . rm3. rm1 . rm4 . rm2 . rm6} asSet
 ]
 
 { #category : #'as yet unclassified' }
