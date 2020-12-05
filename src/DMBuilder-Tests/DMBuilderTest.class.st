@@ -47,13 +47,15 @@ DMBuilderTest >> testBuildPackageViewModels [
 
 { #category : #tests }
 DMBuilderTest >> testBuildRootModels [
-
+	"The modelVersion4 has two roots with the same name 'ClassA' one is a monoClass the other is a multiSuffix hierarchy each in a different package"
 	| mooseSample mooseModel conceptualModel rootModels |
 	mooseSample := MooseSampleData new.
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	rootModels := builder buildRootModelsFrom: conceptualModel.
-	self assert: (rootModels collect: #name) asArray equals: (conceptualModel hierarchies collect: #name) asArray
+	self assert: (rootModels collect: #name) asSet equals: (conceptualModel hierarchies collect: #name) .
+	self assert: (rootModels size) equals: 2.
+	
 	
 ]
 
@@ -141,13 +143,16 @@ DMBuilderTest >> testExtractRootModelsForaConcept [
 { #category : #tests }
 DMBuilderTest >> testSelectBiggestHierarchyFor [
 
-	| mooseSample mooseModel conceptualModel viewmodel rootModels |
+	"The modelVersion4 has two roots with the same name 'ClassA' one is a monoClass the other is a 	multiSuffix hierarchy each in a different package"
+	| mooseSample mooseModel conceptualModel rootmodel |
 	mooseSample := MooseSampleData new.
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	rootModels := builder buildRootModelsFrom: conceptualModel.
-	
-	
+	builder buildRootModelsFrom: conceptualModel.
+	rootmodel := (builder selectBiggestHierarchyFor: 'A').
+	self assert: (rootmodel name) equals: 'ClassA'.
+	self assert: (rootmodel color) equals: #red
+
 ]
 
 { #category : #tests }
@@ -161,6 +166,19 @@ DMBuilderTest >> testSelectColorFor [
 	color := builder selectColorFor: 'E'.
 	self assert: color equals: #red
 	
+]
+
+{ #category : #tests }
+DMBuilderTest >> testSortRootModels [
+	| rm1 rm2 rm3 rm4 rm5 rm6 c |
+	rm1 := DMRootModel new name: 'rm1';size: 3.
+	rm2 := DMRootModel new name: 'rm2';size: 0.
+	rm3 := DMRootModel new name: 'rm3';size: 4.
+	rm4 := DMRootModel new name: 'rm4';size: 2.
+	rm5 := DMRootModel new name: 'rm5';size: 7.
+	rm6 := DMRootModel new name: 'rm6';size: 0.
+	c := { rm1 . rm2 . rm3 . rm4 . rm5 . rm6 } asSet.
+	self assert: (builder sortRootModels: c) asArray equals: { rm5 . rm3. rm1 . rm4 . rm2 . rm6} asArray
 ]
 
 { #category : #'as yet unclassified' }

@@ -74,9 +74,10 @@ DMTBuilder >> buildPackageViewModelsFrom: packageModels [
 
 { #category : #'as yet unclassified' }
 DMTBuilder >> buildRootModelsFrom: aConceptualModel [
-	| classmodels rootModels |
+	| classmodels rootModels coloredRootModels sortedRootModels |
 	self initialize.
-	DMBuilder conceptualmodel: aConceptualModel.
+	self class conceptualmodel: aConceptualModel.
+	coloredRootModels := Set new.
 	classmodels := self extractClassModelsFrom: aConceptualModel.
 	rootModels := aConceptualModel hierarchies
 		collect: [ :eachHierarchy | 
@@ -85,15 +86,13 @@ DMTBuilder >> buildRootModelsFrom: aConceptualModel [
 				subclasses: (classmodels select: [ :eachClass | eachClass root = eachHierarchy ]);
 				type:
 					(self
-						classTypeWithSubclasses: (classmodels select: [ :eachClass | eachClass root = eachHierarchy ]));
-				color:
-					(self
-						attributeColorByType:
-							(self
-								classTypeWithSubclasses: (classmodels select: [ :eachClass | eachClass root = eachHierarchy ]))) ].
-	
-	self class rootmodels: rootModels.
-	^ rootModels
+						classTypeWithSubclasses: (classmodels select: [ :eachClass | eachClass root = eachHierarchy ])) ].
+	sortedRootModels := self sortRootModels: rootModels.
+	coloredRootModels := (sortedRootModels 
+		collect: 
+			[ :eachRootModel | eachRootModel color: (self attributeColorByType: eachRootModel type) ]).
+	self class rootmodels: coloredRootModels.
+	^ coloredRootModels
 ]
 
 { #category : #'as yet unclassified' }

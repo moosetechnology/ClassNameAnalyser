@@ -24,11 +24,6 @@ DMBuilder class >> conceptualmodel: aConceptualModel [
 	conceptualmodel := aConceptualModel 
 ]
 
-{ #category : #'class initialization' }
-DMBuilder class >> initialize [
-	rootmodels := OrderedCollection new
-]
-
 { #category : #accessing }
 DMBuilder class >> rootmodels [
 	^rootmodels
@@ -73,5 +68,15 @@ DMBuilder >> initialize [
 	palette := {#red . #yellow . #blue . #purple . #magenta . #orange . #green . #pink . #tan  . #cyan . #lightBlue . #lightBrown . #lightCyan  . #lightGreen.
 	#lightMagenta . #lightOrange . #lightRed .
 	#paleGreen . #paleMagenta . #paleOrange . #palePeach . #paleRed . #paleTan . #black}.
-	index := 0
+	index := 0.
+]
+
+{ #category : #accessing }
+DMBuilder >> sortRootModels [.
+	self class rootmodels sorted: #size descending
+]
+
+{ #category : #accessing }
+DMBuilder >> sortRootModels: aSetOfRootModels [
+	^(aSetOfRootModels sorted: #size descending)
 ]

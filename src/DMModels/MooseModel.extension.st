@@ -4,10 +4,10 @@ Extension { #name : #MooseModel }
 MooseModel >> AllClassNamesBlueprint [
 
 	<navigation: 'AllClassNamesBlueprint'>
-	| conceptualModel viewModel mooseView builder |
+	| conceptualModel viewModel mooseView builder rootmodels |
 	builder := DMBuilder new.
 	conceptualModel := builder buildConceptualModelFrom: self.
-	builder buildRootModelsFrom: conceptualModel.
+	rootmodels := builder buildRootModelsFrom: conceptualModel.
 	viewModel := builder buildViewModelFrom: conceptualModel.
 	mooseView := DMRoassalClassNamesBlueprint new visualize: viewModel.
 	^mooseView
@@ -31,6 +31,16 @@ MooseModel >> AllConceptualModel [
 
 	
 	
+]
+
+{ #category : #'*DMModels' }
+MooseModel >> AllProjectHierarchies [
+	
+	<navigation: 'All Project Hierarchies'>
+	| conceptualModel builder |
+	builder := DMBuilder new.
+	conceptualModel := builder buildConceptualModelFrom: self.
+	^(builder buildRootModelsFrom: conceptualModel).
 ]
 
 { #category : #'*DMModels' }

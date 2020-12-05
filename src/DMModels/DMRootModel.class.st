@@ -5,7 +5,8 @@ Class {
 		'subclasses',
 		'color',
 		'type',
-		'concepts'
+		'concepts',
+		'size'
 	],
 	#category : #DMModels
 }
@@ -27,8 +28,20 @@ DMRootModel >> concepts [
 
 { #category : #initialization }
 DMRootModel >> initialize [ 
-	concepts := Set new
+	concepts := Set new.
+	subclasses := Set new.
 
+]
+
+{ #category : #accessing }
+DMRootModel >> size [
+	^size
+	
+]
+
+{ #category : #accessing }
+DMRootModel >> size: aSize [
+	size := aSize 
 ]
 
 { #category : #accessing }
@@ -40,10 +53,11 @@ DMRootModel >> subclasses [
 DMRootModel >> subclasses: classesCollection [
 	classesCollection size = 1
 		& ((classesCollection at: 1) name = self name)
-		ifTrue: [ ^ self ].
+		ifTrue: [ size := 0 ].
 	subclasses := classesCollection
 		collect: [ :eachClass | eachClass classmodel ].
-	concepts addAll: (subclasses collect: #concept)
+	concepts addAll: (subclasses collect: #concept).
+	size := subclasses size.
 ]
 
 { #category : #accessing }
