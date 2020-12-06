@@ -46,7 +46,7 @@ The visualisation below represents a ClassNames Blueprint for some packages sele
 The visualisation below represents a ClassNames Blueprint for a [Java project(ArgoUML)](https://github.com/argouml-tigris-org) imported as an .mse file by clicking on the 'mse' option as shown in the above-right of the Moose Panel:
 ![](Images/JavaProject(ArgoUML).png)
 
-Figure below depicts the Root Models of the ArgoUML Java project:
+Figure below depicts the grouo of Root Models of the ArgoUML Java project and an example of a root model:
 ![](Images/RootModels.png)
 
 
