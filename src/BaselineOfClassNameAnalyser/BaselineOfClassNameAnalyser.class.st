@@ -9,7 +9,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
 	spec for: #common do: [	
 		"dependencies"
-			spec loadRoassal2: spec.			
+			self loadRoassal2: spec.			
 		"Packages"
 		spec 
 			package: 'DMModels';
