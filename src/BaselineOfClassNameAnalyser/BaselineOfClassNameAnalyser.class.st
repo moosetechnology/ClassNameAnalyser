@@ -9,7 +9,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
 	spec for: #common do: [	
 		"dependencies"
-			self loadRoassal2: spec.			
+			
 		"Packages"
 		spec 
 			package: 'DMModels';
@@ -17,7 +17,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 			package: 'DMFeatureSelector-Tests' with: [ spec requires: #('DMFeatureSelector') ];
 			package: 'DMBuilder-Tests' with: [ spec requires: #('DMBuilder') ];
 			package: 'DMBuilder' with: [ spec requires: #('DMModels') ];
-			package: 'DMRoassalClassNameBlueprint' with: [ spec requires: #('Roassal2') ].
+			package: 'DMModels' with: [ spec requires: #('DMRoassalClassNameBlueprint') ].
 				 ].
 ]
 
