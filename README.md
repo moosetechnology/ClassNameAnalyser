@@ -19,9 +19,9 @@ Metacello new
 The ClassNameAnalyser is a visualisation of the distribution of concepts in a specific Java or Pharo project using the ClassNames Blueprint. The distribution of concepts in the project starts from the simple hypothesis: Most Programmers use english as their programming language so when naming their classes, the standard format of the class name is written as follows: XYConcept (for example a class named: ClassNameAnalyser, the concept is at the end of the word which is 'Analyser').
 
 ## How to use the ClassNameAnalyser With Moose
-Load your project/packages into your Moose Panel, scroll to see the ClassNames Blueprint visualisation, the conceptual model and the view model of your packages.
+After loading ClassNameAnalyser, load your project/packages into your Moose Panel, scroll to see the ClassNames Blueprint visualisation, the conceptual model, the view model and all the root models (all hierarchies) of your packages. The Moose Panel has the option of loading Java projects, but first one must create the .mse file of the java project so it can be loaded and analysed.
 
-In case you are not familiar with Moose, I suggest you have a look at the [Moose Book](http://www.themoosebook.org/book/).
+In case you are not familiar with Moose, or do not know how to create .mse file of your java project, I suggest you have a look at the [Moose Book](http://www.themoosebook.org/book/).
 
 ## A Visual Example:
 
