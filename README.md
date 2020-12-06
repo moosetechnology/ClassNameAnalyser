@@ -29,12 +29,11 @@ ClassNameAnalyser is a representation of the ClassNames Blueprint. The ClassName
 
 Class Type | Description | Color
 --- | --- | --- |
-**Mono Class** | a class which belongs to no hierarchy | white
+A Visual Example:
 **Trait Class** | a class containing a set of methods that can be used to extend the functionality of a class | white
-**Mono Suffix Hierarchy** | Hierarchies which use the same naming convention (uses the same suffix in all classes) | <div class="text-gray">
-  Gray </div>
+**Mono Suffix Hierarchy** | Hierarchies which use the same naming convention (uses the same suffix in all classes) | Gray
 **Multi Suffix Hierarchy** | Hierarchies which do not use the same naming convention (uses different suffixes along its subclasses | Selects a color from the palette (24 biggest hierarchies use 24 colors in the palette)
-**Other hierarchies** | starting from the 25th hierarchy in the system | <span style ="color: black"> Black </span>
+**Other hierarchies** | starting from the 25th hierarchy in the system | Black
 
 
 
