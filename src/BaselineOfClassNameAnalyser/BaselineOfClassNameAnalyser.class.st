@@ -9,7 +9,6 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
 	spec for: #common do: [	
 		"dependencies"
-		self loadMoose: spec.	
 										
 		"Packages"
 		spec 
