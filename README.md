@@ -33,7 +33,7 @@ Class Type | Description | Color
 **Trait Class** | a class containing a set of methods that can be used to extend the functionality of a class | white
 **Mono Suffix Hierarchy** | Hierarchies which use the same naming convention (uses the same suffix in all classes) | Gray
 **Multi Suffix Hierarchy** | Hierarchies which do not use the same naming convention (uses different suffixes throughout the tree hierarchy) | Selects a color from the palette (24 biggest hierarchies use 24 colors in the palette)
-**Other hierarchies** | starting from the 25th hierarchy in the system | Black
+**Other hierarchies** | starting from the 25th biggest hierarchy in the system | Black
 
 
 
