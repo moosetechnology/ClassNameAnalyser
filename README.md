@@ -39,8 +39,17 @@ Class boxes are colored the same as their root class, while concept boxes are co
 
 ## A Visual Example:
 The visualisation below represents a ClassNames Blueprint for some packages selected from the Moose Image by clicking on the 'st' option as shown in the above-right of the Moose Panel:
+
 ![](Images/PharoPackages.png)
+
+
 The visualisation below represents a ClassNames Blueprint for a [Java project(ArgoUML)](https://github.com/argouml-tigris-org) imported as an .mse file by clicking on the 'mse' option as shown in the above-right of the Moose Panel:
+![](Images/JavaProject(ArgoUML).png)
+
+Figure below depicts the Root Models of the ArgoUML Java project:
+![](Images/RootModels.png)
+
+
 
 
 
