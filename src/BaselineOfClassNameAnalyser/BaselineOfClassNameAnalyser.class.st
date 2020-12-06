@@ -16,7 +16,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 			package: 'DMFeatureSelector' with: [ spec requires: #('DMModels') ];
 			package: 'DMFeatureSelector-Tests' with: [ spec requires: #('DMFeatureSelector') ];
 			package: 'DMBuilder-Tests' with: [ spec requires: #('DMBuilder') ];
-			package: 'DMModels' with: [ spec requires: #('DMRoassalClassNameBlueprint') ];
+			package: 'DMBuilder' with: [ spec requires: #('DMRoassalClassNameBlueprint') ];
 			package: 'DMRoassalClassNameBlueprint' with: [ spec requires: #('DMModels') ].
 				 ].
 ]
