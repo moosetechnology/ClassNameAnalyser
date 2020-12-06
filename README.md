@@ -16,24 +16,24 @@ Metacello new
   load.
 ```
 ## ClassNameAnalyser Description:
-The **ClassNameAnalyser** is a visualisation of the distribution of concepts in both **Java** and **Pharo** projecs using the *ClassNames Blueprint*. The distribution of concepts in the project starts from the simple hypothesis: most programmers use english when writing code hence, when naming their classes, the standard format of the class name usually has the concept written at the end of the word (as a suffix). for instinct, when you read the project name, your mind quickly undertsood its functionality which is analysing. An example of a class name written in english could be: `ConceptualModel`, could you guess what the class might represent? Indeed! it is a model. If you didn't guessed it, it's okey you might have been programming in frensh or not at all .. However, analysing class naming conventions is the main goal of this project, in fact the ClassNames Blueprint certainly helps in detecting somes inconsistencies in the system's naming conventions. Furthermore, it shows the system's main concepts and their locations.
+The **ClassNameAnalyser** is a visualisation of the distribution of concepts in both **Java** and **Pharo** projects using the *ClassNames Blueprint*. The distribution of concepts in projects starts from the simple hypothesis: most programmers use english when writing code hence, when naming their classes, the standard format of the class name usually has the concept written at the end of the word (as a suffix). for instinct, when you read the project name, your mind quickly undertsood its functionality which is analysing. An example of a class name written in english could be: `ConceptualModel`, could you guess what the class might represent? Indeed! it is a model (if you didn't guessed it, it's okey you might have been programming in an other language or .. not at all) .. However, analysing class naming conventions is the main goal of this project, in fact *the ClassNames Blueprint* prooved to be helpful in detecting some inconsistencies in the system's naming convention. Furthermore, it shows the system's main concepts and their locations.
 
 ## How to use the ClassNameAnalyser With Moose
-After loading the *ClassNameAnalyser*, load your project/packages into your Moose Panel, scroll to see the **ClassNames Blueprint** visualisation, the **conceptual model**, the **view model** and all the **root models** (all hierarchies) of your packages. The Moose Panel has the option of loading Java projects, but first one must create the .mse file of the java project so it can be loaded and analysed.
+After loading the *ClassNameAnalyser*, load your project/packages into the Moose Panel, you'll see all the **root models** (all hierarchies) of your packages ,scroll to see the **ClassNames Blueprint** visualisation, the **conceptual model** and the **view model**. The Moose Panel has the option of loading Java projects, but first one must create the .mse file of the java project so it can be loaded and analysed.
 
 In case you are not familiar with Moose, or do not know how to create .mse file of your java project, I suggest you have a look at the [Moose Book](http://www.themoosebook.org/book/).
 
 ## Understanding your Visualisation:
-THe visualisation uses boxes to wrap up packages, which contain concept boxes that also wrap up class boxes belonging to the package and having the concept name as a suffix of the class name.
-ClassNameAnalyser is a representation of the ClassNames Blueprint. The ClassNames Blueprint is based on these simples conventions in the table below:
+THe visualisation uses boxes to wrap up packages, which contain concept boxes that also wrap up class boxes belonging to the package and having the concept's box  name as a suffix of the class name.
+*ClassNameAnalyser* is a representation of the ClassNames Blueprint. The ClassNames Blueprint is based on these simples conventions in the table below:
 
 Class Type | Description | Color
 --- | --- | --- |
 **Mono Class** | a class which belongs to no hierarchy | white
 **Trait Class** | a class containing a set of methods that can be used to extend the functionality of a class | white
-**Mono Suffix Hierarchy** | Hierarchies which use the same naming convention (uses the same suffix in all classes) | Gray
-**Multi Suffix Hierarchy** | Hierarchies which do not use the same naming convention (uses different suffixes throughout the tree hierarchy) | Selects a color from the palette (24 biggest hierarchies use 24 colors in the palette)
-**Other hierarchies** | starting from the 25th biggest hierarchy in the system | Black
+**Mono Suffix Hierarchy** | Hierarchies which use the same naming convention (all classes of a tree hierarchy have the same suffix) | Gray
+**Multi Suffix Hierarchy** | Hierarchies that do not use the same naming convention | Selects a color from the palette (24 biggest hierarchies use 24 colors in the palette)
+**Other hierarchies** (*ignored*) | starting from the 25th biggest hierarchy in the system | Black
 
 Class boxes are colored the same as their root class, while concept boxes are colored the same as the biggest hierarchy which uses the concept's name (suffix)
 
