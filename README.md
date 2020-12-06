@@ -23,3 +23,5 @@ Load your project/packages into your Moose Panel, scroll to see the ClassNames B
 
 In case you are not familiar with Moose, I suggest you have a look at the [Moose Book](http://www.themoosebook.org/book/).
 
+## A Visual Example:
+
