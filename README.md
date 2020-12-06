@@ -38,8 +38,9 @@ Class Type | Description | Color
 Class boxes are colored the same as their root class, while concept boxes are colored the same as the biggest hierarchy which uses the concept's name (suffix)
 
 ## A Visual Example:
-The visualisation below represents a ClassNames Blueprint for some packages selected from the Moose Images by clicking on the 'st' option as shown in the above right of the Moose Panel:
+The visualisation below represents a ClassNames Blueprint for some packages selected from the Moose Image by clicking on the 'st' option as shown in the above-right of the Moose Panel:
 ![](Images/PharoPackages.png)
+The visualisation below represents a ClassNames Blueprint for a [Java project(ArgoUML)](https://github.com/argouml-tigris-org) imported as an .mse file by clicking on the 'mse' option as shown in the above-right of the Moose Panel:
 
 
 
