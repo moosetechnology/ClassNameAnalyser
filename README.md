@@ -16,7 +16,7 @@ Metacello new
   load.
 ```
 ## ClassNameAnalyser Description:
-The **ClassNameAnalyser** is a visualisation of the distribution of concepts in both **Java** and **Pharo** projecs using the *ClassNames Blueprint*. The distribution of concepts in the project starts from the simple hypothesis: most programmers use english when writing code hence, when naming their classes, the standard format of the class name usually has the concept written at the end of the word (as a suffix). for instict, when you read the project name, your mind quickly undertsood its functionality which is analysing. An example of a class name written in english could be: `ConceptualModel`, could you guess what the class might represent? Indeed! it is a model. If you didn't guessed it, it's okey you might have been programming in frensh or not at all .. However, analysing class naming conventions is the main goal of this project, in fact the ClassNames Blueprint certainly helps in detecting somes inconsistencies in the system's naming conventions. Furthermore, it shows the system's main concepts and their locations.
+The **ClassNameAnalyser** is a visualisation of the distribution of concepts in both **Java** and **Pharo** projecs using the *ClassNames Blueprint*. The distribution of concepts in the project starts from the simple hypothesis: most programmers use english when writing code hence, when naming their classes, the standard format of the class name usually has the concept written at the end of the word (as a suffix). for instinct, when you read the project name, your mind quickly undertsood its functionality which is analysing. An example of a class name written in english could be: `ConceptualModel`, could you guess what the class might represent? Indeed! it is a model. If you didn't guessed it, it's okey you might have been programming in frensh or not at all .. However, analysing class naming conventions is the main goal of this project, in fact the ClassNames Blueprint certainly helps in detecting somes inconsistencies in the system's naming conventions. Furthermore, it shows the system's main concepts and their locations.
 
 ## How to use the ClassNameAnalyser With Moose
 After loading the *ClassNameAnalyser*, load your project/packages into your Moose Panel, scroll to see the **ClassNames Blueprint** visualisation, the **conceptual model**, the **view model** and all the **root models** (all hierarchies) of your packages. The Moose Panel has the option of loading Java projects, but first one must create the .mse file of the java project so it can be loaded and analysed.
@@ -38,7 +38,9 @@ Class Type | Description | Color
 Class boxes are colored the same as their root class, while concept boxes are colored the same as the biggest hierarchy which uses the concept's name (suffix)
 
 ## A Visual Example:
-The visualisation below represents a ClassNames Blueprint for some packages selected from the Moose Image by clicking on the 'st' option as shown in the above-right of the Moose Panel:
+The visualisation below represents a ClassNames Blueprint 
+
+some packages selected from the Moose Image by clicking on the 'st' option as shown in the above-right of the Moose Panel:
 
 ![](Images/PharoPackages.png)
 
