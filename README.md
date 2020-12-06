@@ -35,6 +35,8 @@ Class Type | Description | Color
 **Multi Suffix Hierarchy** | Hierarchies which do not use the same naming convention (uses different suffixes throughout the tree hierarchy) | Selects a color from the palette (24 biggest hierarchies use 24 colors in the palette)
 **Other hierarchies** | starting from the 25th biggest hierarchy in the system | Black
 
+Class boxes are colored the same as their root class, while concept boxes are colored the same as the biggest hierarchy which uses the concept's name (suffix)
+
 
 
 ## A Visual Example:
