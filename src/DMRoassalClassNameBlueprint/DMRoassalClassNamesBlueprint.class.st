@@ -13,7 +13,7 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 	b interaction popup 
 		text: [ :aPackageVM | aPackageVM name ].
 	b
-		nodes: (aViewModel packageViewModels collect: [ :packageVM | packageVM ])
+		nodes: ((aViewModel packageViewModels sorted: #size descending) collect: [ :packageVM | packageVM ])
 		forEach: [ :pVM | 
 			b shape rectangle 
 			borderColor: [ :aConcept | ((aConcept classViewModels collect: #name) includes:  aConcept root name)
