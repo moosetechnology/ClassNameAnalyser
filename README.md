@@ -31,7 +31,7 @@ Class Type | Description | Color
 **Mono Class** | a class which belongs to no hierarchy | white
 **Trait Class** | a class containing a set of methods that can be used to extend the functionality of a class | white
 **Mono Suffix Hierarchy** | Hierarchies which use the same naming convention (all classes of a tree hierarchy have the same suffix) | Gray
-**Multi Suffix Hierarchy** | Hierarchies that do not use the same naming convention | Selects a color from the palette (24 biggest hierarchies use 24 colors in the palette)
+**Multi Suffix Hierarchy** | Hierarchies that do not use the same naming convention | Selects a color from the palette (24 main colors prearranged for the first biggest 24th hierarchies)
 **Other hierarchies** (*ignored*) | starting from the 25th biggest hierarchy in the system | Black
 
 Class boxes are colored as their root classes, while concept boxes are colored the same as the biggest root which uses the concept's name.
