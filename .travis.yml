@@ -37,3 +37,8 @@ smalltalk:
 #cache:
 #  directories:
 #    - $SMALLTALK_CI_CACHE
+
+# safelist
+branches:
+  only:
+  - master
