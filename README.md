@@ -24,8 +24,7 @@ After loading the *ClassNameAnalyser*, load your project/packages into the Moose
 In case you are not familiar with Moose, or do not know how to create the .mse file of your java project, I suggest you have a look at the [Moose Book](http://www.themoosebook.org/book/).
 
 ## Understanding your Visualisation:
-The visualisation uses boxes to wrap up packages, which contain concept boxes that wrap up class boxes belonging to the package and having the concept's box name as a suffix of the class name.
-*ClassNameAnalyser* is a representation of the *ClassNames Blueprint*, which is based on these simple conventions shown in the table below:
+The visualisation uses boxes to wrap up packages, which contain concept boxes that wrap up class boxes belonging to the package and having the concept's box name as a suffix of the class name. Basically, the *ClassNameAnalyser* is a representation of the *ClassNames Blueprint* which is based on these simple conventions shown in the table below:
 
 Class Type | Description | Color
 --- | --- | --- |
