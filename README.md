@@ -1,4 +1,5 @@
 # ClassNameAnalyser
+![Build Pass](https://github.com/NourDjihan/ClassNameAnalyser/workflows/CI/badge.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/NourDjihan/ClassNameAnalyser/master/LICENSE)
 
 ## Installation
