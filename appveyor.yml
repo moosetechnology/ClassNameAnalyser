@@ -5,7 +5,7 @@ environment:
   CYG_EXE: C:\cygwin\setup-x86.exe
   CYG_MIRROR: http://cygwin.mirror.constant.com
   SCI_RUN: /cygdrive/c/smalltalkCI-master/run.sh
-  matrix:
+  matrix: 
     # Currently, only Squeak and Pharo images are supported on AppVeyor.
 #    - SMALLTALK: Squeak-trunk
 #    - SMALLTALK: Squeak-5.0
