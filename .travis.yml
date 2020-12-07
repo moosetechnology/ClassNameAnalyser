@@ -3,7 +3,7 @@ sudo: false
 
 # Select operating system(s)
 os:
-  - linux
+  - linux 
   - osx
 
 # Select compatible Smalltalk image(s)
