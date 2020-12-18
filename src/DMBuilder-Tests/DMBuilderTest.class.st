@@ -52,10 +52,10 @@ DMBuilderTest >> testBuildPackageViewModels [
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion3) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	builder buildRootModelsFrom: conceptualModel.
-	packageViewModels := builder buildPackageViewModelsFrom: conceptualModel packagemodels.
+	packageViewModels := builder buildPackageViewModelsFrom: conceptualModel models.
 	viewModel := builder buildViewModelFrom: conceptualModel.
-	self assert: (packageViewModels size) equals:(conceptualModel packagemodels size).
-	self assert: (packageViewModels collect: #name) asArray equals: (conceptualModel packagemodels collect: #name) asArray.
+	self assert: (packageViewModels size) equals:(conceptualModel models size).
+	self assert: (packageViewModels collect: #name) asArray equals: (conceptualModel models collect: #name) asArray.
 	self assert: (builder extractClassViewModelsFrom: viewModel) size equals: (builder extractClassModelsFrom: conceptualModel) size 
 ]
 
@@ -84,7 +84,7 @@ DMBuilderTest >> testBuildViewModel [
 	viewmodel := DMBuilder new buildViewModelFrom: conceptualModel.
 	
 	self assert: (conceptualModel name) equals: (viewmodel name).
-	self assert: (builder extractAllHierarchiesFrom: conceptualModel packagemodels) size equals: (viewmodel rootmodels) size
+	self assert: (builder extractAllHierarchiesFrom: conceptualModel models) size equals: (viewmodel rootmodels) size
 ]
 
 { #category : #tests }
@@ -203,6 +203,6 @@ DMBuilderTest >> testbuildConceptViewModels [
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion5) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	builder buildRootModelsFrom: conceptualModel.
-	conceptViewModels := builder buildConceptViewModelsFrom: conceptualModel concepts using: (conceptualModel packagemodels atRandom) classmodels.
+	conceptViewModels := builder buildConceptViewModelsFrom: conceptualModel concepts using: (conceptualModel models atRandom) classmodels.
 	self assert: (conceptViewModels collect: #color) equals: {#red} asSet
 ]

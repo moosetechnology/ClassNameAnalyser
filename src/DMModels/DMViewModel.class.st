@@ -2,7 +2,7 @@ Class {
 	#name : #DMViewModel,
 	#superclass : #DMModel,
 	#instVars : [
-		'packageViewModels',
+		'models',
 		'rootmodels'
 	],
 	#category : #DMModels
@@ -15,14 +15,14 @@ DMViewModel >> initialize [
 ]
 
 { #category : #accessing }
-DMViewModel >> packageViewModels [
-	^ packageViewModels 
+DMViewModel >> models [
+	^ models 
 ]
 
 { #category : #accessing }
 DMViewModel >> packageViewModels: collectionOfPackageViewModels [
 
-	packageViewModels := collectionOfPackageViewModels 
+	models := collectionOfPackageViewModels 
 ]
 
 { #category : #accessing }

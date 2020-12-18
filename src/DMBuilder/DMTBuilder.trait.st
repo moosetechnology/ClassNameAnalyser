@@ -100,7 +100,7 @@ DMTBuilder >> buildViewModelFrom: aConceptualModel [
 	
 	^(DMViewModel new 
 	name: aConceptualModel name;
-		packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel packagemodels);
+		packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel models);
 		rootmodels: self class rootmodels )
 ]
 

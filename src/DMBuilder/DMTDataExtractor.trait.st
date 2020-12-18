@@ -12,13 +12,13 @@ DMTDataExtractor >> extractAllHierarchiesFrom: aCollectionofPackageModels [
 { #category : #'as yet unclassified' }
 DMTDataExtractor >> extractClassModelsFrom: aConceptualModel [
 
-	^(aConceptualModel packagemodels flatCollect: [ :eachPackageModel | eachPackageModel classmodels ]) asOrderedCollection 
+	^(aConceptualModel models flatCollect: [ :eachPackageModel | eachPackageModel classmodels ]) asOrderedCollection 
 ]
 
 { #category : #'as yet unclassified' }
 DMTDataExtractor >> extractClassViewModelsFrom: aViewModel [
 
-	^(aViewModel packageViewModels flatCollect: [ :eachPackageViewModel |  eachPackageViewModel conceptViewModels flatCollect: #classViewModels])
+	^(aViewModel models flatCollect: [ :eachPackageViewModel |  eachPackageViewModel models flatCollect: #models])
 ]
 
 { #category : #ambiguous }

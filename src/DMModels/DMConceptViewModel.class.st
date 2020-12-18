@@ -2,21 +2,16 @@ Class {
 	#name : #DMConceptViewModel,
 	#superclass : #DMModel,
 	#instVars : [
-		'classViewModels',
 		'color',
-		'root'
+		'root',
+		'models'
 	],
 	#category : #DMModels
 }
 
 { #category : #accessing }
-DMConceptViewModel >> classViewModels [
-	^ classViewModels 
-]
-
-{ #category : #accessing }
 DMConceptViewModel >> classViewModels: aCollectionOfClassViewModels [
-	classViewModels := aCollectionOfClassViewModels 
+	models := aCollectionOfClassViewModels 
 ]
 
 { #category : #accessing }
@@ -29,6 +24,16 @@ DMConceptViewModel >> color: aColor [
 	color := aColor 
 ]
 
+{ #category : #testing }
+DMConceptViewModel >> isConceptViewModel [
+	^ true
+]
+
+{ #category : #accessing }
+DMConceptViewModel >> models [
+	^ models 
+]
+
 { #category : #accessing }
 DMConceptViewModel >> root [
 	^root
@@ -37,4 +42,9 @@ DMConceptViewModel >> root [
 { #category : #accessing }
 DMConceptViewModel >> root: biggestHierarchy [
 	root := biggestHierarchy
+]
+
+{ #category : #'as yet unclassified' }
+DMConceptViewModel >> rootname [
+	^ self root name
 ]

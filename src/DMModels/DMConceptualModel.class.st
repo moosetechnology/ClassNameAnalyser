@@ -2,7 +2,7 @@ Class {
 	#name : #DMConceptualModel,
 	#superclass : #DMModel,
 	#instVars : [
-		'packagemodels',
+		'models',
 		'hierarchies',
 		'concepts'
 	],
@@ -33,15 +33,15 @@ DMConceptualModel >> initialize [
 	concepts := Set new.
 ]
 
-{ #category : #accessing }
-DMConceptualModel >> packagemodels [
-	^packagemodels
+{ #category : #'as yet unclassified' }
+DMConceptualModel >> models [
+	^models
 ]
 
 { #category : #accessing }
 DMConceptualModel >> packagemodels: aCollectionOfPackageModels [
 
-	packagemodels := aCollectionOfPackageModels.
+	models := aCollectionOfPackageModels.
 	concepts := (aCollectionOfPackageModels flatCollect: [ :eachPackageModel | 
 		DMBuilder new extractConceptsFrom: eachPackageModel ]) asSet.
 	hierarchies := (aCollectionOfPackageModels flatCollect: [ :eachPackageM | 

@@ -31,6 +31,11 @@ DMClassViewModel >> concept: aClassName [
 	concept := DMFeatureSelector new extractConceptFrom: aClassName
 ]
 
+{ #category : #testing }
+DMClassViewModel >> isClassViewModel [
+	^ true
+]
+
 { #category : #accessing }
 DMClassViewModel >> level [
 	^level
@@ -69,4 +74,9 @@ DMClassViewModel >> root: aRoot [
 
 	root := aRoot
 		
+]
+
+{ #category : #'as yet unclassified' }
+DMClassViewModel >> rootname [
+	^ self root name
 ]

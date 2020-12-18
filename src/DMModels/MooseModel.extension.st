@@ -44,6 +44,18 @@ MooseModel >> AllProjectHierarchies [
 ]
 
 { #category : #'*DMModels' }
+MooseModel >> TLView [
+	<navigation: 'TLView'>
+	<script: 'self TLView open'>
+	<tlFilter: #visuTemplate>
+	| conceptualModel viewModel builder |
+	conceptualModel := DMBuilder new buildConceptualModelFrom: self.
+	DMBuilder new buildRootModelsFrom: conceptualModel.
+	viewModel := DMBuilder new buildViewModelFrom: conceptualModel.
+
+]
+
+{ #category : #'*DMModels' }
 MooseModel >> allViewModel [ 
 
 	<navigation: 'ClassNames Blueprint ViewModel'>

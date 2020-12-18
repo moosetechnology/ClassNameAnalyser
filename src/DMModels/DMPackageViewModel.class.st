@@ -2,23 +2,23 @@ Class {
 	#name : #DMPackageViewModel,
 	#superclass : #DMModel,
 	#instVars : [
-		'conceptViewModels',
+		'models',
 		'size'
 	],
 	#category : #DMModels
 }
 
 { #category : #accessing }
-DMPackageViewModel >> conceptViewModels [
+DMPackageViewModel >> conceptViewModels: aConceptModelGroup [
 
-	^conceptViewModels 
+	models := aConceptModelGroup.
+	size := ((models flatCollect: [ :eachConceptVModel | eachConceptVModel models ]) size)
 ]
 
 { #category : #accessing }
-DMPackageViewModel >> conceptViewModels: aConceptModelGroup [
+DMPackageViewModel >> models [
 
-	conceptViewModels := aConceptModelGroup.
-	size := ((conceptViewModels flatCollect: [ :eachConceptVModel | eachConceptVModel classViewModels ]) size)
+	^models 
 ]
 
 { #category : #accessing }
