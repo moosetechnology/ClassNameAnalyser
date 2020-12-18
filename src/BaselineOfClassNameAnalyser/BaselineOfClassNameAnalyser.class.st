@@ -9,7 +9,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
 	spec for: #common do: [	
 		"dependencies"
-	spec loadTelescope: spec.
+	self loadTelescope: spec.
 	
 		"Packages"
 		spec 
