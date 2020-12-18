@@ -33,30 +33,9 @@ DMTBuilder >> buildConceptViewModelsFrom: aCollectionOfConcepts using: aPackages
 
 { #category : #building }
 DMTBuilder >> buildConceptualModelFrom: aModel [
-	| msePackages famixPackages |
-	msePackages := (aModel allModelNamespaces
-		ifEmpty: aModel allModelPackages) asMooseGroup.
-	famixPackages := (aModel allModelPackages
-		ifNil: aModel allModelNamespaces) asMooseGroup.
-	aModel class name = 'MooseModel'
-		ifTrue: [ self class conceptualmodel: (DMConceptualModel new
-				name: aModel name;
-				packagemodels:
-					(msePackages
-						collect: [ :eachPackage | 
-							DMPackageModel new
-								name: eachPackage name;
-								classmodels: (eachPackage classes collect: [ :each | each classmodel ]) ])) ].
-	aModel class name = 'FamixStModel'
-		ifTrue: [ self class conceptualmodel: (DMConceptualModel new
-				name: aModel name;
-				packagemodels:
-					(famixPackages
-						collect: [ :eachPackage | 
-							DMPackageModel new
-								name: eachPackage name;
-								classmodels: (eachPackage classes collect: [ :each | each classmodel ]) ])) ].
-		^self class conceptualmodel
+
+	self class conceptualmodel: aModel conceptualmodel.
+	^ self class conceptualmodel
 		
 ]
 

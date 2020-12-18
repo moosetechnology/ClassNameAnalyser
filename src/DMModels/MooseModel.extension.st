@@ -66,3 +66,15 @@ MooseModel >> allViewModel [
 	viewModel := builder buildViewModelFrom: conceptualModel.
 	^viewModel 
 ]
+
+{ #category : #'*DMModels' }
+MooseModel >> conceptualmodel [
+	^ DMConceptualModel new
+		name: self name;
+		packagemodels:
+			((self allModelNamespaces ifEmpty: self allModelPackages) asMooseGroup
+				collect: [ :eachPackage | 
+					DMPackageModel new
+						name: eachPackage name;
+						classmodels: (eachPackage classes collect: [ :each | each classmodel ]) ])
+]
