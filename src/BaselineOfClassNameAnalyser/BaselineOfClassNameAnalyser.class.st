@@ -9,9 +9,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
 	spec for: #common do: [	
 		"dependencies"
-		spec
-    	baseline: 'Telescope';
-    	with: [ spec repository: 'github://TelescopeSt/Telescope:v2.x.x/src' ]. 
+	spec loadTelescope: spec.
 	
 		"Packages"
 		spec 
@@ -62,7 +60,16 @@ BaselineOfClassNameAnalyser >> loadRoassal2: spec [
                 for:#(#'pharo7.x' #'pharo8.x')
                 do: [ spec
                     baseline: 'Roassal2'
-                    with: [ spec repository: 'github://ObjectProfile/Roassal2/src' ].] 
+                    with: [ spec repository: 'github://ObjectProfile/Roassal2/src' ] ] 
+]
+
+{ #category : #'as yet unclassified' }
+BaselineOfClassNameAnalyser >> loadTelescope: spec [
+	spec
+		for: #(#'pharo7.x' #'pharo8.x')
+		do: [ spec
+				baseline: 'Telescope';
+				with: [ spec repository: 'github://TelescopeSt/Telescope:v2.x.x/src' ] ]
 ]
 
 { #category : #'as yet unclassified' }
