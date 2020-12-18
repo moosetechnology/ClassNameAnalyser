@@ -9,7 +9,10 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
 	spec for: #common do: [	
 		"dependencies"
-			
+		spec
+    	baseline: 'Telescope';
+    	with: [ spec repository: 'github://TelescopeSt/Telescope:v2.x.x/src' ]. 
+	
 		"Packages"
 		spec 
 			package: 'DMModels';
@@ -23,6 +26,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 
 { #category : #'as yet unclassified' }
 BaselineOfClassNameAnalyser >> loadMoose: spec [
+
             spec
                 for: #'pharo6.x'
                 do: [ spec
