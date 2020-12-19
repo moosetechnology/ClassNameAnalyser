@@ -68,7 +68,7 @@ BaselineOfClassNameAnalyser >> loadTelescope: spec [
 	spec
 		for: #(#'pharo7.x' #'pharo8.x')
 		do: [ spec
-				baseline: 'Telescope';
+				baseline: 'Telescope'
 				with: [ spec repository: 'github://TelescopeSt/Telescope:v2.x.x/src' ] ]
 ]
 
