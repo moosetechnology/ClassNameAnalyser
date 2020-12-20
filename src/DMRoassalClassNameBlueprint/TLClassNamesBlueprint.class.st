@@ -59,7 +59,7 @@ TLClassNamesBlueprint >> buildVisualization [
 		nodeLabel: #name position: #top;
 		backgroundColor: Color white.
 	self > #packageBoxes addNodesFromEntities: self packageBoxes.
-	(self > #packageBoxes) allChildrenNodes
+	(self > #packageBoxes) allChildrenNodes allChildrenNodes
 		addInteraction:
 			(TLPopUpAction
 				text: [ :entity | self obtain: self innerEntitiesPopupBlock on: entity ])
