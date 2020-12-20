@@ -6,7 +6,8 @@ Class {
 		'property',
 		'innerEntities',
 		'propertySortingBlock',
-		'innerEntitiesSelector'
+		'innerEntitiesSelector',
+		'innerEntitiesPopupBlock'
 	],
 	#category : #DMRoassalClassNameBlueprint
 }
@@ -29,6 +30,11 @@ TLClassNamesBlueprint class >> packageBoxes: aCollectionOfEntities innerEntities
 		property: legendProperty
 ]
 
+{ #category : #'as yet unclassified' }
+TLClassNamesBlueprint >> border [
+	^[ :anEntity | anEntity border ].
+]
+
 { #category : #building }
 TLClassNamesBlueprint >> buildLegend [
 	super buildLegend.
@@ -39,27 +45,25 @@ TLClassNamesBlueprint >> buildLegend [
 TLClassNamesBlueprint >> buildVisualization [
 	| childrenStrategy |
 	super buildVisualization.
-	
-	childrenStrategy := (TLNodeCreationStrategy
-				composite: [ :children | self innerEntitiesSelector cull: children ]
-				withLayout: (TLLinearLayout gap: 20 ratio: 16 / 9)).
-				
+	childrenStrategy := TLNodeCreationStrategy
+		composite: [ :children | self innerEntitiesSelector cull: children ]
+		withLayout: (TLLinearLayout gap: 20 ratio: 16 / 9).
 	(self > #packageBoxes) nodeCreationStrategy
 		compositeProperty: [ :box | self innerEntitiesSelector cull: box ];
 		childrenStrategy: childrenStrategy.
-
-
 	((self > #packageBoxes) styleSheet > #children)
-		backgroundColor: (self createColorBlock);
-		noNodeLabel.
-			
+		backgroundColor: self createColorBlock;
+		borderColor: self border;
+		nodeLabel: self label position: #bottom.
 	(self > #packageBoxes) styleSheet
 		nodeLabel: #name position: #top;
 		backgroundColor: Color white.
-	self > #packageBoxes addNodesFromEntities: self packageBoxes
-
-	"sort the containers AFTER they are all added to the visualization because the
-	sorting is rather heavy, we want to do it once for all"
+	self > #packageBoxes addNodesFromEntities: self packageBoxes.
+	(self > #packageBoxes) allChildrenNodes
+		addInteraction:
+			(TLPopUpAction
+				text: [ :entity | self obtain: self innerEntitiesPopupBlock on: entity ])
+				onMouseOver
 ]
 
 { #category : #label }
@@ -113,6 +117,16 @@ TLClassNamesBlueprint >> innerEntities: anObject [
 ]
 
 { #category : #accessing }
+TLClassNamesBlueprint >> innerEntitiesPopupBlock [
+	^ innerEntitiesPopupBlock ifNil: [ innerEntitiesPopupBlock := #asString ]
+]
+
+{ #category : #accessing }
+TLClassNamesBlueprint >> innerEntitiesPopupBlock: anObject [
+	innerEntitiesPopupBlock := anObject
+]
+
+{ #category : #accessing }
 TLClassNamesBlueprint >> innerEntitiesSelector [
 	^ innerEntitiesSelector
 ]
@@ -120,6 +134,12 @@ TLClassNamesBlueprint >> innerEntitiesSelector [
 { #category : #accessing }
 TLClassNamesBlueprint >> innerEntitiesSelector: anObject [
 	innerEntitiesSelector := anObject
+]
+
+{ #category : #accessing }
+TLClassNamesBlueprint >> label [
+
+	^[ :anEntity | anEntity label]
 ]
 
 { #category : #accessing }
@@ -150,12 +170,4 @@ TLClassNamesBlueprint >> propertySortingBlock [
 { #category : #accessing }
 TLClassNamesBlueprint >> propertySortingBlock: aBlock [
 	propertySortingBlock := aBlock
-]
-
-{ #category : #'as yet unclassified' }
-TLClassNamesBlueprint >> rootBlackBorder [
-	^ [ :anEntity | 
-	(anEntity name = anEntity rootname)
-	ifTrue: [ ^Color black ]
-	]
 ]

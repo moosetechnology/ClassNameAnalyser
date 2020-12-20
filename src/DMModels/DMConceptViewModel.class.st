@@ -9,6 +9,11 @@ Class {
 	#category : #DMModels
 }
 
+{ #category : #'brick-properties' }
+DMConceptViewModel >> border [ 
+	^ Color black
+]
+
 { #category : #accessing }
 DMConceptViewModel >> classViewModels: aCollectionOfClassViewModels [
 	models := aCollectionOfClassViewModels 
@@ -27,6 +32,11 @@ DMConceptViewModel >> color: aColor [
 { #category : #testing }
 DMConceptViewModel >> isConceptViewModel [
 	^ true
+]
+
+{ #category : #accessing }
+DMConceptViewModel >> label [
+	^name
 ]
 
 { #category : #accessing }

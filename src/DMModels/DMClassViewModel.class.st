@@ -11,6 +11,13 @@ Class {
 	#category : #DMModels
 }
 
+{ #category : #'brick-properties' }
+DMClassViewModel >> border [
+	self isRoot
+		ifTrue: [ ^ Color black ]
+		ifFalse: [ ^ (Color value: self color) darker ]
+]
+
 { #category : #accessing }
 DMClassViewModel >> color [
 	^ color
@@ -34,6 +41,16 @@ DMClassViewModel >> concept: aClassName [
 { #category : #testing }
 DMClassViewModel >> isClassViewModel [
 	^ true
+]
+
+{ #category : #testing }
+DMClassViewModel >> isRoot [ 
+	^self name = self rootname 
+]
+
+{ #category : #accessing }
+DMClassViewModel >> label [
+	^''
 ]
 
 { #category : #accessing }

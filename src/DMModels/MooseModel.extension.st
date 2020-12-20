@@ -48,11 +48,14 @@ MooseModel >> TLView [
 	<navigation: 'TLView'>
 	<script: 'self TLView open'>
 	<tlFilter: #visuTemplate>
-	| conceptualModel viewModel builder |
+	| conceptualModel viewModel |
 	conceptualModel := DMBuilder new buildConceptualModelFrom: self.
 	DMBuilder new buildRootModelsFrom: conceptualModel.
 	viewModel := DMBuilder new buildViewModelFrom: conceptualModel.
-
+	^ TLClassNamesBlueprint
+		packageBoxes: viewModel models
+		innerEntities: #models
+		property: #rootname
 ]
 
 { #category : #'*DMModels' }
