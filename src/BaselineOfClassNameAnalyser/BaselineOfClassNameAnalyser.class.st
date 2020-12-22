@@ -10,7 +10,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	spec for: #common do: [	
 		"dependencies"
 	self loadTelescope: spec.
-	
+	self loadTelescopeCytoscape: spec.
 		"Packages"
 		spec 
 			package: 'DMModels';
@@ -70,6 +70,16 @@ BaselineOfClassNameAnalyser >> loadTelescope: spec [
 		do: [ spec
 				baseline: 'Telescope'
 				with: [ spec repository: 'github://TelescopeSt/Telescope:v2.x.x/src' ] ]
+]
+
+{ #category : #'as yet unclassified' }
+BaselineOfClassNameAnalyser >> loadTelescopeCytoscape: spec [
+	spec
+		for: #(#'pharo7.x' #'pharo8.x')
+		do: [ spec
+				baseline: 'TelescopeCytoscape'
+				with: [ spec
+						repository: 'github://TelescopeSt/TelescopeCytoscape:v2.x.x/src' ] ]
 ]
 
 { #category : #'as yet unclassified' }
