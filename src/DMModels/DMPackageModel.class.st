@@ -21,5 +21,4 @@ DMPackageModel >> classmodels: classModels [
 { #category : #initialization }
 DMPackageModel >> initialize [
 	super initialize.
-	classmodels := DMClassModelGroup new.
 ]

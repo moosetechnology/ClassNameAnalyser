@@ -3,11 +3,10 @@ Class {
 	#superclass : #TLVisualization,
 	#instVars : [
 		'packageBoxes',
-		'property',
 		'innerEntities',
-		'propertySortingBlock',
+		'innerEntitiesPopupBlock',
 		'innerEntitiesSelector',
-		'innerEntitiesPopupBlock'
+		'property'
 	],
 	#category : #DMRoassalClassNameBlueprint
 }
@@ -160,14 +159,4 @@ TLClassNamesBlueprint >> property [
 { #category : #accessing }
 TLClassNamesBlueprint >> property: anObject [
 	property := anObject
-]
-
-{ #category : #accessing }
-TLClassNamesBlueprint >> propertySortingBlock [
-	^ propertySortingBlock
-]
-
-{ #category : #accessing }
-TLClassNamesBlueprint >> propertySortingBlock: aBlock [
-	propertySortingBlock := aBlock
 ]

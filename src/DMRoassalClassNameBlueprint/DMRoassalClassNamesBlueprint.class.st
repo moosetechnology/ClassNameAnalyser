@@ -19,8 +19,7 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 			borderColor: [ :aConcept | ((aConcept models collect: #name) includes:  aConcept root name)
 				ifTrue: [ Color black ]				
 					 ];
-			color: [ :eachConcept | (eachConcept root type = #monoSuffix)
-				ifTrue: [ Color lightGray ] ifFalse: [ Color value: eachConcept color ] ];
+			color: [ :eachConcept |  Color value: eachConcept color  ];
 			withTextAbove: [ :cpt | cpt name ] color: Color darkGray.
 			b interaction popup 
 					text: [ :conceptVM | 'Concept: ' , conceptVM name ].
@@ -28,8 +27,7 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 			forEach: [ :conceptVM | 
 				b shape rectangle
 				color: [ :classVM | Color value: classVM color ];
-				borderColor: [ :aClass | ((aClass name = conceptVM root name) or: [ (aClass color = #white)  and: [(conceptVM root type == #monoClass)] ])
-					ifTrue: [ Color black ] ifFalse: [( Color value: (aClass color)) darker  ]	].
+				borderColor: [ :aClassVM | aClassVM border ].
 				b nodes: (conceptVM models collect: [ :aClassVm | aClassVm ] ).
 				b layout grid.
 			  ].

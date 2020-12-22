@@ -14,8 +14,9 @@ Class {
 { #category : #'brick-properties' }
 DMClassViewModel >> border [
 	self isRoot
-		ifTrue: [ ^ Color black ]
-		ifFalse: [ ^ (Color value: self color) darker ]
+		ifTrue: [ ^ Color black ].
+		^(Color value: color) darker 
+		
 ]
 
 { #category : #accessing }
