@@ -52,10 +52,13 @@ MooseModel >> TLView [
 	conceptualModel := DMBuilder new buildConceptualModelFrom: self.
 	DMBuilder new buildRootModelsFrom: conceptualModel.
 	viewModel := DMBuilder new buildViewModelFrom: conceptualModel.
-	^ TLClassNamesBlueprint
+	^ (TLClassNamesBlueprint
 		packageBoxes: viewModel models
 		innerEntities: #models
-		property: #rootname
+		property: #rootname)
+			innerEntitiesPopupBlock:
+				[ :anEntity | 'Class ' , anEntity name , ' belongs to ' , anEntity rootname ];
+			yourself
 ]
 
 { #category : #'*DMModels' }
