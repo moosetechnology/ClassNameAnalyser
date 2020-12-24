@@ -12,16 +12,6 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-TLClassNamesBlueprint class >> packageBoxes: packages conceptBoxes: concepts classBoxes: classes [
-
-	^self new
-	packageBoxes: packages;
-	conceptBoxes: concepts;
-	classBoxes: classes
-	
-]
-
-{ #category : #'as yet unclassified' }
 TLClassNamesBlueprint class >> packageBoxes: aCollectionOfEntities innerEntities: innerEntitiesPropertyOrBlock property: legendProperty [
 	^ self new
 		packageBoxes: aCollectionOfEntities;
@@ -47,22 +37,27 @@ TLClassNamesBlueprint >> buildVisualization [
 	childrenStrategy := TLNodeCreationStrategy
 		composite: [ :children | self innerEntitiesSelector cull: children ]
 		withLayout: (TLLinearLayout gap: 20 ratio: 16 / 9).
+		
 	(self > #packageBoxes) nodeCreationStrategy
 		compositeProperty: [ :box | self innerEntitiesSelector cull: box ];
 		childrenStrategy: childrenStrategy.
+		
 	((self > #packageBoxes) styleSheet > #children)
 		backgroundColor: self createColorBlock;
 		borderColor: self border;
 		nodeLabel: self label position: #bottom.
+		
 	(self > #packageBoxes) styleSheet
 		nodeLabel: #name position: #top;
 		backgroundColor: Color white.
+		
 	self > #packageBoxes addNodesFromEntities: self packageBoxes.
-	(self > #packageBoxes) allChildrenNodes allChildrenNodes
+	
+	"(self > #packageBoxes) allChildrenNodes allChildrenNodes
 		addInteraction:
 			(TLPopUpAction
 				text: [ :entity | self obtain: self innerEntitiesPopupBlock on: entity ])
-				onMouseOver
+				onMouseOver"
 ]
 
 { #category : #label }
@@ -72,9 +67,6 @@ TLClassNamesBlueprint >> configLabelPosition [
 
 { #category : #layout }
 TLClassNamesBlueprint >> configLayout [
-	"self > #packageBoxes layout: (TLLinearLayout gap: 20 ratio: 16/9).
-	self > #conceptBoxes layout: (TLLinearLayout gap: 20 ratio: 16/9).
-	self > #classBoxes layout: (TLLinearLayout gap: 20 ratio: 16/9)."
 	
 	self > #packageBoxes layout: (TLLinearLayout gap: 20 ratio: 16/9).
 ]

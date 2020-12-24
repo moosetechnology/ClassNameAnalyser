@@ -51,7 +51,7 @@ MooseModel >> TLView [
 	| conceptualModel viewModel |
 	conceptualModel := DMBuilder new buildConceptualModelFrom: self.
 	DMBuilder new buildRootModelsFrom: conceptualModel.
-	viewModel := DMBuilder new buildViewModelFrom: conceptualModel.
+	viewModel := DMBuilder new buildViewModelFrom: conceptualModel. 
 	^ (TLClassNamesBlueprint
 		packageBoxes: viewModel models
 		innerEntities: #models

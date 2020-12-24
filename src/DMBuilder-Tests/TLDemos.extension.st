@@ -2,6 +2,8 @@ Extension { #name : #TLDemos }
 
 { #category : #'*DMBuilder-Tests' }
 TLDemos class >> exampleClassNamesBlueprint [
+  <script: 'self exampleClassNamesBlueprint open'>
+	<tlFilter: #visuTemplate>
 	| mooseSample mooseModel conceptualModel viewmodel builder |
 	mooseSample := MooseSampleData new.
 	builder := DMBuilder new.

@@ -61,27 +61,6 @@ DMBuilder >> attributeColorByType: aType [
 	ifTrue: [ ^self aColorFromPalette ].
 ]
 
-{ #category : #'as yet unclassified' }
-DMBuilder >> buildViewModelFrom: aConceptualModel [
-	
-	^(DMViewModel new 
-	name: aConceptualModel name;
-		packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel models);
-		rootmodels: self class rootmodels )
-]
-
-{ #category : #'as yet unclassified' }
-DMBuilder >> extractClassModelsFrom: aConceptualModel [
-
-	^(aConceptualModel models flatCollect: [ :eachPackageModel | eachPackageModel classmodels ]) asOrderedCollection 
-]
-
-{ #category : #'as yet unclassified' }
-DMBuilder >> extractClassViewModelsFrom: aViewModel [
-
-	^(aViewModel models flatCollect: [ :eachPackageViewModel |  eachPackageViewModel models flatCollect: #models])
-]
-
 { #category : #initialize }
 DMBuilder >> initialize [
 
