@@ -27,7 +27,7 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 			forEach: [ :conceptVM | 
 				b shape rectangle
 				color: [ :classVM | Color value: classVM color ];
-				borderColor: [ :aClassVM | aClassVM border ].
+				borderColor: [ :aClassVM | aClassVM borderColor ].
 				b nodes: (conceptVM models collect: [ :aClassVm | aClassVm ] ).
 				b layout grid.
 			  ].

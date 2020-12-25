@@ -17,8 +17,9 @@ DMModel class >> name: aName with: something and: else [
 	^self new name: aName with: something and: else
 ]
 
-{ #category : #'brick-properties' }
-DMModel >> border [ 
+{ #category : #accessing }
+DMModel >> borderColor [ 
+
 	self subclassResponsibility 
 ]
 

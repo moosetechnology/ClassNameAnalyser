@@ -20,8 +20,8 @@ TLClassNamesBlueprint class >> packageBoxes: aCollectionOfEntities innerEntities
 ]
 
 { #category : #'as yet unclassified' }
-TLClassNamesBlueprint >> border [
-	^[ :anEntity | anEntity border ].
+TLClassNamesBlueprint >> borderBlock [
+	^[ :anEntity | anEntity borderColor ].
 ]
 
 { #category : #building }
@@ -43,9 +43,9 @@ TLClassNamesBlueprint >> buildVisualization [
 		childrenStrategy: childrenStrategy.
 		
 	((self > #packageBoxes) styleSheet > #children)
-		backgroundColor: self createColorBlock;
-		borderColor: self border;
-		nodeLabel: self label position: #bottom.
+		backgroundColor: self entityColorBlock;
+		borderColor: self borderBlock;
+		nodeLabel: self labelBlock position: #bottom.
 		
 	(self > #packageBoxes) styleSheet
 		nodeLabel: #name position: #top;
@@ -53,11 +53,11 @@ TLClassNamesBlueprint >> buildVisualization [
 		
 	self > #packageBoxes addNodesFromEntities: self packageBoxes.
 	
-	"(self > #packageBoxes) allChildrenNodes allChildrenNodes
+	(self > #packageBoxes) allChildrenNodes allChildrenNodes
 		addInteraction:
 			(TLPopUpAction
 				text: [ :entity | self obtain: self innerEntitiesPopupBlock on: entity ])
-				onMouseOver"
+				onMouseOver
 ]
 
 { #category : #label }
@@ -71,14 +71,6 @@ TLClassNamesBlueprint >> configLayout [
 	self > #packageBoxes layout: (TLLinearLayout gap: 20 ratio: 16/9).
 ]
 
-{ #category : #private }
-TLClassNamesBlueprint >> createColorBlock [
-	^ [ :anEntity | 
-	| color |
-	color := anEntity color.
-	Color named: color ]
-]
-
 { #category : #initialization }
 TLClassNamesBlueprint >> defaultColor [
 	^ Color black
@@ -87,6 +79,14 @@ TLClassNamesBlueprint >> defaultColor [
 { #category : #default }
 TLClassNamesBlueprint >> defaultTitle [
 	^ 'ClassNamesBlueprint'
+]
+
+{ #category : #private }
+TLClassNamesBlueprint >> entityColorBlock [
+	^ [ :anEntity | 
+	| color |
+	color := anEntity color.
+	Color named: color ]
 ]
 
 { #category : #initialization }
@@ -128,7 +128,7 @@ TLClassNamesBlueprint >> innerEntitiesSelector: anObject [
 ]
 
 { #category : #accessing }
-TLClassNamesBlueprint >> label [
+TLClassNamesBlueprint >> labelBlock [ 
 
 	^[ :anEntity | anEntity label]
 ]

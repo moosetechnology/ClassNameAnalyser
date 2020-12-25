@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #'brick-properties' }
-DMConceptViewModel >> border [ 
+DMConceptViewModel >> borderColor [ 
 	^ Color black
 ]
 

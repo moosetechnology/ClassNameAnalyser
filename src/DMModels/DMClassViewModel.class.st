@@ -12,7 +12,8 @@ Class {
 }
 
 { #category : #'brick-properties' }
-DMClassViewModel >> border [
+DMClassViewModel >> borderColor [
+	
 	self isRoot
 		ifTrue: [ ^ Color black ].
 		^(Color value: color) darker 
