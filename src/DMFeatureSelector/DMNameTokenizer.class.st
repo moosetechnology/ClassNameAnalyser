@@ -4,6 +4,11 @@ Class {
 	#category : #DMFeatureSelector
 }
 
+{ #category : #parsing }
+DMNameTokenizer class >> tokenize: aName [ 
+	^self new tokenize: aName 
+]
+
 { #category : #tokenizing }
 DMNameTokenizer >> tokenize: aName [
 	| word token allTokens resultedTokens|
