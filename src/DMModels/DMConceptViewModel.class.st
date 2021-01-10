@@ -45,13 +45,13 @@ DMConceptViewModel >> models [
 ]
 
 { #category : #accessing }
-DMConceptViewModel >> root: biggestHierarchy [
-	root := biggestHierarchy
+DMConceptViewModel >> root [
+	^root
 ]
 
 { #category : #accessing }
-DMConceptViewModel >> rootClass [
-	^root
+DMConceptViewModel >> root: biggestHierarchy [
+	root := biggestHierarchy
 ]
 
 { #category : #'as yet unclassified' }

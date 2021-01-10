@@ -45,14 +45,14 @@ DMClassModel >> reference: aReference [
 ]
 
 { #category : #accessing }
-DMClassModel >> root: aRoot [
-	root := aRoot.
+DMClassModel >> root [
+	^root
+	
 ]
 
 { #category : #accessing }
-DMClassModel >> rootClass [
-	^root
-	
+DMClassModel >> root: aRoot [
+	root := aRoot.
 ]
 
 { #category : #accessing }

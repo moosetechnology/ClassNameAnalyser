@@ -1,11 +1,11 @@
-Extension { #name : #Behavior }
+Extension { #name : #ProtoObject }
 
 { #category : #'*DMModels' }
-Behavior >> classmodel [
+ProtoObject >> classmodel [
 
 	^(DMClassModel new 
 	name: self name;
-	root: self rootClass;
+	root: self root;
 	level: self hierarchyLevel;
 	concept: self name;
 	reference: self;
@@ -15,9 +15,9 @@ Behavior >> classmodel [
 ]
 
 { #category : #'*DMModels' }
-Behavior >> hierarchyLevel [ 
+ProtoObject >> hierarchyLevel [ 
 
-	"| c depth |	
+	| c depth |	
 	depth := 0.	
 	c := self superclass.
 	
@@ -26,11 +26,11 @@ Behavior >> hierarchyLevel [
 			depth := depth + 1.
 			c := c superclass.
 		 ].
-	^depth"
+	^depth
 ]
 
 { #category : #'*DMModels' }
-Behavior >> rootClass [
+ProtoObject >> root [
 
 	self isTrait
 		ifTrue: [ ^ self ].
@@ -40,6 +40,6 @@ Behavior >> rootClass [
 		ifFalse: [ ^ self ].
 	self superclass name = 'Object'
 		ifTrue: [ ^ self ].
-	^ self superclass rootClass
+	^ self superclass root
 	
 ]
