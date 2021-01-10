@@ -84,18 +84,18 @@ DMClassViewModel >> reference: aReference [
 ]
 
 { #category : #accessing }
-DMClassViewModel >> root [ 
-	^root
-]
-
-{ #category : #accessing }
 DMClassViewModel >> root: aRoot [
 
 	root := aRoot
 		
 ]
 
+{ #category : #accessing }
+DMClassViewModel >> rootClass [ 
+	^root
+]
+
 { #category : #'as yet unclassified' }
 DMClassViewModel >> rootname [
-	^ self root name
+	^ self rootClass name
 ]
