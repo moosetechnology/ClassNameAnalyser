@@ -54,9 +54,9 @@ DMTDataExtractor >> extractRootModelsFor: aConcept [
 ]
 
 { #category : #'as yet unclassified' }
-DMTDataExtractor >> extractSmallestClassDepthFrom: aConceptualModel [
-	| classModels smallestclassDepth |
-	classModels := self extractClassModelsFrom: aConceptualModel.
+DMTDataExtractor >> extractSmallestClassDepthFrom: classModels [
+
+	^(classModels collect: #level) detectMin: [ :each | each ]
 	
 
 ]

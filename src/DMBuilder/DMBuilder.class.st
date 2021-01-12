@@ -35,12 +35,11 @@ DMBuilder class >> extractBiggestClassDepthFrom: aConceptualModel [
 
 { #category : #'as yet unclassified' }
 DMBuilder class >> extractSmallestClassDepthFrom: aConceptualModel [
-	 | classModels |
+	| classModels |
 	classModels := self new 
 		extractClassModelsFrom: aConceptualModel.
 	^self new 
 		extractSmallestClassDepthFrom: classModels.
-		
 
 	
 ]
