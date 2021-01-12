@@ -6,7 +6,7 @@ Class >> submodels [
 	^(self subclasses collect: [ :each |  
 		(DMClassModel new 
 		name: each name;
-		level: each hierarchyLevel;
+		level: each classDepth;
 		reference: each;
 		root: each rootClass;
 		superclass: each superclass;

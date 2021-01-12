@@ -24,6 +24,27 @@ DMBuilder class >> conceptualmodel: aConceptualModel [
 	conceptualmodel := aConceptualModel 
 ]
 
+{ #category : #'as yet unclassified' }
+DMBuilder class >> extractBiggestClassDepthFrom: aConceptualModel [ 
+	| classModels |
+	classModels := self new 
+		extractClassModelsFrom: aConceptualModel.
+	^self new 
+		extractBiggestClassDepthFrom: classModels.
+]
+
+{ #category : #'as yet unclassified' }
+DMBuilder class >> extractSmallestClassDepthFrom: aConceptualModel [
+	 | classModels |
+	classModels := self new 
+		extractClassModelsFrom: aConceptualModel.
+	^self new 
+		extractSmallestClassDepthFrom: classModels.
+		
+
+	
+]
+
 { #category : #accessing }
 DMBuilder class >> rootmodels [
 	^rootmodels

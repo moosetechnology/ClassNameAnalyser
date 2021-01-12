@@ -10,6 +10,15 @@ DMTDataExtractor >> extractAllHierarchiesFrom: aCollectionofPackageModels [
 ]
 
 { #category : #'as yet unclassified' }
+DMTDataExtractor >> extractBiggestClassDepthFrom: classModels [
+	
+	 ^(classModels collect: #level) detectMax: [ :each | each ]
+	
+	
+
+]
+
+{ #category : #'as yet unclassified' }
 DMTDataExtractor >> extractClassModelsFrom: aConceptualModel [
 
 	^(aConceptualModel models flatCollect: [ :eachPackageModel | eachPackageModel classmodels ]) asOrderedCollection 
@@ -42,6 +51,14 @@ DMTDataExtractor >> extractRootModelsFor: aConcept [
 		(aRootModel concepts includes: aConcept)
 		ifTrue:[ rootModels add: aRootModel  ]].
 	^rootModels 
+]
+
+{ #category : #'as yet unclassified' }
+DMTDataExtractor >> extractSmallestClassDepthFrom: aConceptualModel [
+	| classModels smallestclassDepth |
+	classModels := self extractClassModelsFrom: aConceptualModel.
+	
+
 ]
 
 { #category : #actions }

@@ -1,32 +1,24 @@
 Extension { #name : #ProtoObject }
 
 { #category : #'*DMModels' }
+ProtoObject >> classDepth [
+	"To work with FamixStClasses"
+	self superclass ifNil: [^ 1].
+	^ (self superclass classDepth + 1) 
+]
+
+{ #category : #'*DMModels' }
 ProtoObject >> classmodel [
 
 	^(DMClassModel new 
 	name: self name;
 	root: self root;
-	level: self hierarchyLevel;
+	level: self classDepth - 1;
 	concept: self name;
 	reference: self;
 	superclass: self superclass)
 	
 	
-]
-
-{ #category : #'*DMModels' }
-ProtoObject >> hierarchyLevel [ 
-
-	| c depth |	
-	depth := 0.	
-	c := self superclass.
-	
-	[c isNil]		
-	whileFalse: [ 
-			depth := depth + 1.
-			c := c superclass.
-		 ].
-	^depth
 ]
 
 { #category : #'*DMModels' }

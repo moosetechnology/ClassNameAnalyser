@@ -114,6 +114,17 @@ DMBuilderTest >> testClassViewModel [
 ]
 
 { #category : #tests }
+DMBuilderTest >> testExtractBiggestClassDepthFromAConceptualModel [
+
+	| mooseSample mooseModel conceptualModel |
+	mooseSample := MooseSampleData new.
+	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
+	conceptualModel := builder buildConceptualModelFrom: mooseModel.
+	builder buildRootModelsFrom: conceptualModel.
+	self assert: (DMBuilder extractBiggestClassDepthFrom: conceptualModel) equals: 2
+]
+
+{ #category : #tests }
 DMBuilderTest >> testExtractClassModels [
 
 	| mooseSample mooseModel conceptualModel classModels |
@@ -152,6 +163,17 @@ DMBuilderTest >> testExtractRootModelsForaConcept [
 	builder buildRootModelsFrom: conceptualmodel.
 	rootModels := builder extractRootModelsFor: 'E'.
 	self assert: (rootModels size) equals: 1
+]
+
+{ #category : #'as yet unclassified' }
+DMBuilderTest >> testExtractSmallestClassDepthFrom [
+
+	| mooseSample mooseModel conceptualModel |
+	mooseSample := MooseSampleData new.
+	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
+	conceptualModel := builder buildConceptualModelFrom: mooseModel.
+	builder buildRootModelsFrom: conceptualModel.
+	self assert: (DMBuilder extractSmallestClassDepthFrom: conceptualModel) equals: 0
 ]
 
 { #category : #tests }

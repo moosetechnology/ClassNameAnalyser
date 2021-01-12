@@ -33,6 +33,14 @@ DMRootModel >> initialize [
 
 ]
 
+{ #category : #printing }
+DMRootModel >> printOn: aStream [
+	super printOn: aStream. 
+	aStream nextPutAll: ' ('.
+	self name asString printOn: aStream.
+	aStream nextPutAll: ')'
+]
+
 { #category : #accessing }
 DMRootModel >> size [
 	^size

@@ -44,6 +44,15 @@ DMConceptViewModel >> models [
 	^ models 
 ]
 
+{ #category : #printing }
+DMConceptViewModel >> printOn: aStream [
+	super printOn: aStream. 
+	aStream nextPutAll: ' ('.
+	self name asString printOn: aStream.
+	aStream nextPutAll: self root name.
+	aStream nextPutAll: ')'
+]
+
 { #category : #accessing }
 DMConceptViewModel >> root [
 	^root
