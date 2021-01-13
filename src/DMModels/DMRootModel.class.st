@@ -6,7 +6,8 @@ Class {
 		'color',
 		'type',
 		'concepts',
-		'size'
+		'size',
+		'dominantConcept'
 	],
 	#category : #DMModels
 }
@@ -23,14 +24,34 @@ DMRootModel >> color: aColor [
 
 { #category : #accessing }
 DMRootModel >> concepts [ 
+	
 	^concepts
+	
+]
+
+{ #category : #accessing }
+DMRootModel >> concepts: aCollectionOfSubclasses [
+	| suffixes |
+	suffixes := aCollectionOfSubclasses collect: #concept.
+	suffixes do: [ :aSuffix | concepts at: aSuffix put: (suffixes occurrencesOf: aSuffix) ].
+	self dominantConcept: (concepts associations reverseSortedAs: [ :each | each value ]) first 
+	
+]
+
+{ #category : #'as yet unclassified' }
+DMRootModel >> dominantConcept [
+	^dominantConcept 
+]
+
+{ #category : #accessing }
+DMRootModel >> dominantConcept: aConcept [ 
+	dominantConcept := aConcept 
 ]
 
 { #category : #initialization }
 DMRootModel >> initialize [ 
-	concepts := Set new.
-	subclasses := Set new.
-
+	super initialize.
+	concepts := Dictionary new
 ]
 
 { #category : #printing }
@@ -43,7 +64,7 @@ DMRootModel >> printOn: aStream [
 
 { #category : #accessing }
 DMRootModel >> size [
-	^size
+	^subclasses size
 	
 ]
 
@@ -64,8 +85,7 @@ DMRootModel >> subclasses: classesCollection [
 		ifTrue: [ size := 0 ].
 	subclasses := classesCollection
 		collect: [ :eachClass | eachClass classmodel ].
-	concepts addAll: (subclasses collect: #concept).
-	size := subclasses size.
+	
 ]
 
 { #category : #accessing }

@@ -29,11 +29,6 @@ DMConceptViewModel >> color: aColor [
 	color := aColor 
 ]
 
-{ #category : #testing }
-DMConceptViewModel >> isConceptViewModel [
-	^ true
-]
-
 { #category : #accessing }
 DMConceptViewModel >> label [
 	^name

@@ -1,6 +1,7 @@
 Trait {
 	#name : #DMTBuilder,
 	#traits : 'DMTColorAttributor',
+	#classTraits : 'DMTColorAttributor classTrait',
 	#category : #DMBuilder
 }
 
@@ -25,9 +26,9 @@ DMTBuilder >> buildConceptViewModelsFrom: aCollectionOfConcepts using: aPackages
 		classmodels := aPackagesClassModels select: [ :eachClassmodel | eachClassmodel concept = eachConcept ].
 			DMConceptViewModel new
 			name: eachConcept;
-				classViewModels: (self buildClassViewModelsFrom: classmodels);
-				root: (self selectBiggestHierarchyFor: eachConcept);
-				color: (self selectColorFor: eachConcept) ])
+				classViewModels: (self buildClassViewModelsFrom: classmodels)]).
+				"root: (self selectBiggestHierarchyFor: eachConcept)
+				color: (self selectColorFor: eachConcept) ])"
 ]
 
 { #category : #building }
@@ -58,18 +59,21 @@ DMTBuilder >> buildRootModelsFrom: aConceptualModel [
 	coloredRootModels := Set new.
 	classmodels := self extractClassModelsFrom: aConceptualModel.
 	rootModels := aConceptualModel hierarchies
-		collect: [ :eachHierarchy | 
+		collect: [ :eachHierarchy | | hierarchyClasses |
+			hierarchyClasses := classmodels select: [ :eachClass | eachClass root = eachHierarchy ].
 			DMRootModel new
 				name: eachHierarchy name;
-				subclasses: (classmodels select: [ :eachClass | eachClass root = eachHierarchy ]);
+				subclasses: (hierarchyClasses);
+				concepts: hierarchyClasses;
 				type:
 					(self
-						classTypeWithSubclasses: (classmodels select: [ :eachClass | eachClass root = eachHierarchy ])) ].
+						classTypeWithSubclasses: hierarchyClasses)].
 	sortedRootModels := self sortRootModels: rootModels.
 	coloredRootModels := (sortedRootModels 
 		collect: 
 			[ :eachRootModel | eachRootModel color: (self attributeColorByType: eachRootModel type) ]).
 	self class rootmodels: coloredRootModels.
+
 	^ coloredRootModels
 ]
 
