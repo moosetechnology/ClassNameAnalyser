@@ -6,6 +6,19 @@ Trait {
 }
 
 { #category : #'as yet unclassified' }
+DMTBuilder >> associateDominantConceptsTo: aCollectionOfRoots [
+	| concepts filteredRootModels |
+	concepts := (aCollectionOfRoots
+		flatCollect: [ :aRM | aRM suffixes keys ]) asSet.
+	filteredRootModels := concepts
+		collect: [ :concept | 
+			| conceptLosers |
+			conceptLosers := self startFightOver: concept. 
+			self removeDominant: concept from: conceptLosers ].
+	^ self class rootmodels
+]
+
+{ #category : #'as yet unclassified' }
 DMTBuilder >> buildClassViewModelsFrom: classmodels [
 	^(classmodels collect: [ :eachClassModel | |itsRoot |
 		itsRoot := (self class rootmodels detect: [ :eachRootModel | (eachClassModel root) name = eachRootModel name ]).
@@ -26,9 +39,9 @@ DMTBuilder >> buildConceptViewModelsFrom: aCollectionOfConcepts using: aPackages
 		classmodels := aPackagesClassModels select: [ :eachClassmodel | eachClassmodel concept = eachConcept ].
 			DMConceptViewModel new
 			name: eachConcept;
-				classViewModels: (self buildClassViewModelsFrom: classmodels)]).
-				"root: (self selectBiggestHierarchyFor: eachConcept)
-				color: (self selectColorFor: eachConcept) ])"
+				classViewModels: (self buildClassViewModelsFrom: classmodels);
+				root: (self selectBiggestHierarchyFor: eachConcept);
+				color: (self selectColorFor: eachConcept) ])
 ]
 
 { #category : #building }
@@ -51,30 +64,18 @@ DMTBuilder >> buildPackageViewModelsFrom: packageModels [
 								buildConceptViewModelsFrom: concepts using: (eachPackageModel classmodels)) ])
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #buildRootModels }
 DMTBuilder >> buildRootModelsFrom: aConceptualModel [
-	| classmodels rootModels coloredRootModels sortedRootModels |
+	| rootModels coloredRootModels |
 	self initialize.
 	self class conceptualmodel: aConceptualModel.
 	coloredRootModels := Set new.
-	classmodels := self extractClassModelsFrom: aConceptualModel.
-	rootModels := aConceptualModel hierarchies
-		collect: [ :eachHierarchy | | hierarchyClasses |
-			hierarchyClasses := classmodels select: [ :eachClass | eachClass root = eachHierarchy ].
-			DMRootModel new
-				name: eachHierarchy name;
-				subclasses: (hierarchyClasses);
-				concepts: hierarchyClasses;
-				type:
-					(self
-						classTypeWithSubclasses: hierarchyClasses)].
-	sortedRootModels := self sortRootModels: rootModels.
-	coloredRootModels := (sortedRootModels 
-		collect: 
-			[ :eachRootModel | eachRootModel color: (self attributeColorByType: eachRootModel type) ]).
-	self class rootmodels: coloredRootModels.
-
-	^ coloredRootModels
+	rootModels := aConceptualModel initializeRootModels.
+	coloredRootModels := self color: rootModels.
+		self class rootmodels: coloredRootModels.
+	self attributeSuffixesToTheirRoots. 
+	self class rootmodels do: [ :aRoot | aRoot initializeConcepts ].  
+	^ self class rootmodels
 ]
 
 { #category : #'as yet unclassified' }
@@ -99,4 +100,21 @@ DMTBuilder >> classTypeWithSubclasses: anArrayOfClassModelsOfTheSameRoot [
 		asSet size = 1) & ((anArrayOfClassModelsOfTheSameRoot atRandom) concept = (DMFeatureSelector new extractConceptFrom: (anArrayOfClassModelsOfTheSameRoot atRandom) root name))
 		ifTrue: [ ^ #monoSuffix ].
 	^ #multiSuffix
+]
+
+{ #category : #buildRootModels }
+DMTBuilder >> initializeRootModelsUsing: aConceptualModel [
+	| classmodels |
+	classmodels := aConceptualModel classmodels.
+	^ (aConceptualModel hierarchies
+		collect: [ :eachHierarchy | 
+			| hierarchyClasses |
+			hierarchyClasses := classmodels
+				select: [ :eachClass | eachClass root = eachHierarchy ].
+			DMRootModel new
+				name: eachHierarchy name;
+				size: hierarchyClasses size;
+				subclasses: hierarchyClasses;
+				suffixes: hierarchyClasses;
+				type: (self classTypeWithSubclasses: hierarchyClasses) ])
 ]

@@ -7,7 +7,7 @@ Class {
 { #category : #visualization }
 DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 	
-"	| b |
+ | b |
 	b := RTMondrian new.
 	b shape rectangle 
 	withTextAbove: [ :packageVM | DMNameAbbreviationCreator abbreviate: packageVM name until: 3  ] color: Color white;
@@ -26,7 +26,6 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 			b nodes: (pVM models collect: [ :conceptVM | conceptVM ])
 			forEach: [ :conceptVM | 
 				b shape rectangle 
-				height: [ :each | each height ] ; width: [ :each | each width ];
 				color: [ :classVM | Color value: classVM color ];
 				borderColor: [ :aClassVM | aClassVM borderColor ].
 				b nodes: (conceptVM models collect: [ :aClassVm | aClassVm ] ).
@@ -36,5 +35,5 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 		].
 b layout flow.
 b build.
-^ b view."
+^ b view.
 ]

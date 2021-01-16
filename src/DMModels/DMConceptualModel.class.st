@@ -10,8 +10,8 @@ Class {
 }
 
 { #category : #accessing }
-DMConceptualModel >> concepts [
-	^concepts
+DMConceptualModel >> classmodels [ 
+	^DMBuilder extractClassModelsFrom: self 
 ]
 
 { #category : #accessing }
@@ -31,6 +31,11 @@ DMConceptualModel >> initialize [
 	super initialize.
 	hierarchies := Set new.
 	concepts := Set new.
+]
+
+{ #category : #initialization }
+DMConceptualModel >> initializeRootModels [
+	^DMBuilder initializeRootModelsUsing: self
 ]
 
 { #category : #'as yet unclassified' }

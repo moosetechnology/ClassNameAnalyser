@@ -26,9 +26,9 @@ DMBuilderTest >> testBuildConceptViewModels [
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	rootModels := builder buildRootModelsFrom: conceptualModel.
-	conceptVModels := builder buildConceptViewModelsFrom: conceptualModel concepts using:( builder extractClassModelsFrom: conceptualModel).
-	self assert: (conceptVModels size) equals: conceptualModel concepts size.
-	self assert: (conceptVModels collect: #name) equals: conceptualModel concepts.
+	conceptVModels := builder buildConceptViewModelsFrom: (conceptualModel classmodels collect: #concept) asSet using:( builder extractClassModelsFrom: conceptualModel).
+	self assert: (conceptVModels size) equals: (conceptualModel classmodels collect: #concept) asSet size.
+	self assert: (conceptVModels collect: #name) equals: (conceptualModel classmodels collect: #concept) asSet .
 	
 ]
 
@@ -185,7 +185,7 @@ DMBuilderTest >> testSelectBiggestHierarchyFor [
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	builder buildRootModelsFrom: conceptualModel.
-	rootmodel := (builder selectBiggestHierarchyFor: 'A').
+	rootmodel := (builder selectBiggestHierarchyFor: 'A') first.
 	self assert: (rootmodel name) equals: 'ClassA'.
 	self assert: (rootmodel color) equals: #red
 
@@ -225,6 +225,6 @@ DMBuilderTest >> testbuildConceptViewModels [
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion5) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	builder buildRootModelsFrom: conceptualModel.
-	conceptViewModels := builder buildConceptViewModelsFrom: conceptualModel concepts using: (conceptualModel models atRandom) classmodels.
+	conceptViewModels := builder buildConceptViewModelsFrom: (conceptualModel classmodels collect: #concept) using: (conceptualModel models atRandom) classmodels.
 	self assert: (conceptViewModels collect: #color) equals: {#red} asSet
 ]

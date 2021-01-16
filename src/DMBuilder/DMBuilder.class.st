@@ -34,6 +34,12 @@ DMBuilder class >> extractBiggestClassDepthFrom: aConceptualModel [
 ]
 
 { #category : #'as yet unclassified' }
+DMBuilder class >> extractClassModelsFrom: aConceptualModel [ 	
+	^self new
+		extractClassModelsFrom: aConceptualModel 
+]
+
+{ #category : #'as yet unclassified' }
 DMBuilder class >> extractSmallestClassDepthFrom: aConceptualModel [
 	| classModels |
 	classModels := self new 
@@ -42,6 +48,12 @@ DMBuilder class >> extractSmallestClassDepthFrom: aConceptualModel [
 		extractSmallestClassDepthFrom: classModels.
 
 	
+]
+
+{ #category : #'as yet unclassified' }
+DMBuilder class >> initializeRootModelsUsing: aConceptualModel [
+	^self new 
+		initializeRootModelsUsing: aConceptualModel
 ]
 
 { #category : #accessing }
@@ -54,31 +66,44 @@ DMBuilder class >> rootmodels: collectionOfRootModels [
 	rootmodels := collectionOfRootModels 
 ]
 
-{ #category : #coloring }
-DMBuilder >> aColorFromPalette [
+{ #category : #buildRootModels }
+DMBuilder >> attributeSuffixesToTheirRoots [
+	| concepts |
+	concepts := (self class rootmodels flatCollect: [ :each | each suffixes keys ]) asSet.
+	concepts do: [ :aConcept | | fighters winner |
+		fighters := (self class rootmodels 
+		select: [ :aRoot | aRoot suffixes includesKey: aConcept ]) asOrderedCollection.
+		(fighters anySatisfy: [ :aRootModel | aRootModel isMultiSuffix ])
+			ifTrue: [ fighters removeAllSuchThat: [ :aRootM | aRootM isMonoClass or: aRootM isMonoSuffix ]].
+		winner := fighters detectMax: [ :aRM | (aRM suffixes at: aConcept ) value ].
+		winner dominantSuffixes: (winner suffixes associationAt: aConcept) ]
 
-	"we have 24 important colors"
-	index := index +1.
-	(index <= 24)
-	ifTrue: [ ^palette at: index ].
-	
-	^#black
 ]
 
-{ #category : #coloring }
-DMBuilder >> attributeColorByType: aType [
+{ #category : #'as yet unclassified' }
+DMBuilder >> classTypeWithSubclasses: anArrayOfClassModelsOfTheSameRoot [
+	anArrayOfClassModelsOfTheSameRoot size = 1
+		ifTrue: [ (anArrayOfClassModelsOfTheSameRoot at: 1) reference isTrait
+				ifTrue: [ ^ #Trait ]
+				ifFalse: [ (anArrayOfClassModelsOfTheSameRoot at: 1) root
+						= (anArrayOfClassModelsOfTheSameRoot at: 1) reference
+						ifTrue: [ ^ #monoClass ] ] ].
+				
+	((anArrayOfClassModelsOfTheSameRoot collect: [ :each | each concept ])
+		asSet size = 1) & ((anArrayOfClassModelsOfTheSameRoot atRandom) concept = (DMFeatureSelector new extractConceptFrom: (anArrayOfClassModelsOfTheSameRoot atRandom) root name))
+		ifTrue: [ ^ #monoSuffix ].
+	^ #multiSuffix
+]
 
-	(aType == #Trait)
-	ifTrue: [ ^ #white ].
-	
-	(aType == #monoClass)
-	ifTrue: [ ^ #white ].
-	
-	(aType == #monoSuffix)
-	ifTrue: [ ^#gray ].
-	
-	(aType == #multiSuffix)
-	ifTrue: [ ^self aColorFromPalette ].
+{ #category : #buildRootModels }
+DMBuilder >> extractRootModelsFor: aConcept [
+	| rootModels |
+	rootModels := OrderedCollection new.
+	self class rootmodels 
+	collect: [ :aRootModel | 
+		(aRootModel suffixes includesKey: aConcept)
+		ifTrue:[ rootModels add: aRootModel  ]].
+	^rootModels 
 ]
 
 { #category : #initialize }
@@ -91,8 +116,13 @@ DMBuilder >> initialize [
 	index := 0.
 ]
 
+{ #category : #'as yet unclassified' }
+DMBuilder >> selectBiggestHierarchyFor: aConcept [ 
+	^(self class rootmodels select: [ :aRoot | aRoot concepts includes: aConcept ]).
+]
+
 { #category : #accessing }
-DMBuilder >> sortRootModels [.
+DMBuilder >> sortRootModels [
 	self class rootmodels sorted: #size descending
 ]
 

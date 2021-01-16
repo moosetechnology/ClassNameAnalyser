@@ -3,6 +3,17 @@ Trait {
 	#category : #DMBuilder
 }
 
+{ #category : #coloring }
+DMTDataExtractor >> aColorFromPalette [
+
+	"we have 24 important colors"
+	index := index +1.
+	(index <= 24)
+	ifTrue: [ ^palette at: index ].
+	
+	^#black
+]
+
 { #category : #'as yet unclassified' }
 DMTDataExtractor >> extractAllHierarchiesFrom: aCollectionofPackageModels [
 
@@ -54,27 +65,15 @@ DMTDataExtractor >> extractRootModelsFor: aConcept [
 ]
 
 { #category : #'as yet unclassified' }
+DMTDataExtractor >> extractRootModelsFrom: aCollectionOfRM dominatedBy: aConcept [
+
+	^aCollectionOfRM select: [ :aRM | aRM dominantSuffix key = aConcept ]
+]
+
+{ #category : #'as yet unclassified' }
 DMTDataExtractor >> extractSmallestClassDepthFrom: classModels [
 
 	^(classModels collect: #level) detectMin: [ :each | each ]
 	
 
-]
-
-{ #category : #actions }
-DMTDataExtractor >> selectBiggestHierarchyFor: aConcept [
-	| biggest rootModels index |
-	index := 2.
-	rootModels := self extractRootModelsFor: aConcept.
-	rootModels notEmpty
-		ifTrue: [ biggest := rootModels at: 1 ].
-	rootModels size = 1
-		ifTrue: [ ^ biggest ].
-	[ index <= rootModels size ]
-		whileTrue: [ rootModels
-				do: [ :aRootModel | 
-					aRootModel subclasses size > biggest subclasses size
-						ifTrue: [ biggest := aRootModel ].
-					index := index + 1 ] ].
-	^ biggest
 ]
