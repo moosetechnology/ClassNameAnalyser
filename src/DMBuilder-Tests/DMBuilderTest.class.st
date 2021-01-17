@@ -26,9 +26,9 @@ DMBuilderTest >> testBuildConceptViewModels [
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	rootModels := builder buildRootModelsFrom: conceptualModel.
-	conceptVModels := builder buildConceptViewModelsFrom: (conceptualModel classmodels collect: #concept) asSet using:( builder extractClassModelsFrom: conceptualModel).
-	self assert: (conceptVModels size) equals: (conceptualModel classmodels collect: #concept) asSet size.
-	self assert: (conceptVModels collect: #name) equals: (conceptualModel classmodels collect: #concept) asSet .
+	conceptVModels := builder buildConceptViewModelsFrom: (conceptualModel allClassModels collect: #concept) asSet using:( builder extractClassModelsFrom: conceptualModel).
+	self assert: (conceptVModels size) equals: (conceptualModel allClassModels collect: #concept) asSet size.
+	self assert: (conceptVModels collect: #name) equals: (conceptualModel allClassModels collect: #concept) asSet .
 	
 ]
 
@@ -52,10 +52,10 @@ DMBuilderTest >> testBuildPackageViewModels [
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion3) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	builder buildRootModelsFrom: conceptualModel.
-	packageViewModels := builder buildPackageViewModelsFrom: conceptualModel packageModels.
+	packageViewModels := builder buildPackageViewModelsFrom: conceptualModel models.
 	viewModel := builder buildViewModelFrom: conceptualModel.
-	self assert: (packageViewModels size) equals:(conceptualModel packageModels size).
-	self assert: (packageViewModels collect: #name) asArray equals: (conceptualModel packageModels collect: #name) asArray.
+	self assert: (packageViewModels size) equals:(conceptualModel models size).
+	self assert: (packageViewModels collect: #name) asArray equals: (conceptualModel models collect: #name) asArray.
 	self assert: (builder extractClassViewModelsFrom: viewModel) size equals: (builder extractClassModelsFrom: conceptualModel) size 
 ]
 
@@ -84,7 +84,7 @@ DMBuilderTest >> testBuildViewModel [
 	viewmodel := DMBuilder new buildViewModelFrom: conceptualModel.
 	
 	self assert: (conceptualModel name) equals: (viewmodel name).
-	self assert: (builder extractAllHierarchiesFrom: conceptualModel packageModels) size equals: (viewmodel rootmodels) size
+	self assert: (builder extractAllHierarchiesFrom: conceptualModel models) size equals: (viewmodel rootmodels) size
 ]
 
 { #category : #tests }
@@ -225,6 +225,6 @@ DMBuilderTest >> testbuildConceptViewModels [
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion5) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	builder buildRootModelsFrom: conceptualModel.
-	conceptViewModels := builder buildConceptViewModelsFrom: (conceptualModel classmodels collect: #concept) using: (conceptualModel packageModels atRandom) classmodels.
+	conceptViewModels := builder buildConceptViewModelsFrom: (conceptualModel allClassModels collect: #concept) using: (conceptualModel models atRandom) classmodels.
 	self assert: (conceptViewModels collect: #color) equals: {#red} asSet
 ]

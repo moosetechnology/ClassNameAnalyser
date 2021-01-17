@@ -21,13 +21,13 @@ DMTDataExtractor >> extractBiggestClassDepthFrom: classModels [
 { #category : #'as yet unclassified' }
 DMTDataExtractor >> extractClassModelsFrom: aConceptualModel [
 
-	^(aConceptualModel packageModels flatCollect: [ :eachPackageModel | eachPackageModel classmodels ]) asOrderedCollection 
+	^(aConceptualModel models flatCollect: [ :eachPackageModel | eachPackageModel classmodels ]) asOrderedCollection 
 ]
 
 { #category : #'as yet unclassified' }
 DMTDataExtractor >> extractClassViewModelsFrom: aViewModel [
 
-	^(aViewModel packageModels flatCollect: [ :eachPackageViewModel |  eachPackageViewModel packageModels flatCollect: #packageModels])
+	^(aViewModel models flatCollect: [ :eachPackageViewModel |  eachPackageViewModel models flatCollect: #models])
 ]
 
 { #category : #ambiguous }

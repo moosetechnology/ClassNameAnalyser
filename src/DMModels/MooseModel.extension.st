@@ -33,8 +33,8 @@ MooseModel >> TLView [
 	DMBuilder new buildRootModelsFrom: conceptualModel.
 	viewModel := DMBuilder new buildViewModelFrom: conceptualModel. 
 	^ (TLClassNamesBlueprint
-		packageBoxes: viewModel packageModels
-		innerEntities: #packageModels
+		packageBoxes: viewModel models
+		innerEntities: #models
 		property: #rootname)
 			innerEntitiesPopupBlock:
 				[ :anEntity | 'Class ' , anEntity name , ' belongs to ' , anEntity rootname ];
@@ -56,18 +56,17 @@ MooseModel >> allViewModel [
 { #category : #'*DMModels' }
 MooseModel >> conceptualmodel [
 	| packages |
-	packages := (self allModelNamespaces ifEmpty: self allModelPackages)
-		asMooseGroup.
+	packages :=(self allModelNamespaces ifEmpty: self allModelPackages) asMooseGroup. 
 	^ DMConceptualModel new
 		name: self name;
-		packageModels: (DMBuilder doPackageModelsUsing: packages)
+		packagemodels: (DMBuilder doPackageModelsUsing: packages).
 ]
 
 { #category : #'*DMModels' }
 MooseModel >> showClassNamesBlueprint [
 
 	<navigation: #ClassNamesBlueprint>
-	| conceptualModel viewModel mooseView builder |
+	| conceptualModel viewModel mooseView builder rootmodels |
 	builder := DMBuilder new.
 	conceptualModel := builder buildConceptualModelFrom: self.
 	builder buildRootModelsFrom: conceptualModel.

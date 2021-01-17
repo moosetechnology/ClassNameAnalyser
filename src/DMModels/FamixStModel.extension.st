@@ -3,9 +3,8 @@ Extension { #name : #FamixStModel }
 { #category : #'*DMModels' }
 FamixStModel >> conceptualmodel [
 	| packages |
-	packages := (self allModelPackages ifNil: self allModelNamespaces)
-		asMooseGroup.
+	packages := (self allModelPackages ifNil: self allModelNamespaces) asMooseGroup.
 	^ DMConceptualModel new
 		name: self name;
-		packageModels: (DMBuilder doPackageModelsUsing: packages)
+		packagemodels: (DMBuilder doPackageModelsUsing: packages).
 ]

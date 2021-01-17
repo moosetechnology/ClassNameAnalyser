@@ -12,7 +12,13 @@ Class {
 DMPackageViewModel >> conceptViewModels: aConceptModelGroup [
 
 	models := aConceptModelGroup.
-	size := ((models flatCollect: [ :eachConceptVModel | eachConceptVModel packageModels ]) size)
+	size := ((models flatCollect: [ :eachConceptVModel | eachConceptVModel models ]) size)
+]
+
+{ #category : #accessing }
+DMPackageViewModel >> models [
+
+	^models 
 ]
 
 { #category : #'as yet unclassified' }
@@ -22,18 +28,12 @@ DMPackageViewModel >> modelsOrderedAscending [
 
 { #category : #'as yet unclassified' }
 DMPackageViewModel >> modelsOrderedByColor [
-	^DMBuilder sort: models 
+	^DMBuilder sort: models
 ]
 
 { #category : #'as yet unclassified' }
 DMPackageViewModel >> modelsOrderedDescending [
 	^ models sorted: #size descending
-]
-
-{ #category : #accessing }
-DMPackageViewModel >> packageModels [
-
-	^models 
 ]
 
 { #category : #accessing }

@@ -2,10 +2,9 @@ Class {
 	#name : #DMConceptualModel,
 	#superclass : #DMModel,
 	#instVars : [
-		'packageModels',
-		'mooseModel',
-		'rootModels',
-		'motherRoot'
+		'hierarchies',
+		'models',
+		'concepts'
 	],
 	#category : #DMModels
 }
@@ -27,9 +26,15 @@ DMConceptualModel >> allClassModels [
 	^DMBuilder extractClassModelsFrom: self 
 ]
 
-{ #category : #'as yet unclassified' }
-DMConceptualModel >> buildRootModels [ 
-	self rootModels: (DMBuilder buildRootsOf: mooseModel accordingto: motherRoot)  
+{ #category : #accessing }
+DMConceptualModel >> hierarchies [ 	
+	^hierarchies
+]
+
+{ #category : #accessing }
+DMConceptualModel >> hierarchies: hierarchiesCollection [
+
+	hierarchies := hierarchiesCollection asSet
 ]
 
 { #category : #initialization }
@@ -39,56 +44,21 @@ DMConceptualModel >> initializeBuild [
 ]
 
 { #category : #initialization }
-DMConceptualModel >> initializePackageModels [
-	| packages |
-	packages := (mooseModel allModelNamespaces ifEmpty: mooseModel allModelPackages)
-		asMooseGroup.
-	self packageModels: (DMBuilder doPackageModelsUsing: packages)
-]
-
-{ #category : #initialization }
 DMConceptualModel >> initializeRootModels [
 	^DMBuilder initializeRootModelsUsing: self
 ]
 
-{ #category : #accessing }
-DMConceptualModel >> mooseModel [ 
-	^mooseModel 
-]
-
-{ #category : #accessing }
-DMConceptualModel >> mooseModel: aModel [
-	mooseModel := aModel.
-	self initializeBuild.
-]
-
-{ #category : #accessing }
-DMConceptualModel >> motherRoot [
-	^motherRoot
-]
-
-{ #category : #accessing }
-DMConceptualModel >> motherRoot: aClass [ 
-	motherRoot := aClass
+{ #category : #'as yet unclassified' }
+DMConceptualModel >> models [
+	^models
 ]
 
 { #category : #'as yet unclassified' }
-DMConceptualModel >> packageModels [
-	^packageModels
-]
+DMConceptualModel >> packagemodels: aCollectionOfPackageModels [
 
-{ #category : #accessing }
-DMConceptualModel >> packageModels: aCollectionOfPackageModels [
-
-	packageModels := aCollectionOfPackageModels.
-]
-
-{ #category : #accessing }
-DMConceptualModel >> rootModels [
-	^rootModels 
-]
-
-{ #category : #accessing }
-DMConceptualModel >> rootModels: aCollectionOfRootModels [
-	rootModels := aCollectionOfRootModels
+	models := aCollectionOfPackageModels.
+	concepts := (aCollectionOfPackageModels flatCollect: [ :eachPackageModel | 
+		DMBuilder new extractConceptsFrom: eachPackageModel ]) asSet.
+	hierarchies := (aCollectionOfPackageModels flatCollect: [ :eachPackageM | 
+		DMBuilder new extractHierarchiesFrom: eachPackageM ] ) asSet.
 ]

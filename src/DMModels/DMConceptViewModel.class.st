@@ -36,7 +36,7 @@ DMConceptViewModel >> label [
 ]
 
 { #category : #accessing }
-DMConceptViewModel >> packageModels [
+DMConceptViewModel >> models [
 	^ models 
 ]
 
@@ -45,7 +45,7 @@ DMConceptViewModel >> printOn: aStream [
 	super printOn: aStream. 
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.
-	aStream nextPutAll: self root name.
+	aStream nextPutAll: self root first name.
 	aStream nextPutAll: ')'
 ]
 
@@ -59,7 +59,12 @@ DMConceptViewModel >> root: biggestHierarchy [
 	root := biggestHierarchy
 ]
 
+{ #category : #'as yet unclassified' }
+DMConceptViewModel >> rootname [
+	^ self root name
+]
+
 { #category : #accessing }
 DMConceptViewModel >> size [ 
-	^models size
+	^size
 ]

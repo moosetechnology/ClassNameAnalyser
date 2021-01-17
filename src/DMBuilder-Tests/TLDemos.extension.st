@@ -13,8 +13,8 @@ TLDemos class >> exampleClassNamesBlueprint [
 	builder buildRootModelsFrom: conceptualModel.
 	viewmodel := DMBuilder new buildViewModelFrom: conceptualModel.
 	^ (TLClassNamesBlueprint
-		packageBoxes: viewmodel packageModels
-		innerEntities: #packageModels
+		packageBoxes: viewmodel models
+		innerEntities: #models
 		property: #rootname)
 		innerEntitiesPopupBlock:
 				[ :anEntity | 'Class ' , anEntity name , ' belongs to ' , anEntity rootname ];

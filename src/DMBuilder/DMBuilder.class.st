@@ -165,7 +165,7 @@ DMBuilder >> buildViewModelFrom: aConceptualModel [
 	
 	^(DMViewModel new 
 	name: aConceptualModel name;
-		packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel packageModels);
+		packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel models);
 		rootmodels: self class rootmodels )
 ]
 
@@ -187,13 +187,13 @@ DMBuilder >> classTypeWithSubclasses: anArrayOfClassModelsOfTheSameRoot [
 { #category : #'as yet unclassified' }
 DMBuilder >> extractClassModelsFrom: aConceptualModel [
 
-	^(aConceptualModel packageModels flatCollect: [ :eachPackageModel | eachPackageModel classmodels ]) asOrderedCollection 
+	^(aConceptualModel models flatCollect: [ :eachPackageModel | eachPackageModel classmodels ]) asOrderedCollection 
 ]
 
 { #category : #'as yet unclassified' }
 DMBuilder >> extractClassViewModelsFrom: aViewModel [
 
-	^(aViewModel packageModels flatCollect: [ :eachPackageViewModel |  eachPackageViewModel packageModels flatCollect: #packageModels])
+	^(aViewModel models flatCollect: [ :eachPackageViewModel |  eachPackageViewModel models flatCollect: #models])
 ]
 
 { #category : #buildRootModels }
@@ -220,7 +220,7 @@ DMBuilder >> initialize [
 { #category : #buildRootModels }
 DMBuilder >> initializeRootModelsUsing: aConceptualModel [
 	| classmodels |
-	classmodels := aConceptualModel classmodels.
+	classmodels := aConceptualModel allClassModels. 
 	^ (aConceptualModel hierarchies
 		collect: [ :eachHierarchy | 
 			| hierarchyClasses |
@@ -243,7 +243,7 @@ DMBuilder >> selectBiggestHierarchyFor: aConcept [
 DMBuilder >> sortAccordingToPalette: aCollection [
 	| newPalette |
 	newPalette := palette asOrderedCollection.
-	newPalette addAll: #(#gray #black).
+	newPalette addAll: #(#gray #white #black).
 	^((1 to: newPalette size)
 		collect: [ :cursor | 
 			aCollection

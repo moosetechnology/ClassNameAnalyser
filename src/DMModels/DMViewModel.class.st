@@ -1,11 +1,17 @@
 Class {
 	#name : #DMViewModel,
-	#superclass : #DMConceptualModel,
+	#superclass : #DMModel,
 	#instVars : [
-		'packageViewModels'
+		'packageViewModels',
+		'rootmodels'
 	],
 	#category : #DMModels
 }
+
+{ #category : #accessing }
+DMViewModel >> models [
+	^ packageViewModels 
+]
 
 { #category : #'as yet unclassified' }
 DMViewModel >> modelsOrderedAscending [
@@ -26,4 +32,14 @@ DMViewModel >> packageViewModels [
 DMViewModel >> packageViewModels: collectionOfPackageViewModels [
  
 	packageViewModels := collectionOfPackageViewModels 
+]
+
+{ #category : #accessing }
+DMViewModel >> rootmodels [ 
+	^rootmodels
+]
+
+{ #category : #accessing }
+DMViewModel >> rootmodels: aCollectionOfRootClasses [
+	rootmodels := aCollectionOfRootClasses 
 ]
