@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'color',
 		'root',
-		'models'
+		'models',
+		'size'
 	],
 	#category : #DMModels
 }
@@ -35,7 +36,7 @@ DMConceptViewModel >> label [
 ]
 
 { #category : #accessing }
-DMConceptViewModel >> models [
+DMConceptViewModel >> packageModels [
 	^ models 
 ]
 
@@ -58,7 +59,7 @@ DMConceptViewModel >> root: biggestHierarchy [
 	root := biggestHierarchy
 ]
 
-{ #category : #'as yet unclassified' }
-DMConceptViewModel >> rootname [
-	^ self rootClass name
+{ #category : #accessing }
+DMConceptViewModel >> size [ 
+	^models size
 ]

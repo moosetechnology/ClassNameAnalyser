@@ -1,26 +1,6 @@
 Extension { #name : #MooseModel }
 
 { #category : #'*DMModels' }
-MooseModel >> AllClassNamesBlueprint [
-
-	<navigation: 'AllClassNamesBlueprint'>
-	| conceptualModel viewModel mooseView builder rootmodels |
-	builder := DMBuilder new.
-	conceptualModel := builder buildConceptualModelFrom: self.
-	rootmodels := builder buildRootModelsFrom: conceptualModel.
-	viewModel := builder buildViewModelFrom: conceptualModel.
-	mooseView := DMRoassalClassNamesBlueprint new visualize: viewModel.
-	^mooseView
-
-	
-	
-
-
-	
-	
-]
-
-{ #category : #'*DMModels' }
 MooseModel >> AllConceptualModel [
 
 	<navigation: 'Conceptual Model'>
@@ -53,8 +33,8 @@ MooseModel >> TLView [
 	DMBuilder new buildRootModelsFrom: conceptualModel.
 	viewModel := DMBuilder new buildViewModelFrom: conceptualModel. 
 	^ (TLClassNamesBlueprint
-		packageBoxes: viewModel models
-		innerEntities: #models
+		packageBoxes: viewModel packageModels
+		innerEntities: #packageModels
 		property: #rootname)
 			innerEntitiesPopupBlock:
 				[ :anEntity | 'Class ' , anEntity name , ' belongs to ' , anEntity rootname ];
@@ -75,12 +55,30 @@ MooseModel >> allViewModel [
 
 { #category : #'*DMModels' }
 MooseModel >> conceptualmodel [
+	| packages |
+	packages := (self allModelNamespaces ifEmpty: self allModelPackages)
+		asMooseGroup.
 	^ DMConceptualModel new
 		name: self name;
-		packagemodels:
-			((self allModelNamespaces ifEmpty: self allModelPackages) asMooseGroup
-				collect: [ :eachPackage | 
-					DMPackageModel new
-						name: eachPackage name;
-						classmodels: (eachPackage classes collect: [ :each | each classmodel ]) ])
+		packageModels: (DMBuilder doPackageModelsUsing: packages)
+]
+
+{ #category : #'*DMModels' }
+MooseModel >> showClassNamesBlueprint [
+
+	<navigation: #ClassNamesBlueprint>
+	| conceptualModel viewModel mooseView builder |
+	builder := DMBuilder new.
+	conceptualModel := builder buildConceptualModelFrom: self.
+	builder buildRootModelsFrom: conceptualModel.
+	viewModel := builder buildViewModelFrom: conceptualModel.
+	mooseView := DMRoassalClassNamesBlueprint new visualize: viewModel.
+	^mooseView
+
+	
+	
+
+
+	
+	
 ]

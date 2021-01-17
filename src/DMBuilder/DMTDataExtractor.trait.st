@@ -21,13 +21,13 @@ DMTDataExtractor >> extractBiggestClassDepthFrom: classModels [
 { #category : #'as yet unclassified' }
 DMTDataExtractor >> extractClassModelsFrom: aConceptualModel [
 
-	^(aConceptualModel models flatCollect: [ :eachPackageModel | eachPackageModel classmodels ]) asOrderedCollection 
+	^(aConceptualModel packageModels flatCollect: [ :eachPackageModel | eachPackageModel classmodels ]) asOrderedCollection 
 ]
 
 { #category : #'as yet unclassified' }
 DMTDataExtractor >> extractClassViewModelsFrom: aViewModel [
 
-	^(aViewModel models flatCollect: [ :eachPackageViewModel |  eachPackageViewModel models flatCollect: #models])
+	^(aViewModel packageModels flatCollect: [ :eachPackageViewModel |  eachPackageViewModel packageModels flatCollect: #packageModels])
 ]
 
 { #category : #ambiguous }
@@ -54,27 +54,15 @@ DMTDataExtractor >> extractRootModelsFor: aConcept [
 ]
 
 { #category : #'as yet unclassified' }
+DMTDataExtractor >> extractRootModelsFrom: aCollectionOfRM dominatedBy: aConcept [
+
+	^aCollectionOfRM select: [ :aRM | aRM dominantSuffix key = aConcept ]
+]
+
+{ #category : #'as yet unclassified' }
 DMTDataExtractor >> extractSmallestClassDepthFrom: classModels [
 
 	^(classModels collect: #level) detectMin: [ :each | each ]
 	
 
-]
-
-{ #category : #actions }
-DMTDataExtractor >> selectBiggestHierarchyFor: aConcept [
-	| biggest rootModels index |
-	index := 2.
-	rootModels := self extractRootModelsFor: aConcept.
-	rootModels notEmpty
-		ifTrue: [ biggest := rootModels at: 1 ].
-	rootModels size = 1
-		ifTrue: [ ^ biggest ].
-	[ index <= rootModels size ]
-		whileTrue: [ rootModels
-				do: [ :aRootModel | 
-					aRootModel subclasses size > biggest subclasses size
-						ifTrue: [ biggest := aRootModel ].
-					index := index + 1 ] ].
-	^ biggest
 ]

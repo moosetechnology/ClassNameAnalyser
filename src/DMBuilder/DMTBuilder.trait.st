@@ -26,9 +26,9 @@ DMTBuilder >> buildConceptViewModelsFrom: aCollectionOfConcepts using: aPackages
 		classmodels := aPackagesClassModels select: [ :eachClassmodel | eachClassmodel concept = eachConcept ].
 			DMConceptViewModel new
 			name: eachConcept;
-				classViewModels: (self buildClassViewModelsFrom: classmodels)]).
-				"root: (self selectBiggestHierarchyFor: eachConcept)
-				color: (self selectColorFor: eachConcept) ])"
+				classViewModels: (self buildClassViewModelsFrom: classmodels);
+				root: (self selectBiggestHierarchyFor: eachConcept);
+				color: (self selectColorFor: eachConcept) ])
 ]
 
 { #category : #building }
@@ -53,28 +53,16 @@ DMTBuilder >> buildPackageViewModelsFrom: packageModels [
 
 { #category : #'as yet unclassified' }
 DMTBuilder >> buildRootModelsFrom: aConceptualModel [
-	| classmodels rootModels coloredRootModels sortedRootModels |
+	| rootModels coloredRootModels concepts |
 	self initialize.
 	self class conceptualmodel: aConceptualModel.
 	coloredRootModels := Set new.
-	classmodels := self extractClassModelsFrom: aConceptualModel.
-	rootModels := aConceptualModel hierarchies
-		collect: [ :eachHierarchy | | hierarchyClasses |
-			hierarchyClasses := classmodels select: [ :eachClass | eachClass root = eachHierarchy ].
-			DMRootModel new
-				name: eachHierarchy name;
-				subclasses: (hierarchyClasses);
-				concepts: hierarchyClasses;
-				type:
-					(self
-						classTypeWithSubclasses: hierarchyClasses)].
-	sortedRootModels := self sortRootModels: rootModels.
-	coloredRootModels := (sortedRootModels 
-		collect: 
-			[ :eachRootModel | eachRootModel color: (self attributeColorByType: eachRootModel type) ]).
+	rootModels := aConceptualModel initializeRootModels.
+	coloredRootModels := self color: rootModels.
 	self class rootmodels: coloredRootModels.
-
-	^ coloredRootModels
+	concepts := aConceptualModel classmodels collect: #concept.
+	concepts asSet do: [ :aConcept | self startFightOver: aConcept ].
+	^ self class rootmodels
 ]
 
 { #category : #'as yet unclassified' }
@@ -82,7 +70,7 @@ DMTBuilder >> buildViewModelFrom: aConceptualModel [
 	
 	^(DMViewModel new 
 	name: aConceptualModel name;
-		packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel models);
+		packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel packageModels);
 		rootmodels: self class rootmodels )
 ]
 

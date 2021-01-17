@@ -5,9 +5,10 @@ Class {
 		'subclasses',
 		'color',
 		'type',
-		'concepts',
+		'suffixes',
 		'size',
-		'dominantConcept'
+		'dominantSuffixes',
+		'concepts'
 	],
 	#category : #DMModels
 }
@@ -23,35 +24,57 @@ DMRootModel >> color: aColor [
 ]
 
 { #category : #accessing }
-DMRootModel >> concepts [ 
-	
-	^concepts
-	
+DMRootModel >> concepts [
+	^concepts flattened
 ]
 
 { #category : #accessing }
-DMRootModel >> concepts: aCollectionOfSubclasses [
-	| suffixes |
-	suffixes := aCollectionOfSubclasses collect: #concept.
-	suffixes do: [ :aSuffix | concepts at: aSuffix put: (suffixes occurrencesOf: aSuffix) ].
-	self dominantConcept: (concepts associations reverseSortedAs: [ :each | each value ]) first 
-	
+DMRootModel >> concepts: aDominantSuffix [
+	concepts add: aDominantSuffix 
 ]
 
 { #category : #'as yet unclassified' }
-DMRootModel >> dominantConcept [
-	^dominantConcept 
+DMRootModel >> dominantSuffixes [
+	^dominantSuffixes
 ]
 
 { #category : #accessing }
-DMRootModel >> dominantConcept: aConcept [ 
-	dominantConcept := aConcept 
+DMRootModel >> dominantSuffixes: aConceptAssociation [
+	dominantSuffixes add: aConceptAssociation
 ]
 
 { #category : #initialization }
-DMRootModel >> initialize [ 
+DMRootModel >> initialize [ 	
 	super initialize.
-	concepts := Dictionary new
+	suffixes := Dictionary new.
+	dominantSuffixes := Dictionary new.
+	concepts := Set new
+]
+
+{ #category : #'as yet unclassified' }
+DMRootModel >> initializeConcepts [
+	concepts addAll: self dominantSuffixes keys
+]
+
+{ #category : #testing }
+DMRootModel >> isMonoClass [
+	 type = 'monoClass'
+	ifTrue: [ ^true ]
+	ifFalse: [ ^false ]
+]
+
+{ #category : #testing }
+DMRootModel >> isMonoSuffix [
+	type = 'monoSuffix'
+	ifTrue: [ ^true ]
+	ifFalse: [ ^false ]
+]
+
+{ #category : #'as yet unclassified' }
+DMRootModel >> isMultiSuffix [
+	type = 'multiSuffix'
+	ifTrue: [ ^true ]
+	ifFalse: [ ^false ]
 ]
 
 { #category : #printing }
@@ -64,7 +87,7 @@ DMRootModel >> printOn: aStream [
 
 { #category : #accessing }
 DMRootModel >> size [
-	^subclasses size
+	^size
 	
 ]
 
@@ -85,6 +108,22 @@ DMRootModel >> subclasses: classesCollection [
 		ifTrue: [ size := 0 ].
 	subclasses := classesCollection
 		collect: [ :eachClass | eachClass classmodel ].
+	
+]
+
+{ #category : #accessing }
+DMRootModel >> suffixes [ 
+	
+	^suffixes
+	
+]
+
+{ #category : #'as yet unclassified' }
+DMRootModel >> suffixes: aCollectionOfSubclasses [
+	| concepts |
+	concepts := aCollectionOfSubclasses collect: #concept.
+	concepts do: [ :aConcept | suffixes at: aConcept put: (concepts occurrencesOf: aConcept) ].
+	
 	
 ]
 

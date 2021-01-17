@@ -70,13 +70,6 @@ DMClassViewModel >> level: aLevel [
 	level := aLevel
 ]
 
-{ #category : #'instance creation' }
-DMClassViewModel >> name: aClassName with: aColor [
-
-	self name: aClassName.
-	self color: aColor
-]
-
 { #category : #testing }
 DMClassViewModel >> printOn: aStream [
 	super printOn: aStream. 
