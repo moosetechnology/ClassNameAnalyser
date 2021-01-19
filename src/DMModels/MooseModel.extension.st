@@ -63,6 +63,11 @@ MooseModel >> conceptualmodel [
 ]
 
 { #category : #'*DMModels' }
+MooseModel >> packages [
+	^(self allModelNamespaces ifEmpty: self allModelPackages) asMooseGroup. 
+]
+
+{ #category : #'*DMModels' }
 MooseModel >> showClassNamesBlueprint [
 
 	<navigation: #ClassNamesBlueprint>

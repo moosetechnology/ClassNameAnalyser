@@ -19,189 +19,87 @@ DMBuilderTest >> testAttribueColor [
 ]
 
 { #category : #tests }
-DMBuilderTest >> testBuildConceptViewModels [
+DMBuilderTest >> testBuildPackageModels [
+| model packageModels cnb |
 
-	| mooseSample mooseModel conceptualModel rootModels conceptVModels |
-	mooseSample := MooseSampleData new.
-	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
-	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	rootModels := builder buildRootModelsFrom: conceptualModel.
-	conceptVModels := builder buildConceptViewModelsFrom: (conceptualModel allClassModels collect: #concept) asSet using:( builder extractClassModelsFrom: conceptualModel).
-	self assert: (conceptVModels size) equals: (conceptualModel allClassModels collect: #concept) asSet size.
-	self assert: (conceptVModels collect: #name) equals: (conceptualModel allClassModels collect: #concept) asSet .
-	
-]
+	model := FamixStModel new.
+	MoosePharoImporterTask new
+		importerClass: SmalltalkImporter;
+		doNotRunCandidateOperator;
+		importingContext:
+			(MooseImportingContext new
+			   mergeClassAndMetaclass;
+				importClass;
+				importInheritance ; 
+				importPackage);
+		model: model;
+		addFromPackagesMatching: [:p | 'Moose-*' match: p name];
+		run.
+		cnb := DMClassNamesblueprint new
+			model: model;
+			motherRoot: Object.
+	packageModels := DMBuilder doPackageModelsOf: cnb viewModel.
+	self assert: (packageModels size) equals: (model packages size).
+	self assert: (packageModels flatCollect: #classModels) size equals: model numberOfModelClasses 
 
-{ #category : #'as yet unclassified' }
-DMBuilderTest >> testBuildConceptualModel [
-
-	| mooseSample mooseModel conceptualModel |
-	mooseSample := MooseSampleData new.
-	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
-	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	builder buildRootModelsFrom: conceptualModel.
-	self assert: conceptualModel class name equals: 'DMConceptualModel'.
-	
-]
-
-{ #category : #tests }
-DMBuilderTest >> testBuildPackageViewModels [
-
-	| mooseSample mooseModel conceptualModel packageViewModels viewModel |
-	mooseSample := MooseSampleData new.
-	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion3) readStream.
-	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	builder buildRootModelsFrom: conceptualModel.
-	packageViewModels := builder buildPackageViewModelsFrom: conceptualModel models.
-	viewModel := builder buildViewModelFrom: conceptualModel.
-	self assert: (packageViewModels size) equals:(conceptualModel models size).
-	self assert: (packageViewModels collect: #name) asArray equals: (conceptualModel models collect: #name) asArray.
-	self assert: (builder extractClassViewModelsFrom: viewModel) size equals: (builder extractClassModelsFrom: conceptualModel) size 
 ]
 
 { #category : #tests }
 DMBuilderTest >> testBuildRootModels [
-	"The modelVersion4 has two roots with the same name 'ClassA' one is a monoClass the other is a multiSuffix hierarchy each in a different package"
-	| mooseSample mooseModel conceptualModel rootModels |
-	mooseSample := MooseSampleData new.
-	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
-	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	rootModels := builder buildRootModelsFrom: conceptualModel.
-	self assert: (rootModels collect: #name) asSet equals: (conceptualModel hierarchies collect: #name) .
-	self assert: (rootModels size) equals: 2.
-	
-	
-]
+| model packageModels cnb |
 
-{ #category : #tests }
-DMBuilderTest >> testBuildViewModel [
+	model := FamixStModel new.
+	MoosePharoImporterTask new
+		importerClass: SmalltalkImporter;
+		doNotRunCandidateOperator;
+		importingContext:
+			(MooseImportingContext new
+			   mergeClassAndMetaclass;
+				importClass;
+				importInheritance ; 
+				importPackage);
+		model: model;
+		addFromPackagesMatching: [:p | 'Moose-*' match: p name];
+		run.
+		cnb := DMClassNamesblueprint new
+			model: model;
+			motherRoot: Object.
+	packageModels := DMBuilder doPackageModelsOf: cnb viewModel.
+	self assert: ((DMBuilder buildRootsOf: (packageModels flatCollect: #classModels) Accordingto: cnb viewModel motherRoot) collect: #name) asSet equals: (cnb viewModel packageModels flatCollect: #classModels) asSet
 
-	| mooseSample mooseModel conceptualModel viewmodel rootModels |
-	mooseSample := MooseSampleData new.
-	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
-	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	rootModels := builder buildRootModelsFrom: conceptualModel.
-	viewmodel := DMBuilder new buildViewModelFrom: conceptualModel.
-	
-	self assert: (conceptualModel name) equals: (viewmodel name).
-	self assert: (builder extractAllHierarchiesFrom: conceptualModel models) size equals: (viewmodel rootmodels) size
-]
-
-{ #category : #tests }
-DMBuilderTest >> testClassType [
-	"the collection of classmodels must be of the same hierarchy (have the same root)"
-	self assert: (builder classTypeWithSubclasses: { DMTBuilder classmodel}) equals: #Trait.
-	self assert: (builder classTypeWithSubclasses: { DMBuilder classmodel} ) equals: #monoClass.
-	self assert: (builder classTypeWithSubclasses: { DMConceptualModel classmodel . DMViewModel classmodel} ) equals: #monoSuffix.
-	self assert: (builder classTypeWithSubclasses: { DMFeature classmodel }) equals: #multiSuffix
-]
-
-{ #category : #tests }
-DMBuilderTest >> testClassViewModel [
-
-	| mooseSample mooseModel conceptualModel rootModels classmodels classViewModels aClassVM aRandomCVMRoot |
-	mooseSample := MooseSampleData new.
-	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
-	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	rootModels := builder buildRootModelsFrom: conceptualModel.
-	classmodels := builder extractClassModelsFrom: conceptualModel.
-	classViewModels := builder buildClassViewModelsFrom: classmodels.
-	aClassVM := classViewModels atRandom.
-	aRandomCVMRoot := rootModels detect: [ :each | each name = aClassVM root name ].
-	
-	self assert: (classViewModels size) equals: (classmodels size).
-	self assert: (aClassVM color) equals: aRandomCVMRoot color.
-]
-
-{ #category : #tests }
-DMBuilderTest >> testExtractBiggestClassDepthFromAConceptualModel [
-
-	| mooseSample mooseModel conceptualModel |
-	mooseSample := MooseSampleData new.
-	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
-	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	builder buildRootModelsFrom: conceptualModel.
-	self assert: (DMBuilder extractBiggestClassDepthFrom: conceptualModel) equals: 2
-]
-
-{ #category : #tests }
-DMBuilderTest >> testExtractClassModels [
-
-	| mooseSample mooseModel conceptualModel classModels |
-	mooseSample := MooseSampleData new.
-	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion5) readStream.
-	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	classModels := builder extractClassModelsFrom: conceptualModel.
-	self assert: (classModels collect: #name) asSet equals: { 'ClassD' . 'ClassA' . 'ClassE' . 'ClassB' } asSet
-	
-	
-]
-
-{ #category : #tests }
-DMBuilderTest >> testExtractClassViewModels [
-
-	| mooseSample mooseModel conceptualModel rootModels viewModel classModels classViewModels |
-	mooseSample := MooseSampleData new.
-	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion5) readStream.
-	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	rootModels := builder buildRootModelsFrom: conceptualModel.
-	viewModel := builder buildViewModelFrom: conceptualModel.
-	classModels := builder extractClassModelsFrom: conceptualModel.
-	classViewModels := builder extractClassViewModelsFrom: viewModel.
-	self assert: (classViewModels size) equals: (classModels size).
-	self assert: (classViewModels collect: #reference) asSet equals: (classModels collect: #reference) asSet
-]
-
-{ #category : #tests }
-DMBuilderTest >> testExtractRootModelsForaConcept [ 
-
-	"mooseSample has only one hierarchy that's how I know that the result would be 1 daaah there is only one hierarchy"
-	| mooseSample mooseModel rootModels conceptualmodel|
-	mooseSample := MooseSampleData new.
-	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion5) readStream.
-	conceptualmodel := builder buildConceptualModelFrom: mooseModel.
-	builder buildRootModelsFrom: conceptualmodel.
-	rootModels := builder extractRootModelsFor: 'E'.
-	self assert: (rootModels size) equals: 1
 ]
 
 { #category : #'as yet unclassified' }
-DMBuilderTest >> testExtractSmallestClassDepthFrom [
-
-	| mooseSample mooseModel conceptualModel |
-	mooseSample := MooseSampleData new.
-	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
-	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	builder buildRootModelsFrom: conceptualModel.
-	self assert: (DMBuilder extractSmallestClassDepthFrom: conceptualModel) equals: 0
+DMBuilderTest >> testClassModelAccordingTo [
+	self assert: (MoosePharoImporterTask classModelAccordingTo: Object) root equals: MooseTask.
+	self assert: (MoosePharoImporterTask classModelAccordingTo: MooseTask) root equals: MooseAbstractImporter.
+	self assert: (MoosePharoImporterTask classModelAccordingTo: MooseAbstractImporter) root equals: MooseImportingTask
 ]
 
 { #category : #tests }
-DMBuilderTest >> testSelectBiggestHierarchyFor [
+DMBuilderTest >> testCreateSuffixesDictionary [
 
-	"The modelVersion4 has two roots with the same name 'ClassA' one is a monoClass the other is a 	multiSuffix hierarchy each in a different package"
-	| mooseSample mooseModel conceptualModel rootmodel |
-	mooseSample := MooseSampleData new.
-	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
-	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	builder buildRootModelsFrom: conceptualModel.
-	rootmodel := (builder selectBiggestHierarchyFor: 'A').
-	self assert: (rootmodel name) equals: 'ClassA'.
-	self assert: (rootmodel color) equals: #red
+	| model packageModels cnb |
 
-]
+	model := FamixStModel new.
+	MoosePharoImporterTask new
+		importerClass: SmalltalkImporter;
+		doNotRunCandidateOperator;
+		importingContext:
+			(MooseImportingContext new
+			   mergeClassAndMetaclass;
+				importClass;
+				importInheritance ; 
+				importPackage);
+		model: model;
+		addFromPackagesMatching: [:p | 'Moose-*' match: p name];
+		run.
+		cnb := DMClassNamesblueprint new
+			model: model;
+			motherRoot: Object.
+	packageModels := DMBuilder doPackageModelsOf: cnb viewModel.
+	self assert: (DMBuilder createSuffixesDictionaryFrom: (packageModels flatCollect: #classModels)) keys asSet equals: ((packageModels flatCollect: #classModels) collect: #concept) asSet
 
-{ #category : #tests }
-DMBuilderTest >> testSelectColorFor [
-	"there is only one hierarchy its color is red"
-	| mooseSample mooseModel conceptualModel color |
-	mooseSample := MooseSampleData new.
-	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion5) readStream.
-	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	builder buildRootModelsFrom: conceptualModel.
-	color := builder selectColorFor: 'E'.
-	self assert: color equals: #red
-	
 ]
 
 { #category : #tests }
@@ -217,6 +115,29 @@ DMBuilderTest >> testSortRootModels [
 	self assert: (builder sortRootModels: c) asSet equals: { rm5 . rm3. rm1 . rm4 . rm2 . rm6} asSet
 ]
 
+{ #category : #tests }
+DMBuilderTest >> testStartBuilding [
+| model packageModels cnb |
+
+	model := FamixStModel new.
+	MoosePharoImporterTask new
+		importerClass: SmalltalkImporter;
+		doNotRunCandidateOperator;
+		importingContext:
+			(MooseImportingContext new
+			   mergeClassAndMetaclass;
+				importClass;
+				importInheritance ; 
+				importPackage);
+		model: model;
+		addFromPackagesMatching: [:p | 'Moose-*' match: p name];
+		run.
+		cnb := DMClassNamesblueprint new
+			model: model;
+			motherRoot: Object.
+		cnb startBuilding.
+]
+
 { #category : #'as yet unclassified' }
 DMBuilderTest >> testbuildConceptViewModels [
 	""
@@ -225,6 +146,27 @@ DMBuilderTest >> testbuildConceptViewModels [
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion5) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	builder buildRootModelsFrom: conceptualModel.
-	conceptViewModels := builder buildConceptViewModelsFrom: (conceptualModel allClassModels collect: #concept) using: (conceptualModel models atRandom) classmodels.
+	conceptViewModels := builder buildConceptViewModelsFrom: (conceptualModel allClassModels collect: #concept) using: (conceptualModel models atRandom) classModels.
 	self assert: (conceptViewModels collect: #color) equals: {#red} asSet
+]
+
+{ #category : #'as yet unclassified' }
+DMBuilderTest >> testbuildViewModel [
+	| aConceptualModel aViewModel model class package |
+
+	model := FamixStModel new.
+	MoosePharoImporterTask new
+		importerClass: SmalltalkImporter;
+		doNotRunCandidateOperator;
+		importingContext:
+			(MooseImportingContext new
+			   mergeClassAndMetaclass;
+				importClass;
+				importInheritance ; 
+				importPackage;
+		model: model;
+		addFromPackagesMatching: [:p | 'Moose-*' match: p name];
+		run).
+	aViewModel := DMBuilder do: model.
+	self assert: (aViewModel allClassNames collect: #root) equals: (aViewModel rootModels collect: #name)
 ]

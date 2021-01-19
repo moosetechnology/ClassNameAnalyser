@@ -13,7 +13,6 @@ DMTColorAttributor >> color: rootModels [
 	coloredRootModels := (sortedRootModels 
 		collect: 
 			[ :eachRootModel | eachRootModel color: (self attributeColorByType: eachRootModel type) ]).
-	self class rootmodels: coloredRootModels.
 	^coloredRootModels 
 	
 ]

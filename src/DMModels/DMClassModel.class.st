@@ -64,18 +64,9 @@ DMClassModel >> root: aRoot [
 ]
 
 { #category : #accessing }
-DMClassModel >> rootStopAt: aMothetClass [
-
-	self level = 0
-		ifTrue: [ ^ self ].
-	(aMothetClass name = self name)
-		ifTrue: [ ^ self ].
-	self superclass isNotNil
-		ifFalse: [ ^ self ].
-	self superclass name = aMothetClass name
-		ifTrue: [ ^ self ].
-	^self superclass classmodel rootStopAt: aMothetClass
-	
+DMClassModel >> rootAccordingTo: aMotherClass [
+	self root: (reference rootAccordingTo: aMotherClass).
+	^self root
 ]
 
 { #category : #accessing }

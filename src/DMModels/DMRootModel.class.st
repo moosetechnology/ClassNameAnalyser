@@ -13,6 +13,23 @@ Class {
 	#category : #DMModels
 }
 
+{ #category : #'as yet unclassified' }
+DMRootModel class >> reference: aClass with: aCollectionOfSubClassModels [ 
+	| rootType |
+	rootType := (DMBuilder classTypeWithSubclasses: aCollectionOfSubClassModels).
+	^self new 
+	name: aClass name;
+	subclasses: aCollectionOfSubClassModels;
+	size: aCollectionOfSubClassModels size;
+	suffixes: (DMBuilder createSuffixesDictionaryFrom: aCollectionOfSubClassModels);
+	type: rootType.
+	
+	
+	
+	
+	
+]
+
 { #category : #accessing }
 DMRootModel >> color [ 
 	^color
@@ -119,10 +136,8 @@ DMRootModel >> suffixes [
 ]
 
 { #category : #'as yet unclassified' }
-DMRootModel >> suffixes: aCollectionOfSubclasses [
-	| concepts |
-	concepts := aCollectionOfSubclasses collect: #concept.
-	concepts do: [ :aConcept | suffixes at: aConcept put: (concepts occurrencesOf: aConcept) ].
+DMRootModel >> suffixes: suffixesDictionary [
+	suffixes := suffixesDictionary
 	
 	
 ]

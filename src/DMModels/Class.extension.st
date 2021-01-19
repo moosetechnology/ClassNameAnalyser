@@ -8,7 +8,6 @@ Class >> submodels [
 		name: each name;
 		level: each classDepth;
 		reference: each;
-		root: each rootClass;
 		superclass: each superclass;
 		concept: each name)]) asSet
 ]

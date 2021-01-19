@@ -17,6 +17,12 @@ Class {
 }
 
 { #category : #actions }
+DMFeatureSelector class >> extractConceptFrom: aClass [ 
+	^self new
+		extractConceptFrom: aClass
+]
+
+{ #category : #actions }
 DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackageNames [
 
 	| conceptualModel classes |

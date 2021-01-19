@@ -31,38 +31,16 @@ DMTBuilder >> buildConceptViewModelsFrom: aCollectionOfConcepts using: aPackages
 				color: (self selectColorFor: eachConcept) ])
 ]
 
-{ #category : #building }
-DMTBuilder >> buildConceptualModelFrom: aModel [
-
-	self class conceptualmodel: aModel conceptualmodel.
-	^ self class conceptualmodel
-		
-]
-
 { #category : #'as yet unclassified' }
 DMTBuilder >> buildPackageViewModelsFrom: packageModels [
 
 	^(packageModels collect: [ :eachPackageModel | | concepts |
-		concepts := (eachPackageModel classmodels collect: #concept) asSet.
+		concepts := (eachPackageModel classModels collect: #concept) asSet.
 		DMPackageViewModel new
 						name: eachPackageModel name;
 						conceptViewModels:
 							(self
-								buildConceptViewModelsFrom: concepts using: (eachPackageModel classmodels)) ])
-]
-
-{ #category : #'as yet unclassified' }
-DMTBuilder >> buildRootModelsFrom: aConceptualModel [
-	| rootModels coloredRootModels concepts |
-	self initialize.
-	self class conceptualmodel: aConceptualModel.
-	coloredRootModels := Set new.
-	rootModels := aConceptualModel initializeRootModels.
-	coloredRootModels := self color: rootModels.
-	self class rootmodels: coloredRootModels.
-	concepts := aConceptualModel classmodels collect: #concept.
-	concepts asSet do: [ :aConcept | self startFightOver: aConcept ].
-	^ self class rootmodels
+								buildConceptViewModelsFrom: concepts using: (eachPackageModel classModels)) ])
 ]
 
 { #category : #'as yet unclassified' }
@@ -72,19 +50,4 @@ DMTBuilder >> buildViewModelFrom: aConceptualModel [
 	name: aConceptualModel name;
 		packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel models);
 		rootmodels: self class rootmodels )
-]
-
-{ #category : #'as yet unclassified' }
-DMTBuilder >> classTypeWithSubclasses: anArrayOfClassModelsOfTheSameRoot [
-	anArrayOfClassModelsOfTheSameRoot size = 1
-		ifTrue: [ (anArrayOfClassModelsOfTheSameRoot at: 1) reference isTrait
-				ifTrue: [ ^ #Trait ]
-				ifFalse: [ (anArrayOfClassModelsOfTheSameRoot at: 1) root
-						= (anArrayOfClassModelsOfTheSameRoot at: 1) reference
-						ifTrue: [ ^ #monoClass ] ] ].
-				
-	((anArrayOfClassModelsOfTheSameRoot collect: [ :each | each concept ])
-		asSet size = 1) & ((anArrayOfClassModelsOfTheSameRoot atRandom) concept = (DMFeatureSelector new extractConceptFrom: (anArrayOfClassModelsOfTheSameRoot atRandom) root name))
-		ifTrue: [ ^ #monoSuffix ].
-	^ #multiSuffix
 ]

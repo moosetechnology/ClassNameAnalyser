@@ -8,12 +8,12 @@ Class {
 }
 
 { #category : #accessing }
-DMPackageModel >> classmodels [
+DMPackageModel >> classModels [
 	^classmodels
 ]
 
 { #category : #accessing }
-DMPackageModel >> classmodels: classModels [
+DMPackageModel >> classModels: classModels [
 
 	classmodels := classModels
 ]
@@ -21,4 +21,12 @@ DMPackageModel >> classmodels: classModels [
 { #category : #initialization }
 DMPackageModel >> initialize [
 	super initialize.
+]
+
+{ #category : #'as yet unclassified' }
+DMPackageModel >> printOn: aStream [
+	super printOn: aStream. 
+	aStream nextPutAll: ' ('.
+	self name asString printOn: aStream.
+	aStream nextPutAll: ')'
 ]

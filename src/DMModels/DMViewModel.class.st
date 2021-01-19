@@ -1,9 +1,8 @@
 Class {
 	#name : #DMViewModel,
-	#superclass : #DMModel,
+	#superclass : #DMConceptualModel,
 	#instVars : [
-		'packageViewModels',
-		'rootmodels'
+		'packageViewModels'
 	],
 	#category : #DMModels
 }
@@ -32,14 +31,4 @@ DMViewModel >> packageViewModels [
 DMViewModel >> packageViewModels: collectionOfPackageViewModels [
  
 	packageViewModels := collectionOfPackageViewModels 
-]
-
-{ #category : #accessing }
-DMViewModel >> rootmodels [ 
-	^rootmodels
-]
-
-{ #category : #accessing }
-DMViewModel >> rootmodels: aCollectionOfRootClasses [
-	rootmodels := aCollectionOfRootClasses 
 ]
