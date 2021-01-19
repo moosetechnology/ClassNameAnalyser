@@ -1,6 +1,10 @@
 Class {
 	#name : #DMRoassalClassNamesBlueprint,
 	#superclass : #Object,
+	#instVars : [
+		'orderBySize',
+		'orderByColor'
+	],
 	#category : #DMRoassalClassNameBlueprint
 }
 
@@ -10,9 +14,31 @@ DMRoassalClassNamesBlueprint class >> visualize: aViewModel [
 		visualize: aViewModel 
 ]
 
+{ #category : #initialization }
+DMRoassalClassNamesBlueprint >> initialize [
+	super initialize.
+	"orderBySize := false.
+	orderByColor := false."
+]
+
+{ #category : #accessing }
+DMRoassalClassNamesBlueprint >> models: collectionOfModels [
+	^collectionOfModels collect: [ :aModel | aModel ] 
+]
+
+{ #category : #accessing }
+DMRoassalClassNamesBlueprint >> orderByColor [
+	orderByColor := true
+]
+
+{ #category : #accessing }
+DMRoassalClassNamesBlueprint >> orderBySize [
+	orderBySize := true
+]
+
 { #category : #visualization }
 DMRoassalClassNamesBlueprint >> visualize: aViewModel [
-	| b |
+	| b conceptViewModels |
 	b := RTMondrian new.
 	b shape rectangle
 		withTextAbove:
@@ -23,8 +49,9 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 	b interaction popup text: [ :aPackageVM | aPackageVM name ].
 	b
 		nodes:
-			(aViewModel modelsOrderedDescending
-				collect: [ :packageVM | packageVM ])
+			(orderBySize isNotNil
+			ifTrue: [ aViewModel modelsOrderedDescending collect: [ :packageVM | packageVM ]]
+			ifFalse: [ self models: aViewModel packageViewModels ])
 		forEach: [ :pVM | 
 			b shape rectangle
 				color: [ :eachConcept | Color value: eachConcept color ];
@@ -34,13 +61,24 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 				text: [ :conceptVM | 
 					'Concept: ' , conceptVM name , ' ; Dominant hierarchy:'
 						, conceptVM root name ].
-			b
-				nodes: (pVM modelsOrderedByColor collect: [ :conceptVM | conceptVM ])
+			 (orderBySize isNotNil
+				ifTrue: [  pVM conceptViewModels: (pVM modelsOrderedDescending collect: [ :each | each ]).
+					orderByColor isNotNil
+					ifTrue: [ pVM conceptViewModels: (pVM modelsOrderedDescending collect: [ :eachConcept | eachConcept ]).
+						pVM conceptViewModels: (pVM modelsOrderedByColor collect: [ :each | each ])
+						 ]
+					  ]
+				ifFalse: [ orderByColor isNotNil
+					ifTrue: [ pVM conceptViewModels: (pVM modelsOrderedByColor collect: [ :each | each ]) ]
+					ifFalse: [ pVM conceptViewModels: (pVM conceptViewModels collect: [ :each | each ]) ]			
+					 ]				
+				).
+				b nodes: (pVM conceptViewModels collect: [ :each | each ] )
 				forEach: [ :conceptVM | 
 					b shape rectangle
 						color: [ :classVM | Color value: classVM color ];
 						borderColor: [ :aClassVM | aClassVM borderColor ].
-					b nodes: (conceptVM conceptViewModels collect: [ :aClassVm | aClassVm ]).
+					b nodes: (conceptVM classViewModels collect: [ :aClassVm | aClassVm ]).
 					b layout grid ].
 			b layout grid ].
 	b layout flow.

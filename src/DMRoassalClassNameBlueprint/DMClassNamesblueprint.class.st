@@ -3,8 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'viewModel',
-		'orderByColor',
-		'orderBySize'
+		'roassalView'
 	],
 	#category : #DMRoassalClassNameBlueprint
 }
@@ -12,9 +11,8 @@ Class {
 { #category : #initialization }
 DMClassNamesblueprint >> initialize [
 	super initialize.
-	orderBySize := false.
-	orderByColor := false.
-	viewModel := DMViewModel new
+	viewModel := DMViewModel new.
+	roassalView := DMRoassalClassNamesBlueprint new
 ]
 
 { #category : #accessing }
@@ -38,13 +36,13 @@ DMClassNamesblueprint >> motherRoot: aClass [
 ]
 
 { #category : #accessing }
-DMClassNamesblueprint >> orderByColor [
-	orderByColor := true
+DMClassNamesblueprint >> orderByColor [ 	
+	roassalView orderByColor 
 ]
 
 { #category : #accessing }
 DMClassNamesblueprint >> orderBySize [
-	orderBySize := true
+	roassalView orderBySize 
 ]
 
 { #category : #accessing }
@@ -54,7 +52,7 @@ DMClassNamesblueprint >> rootModels [
 
 { #category : #accessing }
 DMClassNamesblueprint >> show [
-	^DMRoassalClassNamesBlueprint visualize: viewModel 
+	^roassalView visualize: viewModel 
 ]
 
 { #category : #'as yet unclassified' }

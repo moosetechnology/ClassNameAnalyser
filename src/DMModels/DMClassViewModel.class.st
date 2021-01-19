@@ -40,11 +40,6 @@ DMClassViewModel >> concept: aClassName [
 ]
 
 { #category : #testing }
-DMClassViewModel >> isClassViewModel [
-	^ true
-]
-
-{ #category : #testing }
 DMClassViewModel >> isRoot [ 
 	^self name = self rootname 
 ]

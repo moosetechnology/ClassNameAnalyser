@@ -2,7 +2,8 @@ Class {
 	#name : #DMPackageViewModel,
 	#superclass : #DMModel,
 	#instVars : [
-		'conceptViewModels'
+		'conceptViewModels',
+		'size'
 	],
 	#category : #DMModels
 }
@@ -14,7 +15,8 @@ DMPackageViewModel >> conceptViewModels [
 
 { #category : #accessing }
 DMPackageViewModel >> conceptViewModels: collectionOfConceptViewModels [
-	conceptViewModels := collectionOfConceptViewModels 
+	conceptViewModels := collectionOfConceptViewModels.
+	size := (collectionOfConceptViewModels flatCollect: #classViewModels) size
 ]
 
 { #category : #'as yet unclassified' }
@@ -29,6 +31,7 @@ DMPackageViewModel >> modelsOrderedByColor [
 
 { #category : #'as yet unclassified' }
 DMPackageViewModel >> modelsOrderedDescending [
+
 	^ conceptViewModels sorted: #size descending
 ]
 
@@ -40,4 +43,9 @@ DMPackageViewModel >> printOn: aStream [
 	aStream nextPutAll: ')'
 
 	
+]
+
+{ #category : #accessing }
+DMPackageViewModel >> size [
+	^(conceptViewModels flatCollect: #classViewModels) size
 ]
