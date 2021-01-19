@@ -63,9 +63,10 @@ DMBuilderTest >> testBuildRootModels [
 		run.
 		cnb := DMClassNamesblueprint new
 			model: model;
-			motherRoot: Object.
+			motherRoot: Object;
+			startBuilding.
 	packageModels := DMBuilder doPackageModelsOf: cnb viewModel.
-	self assert: ((DMBuilder buildRootsOf: (packageModels flatCollect: #classModels) Accordingto: cnb viewModel motherRoot) collect: #name) asSet equals: (cnb viewModel packageModels flatCollect: #classModels) asSet
+	self assert: ((DMBuilder buildRootsOf: (packageModels flatCollect: #classModels) Accordingto: cnb viewModel motherRoot) collect: #name) asSet equals: (cnb rootModels collect: #name)
 
 ]
 
@@ -146,7 +147,7 @@ DMBuilderTest >> testbuildConceptViewModels [
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion5) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	builder buildRootModelsFrom: conceptualModel.
-	conceptViewModels := builder buildConceptViewModelsFrom: (conceptualModel allClassModels collect: #concept) using: (conceptualModel models atRandom) classModels.
+	conceptViewModels := builder doConceptViewModelsOf: (conceptualModel allClassModels collect: #concept) using: (conceptualModel models atRandom) classModels.
 	self assert: (conceptViewModels collect: #color) equals: {#red} asSet
 ]
 

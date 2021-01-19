@@ -5,7 +5,6 @@ Class {
 		'concept',
 		'root',
 		'superclass',
-		'level',
 		'reference'
 	],
 	#category : #DMModels
@@ -20,17 +19,6 @@ DMClassModel >> concept [
 DMClassModel >> concept: className [
 
 	concept := DMFeatureSelector new extractConceptFrom: className
-]
-
-{ #category : #accessing }
-DMClassModel >> level [
-	^level
-]
-
-{ #category : #accessing }
-DMClassModel >> level: aLevel [
-
-	level := aLevel
 ]
 
 { #category : #printing }

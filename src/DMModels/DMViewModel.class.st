@@ -7,11 +7,6 @@ Class {
 	#category : #DMModels
 }
 
-{ #category : #accessing }
-DMViewModel >> models [
-	^ packageViewModels 
-]
-
 { #category : #'as yet unclassified' }
 DMViewModel >> modelsOrderedAscending [
 	^packageViewModels sorted: #size ascending

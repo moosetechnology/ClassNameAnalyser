@@ -2,10 +2,8 @@ Class {
 	#name : #DMConceptualModel,
 	#superclass : #DMModel,
 	#instVars : [
-		'hierarchies',
 		'model',
 		'packageModels',
-		'concepts',
 		'motherRoot',
 		'rootModels'
 	],
@@ -14,18 +12,8 @@ Class {
 
 { #category : #accessing }
 DMConceptualModel >> allClassModels [ 
-	^DMBuilder extractClassModelsFrom: self 
-]
-
-{ #category : #accessing }
-DMConceptualModel >> hierarchies [ 	
-	^hierarchies
-]
-
-{ #category : #accessing }
-DMConceptualModel >> hierarchies: hierarchiesCollection [
-
-	hierarchies := hierarchiesCollection asSet
+	 ^DMBuilder extractClassModelsFrom: self packageModels.
+	
 ]
 
 { #category : #initialization }

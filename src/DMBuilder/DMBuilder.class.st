@@ -47,6 +47,12 @@ DMBuilder class >> doPackageModelsOf: aModel [
 ]
 
 { #category : #'as yet unclassified' }
+DMBuilder class >> doPackageViewModelsOf: packageModels [
+	^self new
+	doPackageViewModelsOf: packageModels 
+]
+
+{ #category : #'as yet unclassified' }
 DMBuilder class >> extractBiggestClassDepthFrom: aConceptualModel [ 
 	| classModels |
 	classModels := self new 
@@ -56,9 +62,9 @@ DMBuilder class >> extractBiggestClassDepthFrom: aConceptualModel [
 ]
 
 { #category : #'as yet unclassified' }
-DMBuilder class >> extractClassModelsFrom: aConceptualModel [ 	
+DMBuilder class >> extractClassModelsFrom: packageModels [ 	
 	^self new
-		extractClassModelsFrom: aConceptualModel 
+		extractClassModelsFrom: packageModels 
 ]
 
 { #category : #'as yet unclassified' }
@@ -107,18 +113,6 @@ DMBuilder >> attributeColorByType: aType [
 ]
 
 { #category : #'as yet unclassified' }
-DMBuilder >> buildPackageViewModelsFrom: packageModels [
-
-	^(packageModels collect: [ :eachPackageModel | | concepts |
-		concepts := (eachPackageModel classModels collect: #concept) asSet.
-		DMPackageViewModel new
-						name: eachPackageModel name;
-						conceptViewModels:
-							(self
-								buildConceptViewModelsFrom: concepts using: (eachPackageModel classModels)) ])
-]
-
-{ #category : #'as yet unclassified' }
 DMBuilder >> buildRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
 	| allRoots initialeRootModels coloredRootModels rootModels |
 	self initialize.
@@ -133,16 +127,7 @@ DMBuilder >> buildRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
 	coloredRootModels := self color: initialeRootModels.
 	rootModels := self startFightOverConceptsBetween: coloredRootModels.
 	rootModels do: [ :aRootModel | aRootModel initializeConcepts ].
-	^rootModels
-]
-
-{ #category : #'as yet unclassified' }
-DMBuilder >> buildViewModelFrom: aConceptualModel [
-	
-	^(DMViewModel new 
-	name: aConceptualModel name;
-		packageViewModels: (self buildPackageViewModelsFrom: aConceptualModel models);
-		rootmodels: self class rootmodels )
+	^rootModels asSet
 ]
 
 { #category : #'as yet unclassified' }
@@ -175,6 +160,27 @@ DMBuilder >> do: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+DMBuilder >> doConceptViewModelsOf: aPackageModel using: rootModels [
+	"On enveloppe chaque class du package dans son concept box "
+
+	| concepts |
+	concepts := (aPackageModel classModels collect: #concept) asSet.
+	^ concepts
+		collect: [ :eachConcept | 
+			| classmodels itsRoot |
+			itsRoot := self
+				selectBiggestHierarchyOf: eachConcept
+				using: rootModels.
+			classmodels := aPackageModel classModels
+				select: [ :eachClassmodel | eachClassmodel concept = eachConcept ].
+			DMConceptViewModel new
+				name: eachConcept;
+				classViewModels: (self doClassViewModelsOf: classmodels using: rootModels);
+				root: itsRoot;
+				color: itsRoot color ]
+]
+
+{ #category : #'as yet unclassified' }
 DMBuilder >> doPackageModelsOf: aViewModel [
 	^ aViewModel model packages
 		collect: [ :eachPackage | 
@@ -187,9 +193,20 @@ DMBuilder >> doPackageModelsOf: aViewModel [
 ]
 
 { #category : #'as yet unclassified' }
-DMBuilder >> extractClassModelsFrom: aConceptualModel [
+DMBuilder >> doPackageViewModelsOf: aViewModel [ 
 
-	^(aConceptualModel packageModels flatCollect: [ :eachPackageModel | eachPackageModel classModels ]) asOrderedCollection 
+	^(aViewModel packageModels collect: [ :eachPackageModel | 
+		DMPackageViewModel new
+						name: eachPackageModel name;
+						conceptViewModels:
+							(self
+								doConceptViewModelsOf: eachPackageModel using: aViewModel rootModels) ])
+]
+
+{ #category : #'as yet unclassified' }
+DMBuilder >> extractClassModelsFrom: packageModels [
+
+	^(packageModels flatCollect: [ :eachPackageModel | eachPackageModel classModels ]) asOrderedCollection 
 ]
 
 { #category : #'as yet unclassified' }
@@ -215,13 +232,8 @@ DMBuilder >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
-DMBuilder >> selectBiggestHierarchyFor: aConcept [ 
-	^(self class rootmodels select: [ :aRoot | aRoot concepts includes: aConcept ]) first.
-]
-
-{ #category : #'as yet unclassified' }
-DMBuilder >> selectBiggestHierarchyFor: aConcept from: aCollectioOfRootModels [
-	^(aCollectioOfRootModels select: [ :aRoot | aRoot concepts includes: aConcept ]) first.
+DMBuilder >> selectBiggestHierarchyOf: aConcept using: aCollectioOfRootModels [
+	^(aCollectioOfRootModels detect: [ :aRoot | aRoot concepts includes: aConcept ]).
 ]
 
 { #category : #sorting }

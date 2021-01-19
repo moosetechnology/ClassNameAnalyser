@@ -23,7 +23,6 @@ ProtoObject >> classmodel [
 
 	^(DMClassModel new 
 	name: self name;
-	level: self classDepth - 1;
 	concept: self name;
 	reference: self;
 	superclass: self superclass)

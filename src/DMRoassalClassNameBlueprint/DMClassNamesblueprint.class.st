@@ -48,6 +48,11 @@ DMClassNamesblueprint >> orderBySize [
 ]
 
 { #category : #accessing }
+DMClassNamesblueprint >> rootModels [ 
+	^viewModel rootModels
+]
+
+{ #category : #accessing }
 DMClassNamesblueprint >> show [
 	^DMRoassalClassNamesBlueprint visualize: viewModel 
 ]
@@ -61,8 +66,9 @@ DMClassNamesblueprint >> startBuilding [
 		packageModels: thePackageModels;
 		motherRoot: self motherRoot;
 		model: self model;
-		rootModels: (DMBuilder buildRootsOf: (thePackageModels flatCollect: #classModels) Accordingto: self motherRoot).
-	
+		rootModels: (DMBuilder buildRootsOf: (thePackageModels flatCollect: #classModels) Accordingto: 		self motherRoot);
+		packageViewModels: (DMBuilder doPackageViewModelsOf: self viewModel).
+	 
 ]
 
 { #category : #accessing }

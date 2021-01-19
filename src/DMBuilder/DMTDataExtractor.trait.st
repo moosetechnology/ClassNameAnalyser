@@ -6,5 +6,5 @@ Trait {
 { #category : #'as yet unclassified' }
 DMTDataExtractor >> extractClassViewModelsFrom: aViewModel [
 
-	^(aViewModel models flatCollect: [ :eachPackageViewModel |  eachPackageViewModel models flatCollect: #models])
+	^(aViewModel conceptViewModels flatCollect: [ :eachPackageViewModel |  eachPackageViewModel conceptViewModels flatCollect: #conceptViewModels])
 ]
