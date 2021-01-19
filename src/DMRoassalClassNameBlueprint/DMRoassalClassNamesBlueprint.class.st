@@ -38,14 +38,14 @@ DMRoassalClassNamesBlueprint >> orderBySize [
 
 { #category : #visualization }
 DMRoassalClassNamesBlueprint >> visualize: aViewModel [
-	| b conceptViewModels |
+	| b |
 	b := RTMondrian new.
 	b shape rectangle
+	color: Color white darker;
 		withTextAbove:
 				[ :packageVM | DMNameAbbreviationCreator abbreviate: packageVM name until: 5 ]
-			color: Color yellow;
-		borderColor: Color black;
-		color: Color white darker.
+			color: Color black;
+		borderColor: Color black.
 	b interaction popup text: [ :aPackageVM | aPackageVM name ].
 	b
 		nodes:
