@@ -1,31 +1,29 @@
 Extension { #name : #MooseModel }
 
 { #category : #'*DMModels' }
-MooseModel >> AllConceptualModel [
+MooseModel >> ClassNamesBlueprint [
 
-	<navigation: 'Conceptual Model'>
-	^(DMBuilder new buildConceptualModelFrom: self)
+	<navigation: 'ClassNamesBlueprint'>
+	<script: 'self ClassNamesBlueprint open'>
+	<tlFilter: #visuTemplate>
+	^DMClassNamesblueprint new 
+	model: self;
+	motherRoot: Object;
+	orderBySize;
+	orderByColor;
+	startBuilding;
+	show
 	
 	
 
 
 	
 	
-]
-
-{ #category : #'*DMModels' }
-MooseModel >> AllProjectHierarchies [
-	
-	<navigation: 'All Project Hierarchies'>
-	| conceptualModel builder |
-	builder := DMBuilder new.
-	conceptualModel := builder buildConceptualModelFrom: self.
-	^(builder buildRootModelsFrom: conceptualModel).
 ]
 
 { #category : #'*DMModels' }
 MooseModel >> TLView [
-	<navigation: 'TLView'>
+	"<navigation: 'TLView'>
 	<script: 'self TLView open'>
 	<tlFilter: #visuTemplate>
 	| conceptualModel viewModel |
@@ -38,51 +36,21 @@ MooseModel >> TLView [
 		property: #rootname)
 			innerEntitiesPopupBlock:
 				[ :anEntity | 'Class ' , anEntity name , ' belongs to ' , anEntity rootname ];
-			yourself
+			yourself"
 ]
 
 { #category : #'*DMModels' }
-MooseModel >> allViewModel [ 
-
-	<navigation: 'ClassNames Blueprint ViewModel'>
-	| conceptualModel viewModel builder |
-	builder := DMBuilder new.
-	conceptualModel := builder buildConceptualModelFrom: self.
-	builder buildRootModelsFrom: conceptualModel.
-	viewModel := builder buildViewModelFrom: conceptualModel.
-	^viewModel 
+MooseModel >> packages [ 
+	^	(self allModelPackages ifNil: self allModelNamespaces) asMooseGroup.
 ]
 
 { #category : #'*DMModels' }
-MooseModel >> conceptualmodel [
-	| packages |
-	packages :=(self allModelNamespaces ifEmpty: self allModelPackages) asMooseGroup. 
-	^ DMConceptualModel new
-		name: self name;
-		packagemodels: (DMBuilder doPackageModelsUsing: packages).
-]
-
-{ #category : #'*DMModels' }
-MooseModel >> packages [
-	^(self allModelNamespaces ifEmpty: self allModelPackages) asMooseGroup. 
-]
-
-{ #category : #'*DMModels' }
-MooseModel >> showClassNamesBlueprint [
-
-	<navigation: #ClassNamesBlueprint>
-	| conceptualModel viewModel mooseView builder rootmodels |
-	builder := DMBuilder new.
-	conceptualModel := builder buildConceptualModelFrom: self.
-	builder buildRootModelsFrom: conceptualModel.
-	viewModel := builder buildViewModelFrom: conceptualModel.
-	mooseView := DMRoassalClassNamesBlueprint new visualize: viewModel.
-	^mooseView
-
-	
-	
-
-
-	
-	
+MooseModel >> showClassNamesBlueprint [ 
+	^DMClassNamesblueprint new 
+	model: self;
+	motherRoot: Object;
+	orderBySize;
+	orderByColor;
+	startBuilding;
+	show
 ]

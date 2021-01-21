@@ -19,15 +19,19 @@ DMTBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 ]
 
 { #category : #'as yet unclassified' }
-DMTBuilder >> doConceptViewModelsOf: aCollectionOfConcepts using: aPackagesClassModels [
+DMTBuilder >> doConceptViewModelsOf: aPackageModel using: aCollectionOfRoots [
 	"On enveloppe chaque class du package dans son concept box "
-	^(aCollectionOfConcepts asSet collect: [ :eachConcept | | classmodels |
-		classmodels := aPackagesClassModels select: [ :eachClassmodel | eachClassmodel concept = eachConcept ].
+	| concepts classModels |
+	classModels :=(aPackageModel collect: #classModels). 
+	concepts := classModels collect: #concept.
+	^(concepts asSet collect: [ :eachConcept | | classmodels itsRoot |
+		classmodels := classModels select: [ :eachClassmodel | eachClassmodel concept = eachConcept ].
+		itsRoot := aCollectionOfRoots detect: [ :aRoot | aRoot concepts = eachConcept ].
 			DMConceptViewModel new
 			name: eachConcept;
 				classViewModels: (self doClassViewModelsFrom: classmodels);
-				root: (self selectBiggestHierarchyFor: eachConcept);
-				color: (self selectColorFor: eachConcept) ])
+				root: itsRoot;
+				color: itsRoot color])
 ]
 
 { #category : #'as yet unclassified' }

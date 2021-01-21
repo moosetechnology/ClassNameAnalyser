@@ -2,20 +2,20 @@ Class {
 	#name : #DMPackageModel,
 	#superclass : #DMModel,
 	#instVars : [
-		'classmodels'
+		'classModels'
 	],
 	#category : #DMModels
 }
 
 { #category : #accessing }
 DMPackageModel >> classModels [
-	^classmodels
+	^classModels
 ]
 
 { #category : #accessing }
-DMPackageModel >> classModels: classModels [
+DMPackageModel >> classModels: aCollectionOfClassModels [
 
-	classmodels := classModels
+	classModels := aCollectionOfClassModels
 ]
 
 { #category : #initialization }

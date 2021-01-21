@@ -17,8 +17,8 @@ DMRoassalClassNamesBlueprint class >> visualize: aViewModel [
 { #category : #initialization }
 DMRoassalClassNamesBlueprint >> initialize [
 	super initialize.
-	"orderBySize := false.
-	orderByColor := false."
+	orderBySize := false.
+	orderByColor := false.
 ]
 
 { #category : #accessing }

@@ -104,7 +104,7 @@ DMRootModel >> printOn: aStream [
 
 { #category : #accessing }
 DMRootModel >> size [
-	^size
+	^ subclasses size
 	
 ]
 
@@ -119,12 +119,9 @@ DMRootModel >> subclasses [
 ]
 
 { #category : #accessing }
-DMRootModel >> subclasses: classesCollection [
-	classesCollection size = 1
-		& ((classesCollection at: 1) name = self name)
-		ifTrue: [ size := 0 ].
-	subclasses := classesCollection
-		collect: [ :eachClass | eachClass classmodel ].
+DMRootModel >> subclasses: aCollectionOfSubClassModels [
+
+	subclasses := aCollectionOfSubClassModels.
 	
 ]
 
