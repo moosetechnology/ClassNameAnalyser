@@ -2,48 +2,62 @@ Class {
 	#name : #DMConceptualModel,
 	#superclass : #DMModel,
 	#instVars : [
-		'models',
-		'hierarchies',
-		'concepts'
+		'model',
+		'packageModels',
+		'motherRoot',
+		'rootModels'
 	],
 	#category : #DMModels
 }
 
-{ #category : #accessing }
-DMConceptualModel >> concepts [
-	^concepts
-]
-
-{ #category : #accessing }
-DMConceptualModel >> hierarchies [ 	
-	^hierarchies
-]
-
-{ #category : #accessing }
-DMConceptualModel >> hierarchies: hierarchiesCollection [
-
-	hierarchies := hierarchiesCollection asSet
+{ #category : #'as yet unclassified' }
+DMConceptualModel >> allClassModels [ 
+	 ^DMBuilder extractClassModelsFrom: self packageModels.
+	
 ]
 
 { #category : #initialization }
 DMConceptualModel >> initialize [ 
-
 	super initialize.
-	hierarchies := Set new.
-	concepts := Set new.
-]
-
-{ #category : #'as yet unclassified' }
-DMConceptualModel >> models [
-	^models
+	rootModels := Set new
 ]
 
 { #category : #accessing }
-DMConceptualModel >> packagemodels: aCollectionOfPackageModels [
+DMConceptualModel >> model [ 
+	^model
+]
 
-	models := aCollectionOfPackageModels.
-	concepts := (aCollectionOfPackageModels flatCollect: [ :eachPackageModel | 
-		DMBuilder new extractConceptsFrom: eachPackageModel ]) asSet.
-	hierarchies := (aCollectionOfPackageModels flatCollect: [ :eachPackageM | 
-		DMBuilder new extractHierarchiesFrom: eachPackageM ] ) asSet.
+{ #category : #accessing }
+DMConceptualModel >> model: aModel [
+	model := aModel
+]
+
+{ #category : #accessing }
+DMConceptualModel >> motherRoot [ 
+	^motherRoot 
+]
+
+{ #category : #accessing }
+DMConceptualModel >> motherRoot: aClass [ 
+	motherRoot := aClass
+]
+
+{ #category : #accessing }
+DMConceptualModel >> packageModels [
+	^packageModels
+]
+
+{ #category : #accessing }
+DMConceptualModel >> packageModels: aCollectionOfPackageModels [
+	packageModels := aCollectionOfPackageModels 
+]
+
+{ #category : #accessing }
+DMConceptualModel >> rootModels [
+	^rootModels
+]
+
+{ #category : #accessing }
+DMConceptualModel >> rootModels: aCollectionOfRootmodels [
+	rootModels := aCollectionOfRootmodels 
 ]

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'color',
 		'root',
-		'models'
+		'classViewModels',
+		'size'
 	],
 	#category : #DMModels
 }
@@ -15,8 +16,14 @@ DMConceptViewModel >> borderColor [
 ]
 
 { #category : #accessing }
+DMConceptViewModel >> classViewModels [
+	^ classViewModels 
+]
+
+{ #category : #accessing }
 DMConceptViewModel >> classViewModels: aCollectionOfClassViewModels [
-	models := aCollectionOfClassViewModels 
+	classViewModels := aCollectionOfClassViewModels.
+	size := aCollectionOfClassViewModels size
 ]
 
 { #category : #accessing }
@@ -29,19 +36,9 @@ DMConceptViewModel >> color: aColor [
 	color := aColor 
 ]
 
-{ #category : #testing }
-DMConceptViewModel >> isConceptViewModel [
-	^ true
-]
-
 { #category : #accessing }
 DMConceptViewModel >> label [
 	^name
-]
-
-{ #category : #accessing }
-DMConceptViewModel >> models [
-	^ models 
 ]
 
 { #category : #printing }
@@ -63,7 +60,7 @@ DMConceptViewModel >> root: biggestHierarchy [
 	root := biggestHierarchy
 ]
 
-{ #category : #'as yet unclassified' }
-DMConceptViewModel >> rootname [
-	^ self rootClass name
+{ #category : #accessing }
+DMConceptViewModel >> size [
+	^classViewModels size 
 ]

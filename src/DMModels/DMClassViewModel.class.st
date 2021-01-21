@@ -5,8 +5,7 @@ Class {
 		'color',
 		'root',
 		'concept',
-		'reference',
-		'level'
+		'reference'
 	],
 	#category : #DMModels
 }
@@ -40,19 +39,9 @@ DMClassViewModel >> concept: aClassName [
 	concept := DMFeatureSelector new extractConceptFrom: aClassName
 ]
 
-{ #category : #accessing }
-DMClassViewModel >> height [ 
-	^(1/level)*5 
-]
-
-{ #category : #testing }
-DMClassViewModel >> isClassViewModel [
-	^ true
-]
-
 { #category : #testing }
 DMClassViewModel >> isRoot [ 
-	^self name = self rootname 
+	^self name = self root name 
 ]
 
 { #category : #accessing }
@@ -60,29 +49,12 @@ DMClassViewModel >> label [
 	^''
 ]
 
-{ #category : #accessing }
-DMClassViewModel >> level [
-	^level 
-]
-
-{ #category : #accessing }
-DMClassViewModel >> level: aLevel [
-	level := aLevel
-]
-
-{ #category : #'instance creation' }
-DMClassViewModel >> name: aClassName with: aColor [
-
-	self name: aClassName.
-	self color: aColor
-]
-
 { #category : #testing }
 DMClassViewModel >> printOn: aStream [
 	super printOn: aStream. 
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.
-	aStream nextPutAll: self rootname.
+	aStream nextPutAll: self root name.
 	aStream nextPutAll: ')'
 ]
 
@@ -107,16 +79,4 @@ DMClassViewModel >> root: aRoot [
 
 	root := aRoot
 		
-]
-
-{ #category : #'as yet unclassified' }
-DMClassViewModel >> rootname [
-	^ self root name
-]
-
-{ #category : #accessing }
-DMClassViewModel >> width [
-
-	^(1/level)*5 
-	
 ]

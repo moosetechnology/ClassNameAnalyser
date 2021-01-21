@@ -5,11 +5,30 @@ Class {
 		'subclasses',
 		'color',
 		'type',
-		'concepts',
-		'size'
+		'suffixes',
+		'size',
+		'dominantSuffixes',
+		'concepts'
 	],
 	#category : #DMModels
 }
+
+{ #category : #'as yet unclassified' }
+DMRootModel class >> reference: aClass with: aCollectionOfSubClassModels [ 
+	| rootType |
+	rootType := (DMBuilder classTypeWithSubclasses: aCollectionOfSubClassModels).
+	^self new 
+	name: aClass name;
+	subclasses: aCollectionOfSubClassModels;
+	size: aCollectionOfSubClassModels size;
+	suffixes: (DMBuilder createSuffixesDictionaryFrom: aCollectionOfSubClassModels);
+	type: rootType.
+	
+	
+	
+	
+	
+]
 
 { #category : #accessing }
 DMRootModel >> color [ 
@@ -22,15 +41,57 @@ DMRootModel >> color: aColor [
 ]
 
 { #category : #accessing }
-DMRootModel >> concepts [ 
-	^concepts
+DMRootModel >> concepts [
+	^concepts flattened
+]
+
+{ #category : #accessing }
+DMRootModel >> concepts: aDominantSuffix [
+	concepts add: aDominantSuffix 
+]
+
+{ #category : #accessing }
+DMRootModel >> dominantSuffixes [
+	^dominantSuffixes
+]
+
+{ #category : #accessing }
+DMRootModel >> dominantSuffixes: aConceptAssociation [
+	dominantSuffixes add: aConceptAssociation
 ]
 
 { #category : #initialization }
-DMRootModel >> initialize [ 
-	concepts := Set new.
-	subclasses := Set new.
+DMRootModel >> initialize [ 	
+	super initialize.
+	suffixes := Dictionary new.
+	dominantSuffixes := Dictionary new.
+	concepts := Set new
+]
 
+{ #category : #initialization }
+DMRootModel >> initializeConcepts [
+	concepts addAll: self dominantSuffixes keys
+]
+
+{ #category : #testing }
+DMRootModel >> isMonoClass [
+	 type = 'monoClass'
+	ifTrue: [ ^true ]
+	ifFalse: [ ^false ]
+]
+
+{ #category : #testing }
+DMRootModel >> isMonoSuffix [
+	type = 'monoSuffix'
+	ifTrue: [ ^true ]
+	ifFalse: [ ^false ]
+]
+
+{ #category : #testing }
+DMRootModel >> isMultiSuffix [
+	type = 'multiSuffix'
+	ifTrue: [ ^true ]
+	ifFalse: [ ^false ]
 ]
 
 { #category : #printing }
@@ -43,7 +104,7 @@ DMRootModel >> printOn: aStream [
 
 { #category : #accessing }
 DMRootModel >> size [
-	^size
+	^ subclasses size
 	
 ]
 
@@ -58,14 +119,24 @@ DMRootModel >> subclasses [
 ]
 
 { #category : #accessing }
-DMRootModel >> subclasses: classesCollection [
-	classesCollection size = 1
-		& ((classesCollection at: 1) name = self name)
-		ifTrue: [ size := 0 ].
-	subclasses := classesCollection
-		collect: [ :eachClass | eachClass classmodel ].
-	concepts addAll: (subclasses collect: #concept).
-	size := subclasses size.
+DMRootModel >> subclasses: aCollectionOfSubClassModels [
+
+	subclasses := aCollectionOfSubClassModels.
+	
+]
+
+{ #category : #accessing }
+DMRootModel >> suffixes [ 
+	
+	^suffixes
+	
+]
+
+{ #category : #accessing }
+DMRootModel >> suffixes: suffixesDictionary [
+	suffixes := suffixesDictionary
+	
+	
 ]
 
 { #category : #accessing }
@@ -73,7 +144,7 @@ DMRootModel >> type [
 	^type
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 DMRootModel >> type: aType [
 	type := aType.
 ]
