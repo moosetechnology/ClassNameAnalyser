@@ -22,6 +22,22 @@ MooseModel >> ClassNamesBlueprint [
 ]
 
 { #category : #'*DMModels' }
+MooseModel >> ClassNamesBlueprintViewModel [
+
+	<navigation: 'ClassNamesBlueprint ViewModel'>
+	<script: 'self ClassNamesBlueprintViewModel open'>
+	<tlFilter: #visuTemplate>
+	| cnb |
+	cnb := DMClassNamesblueprint new 
+	model: self;
+	motherRoot: Object;
+	orderBySize;
+	orderByColor;
+	startBuilding.
+	^cnb viewModel 
+]
+
+{ #category : #'*DMModels' }
 MooseModel >> TLView [
 	"<navigation: 'TLView'>
 	<script: 'self TLView open'>
