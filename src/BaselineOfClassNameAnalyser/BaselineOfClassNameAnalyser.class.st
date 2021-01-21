@@ -9,8 +9,8 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
 	spec for: #common do: [	
 		"dependencies"
-	self loadTelescope: spec.
-	self loadTelescopeCytoscape: spec.
+	"self loadTelescope: spec.
+	self loadTelescopeCytoscape: spec."
 		"Packages"
 		spec 
 			package: 'DMModels';
