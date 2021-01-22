@@ -33,7 +33,7 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 		nodes:
 			(orderBySize isNotNil
 			ifTrue: [ aViewModel modelsOrderedDescending collect: [ :packageVM | packageVM ]]
-			ifFalse: [ self models: aViewModel packageViewModels ])
+			ifFalse: [ aViewModel packageViewModels ])
 		forEach: [ :pVM | 
 			b shape rectangle
 				color: [ :eachConcept | Color value: eachConcept color ];
@@ -58,6 +58,7 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 				b nodes: (pVM conceptViewModels collect: [ :each | each ] )
 				forEach: [ :conceptVM | 
 					b shape rectangle
+					width: [ :aClass | aClass width ] ; height: [ :aClass | aClass height ];
 						color: [ :classVM | Color value: classVM color ];
 						borderColor: [ :aClassVM | aClassVM borderColor ].
 					b nodes: (conceptVM classViewModels collect: [ :aClassVm | aClassVm ]).

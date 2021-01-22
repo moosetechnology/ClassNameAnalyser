@@ -5,7 +5,9 @@ Class {
 		'color',
 		'root',
 		'concept',
-		'reference'
+		'reference',
+		'height',
+		'width'
 	],
 	#category : #DMModels
 }
@@ -37,6 +39,11 @@ DMClassViewModel >> concept [
 { #category : #accessing }
 DMClassViewModel >> concept: aClassName [
 	concept := DMFeatureSelector new extractConceptFrom: aClassName
+]
+
+{ #category : #accessing }
+DMClassViewModel >> height [
+	^25
 ]
 
 { #category : #testing }
@@ -79,4 +86,9 @@ DMClassViewModel >> root: aRoot [
 
 	root := aRoot
 		
+]
+
+{ #category : #accessing }
+DMClassViewModel >> width [ 
+	^25
 ]
