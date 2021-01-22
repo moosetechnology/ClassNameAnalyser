@@ -25,7 +25,7 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 	b shape rectangle
 	color: Color white darker;
 		withTextAbove:
-				[ :packageVM | packageVM name ]
+				[ :packageVM | DMNameAbbreviationCreator abbreviate: packageVM name until: 4 ]
 			color: Color black;
 		borderColor: Color black.
 	b interaction popup text: [ :aPackageVM | aPackageVM name ].
