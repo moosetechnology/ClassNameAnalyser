@@ -12,13 +12,11 @@ Class {
 	#category : #DMModels
 }
 
-{ #category : #'brick-properties' }
-DMClassViewModel >> borderColor [
-	
+{ #category : #accessing }
+DMClassViewModel >> borderWidth [ 
 	self isRoot
-		ifTrue: [ ^ Color black ].
-		^(Color value: color) darker 
-		
+	ifTrue: [ ^4 ]
+	ifFalse: [ ^1 ]
 ]
 
 { #category : #accessing }
