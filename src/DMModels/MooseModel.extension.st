@@ -69,6 +69,24 @@ MooseModel >> showCNBViewModelAccordingTo: aMotherClass [
 ]
 
 { #category : #'*DMModels' }
+MooseModel >> showClassNamesBlueprintAccordingTo: aClass [
+
+	^ DMClassNamesblueprint new 
+	model: self;
+	motherRoot: aClass;
+	orderBySize;
+	orderByColor;
+	startBuilding;
+	show
+	
+	
+
+
+	
+	
+]
+
+{ #category : #'*DMModels' }
 MooseModel >> showClassNamesBlueprintAccordingto: aMotherClass [
 	^DMClassNamesblueprint new 
 	model: self;
