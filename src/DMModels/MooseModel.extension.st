@@ -18,6 +18,23 @@ MooseModel >> ClassNamesBlueprint [
 ]
 
 { #category : #'*DMModels' }
+MooseModel >> ClassNamesBlueprintAccordingTo: aClass [
+
+	^ DMClassNamesblueprint new 
+	model: self;
+	motherRoot: aClass;
+	orderBySize;
+	orderByColor;
+	startBuilding.
+	
+	
+
+
+	
+	
+]
+
+{ #category : #'*DMModels' }
 MooseModel >> ClassNamesBlueprintViewModel [
 
 	<navigation: 'ClassNamesBlueprint ViewModel'>
