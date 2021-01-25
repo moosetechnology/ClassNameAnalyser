@@ -12,6 +12,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	self loadTelescope: spec.
 	self loadTelescopeCytoscape: spec.
 	self loadColorPalettes: spec.
+	self loadMoreColors: spec.
 		"Packages"
 		spec 
 			package: 'DMModels';
@@ -52,6 +53,14 @@ BaselineOfClassNameAnalyser >> loadMoose: spec [
 					do: [ spec
 						baseline: 'Moose'
 						with: [ spec repository: 'github://moosetechnology/Moose:development/src' ] ]
+]
+
+{ #category : #'as yet unclassified' }
+BaselineOfClassNameAnalyser >> loadMoreColors: spec [
+
+	spec
+    	baseline: 'ColorsExtensions'
+    	with: [ spec repository: 'github://pharo-contributions/ColorsExtensions:master/src' ]	
 ]
 
 { #category : #'as yet unclassified' }
