@@ -3,16 +3,12 @@ Extension { #name : #MooseModel }
 { #category : #'*DMModels' }
 MooseModel >> ClassNamesBlueprint [
 
-	<navigation: 'ClassNamesBlueprint'>
-	<script: 'self ClassNamesBlueprint open'>
-	<tlFilter: #visuTemplate>
-	^DMClassNamesblueprint new 
+	^ DMClassNamesblueprint new 
 	model: self;
 	motherRoot: Object;
 	orderBySize;
 	orderByColor;
-	startBuilding;
-	show
+	startBuilding.
 	
 	
 
@@ -39,7 +35,20 @@ MooseModel >> ClassNamesBlueprintViewModel [
 
 { #category : #'*DMModels' }
 MooseModel >> packages [ 
-	^	(self allModelPackages ifNil: self allModelNamespaces) asMooseGroup.
+	^	(self allModelPackages) ifNil: (self allModelNamespaces) asMooseGroup.
+	"^ (self allModelNamespaces) ifEmpty: self allModelPackages"
+]
+
+{ #category : #'*DMModels' }
+MooseModel >> showCNBViewModelAccordingTo: aMotherClass [
+	| cnb |
+	cnb := DMClassNamesblueprint new 
+	model: self;
+	motherRoot: aMotherClass;
+	orderBySize;
+	orderByColor;
+	startBuilding.
+	^cnb viewModel 
 ]
 
 { #category : #'*DMModels' }

@@ -248,9 +248,9 @@ DMBuilder >> extractConceptsFrom: aPackageModel [
 DMBuilder >> initialize [
 
 	super initialize.
-	palette := {#red . #yellow . #blue . #purple . #magenta . #orange . #green . #pink . #tan  . #cyan . #lightBlue . #lightBrown . #lightCyan  . #lightGreen.
-	#lightMagenta . #lightOrange . #lightRed .
-	#paleGreen . #paleMagenta . #paleOrange . #palePeach . #paleRed . #paleTan . #black}.
+	palette := {#red . #yellow . #blue . #purple . #brown . #magenta . #orange . #green . #pink . #tan  . #cyan . #lightRed  . #lightGreen.
+	#lightMagenta . #lightOrange . #lightYellow .
+	#paleGreen . #paleMagenta . #paleOrange . #palePeach . #paleRed . #lightBrown . #paleTan . #black}.
 	index := 0.
 ]
 

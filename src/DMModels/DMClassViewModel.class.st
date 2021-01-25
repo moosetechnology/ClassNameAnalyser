@@ -59,6 +59,9 @@ DMClassViewModel >> printOn: aStream [
 	super printOn: aStream. 
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.
+	aStream nextPutAll: ' Superclass: '.
+	aStream nextPutAll: self reference superclass name.
+	aStream nextPutAll: ' Root: '.
 	aStream nextPutAll: self root name.
 	aStream nextPutAll: ')'
 ]
