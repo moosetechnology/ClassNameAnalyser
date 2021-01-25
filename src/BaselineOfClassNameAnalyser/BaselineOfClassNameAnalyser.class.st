@@ -11,6 +11,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 		"dependencies"
 	self loadTelescope: spec.
 	self loadTelescopeCytoscape: spec.
+	self loadColorPalettes: spec.
 		"Packages"
 		spec 
 			package: 'DMModels';
@@ -20,6 +21,13 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 			package: 'DMBuilder-Tests' with: [ spec requires: #('DMBuilder') ];
 			package: 'DMRoassalClassNameBlueprint' with: [ spec requires: #('DMModels') ].
 				 ].
+]
+
+{ #category : #'as yet unclassified' }
+BaselineOfClassNameAnalyser >> loadColorPalettes: spec [
+	spec
+		baseline: 'ColorPalettes'
+		with: [ spec repository: 'github://olekscode/ColorPalettes/src' ]
 ]
 
 { #category : #'as yet unclassified' }

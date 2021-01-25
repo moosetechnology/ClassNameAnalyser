@@ -89,26 +89,26 @@ DMBuilder >> aColorFromPalette [
 
 	"we have 24 important colors"
 	index := index +1.
-	(index <= 24)
+	(index <= palette size)
 	ifTrue: [ ^palette at: index ].
 	
-	^#black
+	^ palette defaultColor
 ]
 
 { #category : #'as yet unclassified' }
 DMBuilder >> attributeColorByType: aType [
 
 	(aType = #Trait)
-	ifTrue: [ ^ #white ].
+	ifTrue: [ ^ palette colorOfTrait ].
 	
 	(aType = #monoClass)
-	ifTrue: [ ^ #white ].
+	ifTrue: [ ^ palette colorOfMonoClass ].
 	
 	(aType = #monoSuffix)
-	ifTrue: [ ^#gray ].
+	ifTrue: [ ^ palette colorOfMonoSuffix ].
 	
 	(aType = #multiSuffix)
-	ifTrue: [ ^self aColorFromPalette ].
+	ifTrue: [ ^ self aColorFromPalette ].
 ]
 
 { #category : #'as yet unclassified' }
@@ -248,9 +248,7 @@ DMBuilder >> extractConceptsFrom: aPackageModel [
 DMBuilder >> initialize [
 
 	super initialize.
-	palette := {#red . #yellow . #blue . #purple . #brown . #magenta . #orange . #green . #pink . #tan  . #cyan . #lightRed  . #lightGreen.
-	#lightMagenta . #lightOrange . #lightYellow .
-	#paleGreen . #paleMagenta . #paleOrange . #palePeach . #paleRed . #lightBrown . #paleTan . #black}.
+	palette := DMColorPalette new.
 	index := 0.
 ]
 
@@ -262,8 +260,8 @@ DMBuilder >> selectBiggestHierarchyOf: aConcept using: aCollectioOfRootModels [
 { #category : #sorting }
 DMBuilder >> sortAccordingToPalette: aCollection [
 	| newPalette |
-	newPalette := palette asOrderedCollection.
-	newPalette addAll: #(#gray #white #black).
+	newPalette := palette copy.
+	newPalette addAll: {palette colorOfMonoSuffix . palette colorOfMonoClass . palette defaultColor }.
 	^((1 to: newPalette size)
 		collect: [ :cursor | 
 			aCollection

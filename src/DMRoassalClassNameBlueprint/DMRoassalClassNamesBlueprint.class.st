@@ -36,7 +36,7 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 			ifFalse: [ aViewModel packageViewModels ])
 		forEach: [ :pVM | 
 			b shape rectangle
-				color: [ :eachConcept | Color value: eachConcept color ];
+				color: [ :eachConcept | eachConcept color ];
 				borderColor: [ :cvm | cvm borderColor ];
 				withTextAbove: [ :cpt | cpt name ] color: Color darkGray.
 			b interaction popup
@@ -61,7 +61,7 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 					width: [ :aClass | aClass width ] ; height: [ :aClass | aClass height ];
 						borderWidth: [ :aclass | aclass borderWidth ];
 						borderColor: [ Color black ];
-						color: [ :classVM | Color value: classVM color ].
+						color: [ :classVM | classVM color ].
 					b nodes: (conceptVM classViewModels collect: [ :aClassVm | aClassVm ]).
 					b layout grid ].
 			b layout grid ].
