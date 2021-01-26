@@ -19,7 +19,7 @@ DMConceptualModel >> allClassModels [
 { #category : #initialization }
 DMConceptualModel >> initialize [ 
 	super initialize.
-	rootModels := Set new
+	rootModels := Set new.
 ]
 
 { #category : #accessing }
@@ -49,7 +49,7 @@ DMConceptualModel >> packageModels [
 
 { #category : #accessing }
 DMConceptualModel >> packageModels: aCollectionOfPackageModels [
-	packageModels := aCollectionOfPackageModels 
+	packageModels := aCollectionOfPackageModels.
 ]
 
 { #category : #accessing }

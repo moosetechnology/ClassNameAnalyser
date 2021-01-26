@@ -8,6 +8,22 @@ Class {
 	#category : #DMRoassalClassNameBlueprint
 }
 
+{ #category : #'as yet unclassified' }
+DMClassNamesblueprint >> description [
+| thePackageModels cnbDescription |
+	cnbDescription := DMCNBDescriptionModel new.
+	thePackageModels := (DMBuilder doPackageModelsOf: self viewModel).
+	cnbDescription 
+		name: self model name;
+		packageModels: thePackageModels;
+		motherRoot: self motherRoot;
+		model: self model;
+		rootModels: (DMBuilder doRootsOf: (thePackageModels flatCollect: #classModels) Accordingto: 		self motherRoot);
+		packageViewModels: (DMBuilder doPackageViewModelsOf: self viewModel).
+		cnbDescription create.
+		^cnbDescription 
+]
+
 { #category : #initialization }
 DMClassNamesblueprint >> initialize [
 	super initialize.
@@ -66,7 +82,6 @@ DMClassNamesblueprint >> startBuilding [
 		model: self model;
 		rootModels: (DMBuilder doRootsOf: (thePackageModels flatCollect: #classModels) Accordingto: 		self motherRoot);
 		packageViewModels: (DMBuilder doPackageViewModelsOf: self viewModel).
-		self viewModel countIntruders.
 	 
 ]
 

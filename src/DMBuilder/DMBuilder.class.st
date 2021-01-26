@@ -144,11 +144,11 @@ DMBuilder >> color: rootModels [
 ]
 
 { #category : #'as yet unclassified' }
-DMBuilder >> countIntrudersIn: aViewModel [
+DMBuilder >> countIntrudersIn: aCnbDescription [
 
 	| conceptVModels intruders |
 	intruders := 0.
-	conceptVModels := aViewModel packageViewModels flatCollect: #conceptViewModels.
+	conceptVModels := aCnbDescription packageViewModels flatCollect: #conceptViewModels.
 	conceptVModels do: [ :eachCVM | | classVModels conceptIntruders |
 		classVModels := (eachCVM classViewModels copy) removeAllSuchThat: [ :each | each root isMonoClass ].
 		conceptIntruders := classVModels select: [ :cvm | cvm root name ~= eachCVM root name ].
