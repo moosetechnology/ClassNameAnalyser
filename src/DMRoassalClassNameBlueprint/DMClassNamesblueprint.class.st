@@ -66,6 +66,7 @@ DMClassNamesblueprint >> startBuilding [
 		model: self model;
 		rootModels: (DMBuilder doRootsOf: (thePackageModels flatCollect: #classModels) Accordingto: 		self motherRoot);
 		packageViewModels: (DMBuilder doPackageViewModelsOf: self viewModel).
+		self viewModel countIntruders.
 	 
 ]
 

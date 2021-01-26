@@ -2,10 +2,27 @@ Class {
 	#name : #DMViewModel,
 	#superclass : #DMConceptualModel,
 	#instVars : [
-		'packageViewModels'
+		'packageViewModels',
+		'intruders'
 	],
 	#category : #DMModels
 }
+
+{ #category : #'as yet unclassified' }
+DMViewModel >> countIntruders [ 
+	 intruders:= (DMBuilder countIntrudersIn: self)
+]
+
+{ #category : #initialization }
+DMViewModel >> initialize [
+	super initialize.
+	intruders := 0
+]
+
+{ #category : #accessing }
+DMViewModel >> intruders [
+	^intruders
+]
 
 { #category : #'as yet unclassified' }
 DMViewModel >> modelsOrderedAscending [

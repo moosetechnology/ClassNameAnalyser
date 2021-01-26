@@ -1,6 +1,24 @@
 Extension { #name : #MooseModel }
 
 { #category : #'*DMModels' }
+MooseModel >> ClassNamesBlueprint [ 
+
+	<navigation: 'ClassNamesBlueprint'>
+	<script: 'self ClassNamesBlueprint open'>
+	<tlFilter: #visuTemplate>
+	^ self defaultClassNamesBlueprint show
+]
+
+{ #category : #'*DMModels' }
+MooseModel >> ClassNamesBlueprintViewModel [
+
+	<navigation: 'ClassNamesBlueprint ViewModel'>
+	<script: 'self ClassNamesBlueprintViewModel open'>
+	<tlFilter: #visuTemplate>
+	^ self defaultClassNamesBlueprint viewModel 
+]
+
+{ #category : #'*DMModels' }
 MooseModel >> classNamesBlueprintAccordingTo: aClass [
 
 	^ DMClassNamesblueprint new 
@@ -35,46 +53,12 @@ MooseModel >> defaultClassNamesBlueprint [
 ]
 
 { #category : #'*DMModels' }
-MooseModel >> defaultClassNamesBlueprintViewModel [
-
-	<navigation: 'ClassNamesBlueprint ViewModel'>
-	<script: 'self ClassNamesBlueprintViewModel open'>
-	<tlFilter: #visuTemplate>
-	| cnb |
-	cnb := DMClassNamesblueprint new 
-	model: self;
-	motherRoot: Object;
-	orderBySize;
-	orderByColor;
-	startBuilding.
-	^cnb viewModel 
+MooseModel >> defaultCnbViewModelAccordingTo: aMotherClass [
+	^self defaultClassNamesBlueprint viewModel
 ]
 
 { #category : #'*DMModels' }
 MooseModel >> packages [ 
-	^	(self allModelPackages) ifNil: (self allModelNamespaces) asMooseGroup.
-	"^ (self allModelNamespaces) ifEmpty: self allModelPackages"
-]
-
-{ #category : #'*DMModels' }
-MooseModel >> showCNBViewModelAccordingTo: aMotherClass [
-	| cnb |
-	cnb := DMClassNamesblueprint new 
-	model: self;
-	motherRoot: aMotherClass;
-	orderBySize;
-	orderByColor;
-	startBuilding.
-	^cnb viewModel 
-]
-
-{ #category : #'*DMModels' }
-MooseModel >> showClassNamesBlueprintAccordingto: aMotherClass [
-	^DMClassNamesblueprint new 
-	model: self;
-	motherRoot: aMotherClass;
-	orderBySize;
-	orderByColor;
-	startBuilding;
-	show
+	^	((self allModelPackages) ifNil: (self allModelNamespaces))
+	ifEmpty: self allModelNamespaces
 ]

@@ -20,6 +20,12 @@ DMBuilder class >> classTypeWithSubclasses: aCollectionOfsubClassModels [
 ]
 
 { #category : #'as yet unclassified' }
+DMBuilder class >> countIntrudersIn: aViewModel [
+	^self new
+		countIntrudersIn: aViewModel
+]
+
+{ #category : #'as yet unclassified' }
 DMBuilder class >> createSuffixesDictionaryFrom: aCollectionOfClassModels [
 	^self new 
 	createSuffixesDictionaryFrom: aCollectionOfClassModels
@@ -134,6 +140,21 @@ DMBuilder >> color: rootModels [
 		collect: 
 			[ :eachRootModel | eachRootModel color: (self attributeColorByType: eachRootModel type) ]).
 	^coloredRootModels 
+	
+]
+
+{ #category : #'as yet unclassified' }
+DMBuilder >> countIntrudersIn: aViewModel [
+
+	| conceptVModels intruders |
+	intruders := 0.
+	conceptVModels := aViewModel packageViewModels flatCollect: #conceptViewModels.
+	conceptVModels do: [ :eachCVM | | classVModels conceptIntruders |
+		classVModels := (eachCVM classViewModels copy) removeAllSuchThat: [ :each | each root isMonoClass ].
+		conceptIntruders := classVModels select: [ :cvm | cvm root name ~= eachCVM root name ].
+		intruders := intruders + conceptIntruders size.
+				 ].	
+	^intruders
 	
 ]
 
