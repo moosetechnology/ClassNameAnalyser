@@ -1,24 +1,7 @@
 Extension { #name : #MooseModel }
 
 { #category : #'*DMModels' }
-MooseModel >> ClassNamesBlueprint [
-
-	^ DMClassNamesblueprint new 
-	model: self;
-	motherRoot: Object;
-	orderBySize;
-	orderByColor;
-	startBuilding.
-	
-	
-
-
-	
-	
-]
-
-{ #category : #'*DMModels' }
-MooseModel >> ClassNamesBlueprintAccordingTo: aClass [
+MooseModel >> classNamesBlueprintAccordingTo: aClass [
 
 	^ DMClassNamesblueprint new 
 	model: self;
@@ -35,7 +18,24 @@ MooseModel >> ClassNamesBlueprintAccordingTo: aClass [
 ]
 
 { #category : #'*DMModels' }
-MooseModel >> ClassNamesBlueprintViewModel [
+MooseModel >> defaultClassNamesBlueprint [
+
+	^ DMClassNamesblueprint new 
+	model: self;
+	motherRoot: Object;
+	orderBySize;
+	orderByColor;
+	startBuilding.
+	
+	
+
+
+	
+	
+]
+
+{ #category : #'*DMModels' }
+MooseModel >> defaultClassNamesBlueprintViewModel [
 
 	<navigation: 'ClassNamesBlueprint ViewModel'>
 	<script: 'self ClassNamesBlueprintViewModel open'>
@@ -66,24 +66,6 @@ MooseModel >> showCNBViewModelAccordingTo: aMotherClass [
 	orderByColor;
 	startBuilding.
 	^cnb viewModel 
-]
-
-{ #category : #'*DMModels' }
-MooseModel >> showClassNamesBlueprintAccordingTo: aClass [
-
-	^ DMClassNamesblueprint new 
-	model: self;
-	motherRoot: aClass;
-	orderBySize;
-	orderByColor;
-	startBuilding;
-	show
-	
-	
-
-
-	
-	
 ]
 
 { #category : #'*DMModels' }
