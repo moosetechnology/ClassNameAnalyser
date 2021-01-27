@@ -54,10 +54,11 @@ DMFeatureSelector >> extractClassesFrom: aPackageName [
 
 { #category : #actions }
 DMFeatureSelector >> extractConceptFrom: aName [
-
-	| aConcept tokens|
+	| aConcept tokens |
 	tokens := self tokenize: aName.
-	aConcept := self selectConceptFrom: tokens.
+	aConcept := ('Test*' match: aName)
+		ifTrue: [ self selectFirstConceptFrom: tokens ]
+		ifFalse: [ self selectLastConceptFrom: tokens ].
 	aConcept := self filter: aConcept.
 	aConcept := self stem: aConcept.
 	^ aConcept
@@ -123,6 +124,18 @@ DMFeatureSelector >> initialize [
 
 { #category : #actions }
 DMFeatureSelector >> selectConceptFrom: tokens [
+
+ ^ conceptualSymbolSelector selectLastSymbolFrom: tokens 
+]
+
+{ #category : #actions }
+DMFeatureSelector >> selectFirstConceptFrom: tokens [
+
+ ^ conceptualSymbolSelector selectFirstSymbolFrom: tokens 
+]
+
+{ #category : #actions }
+DMFeatureSelector >> selectLastConceptFrom: tokens [
 
  ^ conceptualSymbolSelector selectLastSymbolFrom: tokens 
 ]

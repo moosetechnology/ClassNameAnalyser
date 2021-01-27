@@ -8,14 +8,58 @@ Class {
 		'nbrMultiSuffix',
 		'nbrIntruders',
 		'nbrRoots',
-		'nbrSuffixes'
+		'nbrSuffixes',
+		'snowFlakes',
+		'confetti',
+		'averageClassesPerSuffix',
+		'homogeneous'
 	],
 	#category : #DMModels
 }
 
 { #category : #'as yet unclassified' }
+DMCNBDescriptionModel >> allConceptViewModels [
+	^self packageViewModels flatCollect: #conceptViewModels
+]
+
+{ #category : #accessing }
+DMCNBDescriptionModel >> averageClassesPerSuffix [
+	^averageClassesPerSuffix
+]
+
+{ #category : #accessing }
+DMCNBDescriptionModel >> confetti [
+		^confetti
+]
+
+{ #category : #'as yet unclassified' }
+DMCNBDescriptionModel >> countAverageClassesPerSuffix [
+	
+	averageClassesPerSuffix := (self allConceptViewModels collect: [ :each | each classViewModels size ]) average asFloat.
+	^averageClassesPerSuffix 
+]
+
+{ #category : #'as yet unclassified' }
 DMCNBDescriptionModel >> countConcepts [
 	nbrSuffixes := (self allClassModels collect: #concept ) asSet size
+]
+
+{ #category : #'as yet unclassified' }
+DMCNBDescriptionModel >> countConfetti [
+
+]
+
+{ #category : #'as yet unclassified' }
+DMCNBDescriptionModel >> countHomogeneous [
+	"first select the concepts dominated by a mono hierarchy, then check if all inner classes belong to mono suffix hierarchies"
+	| conceptViewModelsDominatedByMonoHierarchy |
+	conceptViewModelsDominatedByMonoHierarchy := self allConceptViewModels 
+					select: [ :each | each root isMonoSuffix ].
+	homogeneous := (conceptViewModelsDominatedByMonoHierarchy 
+							select: [ :each | | rootNames|
+							rootNames := (each classViewModels collect: #root) collect: #name.
+							(rootNames size = 1) and: [ rootNames first = each root name ] ]
+		 					) size
 ]
 
 { #category : #'as yet unclassified' }
@@ -47,6 +91,12 @@ DMCNBDescriptionModel >> countRootModels [
 ]
 
 { #category : #'as yet unclassified' }
+DMCNBDescriptionModel >> countSnowFlakes [
+	snowFlakes := (self allConceptViewModels select: [ :each | each root isMonoClass ]) size.
+	
+]
+
+{ #category : #'as yet unclassified' }
 DMCNBDescriptionModel >> countnMultiSuffixHierarchies [
 	nbrMultiSuffix := (self rootModels select: [ :each | each isMultiSuffix ] ) size
 ]
@@ -60,7 +110,21 @@ DMCNBDescriptionModel >> create [
 	self countRootModels.
 	self countnMultiSuffixHierarchies.
 	self countConcepts.
+	self countAverageClassesPerSuffix.
+	"self countBiggestClassDepth."
+	self countSnowFlakes.
+	"self countConfetti."
+	self countHomogeneous.
+	"self countBigBlob."
 	
+	
+	
+	
+]
+
+{ #category : #accessing }
+DMCNBDescriptionModel >> homogeneous [
+	^homogeneous 
 ]
 
 { #category : #accessing }
@@ -126,4 +190,14 @@ DMCNBDescriptionModel >> nbrSuffixes [
 { #category : #accessing }
 DMCNBDescriptionModel >> nbrSuffixes: aNumber [
 	nbrSuffixes := aNumber
+]
+
+{ #category : #accessing }
+DMCNBDescriptionModel >> snowFlakes [
+	^snowFlakes
+]
+
+{ #category : #accessing }
+DMCNBDescriptionModel >> snowFlakes: aNumber [ 	
+	snowFlakes := aNumber
 ]

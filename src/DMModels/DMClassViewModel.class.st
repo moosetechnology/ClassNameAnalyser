@@ -35,8 +35,9 @@ DMClassViewModel >> concept [
 ]
 
 { #category : #accessing }
-DMClassViewModel >> concept: aClassName [
-	concept := DMFeatureSelector new extractConceptFrom: aClassName
+DMClassViewModel >> concept: aConcept [
+
+	concept := aConcept
 ]
 
 { #category : #accessing }
@@ -60,7 +61,8 @@ DMClassViewModel >> printOn: aStream [
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.
 	aStream nextPutAll: ' Superclass: '.
-	aStream nextPutAll: self reference superclass name.
+	(self reference superclass) ifNotNil: 
+	[aStream nextPutAll: self reference superclass name].
 	aStream nextPutAll: ' Root: '.
 	aStream nextPutAll: self root name.
 	aStream nextPutAll: ')'

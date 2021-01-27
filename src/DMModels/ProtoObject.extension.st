@@ -15,7 +15,7 @@ ProtoObject >> classModelAccordingTo: aMotherClass [
 							name: self name;
 							root: (self rootAccordingTo: aMotherClass);
 							superclass: self superclass;
-							concept: (DMFeatureSelector new extractConceptFrom: self name)
+							concept: (DMFeatureSelector new extractConceptFrom: self name).
 ]
 
 { #category : #'*DMModels' }

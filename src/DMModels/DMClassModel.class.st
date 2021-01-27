@@ -16,9 +16,9 @@ DMClassModel >> concept [
 ]
 
 { #category : #accessing }
-DMClassModel >> concept: className [
+DMClassModel >> concept: aConcept [
 
-	concept := DMFeatureSelector new extractConceptFrom: className
+	concept := aConcept 
 ]
 
 { #category : #printing }
