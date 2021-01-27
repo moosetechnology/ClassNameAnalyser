@@ -58,7 +58,7 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 				b nodes: (pVM conceptViewModels collect: [ :each | each ] )
 				forEach: [ :conceptVM | 
 					b shape rectangle
-					width: [ :aClass | aClass width ] ; height: [ :aClass | aClass height ];
+						width: [ :aClass | aClass width ]; height: [ :aClass | aClass height ];
 						borderWidth: [ :aclass | aclass borderWidth ];
 						borderColor: [ Color black ];
 						color: [ :classVM | Color value: classVM color ].

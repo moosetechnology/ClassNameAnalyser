@@ -41,7 +41,9 @@ DMCNBDescriptionModel >> countNumberOfClasses [
 
 { #category : #'as yet unclassified' }
 DMCNBDescriptionModel >> countRootModels [
-	nbrRoots := self rootModels size
+	| roots |
+	roots := self rootModels copy removeAllSuchThat: [ :each | each isMonoClass ].
+	nbrRoots := roots size
 ]
 
 { #category : #'as yet unclassified' }
