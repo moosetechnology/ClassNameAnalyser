@@ -306,7 +306,7 @@ DMBuilder >> startFightOverConceptsBetween: aCollectionOfRootModels [
 	concepts := (aCollectionOfRootModels flatCollect: [ :each | each suffixes keys ]) asSet.
 	concepts do: [ :aConcept | | fighters winner |
 		fighters := (aCollectionOfRootModels 
-		select: [ :aRoot | aRoot suffixes includesKey: aConcept ]) asOrderedCollection.
+		select: [ :aRoot | aRoot suffixes includesKey: aConcept ]) copy asOrderedCollection.
 		(fighters anySatisfy: [ :aRootModel | aRootModel isMultiSuffix ])
 			ifTrue: [ fighters removeAllSuchThat: [ :aRootM | aRootM isMonoClass]].
 		winner := fighters detectMax: [ :aRM | (aRM suffixes at: aConcept ) value ].
