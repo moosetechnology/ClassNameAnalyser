@@ -17,7 +17,7 @@ ProtoObject >> classModelAccordingTo: aMotherClass [
 			(self superclass class = 'FAMIXParameterizedType'
 				ifTrue: [ self superclass parameterizableClass ]
 				ifFalse: [ self superclass ]);
-		concept: (DMFeatureSelector new extractConceptFrom: self name)
+		concept: self name.
 ]
 
 { #category : #'*DMModels' }

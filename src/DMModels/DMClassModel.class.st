@@ -16,9 +16,11 @@ DMClassModel >> concept [
 ]
 
 { #category : #accessing }
-DMClassModel >> concept: aConcept [
+DMClassModel >> concept: aClassName [
 
-	concept := aConcept 
+	| theConcept |
+	theConcept := DMFeatureSelector extractConceptFrom: aClassName.
+	concept := DMFilterer new removeAllDigitsFrom: theConcept
 ]
 
 { #category : #printing }
