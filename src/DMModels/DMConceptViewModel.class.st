@@ -38,7 +38,14 @@ DMConceptViewModel >> color: aColor [
 
 { #category : #accessing }
 DMConceptViewModel >> label [
-	^name
+	(name = 'Test')
+		ifTrue: [ (classViewModels allSatisfy: [ :each | 'Test*' match: each name ])
+				ifTrue: [ ^ name , ' (P)' ].
+			(classViewModels allSatisfy: [ :each | '*Test' match: each name ])
+				ifTrue: [ ^ name , ' (S)' ]
+				ifFalse: [ ^ name , ' (P+S)' ] ]
+		ifFalse: [ ^name ].
+	
 ]
 
 { #category : #printing }

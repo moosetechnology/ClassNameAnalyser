@@ -38,7 +38,7 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 			b shape rectangle
 				color: [ :eachConcept | Color value: eachConcept color ];
 				borderColor: [ :cvm | cvm borderColor ];
-				withTextAbove: [ :cpt | cpt name ] color: Color darkGray.
+				withTextAbove: [ :cpt | cpt label ] color: Color darkGray.
 			b interaction popup
 				text: [ :conceptVM | 
 					'Concept: ' , conceptVM name , ' ; Dominant hierarchy:'
