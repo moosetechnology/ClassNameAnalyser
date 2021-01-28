@@ -31,6 +31,8 @@ ProtoObject >> rootAccordingTo: aMotherClass [
 		ifFalse: [ ^ self ].
 	self superclass name = aMotherClass name
 		ifTrue: [ ^ self ].
+	self superclass isInterface 
+		ifTrue: [ ^self ].
 	^(self superclass class = FAMIXParameterizedType
 	ifTrue: [ self superclass parameterizableClass] 
 	ifFalse: [self superclass rootAccordingTo: aMotherClass])
