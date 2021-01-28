@@ -217,7 +217,7 @@ DMBuilder >> doPackageModelsOf: aViewModel [
 			DMPackageModel new
 				name: eachPackage name;
 				classModels:
-					(eachPackage classes
+					(eachPackage classes 
 						collect:
 							[ :each | each classModelAccordingTo: aViewModel motherRoot ]) ]
 ]
