@@ -20,6 +20,7 @@ DMConceptualModel >> allClassModels [
 DMConceptualModel >> initialize [ 
 	super initialize.
 	rootModels := Set new.
+	motherRoot := Object
 ]
 
 { #category : #accessing }

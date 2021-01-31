@@ -23,24 +23,6 @@ DMFeatureSelector class >> extractConceptFrom: aString [
 ]
 
 { #category : #actions }
-DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackageNames [
-
-	| conceptualModel classes |
-	conceptualModel := DMConceptualModel new.
-	conceptualModel packageModels: (aCollectionOfPackageNames collect: [ :aPackageName |		| packageModel |
-		packageModel := DMPackageModel new. 
-		packageModel name: aPackageName.
-		classes := self extractClassesFrom: aPackageName.
-		packageModel classModels: (classes collect: [ :aClass | | classModel | 
-			classModel := DMClassModel new.
-			classModel name: aClass.
-			classModel concept: (self extractConceptFrom: aClass name).
-			classModel root: (self extractRootClassFrom: aClass).
-			])  ]).
-	^conceptualModel.
-]
-
-{ #category : #actions }
 DMFeatureSelector >> extractClassNamesFrom: aPackageName [
 	^ ((RPackageOrganizer default packageNamed: aPackageName)  definedClasses collect: [ :each | each instanceSide name ]).
 ]

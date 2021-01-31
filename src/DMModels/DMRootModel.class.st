@@ -2,6 +2,7 @@ Class {
 	#name : #DMRootModel,
 	#superclass : #DMModel,
 	#instVars : [
+		'reference',
 		'subclasses',
 		'color',
 		'type',
@@ -18,6 +19,7 @@ DMRootModel class >> reference: aClass with: aCollectionOfSubClassModels [
 	| rootType |
 	rootType := (DMBuilder classTypeWithSubclasses: aCollectionOfSubClassModels).
 	^self new 
+	reference: aClass;
 	name: aClass name;
 	subclasses: aCollectionOfSubClassModels;
 	size: aCollectionOfSubClassModels size;
@@ -100,6 +102,16 @@ DMRootModel >> printOn: aStream [
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.
 	aStream nextPutAll: ')'
+]
+
+{ #category : #accessing }
+DMRootModel >> reference [
+	^reference
+]
+
+{ #category : #accessing }
+DMRootModel >> reference: aReference [
+	reference := aReference
 ]
 
 { #category : #accessing }

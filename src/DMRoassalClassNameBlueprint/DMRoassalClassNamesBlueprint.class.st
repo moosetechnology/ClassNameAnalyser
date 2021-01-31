@@ -41,7 +41,7 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 				withTextAbove: [ :cpt | cpt name ] color: Color darkGray.
 			b interaction popup
 				text: [ :conceptVM | 
-					'Concept: ' , conceptVM name , ' ; Dominant hierarchy:'
+					'Concept: ' , conceptVM label , ' ; Dominant hierarchy:'
 						, conceptVM root name ].
 			 (orderBySize isNotNil
 				ifTrue: [  pVM conceptViewModels: (pVM modelsOrderedDescending collect: [ :each | each ]).
@@ -61,7 +61,7 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 						width: [ :aClass | aClass width ]; height: [ :aClass | aClass height ];
 						borderWidth: [ :aclass | aclass borderWidth ];
 						borderColor: [ Color black ];
-						color: [ :classVM | Color value: classVM color ].
+						color: [ :classVM | Color named: classVM color ].
 					b nodes: (conceptVM classViewModels collect: [ :aClassVm | aClassVm ]).
 					b layout grid ].
 			b layout grid ].

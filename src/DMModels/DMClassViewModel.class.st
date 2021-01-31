@@ -41,7 +41,14 @@ DMClassViewModel >> concept: aClassName [
 
 { #category : #accessing }
 DMClassViewModel >> height [
-	^25
+	^height
+]
+
+{ #category : #initialization }
+DMClassViewModel >> initialize [ 	
+	super initialize.
+	height := 25.
+	width := 25
 ]
 
 { #category : #testing }
@@ -59,8 +66,6 @@ DMClassViewModel >> printOn: aStream [
 	super printOn: aStream. 
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.
-	aStream nextPutAll: ' Superclass: '.
-	aStream nextPutAll: self reference superclass name.
 	aStream nextPutAll: ' Root: '.
 	aStream nextPutAll: self root name.
 	aStream nextPutAll: ')'
@@ -91,5 +96,5 @@ DMClassViewModel >> root: aRoot [
 
 { #category : #accessing }
 DMClassViewModel >> width [ 
-	^25
+	^width
 ]

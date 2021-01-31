@@ -1,10 +1,8 @@
 Class {
 	#name : #DMBuilder,
 	#superclass : #Object,
-	#classTraits : 'DMTBuilder classTrait + DMTColorAttributor classTrait + DMTDataExtractor classTrait',
 	#instVars : [
-		'palette',
-		'index'
+		'palette'
 	],
 	#classInstVars : [
 		'rootmodels',
@@ -21,8 +19,8 @@ DMBuilder class >> classTypeWithSubclasses: aCollectionOfsubClassModels [
 
 { #category : #'as yet unclassified' }
 DMBuilder class >> countIntrudersIn: aViewModel [
-	^self new
-		countIntrudersIn: aViewModel
+	"^self new
+		countIntrudersIn: aViewModel"
 ]
 
 { #category : #'as yet unclassified' }
@@ -91,45 +89,26 @@ DMBuilder class >> sort: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
-DMBuilder >> aColorFromPalette [
-
-	"we have 24 important colors"
-	index := index +1.
-	(index <= 24)
-	ifTrue: [ ^palette at: index ].
-	
-	^#black
-]
-
-{ #category : #'as yet unclassified' }
 DMBuilder >> attributeColorByType: aType [
 
-	(aType = #Trait)
-	ifTrue: [ ^ #white ].
+	(aType = DMClassType trait)
+	ifTrue: [ ^palette traitColor ].
 	
-	(aType = #monoClass)
-	ifTrue: [ ^ #white ].
+	(aType = DMClassType monoClass)
+	ifTrue: [ ^palette monoClassColor ].
 	
-	(aType = #monoSuffix)
-	ifTrue: [ ^#gray ].
+	(aType = DMClassType monoSuffix)
+	ifTrue: [  ^palette monoSuffixColor ].
 	
-	(aType = #multiSuffix)
-	ifTrue: [ ^self aColorFromPalette ].
+	(aType = DMClassType multiSuffix)
+	ifTrue: [ ^palette aColorForMultiSuffix ].
 ]
 
 { #category : #'as yet unclassified' }
 DMBuilder >> classTypeWithSubclasses: aCollectionOfSubClassModels [ 
-	aCollectionOfSubClassModels size = 1
-		ifTrue: [ aCollectionOfSubClassModels first reference isTrait
-				ifTrue: [ ^ #Trait ]
-				ifFalse: [ (aCollectionOfSubClassModels first root
-						= aCollectionOfSubClassModels first reference)
-						ifTrue: [ ^ #monoClass ] ] ].
-				
-	((aCollectionOfSubClassModels collect: [ :each | each concept ])
-		asSet size = 1) & ((aCollectionOfSubClassModels atRandom) concept = (DMFeatureSelector extractConceptFrom: (aCollectionOfSubClassModels atRandom) root name))
-		ifTrue: [ ^ #monoSuffix ].
-	^ #multiSuffix
+
+	^(DMClassType with: aCollectionOfSubClassModels) type
+	
 ]
 
 { #category : #accessing }
@@ -140,25 +119,6 @@ DMBuilder >> color: rootModels [
 		collect: 
 			[ :eachRootModel | eachRootModel color: (self attributeColorByType: eachRootModel type) ]).
 	^coloredRootModels 
-	
-]
-
-{ #category : #'as yet unclassified' }
-DMBuilder >> countIntrudersIn: aCnbDescription [
-
-	| conceptVModels intruders conceptIntruders |
-	
-	intruders := 0.
-	conceptVModels := aCnbDescription packageViewModels flatCollect: #conceptViewModels.
-	
-	conceptVModels do: [ :eachCVM |
-		conceptIntruders := eachCVM classViewModels select: [ :cvm |
-			cvm root isMonoClass not and: [ 
-				cvm root name ~= eachCVM root name ] ].
-		
-		intruders := intruders + conceptIntruders size ].	
-		
-	^intruders
 	
 ]
 
@@ -178,15 +138,17 @@ DMBuilder >> do: anObject [
 
 { #category : #'as yet unclassified' }
 DMBuilder >> doClassViewModelsOf: classmodels using: rootModels [
-	^(classmodels collect: [ :eachClassModel | |itsRoot |
-		itsRoot := (rootModels detect: [ :eachRootModel | (eachClassModel root) name = eachRootModel name ]).
-		DMClassViewModel new 
-		name: eachClassModel name;
-		reference: eachClassModel reference;
-		concept: eachClassModel concept;
-		root: itsRoot;
-		color:  itsRoot color
-		 ])
+	^ classmodels
+		collect: [ :eachClassModel | 
+			| itsRoot |
+			itsRoot := rootModels
+				detect: [ :eachRootModel | eachClassModel root name = eachRootModel name ].
+			DMClassViewModel new
+				name: eachClassModel name;
+				reference: eachClassModel reference;
+				concept: eachClassModel concept;
+				root: itsRoot;
+				color: itsRoot color ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -214,12 +176,8 @@ DMBuilder >> doConceptViewModelsOf: aPackageModel using: rootModels [
 DMBuilder >> doPackageModelsOf: aViewModel [
 	^ aViewModel model packages
 		collect: [ :eachPackage | 
-			DMPackageModel new
-				name: eachPackage name;
-				classModels:
-					(eachPackage classes
-						collect:
-							[ :each | each classModelAccordingTo: aViewModel motherRoot ]) ]
+			DMPackageModel 
+				of: eachPackage root: aViewModel motherRoot ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -248,19 +206,14 @@ DMBuilder >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
 	coloredRootModels := self color: initialeRootModels.
 	rootModels := self startFightOverConceptsBetween: coloredRootModels.
 	rootModels do: [ :aRootModel | aRootModel initializeConcepts ].
-	^rootModels asSet
+	^ rootModels asSet
 ]
 
 { #category : #'as yet unclassified' }
 DMBuilder >> extractClassModelsFrom: packageModels [
-
-	^(packageModels flatCollect: [ :eachPackageModel | eachPackageModel classModels ]) asOrderedCollection 
-]
-
-{ #category : #'as yet unclassified' }
-DMBuilder >> extractClassViewModelsFrom: aViewModel [
-
-	^(aViewModel models flatCollect: [ :eachPackageViewModel |  eachPackageViewModel models flatCollect: #models])
+	^ (packageModels
+		flatCollect: [ :eachPackageModel | eachPackageModel classModels ])
+		asOrderedCollection
 ]
 
 { #category : #'as yet unclassified' }
@@ -271,12 +224,13 @@ DMBuilder >> extractConceptsFrom: aPackageModel [
 
 { #category : #initialization }
 DMBuilder >> initialize [
-
 	super initialize.
-	palette := {#red . #yellow . #blue . #purple . #brown . #magenta . #orange . #green . #pink . #tan  . #cyan . #lightRed  . #lightGreen.
-	#lightMagenta . #lightOrange . #lightYellow .
-	#paleGreen . #paleMagenta . #paleOrange . #palePeach . #paleRed . #lightBrown . #paleTan . #black}.
-	index := 0.
+	palette := DMPalette
+		with:
+			{#red . #yellow . #blue . #purple . #brown . #magenta . #orange . #green.
+			#pink . #tan . #cyan . #lightRed . #lightGreen . #lightMagenta.
+			#lightOrange . #lightYellow . #paleGreen . #paleMagenta . #paleOrange.
+			#palePeach . #paleRed . #lightBrown . #paleTan . #paleMagenta}
 ]
 
 { #category : #'as yet unclassified' }
@@ -287,12 +241,17 @@ DMBuilder >> selectBiggestHierarchyOf: aConcept using: aCollectioOfRootModels [
 { #category : #sorting }
 DMBuilder >> sortAccordingToPalette: aCollection [
 	| newPalette |
-	newPalette := palette asOrderedCollection.
-	newPalette addAll: #(#gray #white #black).
-	^((1 to: newPalette size)
+	newPalette := palette multiSuffixColors asOrderedCollection.
+	newPalette
+		addAll:
+			{palette monoSuffixColor.
+			palette traitColor.
+			palette defaultColor}.
+	^ ((1 to: newPalette size)
 		collect: [ :cursor | 
 			aCollection
-				select: [ :aConceptVM | aConceptVM color = (newPalette at: cursor) ] ]) flattened
+				select: [ :aConceptVM | aConceptVM color = (newPalette at: cursor) ] ])
+		flattened
 ]
 
 { #category : #sorting }
@@ -303,14 +262,18 @@ DMBuilder >> sortRootModels: aSetOfRootModels [
 { #category : #'as yet unclassified' }
 DMBuilder >> startFightOverConceptsBetween: aCollectionOfRootModels [
 	| concepts |
-	concepts := (aCollectionOfRootModels flatCollect: [ :each | each suffixes keys ]) asSet.
-	concepts do: [ :aConcept | | fighters winner |
-		fighters := (aCollectionOfRootModels 
-		select: [ :aRoot | aRoot suffixes includesKey: aConcept ]) copy asOrderedCollection.
-		(fighters anySatisfy: [ :aRootModel | aRootModel isMultiSuffix ])
-			ifTrue: [ fighters removeAllSuchThat: [ :aRootM | aRootM isMonoClass]].
-		winner := fighters detectMax: [ :aRM | (aRM suffixes at: aConcept ) value ].
-		winner dominantSuffixes: (winner suffixes associationAt: aConcept) ].
-	^aCollectionOfRootModels 
-
+	concepts := (aCollectionOfRootModels
+		flatCollect: [ :each | each suffixes keys ]) asSet.
+	concepts
+		do: [ :aConcept | 
+			| fighters winner |
+			fighters := (aCollectionOfRootModels
+				select: [ :aRoot | aRoot suffixes includesKey: aConcept ]) copy
+				asOrderedCollection.
+			(fighters anySatisfy: [ :aRootModel | aRootModel isMultiSuffix ])
+				ifTrue: [ fighters removeAllSuchThat: [ :aRootM | aRootM isMonoClass ] ].
+			winner := fighters
+				detectMax: [ :aRM | (aRM suffixes at: aConcept) value ].
+			winner dominantSuffixes: (winner suffixes associationAt: aConcept) ].
+	^ aCollectionOfRootModels
 ]

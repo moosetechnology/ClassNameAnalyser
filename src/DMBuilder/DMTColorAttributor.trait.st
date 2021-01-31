@@ -19,7 +19,7 @@ DMTColorAttributor >> attributeColorByType: aType [
 	ifTrue: [ ^#gray ].
 	
 	(aType = #multiSuffix)
-	ifTrue: [ ^self aColorFromPalette ].
+	ifTrue: [ ^self aColorForMultiSuffix ].
 ]
 
 { #category : #'as yet unclassified' }
@@ -31,4 +31,9 @@ DMTColorAttributor >> color: rootModels [
 			[ :eachRootModel | eachRootModel color: (self attributeColorByType: eachRootModel type) ]).
 	^coloredRootModels 
 	
+]
+
+{ #category : #initialization }
+DMTColorAttributor >> defaultColor [ 
+	^#black
 ]
