@@ -14,17 +14,17 @@ Class {
 	#category : #DMModels
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 DMRootModel class >> reference: aClass with: aCollectionOfSubClassModels [ 
 	| rootType |
-	rootType := (DMBuilder classTypeWithSubclasses: aCollectionOfSubClassModels).
+	rootType := (DMClassType with: aCollectionOfSubClassModels) type.
 	^self new 
-	reference: aClass;
-	name: aClass name;
-	subclasses: aCollectionOfSubClassModels;
-	size: aCollectionOfSubClassModels size;
-	suffixes: (DMBuilder createSuffixesDictionaryFrom: aCollectionOfSubClassModels);
-	type: rootType.
+		reference: aClass;
+		name: aClass name;
+		subclasses: aCollectionOfSubClassModels;
+		size: aCollectionOfSubClassModels size;
+		suffixes: (DMBuilder createSuffixesDictionaryFrom: aCollectionOfSubClassModels);
+		type: rootType.
 	
 	
 	

@@ -1,5 +1,5 @@
 Class {
-	#name : #DMConceptViewModel,
+	#name : #DMSuffixModel,
 	#superclass : #DMModel,
 	#instVars : [
 		'color',
@@ -11,33 +11,33 @@ Class {
 }
 
 { #category : #'brick-properties' }
-DMConceptViewModel >> borderColor [ 
+DMSuffixModel >> borderColor [ 
 	^ Color black
 ]
 
 { #category : #accessing }
-DMConceptViewModel >> classViewModels [
+DMSuffixModel >> classViewModels [
 	^ classViewModels 
 ]
 
 { #category : #accessing }
-DMConceptViewModel >> classViewModels: aCollectionOfClassViewModels [
+DMSuffixModel >> classViewModels: aCollectionOfClassViewModels [
 	classViewModels := aCollectionOfClassViewModels.
 	size := aCollectionOfClassViewModels size
 ]
 
 { #category : #accessing }
-DMConceptViewModel >> color [ 
+DMSuffixModel >> color [ 
 	^ color
 ]
 
 { #category : #accessing }
-DMConceptViewModel >> color: aColor [
+DMSuffixModel >> color: aColor [
 	color := aColor 
 ]
 
 { #category : #accessing }
-DMConceptViewModel >> label [
+DMSuffixModel >> label [
 	| label |
 	label := (('Test*' match: name) or: [ '*Test' match: name ])
 		ifTrue: [ (classViewModels allSatisfy: [ :each | 'Test*' match: each name ])
@@ -50,7 +50,7 @@ DMConceptViewModel >> label [
 ]
 
 { #category : #printing }
-DMConceptViewModel >> printOn: aStream [
+DMSuffixModel >> printOn: aStream [
 	super printOn: aStream. 
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.
@@ -59,16 +59,16 @@ DMConceptViewModel >> printOn: aStream [
 ]
 
 { #category : #accessing }
-DMConceptViewModel >> root [
+DMSuffixModel >> root [
 	^root
 ]
 
 { #category : #accessing }
-DMConceptViewModel >> root: biggestHierarchy [
+DMSuffixModel >> root: biggestHierarchy [
 	root := biggestHierarchy
 ]
 
 { #category : #accessing }
-DMConceptViewModel >> size [
+DMSuffixModel >> size [
 	^classViewModels size 
 ]

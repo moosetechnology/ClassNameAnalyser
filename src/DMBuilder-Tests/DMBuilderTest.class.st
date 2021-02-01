@@ -27,15 +27,17 @@ DMBuilderTest >> setUp [
 	cnbMoose := DMClassNamesBlueprintSample projectNameMatches: 'moose*'.
 	calypsoMooseModel := MooseModelSample projectNameMatches: 'calypso*'.
 	cnbCalypso := DMClassNamesBlueprintSample projectNameMatches: 'calypso*'.
-	"luceneMooseModel := MooseModelSample importProject: lucenePath.
-	cnbLucene := DMClassNamesBlueprintSample importProject: lucenePath."
+	luceneMooseModel := MooseModelSample importProject: lucenePath.
+	cnbLucene := DMClassNamesBlueprintSample importProject: lucenePath.
 	moosePackages := mooseMooseModel allModelPackages.
 	mooseClasses := moosePackages flatCollect: #classes.
 
 ]
 
 { #category : #tests }
-DMBuilderTest >> testAttribueColor [
+DMBuilderTest >> testAssignColor [
+
+	self assert: false.
 ]
 
 { #category : #tests }
@@ -112,9 +114,9 @@ DMBuilderTest >> testPackageModels [.
 	self assert: 
 		(cnbCalypso viewModel packageModels collect: #name) asSet 
 				equals: (calypsoMooseModel allModelPackages collect: #name) asSet.
-	"			
+				
 	self assert: 
 		(cnbLucene viewModel packageModels collect: #name) asSet 
-			equals: (luceneMooseModel allModelNamespaces collect: #name) asSet."
+			equals: (luceneMooseModel allModelNamespaces collect: #name) asSet.
 	
 ]

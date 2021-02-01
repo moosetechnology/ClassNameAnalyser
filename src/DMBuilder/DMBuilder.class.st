@@ -165,7 +165,7 @@ DMBuilder >> doConceptViewModelsOf: aPackageModel using: rootModels [
 				using: rootModels.
 			classmodels := aPackageModel classModels
 				select: [ :eachClassmodel | eachClassmodel concept = eachConcept ].
-			DMConceptViewModel new
+			DMSuffixModel new
 				name: eachConcept;
 				classViewModels: (self doClassViewModelsOf: classmodels using: rootModels);
 				root: itsRoot;

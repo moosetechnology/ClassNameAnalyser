@@ -1,3 +1,6 @@
+"
+I'm a composite model containing all the other models (classModel, package)
+"
 Class {
 	#name : #DMConceptualModel,
 	#superclass : #DMModel,
@@ -10,9 +13,9 @@ Class {
 	#category : #DMModels
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 DMConceptualModel >> allClassModels [ 
-	 ^DMBuilder extractClassModelsFrom: self packageModels.
+	^packageModels flatCollect: [:each | each classModels]
 	
 ]
 

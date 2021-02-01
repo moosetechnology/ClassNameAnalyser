@@ -51,7 +51,7 @@ DMClassModel >> root: aRoot [
 	root := aRoot.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 DMClassModel >> rootAccordingTo: aMotherClass [
 	self root: (reference rootAccordingTo: aMotherClass).
 	^self root

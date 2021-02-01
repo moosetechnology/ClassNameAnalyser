@@ -7,7 +7,7 @@ Class {
 	#category : #DMModels
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 DMPackageModel class >> of: aPackage root: aClass [ 
 	^self new
 		name: aPackage name;

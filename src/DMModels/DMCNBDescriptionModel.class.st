@@ -16,7 +16,7 @@ Class {
 	#category : #DMModels
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #counting }
 DMCNBDescriptionModel >> allConceptViewModels [
 	^self packageViewModels flatCollect: #conceptViewModels
 ]
@@ -26,19 +26,19 @@ DMCNBDescriptionModel >> averageClassesPerSuffix [
 	^averageClassesPerSuffix
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #counting }
 DMCNBDescriptionModel >> countAverageClassesPerSuffix [
 	
 	averageClassesPerSuffix := (self allConceptViewModels collect: [ :each | each classViewModels size ]) average asFloat.
 	^averageClassesPerSuffix 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #counting }
 DMCNBDescriptionModel >> countConcepts [
-	nbrSuffixes := (self allClassModels collect: #concept ) asSet size
+	nbrSuffixes := (self allClassModels collect: [:each | each concept]) asSet size
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #counting }
 DMCNBDescriptionModel >> countHomogeneous [
 	"first select the concepts dominated by a mono hierarchy, then check if all inner classes belong to mono suffix hierarchies"
 	| conceptViewModelsDominatedByMonoHierarchy |
@@ -51,41 +51,41 @@ DMCNBDescriptionModel >> countHomogeneous [
 		 					) size
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #counting }
 DMCNBDescriptionModel >> countIntruders [ 
 	 nbrIntruders:= (DMBuilder countIntrudersIn: self)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #counting }
 DMCNBDescriptionModel >> countMonoClasses [
 
 	nbrMonoClasses := (self rootModels select: [ :each | each isMonoClass ]) size
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #counting }
 DMCNBDescriptionModel >> countMonoSuffixHierarchies [
 	nbrMonoSuffix := (self rootModels select: [ :each | each isMonoSuffix ] ) size
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #counting }
 DMCNBDescriptionModel >> countNumberOfClasses [
 	nbrClasses := self allClassModels size
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #counting }
 DMCNBDescriptionModel >> countRootModels [
 	| roots |
 	roots := self rootModels copy removeAllSuchThat: [ :each | each isMonoClass ].
 	nbrRoots := roots size
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #counting }
 DMCNBDescriptionModel >> countSnowFlakes [
 	snowFlakes := (self allConceptViewModels select: [ :each | each root isMonoClass ]) size.
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #counting }
 DMCNBDescriptionModel >> countnMultiSuffixHierarchies [
 	nbrMultiSuffix := (self rootModels select: [ :each | each isMultiSuffix ] ) size
 ]

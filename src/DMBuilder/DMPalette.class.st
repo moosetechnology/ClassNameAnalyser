@@ -13,6 +13,18 @@ Class {
 }
 
 { #category : #'instance creation' }
+DMPalette class >> exampleBright [
+
+	self new monoClassColor: #blackbulshit; yourself
+]
+
+{ #category : #'instance creation' }
+DMPalette class >> exampleDark [
+
+	self new monoClass: #white; yourself
+]
+
+{ #category : #'instance creation' }
 DMPalette class >> with: aCollectionOfColors [
 	^self new
 		multiSuffixColors:  aCollectionOfColors
@@ -43,6 +55,11 @@ DMPalette >> initialize [
 { #category : #accessing }
 DMPalette >> monoClassColor [
 	^#white
+]
+
+{ #category : #accessing }
+DMPalette >> monoClassColor: aColor [ 
+	monoClassColor := aColor
 ]
 
 { #category : #accessing }

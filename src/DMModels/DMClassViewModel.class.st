@@ -14,9 +14,9 @@ Class {
 
 { #category : #accessing }
 DMClassViewModel >> borderWidth [ 
-	self isRoot
-	ifTrue: [ ^4 ]
-	ifFalse: [ ^1 ]
+	^ self isRoot
+		ifTrue: [ 4 ]
+		ifFalse: [ 1 ]
 ]
 
 { #category : #accessing }
@@ -36,7 +36,7 @@ DMClassViewModel >> concept [
 
 { #category : #accessing }
 DMClassViewModel >> concept: aClassName [
-	concept := DMFeatureSelector new extractConceptFrom: aClassName
+	concept := aClassName
 ]
 
 { #category : #accessing }
