@@ -2,7 +2,15 @@ Class {
 	#name : #DMBuilderTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'builder'
+		'builder',
+		'mooseMooseModel',
+		'cnbMoose',
+		'calypsoMooseModel',
+		'cnbCalypso',
+		'luceneMooseModel',
+		'cnbLucene',
+		'moosePackages',
+		'mooseClasses'
 	],
 	#category : #'DMBuilder-Tests'
 }
@@ -10,8 +18,24 @@ Class {
 { #category : #running }
 DMBuilderTest >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
-	
-	builder := DMBuilder new
+	| lucenePath |
+	lucenePath := '/Users/nour/Downloads/Lucene2.mse'.
+	builder := DMBuilder new.
+	mooseMooseModel := MooseModelSample projectNameMatches: 'moose*'.
+	cnbMoose := DMClassNamesBlueprintSample projectNameMatches: 'moose*'.
+	calypsoMooseModel := MooseModelSample projectNameMatches: 'calypso*'.
+	cnbCalypso := DMClassNamesBlueprintSample projectNameMatches: 'calypso*'.
+"	luceneMooseModel := MooseModelSample importProject: lucenePath.
+	cnbLucene := DMClassNamesBlueprintSample importProject: lucenePath."
+	moosePackages := mooseMooseModel allModelPackages.
+	mooseClasses := moosePackages flatCollect: #classes.
+
+]
+
+{ #category : #tests }
+DMBuilderTest >> testAssignColor [
+
+	self assert: false.
 ]
 
 { #category : #tests }
@@ -46,29 +70,31 @@ DMBuilderTest >> testBuildConceptualModel [
 
 { #category : #tests }
 DMBuilderTest >> testBuildPackageViewModels [
+	| expectedConcepts expectedPackagesNames  expectedClassModels |
 
-	| mooseSample mooseModel conceptualModel packageViewModels viewModel |
-	mooseSample := MooseSampleData new.
-	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion3) readStream.
-	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	builder buildRootModelsFrom: conceptualModel.
-	packageViewModels := builder buildPackageViewModelsFrom: conceptualModel models.
-	viewModel := builder buildViewModelFrom: conceptualModel.
-	self assert: (packageViewModels size) equals:(conceptualModel models size).
-	self assert: (packageViewModels collect: #name) asArray equals: (conceptualModel models collect: #name) asArray.
-	self assert: (builder extractClassViewModelsFrom: viewModel) size equals: (builder extractClassModelsFrom: conceptualModel) size 
+	expectedClassModels := (mooseClasses
+		collect: [ :each | each classModelAccordingTo: Object]).
+	expectedConcepts := expectedClassModels collect: #concept.
+	expectedPackagesNames := (moosePackages collect: #name) asSet.
+	
+	self
+		assert: (cnbMoose viewModel packageViewModels collect: #name) asSet
+		equals: expectedPackagesNames.
+	self
+		assert:
+			((cnbMoose viewModel packageViewModels flatCollect: #suffixViewModels) collect: #name)
+				asSet
+		equals: expectedConcepts asSet.
 ]
 
 { #category : #tests }
 DMBuilderTest >> testBuildRootModels [
-	"The modelVersion4 has two roots with the same name 'ClassA' one is a monoClass the other is a multiSuffix hierarchy each in a different package"
-	| mooseSample mooseModel conceptualModel rootModels |
-	mooseSample := MooseSampleData new.
-	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
-	conceptualModel := builder buildConceptualModelFrom: mooseModel.
-	rootModels := builder buildRootModelsFrom: conceptualModel.
-	self assert: (rootModels collect: #name) asSet equals: (conceptualModel hierarchies collect: #name) .
-	self assert: (rootModels size) equals: 2.
+
+	| expectedRoots actualRoots |
+	 expectedRoots := (mooseClasses collect: [ :each | each rootAccordingTo: Object]) asSet.
+	 actualRoots := (cnbMoose viewModel rootModels collect: #name) asSet.
+	self assert: (actualRoots includesAll: (expectedRoots collect: #name))
+	
 	
 	
 ]
@@ -88,12 +114,36 @@ DMBuilderTest >> testBuildViewModel [
 ]
 
 { #category : #tests }
+DMBuilderTest >> testClassModels [
+self assert: 
+		((cnbMoose viewModel packageModels flatCollect: #classModels) collect: #name) asSet 
+				equals: (mooseClasses collect: #name) asSet.
+				
+	self assert: 
+		((cnbCalypso viewModel packageModels flatCollect: #classModels) collect: #name) asSet 
+				equals: ((calypsoMooseModel allModelPackages flatCollect: #classes) collect: #name) asSet.
+				
+	
+]
+
+{ #category : #tests }
 DMBuilderTest >> testClassType [
-	"the collection of classmodels must be of the same hierarchy (have the same root)"
-	self assert: (builder classTypeWithSubclasses: { DMTBuilder classmodel}) equals: #Trait.
-	self assert: (builder classTypeWithSubclasses: { DMBuilder classmodel} ) equals: #monoClass.
-	self assert: (builder classTypeWithSubclasses: { DMConceptualModel classmodel . DMViewModel classmodel} ) equals: #monoSuffix.
-	self assert: (builder classTypeWithSubclasses: { DMFeature classmodel }) equals: #multiSuffix
+	| aMonoClass aMonoSuffixHierarchy aMultiSuffixHierarchy monoSuffixType multiSuffixType monoClassType |
+	monoClassType := DMClassType monoClass.
+	monoSuffixType := DMClassType monoSuffix.
+	multiSuffixType := DMClassType multiSuffix.
+	aMonoSuffixHierarchy := cnbMoose viewModel rootModels
+		detect: [ :each | each isMonoSuffix ].
+	aMultiSuffixHierarchy := cnbMoose viewModel rootModels
+		detect: [ :each | each isMultiSuffix ].
+	aMonoClass := cnbMoose viewModel rootModels
+		detect: [ :each | each isMonoClass ].
+	self
+		assert: (DMClassType with: aMonoClass subclasses) type equals: monoClassType.
+	self
+		assert: (DMClassType with: aMonoSuffixHierarchy subclasses) type equals: monoSuffixType.
+	self 
+		assert: (DMClassType with: aMultiSuffixHierarchy subclasses) type equals: multiSuffixType
 ]
 
 { #category : #tests }
@@ -174,6 +224,23 @@ DMBuilderTest >> testExtractSmallestClassDepthFrom [
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	builder buildRootModelsFrom: conceptualModel.
 	self assert: (DMBuilder extractSmallestClassDepthFrom: conceptualModel) equals: 0
+]
+
+{ #category : #tests }
+DMBuilderTest >> testPackageModels [.
+	
+	self assert: 
+		(cnbMoose viewModel packageModels collect: #name) asSet 
+				equals: (mooseMooseModel allModelPackages collect: #name) asSet.
+				
+	self assert: 
+		(cnbCalypso viewModel packageModels collect: #name) asSet 
+				equals: (calypsoMooseModel allModelPackages collect: #name) asSet.
+				
+	"self assert: 
+		(cnbLucene viewModel packageModels collect: #name) asSet 
+			equals: (luceneMooseModel allModelNamespaces collect: #name) asSet."
+	
 ]
 
 { #category : #tests }

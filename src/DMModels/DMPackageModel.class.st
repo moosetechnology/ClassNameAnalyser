@@ -7,6 +7,13 @@ Class {
 	#category : #DMModels
 }
 
+{ #category : #'as yet unclassified' }
+DMPackageModel class >> of: aPackage root: aClass [ 
+	^self new
+		name: aPackage name;
+		classModels: (aPackage classes collect: [ :each | each classModelAccordingTo: aClass ])
+]
+
 { #category : #accessing }
 DMPackageModel >> classModels [
 	^classModels

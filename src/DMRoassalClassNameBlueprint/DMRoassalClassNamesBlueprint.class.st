@@ -44,18 +44,18 @@ DMRoassalClassNamesBlueprint >> visualize: aViewModel [
 					'Concept: ' , conceptVM name , ' ; Dominant hierarchy:'
 						, conceptVM root name ].
 			 (orderBySize isNotNil
-				ifTrue: [  pVM conceptViewModels: (pVM modelsOrderedDescending collect: [ :each | each ]).
+				ifTrue: [  pVM suffixViewModels: (pVM modelsOrderedDescending collect: [ :each | each ]).
 					orderByColor isNotNil
-					ifTrue: [ pVM conceptViewModels: (pVM modelsOrderedDescending collect: [ :eachConcept | eachConcept ]).
-						pVM conceptViewModels: (pVM modelsOrderedByColor collect: [ :each | each ])
+					ifTrue: [ pVM suffixViewModels: (pVM modelsOrderedDescending collect: [ :eachConcept | eachConcept ]).
+						pVM suffixViewModels: (pVM modelsOrderedByColor collect: [ :each | each ])
 						 ]
 					  ]
 				ifFalse: [ orderByColor isNotNil
-					ifTrue: [ pVM conceptViewModels: (pVM modelsOrderedByColor collect: [ :each | each ]) ]
-					ifFalse: [ pVM conceptViewModels: (pVM conceptViewModels collect: [ :each | each ]) ]			
+					ifTrue: [ pVM suffixViewModels: (pVM modelsOrderedByColor collect: [ :each | each ]) ]
+					ifFalse: [ pVM suffixViewModels: (pVM suffixViewModels collect: [ :each | each ]) ]			
 					 ]				
 				).
-				b nodes: (pVM conceptViewModels collect: [ :each | each ] )
+				b nodes: (pVM suffixViewModels collect: [ :each | each ] )
 				forEach: [ :conceptVM | 
 					b shape rectangle
 						width: [ :aClass | aClass width ]; height: [ :aClass | aClass height ];

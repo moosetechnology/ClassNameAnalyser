@@ -2,6 +2,7 @@ Class {
 	#name : #DMRootModel,
 	#superclass : #DMModel,
 	#instVars : [
+		'reference',
 		'subclasses',
 		'color',
 		'type',
@@ -16,13 +17,14 @@ Class {
 { #category : #'as yet unclassified' }
 DMRootModel class >> reference: aClass with: aCollectionOfSubClassModels [ 
 	| rootType |
-	rootType := (DMBuilder classTypeWithSubclasses: aCollectionOfSubClassModels).
+	rootType := (DMClassType with: aCollectionOfSubClassModels) type.
 	^self new 
-	name: aClass name;
-	subclasses: aCollectionOfSubClassModels;
-	size: aCollectionOfSubClassModels size;
-	suffixes: (DMBuilder createSuffixesDictionaryFrom: aCollectionOfSubClassModels);
-	type: rootType.
+		reference: aClass;
+		name: aClass name;
+		subclasses: aCollectionOfSubClassModels;
+		size: aCollectionOfSubClassModels size;
+		suffixes: (DMBuilder createSuffixesDictionaryFrom: aCollectionOfSubClassModels);
+		type: rootType.
 	
 	
 	
@@ -100,6 +102,16 @@ DMRootModel >> printOn: aStream [
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.
 	aStream nextPutAll: ')'
+]
+
+{ #category : #accessing }
+DMRootModel >> reference [ 
+	^reference
+]
+
+{ #category : #accessing }
+DMRootModel >> reference: aClass [
+	reference := aClass
 ]
 
 { #category : #accessing }
