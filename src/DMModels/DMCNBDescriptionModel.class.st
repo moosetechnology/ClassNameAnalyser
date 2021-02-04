@@ -18,7 +18,7 @@ Class {
 
 { #category : #counting }
 DMCNBDescriptionModel >> allConceptViewModels [
-	^self packageViewModels flatCollect: #conceptViewModels
+	^self packageViewModels flatCollect: #suffixViewModels
 ]
 
 { #category : #accessing }

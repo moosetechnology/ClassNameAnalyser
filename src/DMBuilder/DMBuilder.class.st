@@ -186,7 +186,7 @@ DMBuilder >> doPackageViewModelsOf: aViewModel [
 	^(aViewModel packageModels collect: [ :eachPackageModel | 
 		DMPackageViewModel new
 						name: eachPackageModel name;
-						conceptViewModels:
+						suffixViewModels:
 							(self
 								doConceptViewModelsOf: eachPackageModel using: aViewModel rootModels) ])
 ]
