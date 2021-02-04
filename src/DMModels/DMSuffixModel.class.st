@@ -5,7 +5,9 @@ Class {
 		'color',
 		'root',
 		'classViewModels',
-		'size'
+		'size',
+		'width',
+		'height'
 	],
 	#category : #DMModels
 }
@@ -34,6 +36,18 @@ DMSuffixModel >> color [
 { #category : #accessing }
 DMSuffixModel >> color: aColor [
 	color := aColor 
+]
+
+{ #category : #accessing }
+DMSuffixModel >> height [
+	^height
+]
+
+{ #category : #initialization }
+DMSuffixModel >> initialize [ 
+	super initialize.
+	height := 4.
+	width := 4
 ]
 
 { #category : #accessing }
@@ -71,4 +85,9 @@ DMSuffixModel >> root: biggestHierarchy [
 { #category : #accessing }
 DMSuffixModel >> size [
 	^classViewModels size 
+]
+
+{ #category : #accessing }
+DMSuffixModel >> width [ 
+	^width
 ]

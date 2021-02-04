@@ -54,7 +54,7 @@ DMBuilderTest >> testBuildPackageViewModels [
 		equals: expectedPackagesNames.
 	self
 		assert:
-			((cnbMoose viewModel packageViewModels flatCollect: #conceptViewModels) collect: #name)
+			((cnbMoose viewModel packageViewModels flatCollect: #suffixViewModels) collect: #name)
 				asSet
 		equals: expectedConcepts asSet.
 ]

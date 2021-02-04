@@ -2,37 +2,26 @@ Class {
 	#name : #DMPackageViewModel,
 	#superclass : #DMModel,
 	#instVars : [
-		'conceptViewModels',
+		'suffixViewModels',
 		'size'
 	],
 	#category : #DMModels
 }
 
-{ #category : #accessing }
-DMPackageViewModel >> conceptViewModels [
-	^conceptViewModels
-]
-
-{ #category : #accessing }
-DMPackageViewModel >> conceptViewModels: collectionOfConceptViewModels [
-	conceptViewModels := collectionOfConceptViewModels.
-	size := (collectionOfConceptViewModels flatCollect: #classViewModels) size
-]
-
 { #category : #'as yet unclassified' }
 DMPackageViewModel >> modelsOrderedAscending [
-	^conceptViewModels sorted: #size ascending
+	^suffixViewModels sorted: #size ascending
 ]
 
 { #category : #'as yet unclassified' }
 DMPackageViewModel >> modelsOrderedByColor [
-	^DMBuilder sort: conceptViewModels
+	^DMBuilder sort: suffixViewModels
 ]
 
 { #category : #'as yet unclassified' }
 DMPackageViewModel >> modelsOrderedDescending [
 
-	^ conceptViewModels sorted: #size descending
+	^ suffixViewModels sorted: #size descending
 ]
 
 { #category : #printing }
@@ -47,5 +36,16 @@ DMPackageViewModel >> printOn: aStream [
 
 { #category : #accessing }
 DMPackageViewModel >> size [
-	^(conceptViewModels flatCollect: #classViewModels) size
+	^(suffixViewModels flatCollect: #classViewModels) size
+]
+
+{ #category : #accessing }
+DMPackageViewModel >> suffixViewModels [
+	^suffixViewModels
+]
+
+{ #category : #accessing }
+DMPackageViewModel >> suffixViewModels: collectionOfConceptViewModels [
+	suffixViewModels := collectionOfConceptViewModels.
+	size := (collectionOfConceptViewModels flatCollect: #classViewModels) size
 ]
