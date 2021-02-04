@@ -28,7 +28,7 @@ DMClassNamesblueprint >> description [
 DMClassNamesblueprint >> initialize [
 	super initialize.
 	viewModel := DMViewModel new.
-	roassalView := DMRoassalClassNamesBlueprint new
+	roassalView := DMVisualizer new
 ]
 
 { #category : #accessing }

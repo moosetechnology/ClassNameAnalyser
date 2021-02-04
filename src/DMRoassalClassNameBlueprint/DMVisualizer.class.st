@@ -1,5 +1,5 @@
 Class {
-	#name : #DMRoassalClassNamesBlueprint,
+	#name : #DMVisualizer,
 	#superclass : #Object,
 	#instVars : [
 		'orderBySize',
@@ -9,17 +9,17 @@ Class {
 }
 
 { #category : #accessing }
-DMRoassalClassNamesBlueprint >> orderByColor [
+DMVisualizer >> orderByColor [
 	orderByColor := true
 ]
 
 { #category : #accessing }
-DMRoassalClassNamesBlueprint >> orderBySize [
+DMVisualizer >> orderBySize [
 	orderBySize := true
 ]
 
 { #category : #visualization }
-DMRoassalClassNamesBlueprint >> visualize: aViewModel [
+DMVisualizer >> visualize: aViewModel [
 	| b |
 	b := RTMondrian new.
 	b shape rectangle
