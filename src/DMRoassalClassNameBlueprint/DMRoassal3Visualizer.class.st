@@ -4,8 +4,16 @@ Class {
 	#category : #DMRoassalClassNameBlueprint
 }
 
+{ #category : #'as yet unclassified' }
+DMRoassal3Visualizer class >> exampleView [
+
+	| viewModel |
+	viewModel := (DMClassNamesBlueprintSample projectNameMatches: 'moose*') viewModel.
+	DMVisualizer roassal3View: viewModel
+]
+
 { #category : #accessing }
-DMRoassal3Visualizer >> view: aViewModel [
+DMRoassal3Visualizer class >> view: aViewModel [
 	| canvas |
 canvas := RSCanvas new.
 

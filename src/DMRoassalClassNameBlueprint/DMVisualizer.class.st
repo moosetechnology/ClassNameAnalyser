@@ -8,6 +8,11 @@ Class {
 	#category : #DMRoassalClassNameBlueprint
 }
 
+{ #category : #'as yet unclassified' }
+DMVisualizer class >> roassal3View: aViewModel [
+	^DMRoassal3Visualizer view: aViewModel 
+]
+
 { #category : #accessing }
 DMVisualizer >> orderByColor [
 	orderByColor := true
