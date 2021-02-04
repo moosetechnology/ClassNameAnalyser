@@ -9,8 +9,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
 	spec for: #common do: [	
 		"dependencies"
-	self loadTelescope: spec.
-	self loadTelescopeCytoscape: spec.
+		self loadRoassal3: spec.
 		"Packages"
 		spec 
 			package: 'DMModels';
@@ -23,63 +22,11 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 ]
 
 { #category : #'as yet unclassified' }
-BaselineOfClassNameAnalyser >> loadMoose: spec [
+BaselineOfClassNameAnalyser >> loadRoassal3: spec [
 
-            spec
-                for: #'pharo6.x'
-                do: [ spec
-                    project:'Moose'
-                    with: [ spec
-                        className: #ConfigurationOfMoose;
-                        versionString:#'development';
-                        repository: 'http://smalltalkhub.com/mc/Moose/Moose/main'] ].
-            spec
-                for: #'pharo7.x'
-                do: [ spec
-                    baseline: 'Moose'
-                    with: [ spec repository: 'github://moosetechnology/Moose:v7.x.x/src' ] ].
-	
-				spec 
-					for: #'pharo8.x'
-					do: [ spec
-						baseline: 'Moose'
-						with: [ spec repository: 'github://moosetechnology/Moose:development/src' ] ]
-]
-
-{ #category : #'as yet unclassified' }
-BaselineOfClassNameAnalyser >> loadRoassal2: spec [
-            spec
-                for: #'pharo6.x'
-                do: [ spec
-                    project:'Roassal2'
-                    with: [ spec
-                        className: #ConfigurationOfRoassal2;
-                        versionString:#'stable';
-                        repository: 'https://smalltalkhub.com/mc/ObjectProfile/Roassal2/main'] ].
-            spec
-                for:#(#'pharo7.x' #'pharo8.x')
-                do: [ spec
-                    baseline: 'Roassal2'
-                    with: [ spec repository: 'github://ObjectProfile/Roassal2/src' ] ] 
-]
-
-{ #category : #'as yet unclassified' }
-BaselineOfClassNameAnalyser >> loadTelescope: spec [
-	spec
-		for: #(#'pharo7.x' #'pharo8.x')
-		do: [ spec
-				baseline: 'Telescope'
-				with: [ spec repository: 'github://TelescopeSt/Telescope:v2.x.x/src' ] ]
-]
-
-{ #category : #'as yet unclassified' }
-BaselineOfClassNameAnalyser >> loadTelescopeCytoscape: spec [
-	spec
-		for: #(#'pharo7.x' #'pharo8.x')
-		do: [ spec
-				baseline: 'TelescopeCytoscape'
-				with: [ spec
-						repository: 'github://TelescopeSt/TelescopeCytoscape:v2.x.x/src' ] ]
+	spec 
+		baseline: 'Roassal3' 
+		with: [ spec repository: 'github://ObjectProfile/Roassal3/src' ].
 ]
 
 { #category : #'as yet unclassified' }
