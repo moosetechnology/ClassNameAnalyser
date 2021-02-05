@@ -9,18 +9,42 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-DMVisualizer class >> roassal3View: aViewModel [
-	^DMRoassal3Visualizer view: aViewModel 
+DMVisualizer class >> exampleView [
+
+	<sampleInstance>
+	| viewModel |
+	viewModel := (DMClassNamesBlueprintSample projectNameMatches: 'calypso*') viewModel.
+	^ self new roassal3View: viewModel
 ]
 
 { #category : #accessing }
 DMVisualizer >> orderByColor [
-	orderByColor := true
+	orderByColor := true 
 ]
 
 { #category : #accessing }
 DMVisualizer >> orderBySize [
 	orderBySize := true
+]
+
+{ #category : #'as yet unclassified' }
+DMVisualizer >> roassal3View: aViewModel [
+	
+	| roassal3View |
+	roassal3View := DMRoassal3Visualizer new.
+	
+	self orderByColor isNotNil 
+		ifTrue: [ roassal3View orderByColor ].
+	self orderBySize isNotNil 
+		ifTrue: [ roassal3View orderBySize ].
+		
+	^roassal3View 
+		view: aViewModel 
+]
+
+{ #category : #accessing }
+DMVisualizer >> view: aViewModel [ 
+	self subclassResponsibility 
 ]
 
 { #category : #visualization }

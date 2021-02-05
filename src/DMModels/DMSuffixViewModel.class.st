@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'color',
 		'root',
-		'suffixViewModels',
+		'classViewModels',
 		'size'
 	],
 	#category : #DMModels
@@ -17,12 +17,12 @@ DMSuffixViewModel >> borderColor [
 
 { #category : #accessing }
 DMSuffixViewModel >> classViewModels [
-	^ suffixViewModels 
+	^ classViewModels  
 ]
 
 { #category : #accessing }
 DMSuffixViewModel >> classViewModels: aCollectionOfClassViewModels [
-	suffixViewModels := aCollectionOfClassViewModels.
+	classViewModels := aCollectionOfClassViewModels.
 	size := aCollectionOfClassViewModels size
 ]
 
@@ -34,6 +34,17 @@ DMSuffixViewModel >> color [
 { #category : #accessing }
 DMSuffixViewModel >> color: aColor [
 	color := aColor 
+]
+
+{ #category : #initialization }
+DMSuffixViewModel >> createBox [
+	| suffixBox |
+	suffixBox := RSComposite new 
+						model: self; 
+						popup; withBorder;
+						borderColor: Color black;
+						color: self color.
+	^suffixBox
 ]
 
 { #category : #accessing }
@@ -62,5 +73,5 @@ DMSuffixViewModel >> root: biggestHierarchy [
 
 { #category : #accessing }
 DMSuffixViewModel >> size [
-	^suffixViewModels size 
+	^size 
 ]

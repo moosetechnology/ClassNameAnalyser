@@ -21,7 +21,7 @@ MooseModel >> ClassNamesBlueprintViewModel [
 { #category : #'*DMModels' }
 MooseModel >> classNamesBlueprintAccordingTo: aClass [
 
-	^ DMClassNamesblueprint new 
+	^ DMClassNamesBlueprint new 
 	model: self;
 	motherRoot: aClass;
 	orderBySize;
@@ -38,7 +38,7 @@ MooseModel >> classNamesBlueprintAccordingTo: aClass [
 { #category : #'*DMModels' }
 MooseModel >> defaultClassNamesBlueprint [
 
-	^ DMClassNamesblueprint new 
+	^ DMClassNamesBlueprint new 
 	model: self;
 	motherRoot: Object;
 	orderBySize;

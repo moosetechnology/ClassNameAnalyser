@@ -1,15 +1,15 @@
 Class {
-	#name : #DMClassNamesblueprint,
+	#name : #DMClassNamesBlueprint,
 	#superclass : #Object,
 	#instVars : [
 		'viewModel',
-		'roassalView'
+		'visualizer'
 	],
 	#category : #DMRoassalClassNameBlueprint
 }
 
 { #category : #'as yet unclassified' }
-DMClassNamesblueprint >> description [
+DMClassNamesBlueprint >> description [
 | thePackageModels cnbDescription |
 	cnbDescription := DMCNBDescriptionModel new.
 	thePackageModels := (DMBuilder doPackageModelsOf: self viewModel).
@@ -25,54 +25,54 @@ DMClassNamesblueprint >> description [
 ]
 
 { #category : #initialization }
-DMClassNamesblueprint >> initialize [
+DMClassNamesBlueprint >> initialize [
 	super initialize.
 	viewModel := DMViewModel new.
-	roassalView := DMVisualizer new
+	visualizer := DMVisualizer new
 ]
 
 { #category : #accessing }
-DMClassNamesblueprint >> model [
+DMClassNamesBlueprint >> model [
 	^viewModel model
 ]
 
 { #category : #accessing }
-DMClassNamesblueprint >> model: aModel [
+DMClassNamesBlueprint >> model: aModel [
 	self viewModel model: aModel 
 ]
 
 { #category : #accessing }
-DMClassNamesblueprint >> motherRoot [
+DMClassNamesBlueprint >> motherRoot [
 	^viewModel motherRoot
 ]
 
 { #category : #accessing }
-DMClassNamesblueprint >> motherRoot: aClass [ 
+DMClassNamesBlueprint >> motherRoot: aClass [ 
 	viewModel motherRoot: aClass
 ]
 
 { #category : #'as yet unclassified' }
-DMClassNamesblueprint >> orderByColor [ 	
-	roassalView orderByColor
+DMClassNamesBlueprint >> orderByColor [ 	
+	visualizer orderByColor
 ]
 
 { #category : #'as yet unclassified' }
-DMClassNamesblueprint >> orderBySize [
-	roassalView orderBySize 
+DMClassNamesBlueprint >> orderBySize [
+	visualizer orderBySize 
 ]
 
 { #category : #accessing }
-DMClassNamesblueprint >> rootModels [ 
+DMClassNamesBlueprint >> rootModels [ 
 	^viewModel rootModels
 ]
 
 { #category : #accessing }
-DMClassNamesblueprint >> show [
-	^roassalView visualize: viewModel 
+DMClassNamesBlueprint >> show [
+	^visualizer roassal3View: viewModel 
 ]
 
 { #category : #'as yet unclassified' }
-DMClassNamesblueprint >> startBuilding [
+DMClassNamesBlueprint >> startBuilding [
 	| thePackageModels |
 	thePackageModels := (DMBuilder doPackageModelsOf: self viewModel).
 	self viewModel 
@@ -86,11 +86,11 @@ DMClassNamesblueprint >> startBuilding [
 ]
 
 { #category : #accessing }
-DMClassNamesblueprint >> viewModel [
+DMClassNamesBlueprint >> viewModel [
 	^viewModel 
 ]
 
 { #category : #accessing }
-DMClassNamesblueprint >> viewModel: aViewModel [
+DMClassNamesBlueprint >> viewModel: aViewModel [
 	viewModel := aViewModel 
 ]

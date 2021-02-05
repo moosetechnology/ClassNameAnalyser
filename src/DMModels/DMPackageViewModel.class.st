@@ -8,9 +8,22 @@ Class {
 	#category : #DMModels
 }
 
+{ #category : #initialization }
+DMPackageViewModel >> createBox [ 
+	| packageBox |
+	
+	packageBox := RSComposite new 
+				model: self; 
+				popup; 
+				color: (Color white darker); 
+				withBorder; 
+				borderColor: Color black.
+	^packageBox 
+]
+
 { #category : #'as yet unclassified' }
 DMPackageViewModel >> modelsOrderedAscending [
-	^suffixViewModels sorted: #size ascending
+	^ suffixViewModels sorted: #size ascending
 ]
 
 { #category : #'as yet unclassified' }
@@ -36,12 +49,12 @@ DMPackageViewModel >> printOn: aStream [
 
 { #category : #accessing }
 DMPackageViewModel >> size [
-	^(suffixViewModels flatCollect: #classViewModels) size
+	^ size
 ]
 
 { #category : #accessing }
 DMPackageViewModel >> suffixViewModels [
-	^suffixViewModels
+	^ suffixViewModels
 ]
 
 { #category : #accessing }

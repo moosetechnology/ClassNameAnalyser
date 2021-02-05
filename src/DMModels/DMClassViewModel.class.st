@@ -39,6 +39,22 @@ DMClassViewModel >> concept: aClassName [
 	concept := DMFeatureSelector new extractConceptFrom: aClassName
 ]
 
+{ #category : #initialization }
+DMClassViewModel >> createBox [ 
+	| classBox |
+	classBox := RSBox new 
+						width: 30;
+						height: 30.
+					classBox 
+						model: self;
+						popup; 
+						color: self color; 
+						withBorder.
+					classBox border width: self borderWidth.
+					classBox borderColor: Color black.
+	^ classBox
+]
+
 { #category : #accessing }
 DMClassViewModel >> height [
 	^25

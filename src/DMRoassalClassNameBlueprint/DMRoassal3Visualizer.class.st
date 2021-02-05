@@ -5,41 +5,58 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-DMRoassal3Visualizer class >> exampleView [
+DMRoassal3Visualizer >> createBoxOf: aCNBObject [
 
-	<sampleInstance>
-	| viewModel |
-	viewModel := (DMClassNamesBlueprintSample projectNameMatches: 'moose*') viewModel.
-	^ DMVisualizer roassal3View: viewModel
+	^aCNBObject createBox.
+]
+
+{ #category : #'as yet unclassified' }
+DMRoassal3Visualizer >> createClassBoxesOf: aSuffix [
+	| classBoxes |
+	classBoxes := aSuffix classViewModels 
+						collect: [ :class |  self createBoxOf: class ].
+	^classBoxes 
+]
+
+{ #category : #'as yet unclassified' }
+DMRoassal3Visualizer >> createPackageBoxesOf: aViewModel [
+
+	| packages packageBoxes |
+	packages := orderBySize isNotNil 
+		ifTrue: [ aViewModel modelsOrderedDescending ]
+		ifFalse: [ aViewModel packageViewModels ].
+	packageBoxes :=
+	(packages
+		collect: 
+			[ :package | | packageComposite |
+				packageComposite := self createBoxOf: package.
+				packageComposite addAll: (self createSuffixBoxesOf: package).
+				RSGridLayout new on: packageComposite children.
+				packageComposite padding: 7 ]).
+		^packageBoxes 
+]
+
+{ #category : #'as yet unclassified' }
+DMRoassal3Visualizer >> createSuffixBoxesOf: aPackage [ 
+	| suffixBoxes |
+	suffixBoxes := (aPackage suffixViewModels 
+				collect: [ :suffix | | suffixComposite |
+					suffixComposite := self createBoxOf: suffix.
+					suffixComposite addAll: (self createClassBoxesOf: suffix).
+						RSGridLayout new on: suffixComposite children.
+						suffixComposite padding: 12]).
+					
+	^suffixBoxes 
+					
+		
 ]
 
 { #category : #accessing }
-DMRoassal3Visualizer class >> view: aViewModel [
+DMRoassal3Visualizer >> view: aViewModel [
 
 	| canvas |
 	canvas := RSCanvas new.
-	canvas addAll: 
-	(aViewModel packageViewModels collect: 
-		[ :package | | packageComposite |
-			packageComposite := RSComposite new 
-				model: package; popup; color: (Color white darker); withBorder; borderColor: Color black.
-			packageComposite addAll: 
-			(package suffixViewModels 
-				collect: [ :suffix | 
-					|suffixComposite|
-					suffixComposite := RSComposite new 
-						model: suffix; popup; withBorder; borderColor: Color black;
-						color: suffix color;
-						addAll: (suffix classViewModels 
-						collect: [ :class | | classBox |
-							classBox := RSBox new width: 25; height: 25.
-							classBox model: class; popup; color: class color; withBorder.
-							classBox  border width: class borderWidth.
-							classBox borderColor: Color black ]); yourself.
-						RSGridLayout new on: suffixComposite children.
-						suffixComposite padding: 7; yourself]).
-			RSGridLayout new on: packageComposite children.
-			packageComposite padding: 7; yourself]).
+	canvas addAll: (self createPackageBoxesOf: aViewModel).
 
 	RSFlowLayout on: canvas nodes.
 	canvas @ RSCanvasController.
