@@ -25,6 +25,7 @@ DMRoassal3Visualizer >> createPackageBoxesOf: aViewModel [
 	packages := orderBySize isNotNil 
 		ifTrue: [ aViewModel modelsOrderedDescending ]
 		ifFalse: [ aViewModel packageViewModels ].
+		
 	packageBoxes :=
 	(packages
 		collect: 
@@ -39,11 +40,16 @@ DMRoassal3Visualizer >> createPackageBoxesOf: aViewModel [
 { #category : #'as yet unclassified' }
 DMRoassal3Visualizer >> createSuffixBoxesOf: aPackage [ 
 	| suffixes suffixBoxes |
+	
 	suffixes := orderBySize isNotNil
-		ifTrue: [ aPackage modelsOrderedDescending  ] 
+		ifTrue: [ aPackage modelsOrderedDescending ] 
 		ifFalse: [ aPackage suffixViewModels ].
+	suffixes := orderByColor isNotNil 
+		ifTrue: [ aPackage modelsOrderedByColor ]
+		ifFalse: [ aPackage suffixViewModels ].
+		
 	suffixBoxes := (suffixes 
-				collect: [ :suffix | | suffixComposite |
+			collect: [ :suffix | | suffixComposite |
 					suffixComposite := self createBoxOf: suffix.
 					suffixComposite addAll: (self createClassBoxesOf: suffix).
 						RSGridLayout new on: suffixComposite children.
