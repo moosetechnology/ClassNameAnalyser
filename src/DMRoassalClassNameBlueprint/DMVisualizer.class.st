@@ -42,11 +42,6 @@ DMVisualizer >> roassal3View: aViewModel [
 		view: aViewModel 
 ]
 
-{ #category : #accessing }
-DMVisualizer >> view: aViewModel [ 
-	self subclassResponsibility 
-]
-
 { #category : #visualization }
 DMVisualizer >> visualize: aViewModel [
 	| b |

@@ -38,8 +38,11 @@ DMRoassal3Visualizer >> createPackageBoxesOf: aViewModel [
 
 { #category : #'as yet unclassified' }
 DMRoassal3Visualizer >> createSuffixBoxesOf: aPackage [ 
-	| suffixBoxes |
-	suffixBoxes := (aPackage suffixViewModels 
+	| suffixes suffixBoxes |
+	suffixes := orderBySize isNotNil
+		ifTrue: [ aPackage modelsOrderedDescending  ] 
+		ifFalse: [ aPackage suffixViewModels ].
+	suffixBoxes := (suffixes 
 				collect: [ :suffix | | suffixComposite |
 					suffixComposite := self createBoxOf: suffix.
 					suffixComposite addAll: (self createClassBoxesOf: suffix).
