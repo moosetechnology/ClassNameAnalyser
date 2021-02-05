@@ -1,10 +1,8 @@
 Class {
 	#name : #DMBuilder,
 	#superclass : #Object,
-	#classTraits : 'DMTBuilder classTrait + DMTColorAttributor classTrait + DMTDataExtractor classTrait',
 	#instVars : [
-		'palette',
-		'index'
+		'palette'
 	],
 	#classInstVars : [
 		'rootmodels',
@@ -88,17 +86,6 @@ DMBuilder class >> sort: aCollection [
 
 	^self new
 		sortAccordingToPalette: aCollection 
-]
-
-{ #category : #'as yet unclassified' }
-DMBuilder >> aColorFromPalette [
-
-	"we have 24 important colors"
-	index := index +1.
-	(index <= 24)
-	ifTrue: [ ^palette at: index ].
-	
-	^#black
 ]
 
 { #category : #'as yet unclassified' }

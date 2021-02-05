@@ -28,9 +28,11 @@ DMCNBDescriptionModel >> averageClassesPerSuffix [
 
 { #category : #'as yet unclassified' }
 DMCNBDescriptionModel >> countAverageClassesPerSuffix [
-	
-	averageClassesPerSuffix := (self allConceptViewModels collect: [ :each | each classViewModels size ]) average asFloat.
-	^averageClassesPerSuffix 
+
+	averageClassesPerSuffix := (self allConceptViewModels collect: [ 
+		                            :each | each classViewModels size ])
+		                           average asFloat.
+	^ averageClassesPerSuffix
 ]
 
 { #category : #'as yet unclassified' }
@@ -40,15 +42,18 @@ DMCNBDescriptionModel >> countConcepts [
 
 { #category : #'as yet unclassified' }
 DMCNBDescriptionModel >> countHomogeneous [
+
 	"first select the concepts dominated by a mono hierarchy, then check if all inner classes belong to mono suffix hierarchies"
+
 	| conceptViewModelsDominatedByMonoHierarchy |
-	conceptViewModelsDominatedByMonoHierarchy := self allConceptViewModels 
-					select: [ :each | each root isMonoSuffix ].
-	homogeneous := (conceptViewModelsDominatedByMonoHierarchy 
-							select: [ :each | 
-								each classViewModels allSatisfy: [ :aCVM | aCVM root isMonoSuffix ] 
-													]
-		 					) size
+	conceptViewModelsDominatedByMonoHierarchy := self
+		                                             allConceptViewModels 
+		                                             select: [ :each | 
+		                                             each root isMonoSuffix ].
+	homogeneous := (conceptViewModelsDominatedByMonoHierarchy select: [ 
+		                :each | 
+		                each classViewModels allSatisfy: [ :aCVM | 
+			                aCVM root isMonoSuffix ] ]) size
 ]
 
 { #category : #'as yet unclassified' }

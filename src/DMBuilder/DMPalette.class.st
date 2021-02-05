@@ -31,7 +31,7 @@ DMPalette >> aColorForMultiSuffix [
 
 { #category : #accessing }
 DMPalette >> defaultColor [ 
-	^#black
+	^Color black
 ]
 
 { #category : #accessing }
@@ -42,7 +42,7 @@ DMPalette >> initialize [
 
 { #category : #accessing }
 DMPalette >> monoClassColor [
-	^#white
+	^Color white
 ]
 
 { #category : #accessing }
@@ -52,7 +52,7 @@ DMPalette >> monoClassColor: aColor [
 
 { #category : #accessing }
 DMPalette >> monoSuffixColor [
-	^#gray
+	^Color gray
 ]
 
 { #category : #accessing }
@@ -62,10 +62,10 @@ DMPalette >> multiSuffixColors [
 
 { #category : #accessing }
 DMPalette >> multiSuffixColors: aCollectionOfColors [ 
-	multiSuffixColors := aCollectionOfColors 
+	multiSuffixColors := aCollectionOfColors collect: [ :aColorName | Color value: aColorName ]
 ]
 
 { #category : #accessing }
 DMPalette >> traitColor [
-	^#white
+	^Color white
 ]
