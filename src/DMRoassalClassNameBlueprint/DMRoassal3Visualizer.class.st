@@ -7,6 +7,7 @@ Class {
 { #category : #'as yet unclassified' }
 DMRoassal3Visualizer class >> exampleView [
 
+	<sampleInstance>
 	| viewModel |
 	viewModel := (DMClassNamesBlueprintSample projectNameMatches: 'moose*') viewModel.
 	^ DMVisualizer roassal3View: viewModel
@@ -19,22 +20,26 @@ DMRoassal3Visualizer class >> view: aViewModel [
 	canvas := RSCanvas new.
 	canvas addAll: 
 	(aViewModel packageViewModels collect: 
-		[ :each | |packageComposite|
+		[ :package | | packageComposite |
 			packageComposite := RSComposite new 
-				model: each; popup; color: Color veryLightGray.
+				model: package; popup; color: (Color white darker); withBorder; borderColor: Color black.
 			packageComposite addAll: 
-			(each suffixViewModels 
+			(package suffixViewModels 
 				collect: [ :suffix | 
 					|suffixComposite|
 					suffixComposite := RSComposite new 
-						model: suffix; popup;
-						color: Color lightGray;
+						model: suffix; popup; withBorder; borderColor: Color black;
+						color: suffix color;
 						addAll: (suffix classViewModels 
-						collect: [ :class | RSBox new model: class; color: Color red ]); yourself.
+						collect: [ :class | | classBox |
+							classBox := RSBox new width: 25; height: 25.
+							classBox model: class; popup; color: class color; withBorder.
+							classBox  border width: class borderWidth.
+							classBox borderColor: Color black ]); yourself.
 						RSGridLayout new on: suffixComposite children.
-						suffixComposite padding: 10; yourself]).
+						suffixComposite padding: 7; yourself]).
 			RSGridLayout new on: packageComposite children.
-			packageComposite adjustToChildren; yourself]).
+			packageComposite padding: 7; yourself]).
 
 	RSFlowLayout on: canvas nodes.
 	canvas @ RSCanvasController.
