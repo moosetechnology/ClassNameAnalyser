@@ -15,9 +15,3 @@ DMClassNamesBlueprintSample class >> projectNameMatches: aString [
 
 	^(MooseModelSample projectNameMatches: aString) defaultClassNamesBlueprint 
 ]
-
-{ #category : #'as yet unclassified' }
-DMClassNamesBlueprintSample class >> showCnbVisualizationWithoutClasses [
-
-	
-]

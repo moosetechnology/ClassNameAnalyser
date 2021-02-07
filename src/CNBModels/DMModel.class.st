@@ -24,6 +24,11 @@ DMModel >> borderColor [
 ]
 
 { #category : #accessing }
+DMModel >> color [
+	^Color white
+]
+
+{ #category : #accessing }
 DMModel >> name [ 
 	^name
 ]

@@ -36,6 +36,11 @@ DMPackageViewModel >> createBox [
 	^packageBox 
 ]
 
+{ #category : #accessing }
+DMPackageViewModel >> models [
+	^suffixViewModels 
+]
+
 { #category : #'as yet unclassified' }
 DMPackageViewModel >> modelsOrderedAscending [
 	^ suffixViewModels sorted: #size ascending

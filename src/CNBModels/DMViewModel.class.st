@@ -23,6 +23,11 @@ DMViewModel >> initialize [
 	super initialize.
 ]
 
+{ #category : #accessing }
+DMViewModel >> models [
+	^packageViewModels 
+]
+
 { #category : #'as yet unclassified' }
 DMViewModel >> modelsOrderedAscending [
 	^packageViewModels sorted: #size ascending

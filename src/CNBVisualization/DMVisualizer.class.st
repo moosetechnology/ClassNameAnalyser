@@ -22,7 +22,7 @@ DMVisualizer class >> exampleViewWithoutClassBorders [
 
 	<sampleInstance>
 	| viewModel |
-	viewModel := (DMClassNamesBlueprintSample projectNameMatches: 'calypso*') viewModel.
+	viewModel := ((DMClassNamesBlueprintSample projectNameMatches: 'calypso*') withoutClasses) viewModel.
 	^ self new roassal3View: viewModel
 ]
 

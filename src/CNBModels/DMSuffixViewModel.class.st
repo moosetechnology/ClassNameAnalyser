@@ -56,6 +56,11 @@ DMSuffixViewModel >> label [
 	^name
 ]
 
+{ #category : #accessing }
+DMSuffixViewModel >> models [
+	^classViewModels 
+]
+
 { #category : #printing }
 DMSuffixViewModel >> printOn: aStream [
 	super printOn: aStream. 

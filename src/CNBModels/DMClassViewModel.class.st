@@ -88,6 +88,11 @@ DMClassViewModel >> label [
 	^''
 ]
 
+{ #category : #accessing }
+DMClassViewModel >> models [ 
+	^ reference methods
+]
+
 { #category : #testing }
 DMClassViewModel >> printOn: aStream [
 	super printOn: aStream. 
