@@ -1,0 +1,34 @@
+Trait {
+	#name : #DMTColorAttributor,
+	#instVars : [
+		'viewModel'
+	],
+	#category : #CNBBuilder
+}
+
+{ #category : #'as yet unclassified' }
+DMTColorAttributor >> attributeColorByType: aType [
+
+	(aType = #Trait)
+	ifTrue: [ ^ #white ].
+	
+	(aType = #monoClass)
+	ifTrue: [ ^ #white ].
+	
+	(aType = #monoSuffix)
+	ifTrue: [ ^#gray ].
+	
+	(aType = #multiSuffix)
+	ifTrue: [ ^self aColorFromPalette ].
+]
+
+{ #category : #'as yet unclassified' }
+DMTColorAttributor >> color: rootModels [
+	| sortedRootModels coloredRootModels |
+	sortedRootModels := self sortRootModels: rootModels.
+	coloredRootModels := (sortedRootModels 
+		collect: 
+			[ :eachRootModel | eachRootModel color: (self attributeColorByType: eachRootModel type) ]).
+	^coloredRootModels 
+	
+]
