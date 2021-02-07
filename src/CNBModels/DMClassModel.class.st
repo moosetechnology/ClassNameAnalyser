@@ -1,3 +1,6 @@
+"
+I am the simple model representation of a class, without visualization informations.
+"
 Class {
 	#name : #DMClassModel,
 	#superclass : #DMModel,

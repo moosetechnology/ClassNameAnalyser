@@ -1,9 +1,8 @@
 Class {
 	#name : #DMBuilder,
 	#superclass : #Object,
-	#instVars : [
-		'palette'
-	],
+	#traits : 'DMTColorAttributor + DMTDataExtractor',
+	#classTraits : 'DMTColorAttributor classTrait + DMTDataExtractor classTrait',
 	#classInstVars : [
 		'rootmodels',
 		'conceptualmodel'
@@ -12,22 +11,9 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-DMBuilder class >> classTypeWithSubclasses: aCollectionOfsubClassModels [
-	^self new
-	classTypeWithSubclasses: aCollectionOfsubClassModels 
-]
-
-{ #category : #'as yet unclassified' }
 DMBuilder class >> countIntrudersIn: aViewModel [
 	^self new
 		countIntrudersIn: aViewModel
-]
-
-{ #category : #'as yet unclassified' }
-DMBuilder class >> createSuffixesDictionaryFrom: aCollectionOfClassModels [
-	^self new 
-	createSuffixesDictionaryFrom: aCollectionOfClassModels
-
 ]
 
 { #category : #enumerating }
@@ -53,6 +39,13 @@ DMBuilder class >> doPackageViewModelsOf: packageModels [
 DMBuilder class >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
 	^self new
 		doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass  
+]
+
+{ #category : #'as yet unclassified' }
+DMBuilder class >> doSuffixesDictionaryFrom: aCollectionOfClassModels [
+	^self new 
+	doSuffixesDictionaryFrom: aCollectionOfClassModels
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -89,33 +82,6 @@ DMBuilder class >> sort: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
-DMBuilder >> attributeColorByType: aType [
-
-	(aType = DMClassType trait)
-	ifTrue: [ ^palette traitColor ].
-	
-	(aType = DMClassType monoClass)
-	ifTrue: [ ^palette monoClassColor ].
-	
-	(aType = DMClassType monoSuffix)
-	ifTrue: [  ^palette monoSuffixColor ].
-	
-	(aType = DMClassType multiSuffix)
-	ifTrue: [ ^palette aColorForMultiSuffix ].
-]
-
-{ #category : #accessing }
-DMBuilder >> color: rootModels [
-	| sortedRootModels coloredRootModels |
-	sortedRootModels := self sortRootModels: rootModels.
-	coloredRootModels := (sortedRootModels 
-		collect: 
-			[ :eachRootModel | eachRootModel color: (self attributeColorByType: eachRootModel type) ]).
-	^coloredRootModels 
-	
-]
-
-{ #category : #'as yet unclassified' }
 DMBuilder >> countIntrudersIn: aCnbDescription [
 
 	| conceptVModels intruders conceptIntruders |
@@ -132,15 +98,6 @@ DMBuilder >> countIntrudersIn: aCnbDescription [
 		
 	^intruders
 	
-]
-
-{ #category : #'as yet unclassified' }
-DMBuilder >> createSuffixesDictionaryFrom: aCollectionOfClassModels [
-	| suffixes concepts |
-	suffixes := Dictionary new.
-	concepts := (aCollectionOfClassModels collect: #concept).
-	concepts do: [ :aConcept | suffixes at: aConcept put: (concepts occurrencesOf: aConcept) ].
-	^suffixes 
 ]
 
 { #category : #enumerating }
@@ -224,54 +181,12 @@ DMBuilder >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
 ]
 
 { #category : #'as yet unclassified' }
-DMBuilder >> extractClassModelsFrom: packageModels [
-	^ (packageModels
-		flatCollect: [ :eachPackageModel | eachPackageModel classModels ])
-		asOrderedCollection
-]
-
-{ #category : #'as yet unclassified' }
-DMBuilder >> extractClassViewModelsFrom: aViewModel [
-
-	^(aViewModel models flatCollect: [ :eachPackageViewModel |  eachPackageViewModel models flatCollect: #models])
-]
-
-{ #category : #'as yet unclassified' }
-DMBuilder >> extractConceptsFrom: aPackageModel [
-
-	^aPackageModel classModels collect: [ :aClassModel | aClassModel concept ]
-]
-
-{ #category : #'as yet unclassified' }
-DMBuilder >> initialize [
-	super initialize.
-	palette := DMPalette
-		with:
-			{#red . #yellow . #blue . #purple . #brown . #magenta . #orange . #green.
-			#pink . #tan . #cyan . #lightRed . #lightGreen . #lightMagenta.
-			#lightOrange . #lightYellow . #paleGreen . #paleMagenta . #paleOrange.
-			#palePeach . #paleRed . #lightBrown . #paleTan . #paleMagenta}
-]
-
-{ #category : #'as yet unclassified' }
-DMBuilder >> selectBiggestHierarchyOf: aConcept using: aCollectioOfRootModels [
-	^(aCollectioOfRootModels detect: [ :aRoot | aRoot concepts includes: aConcept ]).
-]
-
-{ #category : #'as yet unclassified' }
-DMBuilder >> sortAccordingToPalette: aCollection [
-	| newPalette |
-	newPalette := palette multiSuffixColors asOrderedCollection.
-	newPalette
-		addAll:
-			{palette monoSuffixColor.
-			palette traitColor.
-			palette defaultColor}.
-	^ ((1 to: newPalette size)
-		collect: [ :cursor | 
-			aCollection
-				select: [ :aConceptVM | aConceptVM color = (newPalette at: cursor) ] ])
-		flattened
+DMBuilder >> doSuffixesDictionaryFrom: aCollectionOfClassModels [
+	| suffixes concepts |
+	suffixes := Dictionary new.
+	concepts := (aCollectionOfClassModels collect: #concept).
+	concepts do: [ :aConcept | suffixes at: aConcept put: (concepts occurrencesOf: aConcept) ].
+	^suffixes 
 ]
 
 { #category : #'as yet unclassified' }

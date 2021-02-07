@@ -1,3 +1,6 @@
+"
+I am a simple model of a Package
+"
 Class {
 	#name : #DMPackageModel,
 	#superclass : #DMModel,

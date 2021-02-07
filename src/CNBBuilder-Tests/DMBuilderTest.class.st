@@ -39,10 +39,6 @@ DMBuilderTest >> testAssignColor [
 ]
 
 { #category : #tests }
-DMBuilderTest >> testAttribueColor [
-]
-
-{ #category : #tests }
 DMBuilderTest >> testBuildConceptViewModels [
 
 	| mooseSample mooseModel conceptualModel rootModels conceptVModels |

@@ -1,3 +1,6 @@
+"
+I am the package visualization model
+"
 Class {
 	#name : #DMPackageViewModel,
 	#superclass : #DMModel,

@@ -1,3 +1,6 @@
+"
+I am the model representation of a class and its visualization.
+"
 Class {
 	#name : #DMClassViewModel,
 	#superclass : #DMModel,
@@ -7,10 +10,25 @@ Class {
 		'concept',
 		'reference',
 		'height',
-		'width'
+		'width',
+		'borderColor'
 	],
 	#category : #CNBModels
 }
+
+{ #category : #accessing }
+DMClassViewModel >> borderColor [ 
+	borderColor isNotNil 
+		ifFalse: [ ^Color black ].
+	
+	^borderColor 
+	
+]
+
+{ #category : #accessing }
+DMClassViewModel >> borderColor: aColor [ 	
+	borderColor := aColor
+]
 
 { #category : #accessing }
 DMClassViewModel >> borderWidth [ 
@@ -51,7 +69,7 @@ DMClassViewModel >> createBox [
 						color: self color; 
 						withBorder.
 					classBox border width: self borderWidth.
-					classBox borderColor: Color black.
+					classBox borderColor: self borderColor.
 	^ classBox
 ]
 

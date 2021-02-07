@@ -94,3 +94,10 @@ DMClassNamesBlueprint >> viewModel [
 DMClassNamesBlueprint >> viewModel: aViewModel [
 	viewModel := aViewModel 
 ]
+
+{ #category : #'adding/removing' }
+DMClassNamesBlueprint >> withoutClasses [ 
+
+	viewModel classViewModels do:  [ :each | each borderColor: Color transparent ]
+	
+]

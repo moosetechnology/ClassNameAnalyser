@@ -1,3 +1,6 @@
+"
+I hold the models of the ClassNames Blueprint visualization
+"
 Class {
 	#name : #DMViewModel,
 	#superclass : #DMConceptualModel,
@@ -6,6 +9,14 @@ Class {
 	],
 	#category : #CNBModels
 }
+
+{ #category : #accessing }
+DMViewModel >> classViewModels [ 
+	^ ((packageViewModels 
+		flatCollect: 
+			#suffixViewModels) flatCollect: 
+				[ :each | each classViewModels ])
+]
 
 { #category : #initialization }
 DMViewModel >> initialize [

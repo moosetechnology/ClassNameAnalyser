@@ -1,3 +1,6 @@
+"
+I hold all models of the ClassNamesBlueprint.
+"
 Class {
 	#name : #DMConceptualModel,
 	#superclass : #DMModel,

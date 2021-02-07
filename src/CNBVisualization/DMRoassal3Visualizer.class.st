@@ -43,10 +43,9 @@ DMRoassal3Visualizer >> createSuffixBoxesOf: aPackage [
 	
 	suffixes := aPackage suffixViewModels.
 	suffixes := orderBySize isNotNil
-		ifTrue: [ aPackage modelsOrderedDescending.
-					orderByColor isNotNil
-						ifTrue: [ aPackage modelsOrderedByColor ]
-				].
+		ifTrue: [ aPackage suffixViewModels: aPackage modelsOrderedDescending ]. 
+	suffixes :=	orderByColor isNotNil
+		ifTrue: [ aPackage modelsOrderedByColor ].
 		
 	suffixBoxes := (suffixes 
 			collect: [ :suffix | | suffixComposite |
@@ -66,7 +65,7 @@ DMRoassal3Visualizer >> view: aViewModel [
 	| canvas |
 	canvas := RSCanvas new.
 	canvas addAll: (self createPackageBoxesOf: aViewModel).
-
+	
 	RSFlowLayout on: canvas nodes.
 	canvas @ RSCanvasController.
 	^canvas

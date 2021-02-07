@@ -1,3 +1,6 @@
+"
+I am a representation of a Root Model which is the highest class in the hierarchy tree of the ClassNamesBlueprint.
+"
 Class {
 	#name : #DMRootModel,
 	#superclass : #DMModel,
@@ -23,7 +26,7 @@ DMRootModel class >> reference: aClass with: aCollectionOfSubClassModels [
 		name: aClass name;
 		subclasses: aCollectionOfSubClassModels;
 		size: aCollectionOfSubClassModels size;
-		suffixes: (DMBuilder createSuffixesDictionaryFrom: aCollectionOfSubClassModels);
+		suffixes: (DMBuilder doSuffixesDictionaryFrom: aCollectionOfSubClassModels);
 		type: rootType.
 	
 	

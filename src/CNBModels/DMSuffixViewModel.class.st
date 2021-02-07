@@ -1,3 +1,6 @@
+"
+I am the model of the suffix of a class name (suffix is the last word in a class name written in the camel case form)
+"
 Class {
 	#name : #DMSuffixViewModel,
 	#superclass : #DMModel,

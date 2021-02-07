@@ -1,7 +1,7 @@
 Trait {
 	#name : #DMTColorAttributor,
 	#instVars : [
-		'viewModel'
+		'palette'
 	],
 	#category : #CNBBuilder
 }
@@ -9,20 +9,20 @@ Trait {
 { #category : #'as yet unclassified' }
 DMTColorAttributor >> attributeColorByType: aType [
 
-	(aType = #Trait)
-	ifTrue: [ ^ #white ].
+	(aType = DMClassType trait)
+	ifTrue: [ ^palette traitColor ].
 	
-	(aType = #monoClass)
-	ifTrue: [ ^ #white ].
+	(aType = DMClassType monoClass)
+	ifTrue: [ ^palette monoClassColor ].
 	
-	(aType = #monoSuffix)
-	ifTrue: [ ^#gray ].
+	(aType = DMClassType monoSuffix)
+	ifTrue: [  ^palette monoSuffixColor ].
 	
-	(aType = #multiSuffix)
-	ifTrue: [ ^self aColorFromPalette ].
+	(aType = DMClassType multiSuffix)
+	ifTrue: [ ^palette aColorForMultiSuffix ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 DMTColorAttributor >> color: rootModels [
 	| sortedRootModels coloredRootModels |
 	sortedRootModels := self sortRootModels: rootModels.
@@ -31,4 +31,31 @@ DMTColorAttributor >> color: rootModels [
 			[ :eachRootModel | eachRootModel color: (self attributeColorByType: eachRootModel type) ]).
 	^coloredRootModels 
 	
+]
+
+{ #category : #'as yet unclassified' }
+DMTColorAttributor >> initialize [
+	super initialize.
+	palette := DMPalette
+		with:
+			{#red . #yellow . #blue . #purple . #brown . #magenta . #orange . #green.
+			#pink . #tan . #cyan . #lightRed . #lightGreen . #lightMagenta.
+			#lightOrange . #lightYellow . #paleGreen . #paleMagenta . #paleOrange.
+			#palePeach . #paleRed . #lightBrown . #paleTan . #paleMagenta}
+]
+
+{ #category : #'as yet unclassified' }
+DMTColorAttributor >> sortAccordingToPalette: aCollection [
+	| newPalette |
+	newPalette := palette multiSuffixColors asOrderedCollection.
+	newPalette
+		addAll:
+			{palette monoSuffixColor.
+			palette monoClassColor.
+			palette defaultColor}.
+	^ ((1 to: newPalette size)
+		collect: [ :cursor | 
+			aCollection
+				select: [ :aConceptVM | aConceptVM color = (newPalette at: cursor) ] ])
+		flattened
 ]

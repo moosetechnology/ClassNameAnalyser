@@ -17,6 +17,15 @@ DMVisualizer class >> exampleView [
 	^ self new roassal3View: viewModel
 ]
 
+{ #category : #'as yet unclassified' }
+DMVisualizer class >> exampleViewWithoutClassBorders [
+
+	<sampleInstance>
+	| viewModel |
+	viewModel := (DMClassNamesBlueprintSample projectNameMatches: 'calypso*') viewModel.
+	^ self new roassal3View: viewModel
+]
+
 { #category : #accessing }
 DMVisualizer >> orderByColor [
 	orderByColor := true 

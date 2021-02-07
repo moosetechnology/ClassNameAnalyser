@@ -1,3 +1,6 @@
+"
+I hold the patterns of the ClassNames Blueprint visualization using queries.
+"
 Class {
 	#name : #DMCNBDescriptionModel,
 	#superclass : #DMViewModel,
