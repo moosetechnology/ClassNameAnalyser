@@ -34,7 +34,7 @@ CNBExpandingBoxes >> nodeFor: model [
 	| com |
 	com := base copy.
 	com model: model.
-	com border: border.
+	com border: model border.
 	com announcer: base announcer.
 	com color: (model color).
 	^ com
