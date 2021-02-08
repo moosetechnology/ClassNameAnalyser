@@ -33,7 +33,8 @@ DMRoassal3Visualizer >> createPackageBoxesOf: aViewModel [
 				packageComposite := self createBoxOf: package.
 				packageComposite addAll: (self createSuffixBoxesOf: package).
 				RSGridLayout new on: packageComposite children.
-				packageComposite padding: 7 ]).
+				packageComposite adjustToChildren.
+				packageComposite padding: 20 ]).
 		^packageBoxes 
 ]
 
@@ -52,6 +53,7 @@ DMRoassal3Visualizer >> createSuffixBoxesOf: aPackage [
 					suffixComposite := self createBoxOf: suffix.
 					suffixComposite addAll: (self createClassBoxesOf: suffix).
 						RSGridLayout new on: suffixComposite children.
+						suffixComposite adjustToChildren.
 						suffixComposite padding: 12]).
 					
 	^suffixBoxes 

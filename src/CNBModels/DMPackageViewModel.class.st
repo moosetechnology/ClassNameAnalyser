@@ -7,10 +7,16 @@ Class {
 	#instVars : [
 		'suffixViewModels',
 		'size',
-		'color'
+		'color',
+		'border'
 	],
 	#category : #CNBModels
 }
+
+{ #category : #accessing }
+DMPackageViewModel >> border [
+	^border color: Color black;yourself
+]
 
 { #category : #accessing }
 DMPackageViewModel >> borderColor [ 
@@ -24,15 +30,28 @@ DMPackageViewModel >> color [
 
 { #category : #initialization }
 DMPackageViewModel >> createBox [ 
-	| packageBox |
-	
+	| packageBox nameAbbreviated labeled |
+	nameAbbreviated := DMNameAbbreviationCreator abbreviate: self name until: 4.
+	labeled := RSLabeled text: nameAbbreviated.
 	packageBox := RSComposite new 
 				model: self;
 				color: self color;
 				popupText: name;  
 				withBorder; 
-				borderColor: self color.
+				border: self border.
+	packageBox @ (labeled fontSize: 20).
 	^packageBox 
+]
+
+{ #category : #initialization }
+DMPackageViewModel >> initialize [
+	super initialize.
+	border := RSBorder new
+]
+
+{ #category : #testing }
+DMPackageViewModel >> isPackageViewModel [
+	^true
 ]
 
 { #category : #accessing }

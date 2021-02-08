@@ -5,7 +5,8 @@ Class {
 		'canvas',
 		'color',
 		'base',
-		'border'
+		'border',
+		'labeled'
 	],
 	#category : #CNBVisualization
 }
@@ -19,11 +20,12 @@ CNBExpandingBoxes >> close: shape [
 { #category : #initialization }
 CNBExpandingBoxes >> initialize [
 	super initialize.
+	labeled := RSLabeled new.
 	canvas := RSCanvas new.
 	color := NSScale category20b.
 	base := RSComposite new.
 	base popup.
-	base when: RSMouseClick do: [ :evt | self processEvent: evt ].
+	base when: RSMouseLeftClick do: [ :evt | self processEvent: evt ].
 	border := RSBorder new color: Color black
 ]
 
@@ -32,6 +34,7 @@ CNBExpandingBoxes >> nodeFor: model [
 	| com |
 	com := base copy.
 	com model: model.
+	com popupText: model name.
 	model models ifNotEmpty: [ com border: border].
 	com announcer: base announcer.
 	com color: model color.

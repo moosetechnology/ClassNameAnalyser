@@ -91,6 +91,11 @@ DMClassViewModel >> initialize [
 ]
 
 { #category : #testing }
+DMClassViewModel >> isClassViewModel [
+	^true
+]
+
+{ #category : #testing }
 DMClassViewModel >> isRoot [ 
 	^self name = self root name 
 ]

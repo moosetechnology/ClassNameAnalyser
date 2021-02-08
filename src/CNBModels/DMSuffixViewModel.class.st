@@ -8,10 +8,16 @@ Class {
 		'color',
 		'root',
 		'classViewModels',
-		'size'
+		'size',
+		'border'
 	],
 	#category : #CNBModels
 }
+
+{ #category : #'brick-properties' }
+DMSuffixViewModel >> border [
+	^border color: Color black;yourself
+]
 
 { #category : #'brick-properties' }
 DMSuffixViewModel >> borderColor [ 
@@ -41,14 +47,29 @@ DMSuffixViewModel >> color: aColor [
 
 { #category : #initialization }
 DMSuffixViewModel >> createBox [
-	| suffixBox |
+	| suffixBox labeled |
+	labeled := RSLabeled text: self name.
+	labeled fontSize: 20.
+	labeled location top; center.
 	suffixBox := RSComposite new 
 						model: self;
 						popupText: name; 
 						withBorder;
-						borderColor: self borderColor;
-						color: self color.
-	^suffixBox
+						color: self color;
+						border: self border.
+	^suffixBox @ labeled
+
+]
+
+{ #category : #initialization }
+DMSuffixViewModel >> initialize [ 
+	super initialize.
+	border := RSBorder new
+]
+
+{ #category : #testing }
+DMSuffixViewModel >> isSuffixViewModel [
+	^true
 ]
 
 { #category : #accessing }
