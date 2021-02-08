@@ -11,30 +11,37 @@ Class {
 		'reference',
 		'height',
 		'width',
-		'borderColor'
+		'border'
 	],
 	#category : #CNBModels
 }
 
 { #category : #accessing }
+DMClassViewModel >> border [ 
+	border color: self borderColor.
+	border width: self borderWidth.
+	^border
+]
+
+{ #category : #accessing }
 DMClassViewModel >> borderColor [ 
-	borderColor isNotNil 
+	border color isNotNil 
 		ifFalse: [ ^Color black ].
 	
-	^borderColor 
+	^border color 
 	
 ]
 
 { #category : #accessing }
 DMClassViewModel >> borderColor: aColor [ 	
-	borderColor := aColor
+	border color: aColor
 ]
 
 { #category : #accessing }
 DMClassViewModel >> borderWidth [ 
-	self isRoot
-	ifTrue: [ ^4 ]
-	ifFalse: [ ^1 ]
+	^self isRoot
+	ifTrue: [ 4 ]
+	ifFalse: [ 1 ]
 ]
 
 { #category : #accessing }
@@ -68,14 +75,19 @@ DMClassViewModel >> createBox [
 						popupText: name; 
 						color: self color; 
 						withBorder.
-					classBox border width: self borderWidth.
-					classBox borderColor: self borderColor.
+					classBox border: self border.
 	^ classBox
 ]
 
 { #category : #accessing }
 DMClassViewModel >> height [
 	^25
+]
+
+{ #category : #initialization }
+DMClassViewModel >> initialize [ 
+	super initialize.
+	border := RSBorder new color: nil
 ]
 
 { #category : #testing }

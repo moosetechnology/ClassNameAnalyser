@@ -5,7 +5,7 @@ Class {
 		'viewModel',
 		'visualizer'
 	],
-	#category : #CNBVisualization
+	#category : #CNBModels
 }
 
 { #category : #'as yet unclassified' }

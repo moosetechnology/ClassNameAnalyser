@@ -7,7 +7,7 @@ Class {
 		'base',
 		'border'
 	],
-	#category : #CNBProjectImporter
+	#category : #CNBVisualization
 }
 
 { #category : #'primitives-file' }
