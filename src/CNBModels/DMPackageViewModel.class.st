@@ -29,7 +29,6 @@ DMPackageViewModel >> createBox [
 	packageBox := RSComposite new 
 				model: self;
 				color: self color;
-				labeled; 
 				popupText: name;  
 				withBorder; 
 				borderColor: self color.
