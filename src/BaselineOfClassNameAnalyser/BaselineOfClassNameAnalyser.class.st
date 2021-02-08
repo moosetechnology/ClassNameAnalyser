@@ -18,7 +18,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 			package: 'CNBBuilder' with: [ spec requires: #('CNBVisualization') ];
 			package: 'CNBBuilder-Tests' with: [ spec requires: #('CNBBuilder') ];
 			package: 'CNBprojectImporter' with: [ spec requires: #('CNBModels' 'CNBBuilder') ];
-			package: 'CNBVisualization' with: [ spec requires: #('CNBModels' 'CNBprojectImporter') ].
+			package: 'CNBVisualization' with: [ spec requires: #('CNBprojectImporter') ].
 				 ].
 ]
 
