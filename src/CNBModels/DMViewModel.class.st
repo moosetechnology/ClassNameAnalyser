@@ -5,10 +5,16 @@ Class {
 	#name : #DMViewModel,
 	#superclass : #DMConceptualModel,
 	#instVars : [
-		'packageViewModels'
+		'packageViewModels',
+		'border'
 	],
 	#category : #CNBModels
 }
+
+{ #category : #accessing }
+DMViewModel >> border [
+	^border color: Color black;yourself
+]
 
 { #category : #accessing }
 DMViewModel >> classViewModels [ 
@@ -21,6 +27,7 @@ DMViewModel >> classViewModels [
 { #category : #initialization }
 DMViewModel >> initialize [
 	super initialize.
+	border := RSBorder new. 
 ]
 
 { #category : #accessing }

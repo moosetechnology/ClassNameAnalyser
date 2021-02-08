@@ -34,10 +34,9 @@ CNBExpandingBoxes >> nodeFor: model [
 	| com |
 	com := base copy.
 	com model: model.
-	com popupText: model name.
-	model models ifNotEmpty: [ com border: border].
+	com border: border.
 	com announcer: base announcer.
-	com color: model color.
+	com color: (model color).
 	^ com
 ]
 
@@ -74,7 +73,7 @@ CNBExpandingBoxes >> run [
 	<script: 'self new run'>
 		| cNBViewModel |
 	cNBViewModel := (DMClassNamesBlueprintSample projectNameMatches: 'calypso*') viewModel.
-	canvas add: (self nodeFor: cNBViewModel).
+	canvas add: (self nodeFor: cNBViewModel ).
 	self update.
 	canvas open
 ]
