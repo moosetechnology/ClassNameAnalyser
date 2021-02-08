@@ -12,12 +12,13 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 		"self loadRoassal3: spec."
 		"Packages"
 		spec 
-			package: 'DMModels';
-			package: 'DMFeatureSelector' with: [ spec requires: #('DMModels') ];
-			package: 'DMFeatureSelector-Tests' with: [ spec requires: #('DMFeatureSelector') ];
-			package: 'DMBuilder' with: [ spec requires: #('DMRoassalClassNameBlueprint') ];
-			package: 'DMBuilder-Tests' with: [ spec requires: #('DMBuilder') ];
-			package: 'DMRoassalClassNameBlueprint' with: [ spec requires: #('DMModels') ].
+			package: 'CNBModels';
+			package: 'CNBFeatureSelector' with: [ spec requires: #('CNBModels') ];
+			package: 'CNBFeatureSelector-Tests' with: [ spec requires: #('CNBFeatureSelector') ];
+			package: 'CNBBuilder' with: [ spec requires: #('CNBVisualization') ];
+			package: 'CNBBuilder-Tests' with: [ spec requires: #('CNBBuilder') ];
+			package: 'CNBprojectImporter' with: [ spec requires: #('CNBModels' 'CNBBuilder') ];
+			package: 'CNBVisualization' with: [ spec requires: #('CNBModels' 'CNBprojectImporter') ].
 				 ].
 ]
 
