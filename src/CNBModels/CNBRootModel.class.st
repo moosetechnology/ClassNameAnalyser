@@ -2,8 +2,8 @@
 I am a representation of a Root Model which is the highest class in the hierarchy tree of the ClassNamesBlueprint.
 "
 Class {
-	#name : #DMRootModel,
-	#superclass : #DMModel,
+	#name : #CNBRootModel,
+	#superclass : #CNBAbstractModel,
 	#instVars : [
 		'reference',
 		'subclasses',
@@ -18,7 +18,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-DMRootModel class >> reference: aClass with: aCollectionOfSubClassModels [ 
+CNBRootModel class >> reference: aClass with: aCollectionOfSubClassModels [ 
 	| rootType |
 	rootType := (DMClassType with: aCollectionOfSubClassModels) type.
 	^self new 
@@ -36,37 +36,37 @@ DMRootModel class >> reference: aClass with: aCollectionOfSubClassModels [
 ]
 
 { #category : #accessing }
-DMRootModel >> color [ 
+CNBRootModel >> color [ 
 	^color
 ]
 
 { #category : #accessing }
-DMRootModel >> color: aColor [
+CNBRootModel >> color: aColor [
 	color := aColor
 ]
 
 { #category : #accessing }
-DMRootModel >> concepts [
+CNBRootModel >> concepts [
 	^concepts flattened
 ]
 
 { #category : #accessing }
-DMRootModel >> concepts: aDominantSuffix [
+CNBRootModel >> concepts: aDominantSuffix [
 	concepts add: aDominantSuffix 
 ]
 
 { #category : #accessing }
-DMRootModel >> dominantSuffixes [
+CNBRootModel >> dominantSuffixes [
 	^dominantSuffixes
 ]
 
 { #category : #accessing }
-DMRootModel >> dominantSuffixes: aConceptAssociation [
+CNBRootModel >> dominantSuffixes: aConceptAssociation [
 	dominantSuffixes add: aConceptAssociation
 ]
 
 { #category : #initialization }
-DMRootModel >> initialize [ 	
+CNBRootModel >> initialize [ 	
 	super initialize.
 	suffixes := Dictionary new.
 	dominantSuffixes := Dictionary new.
@@ -74,33 +74,33 @@ DMRootModel >> initialize [
 ]
 
 { #category : #initialization }
-DMRootModel >> initializeConcepts [
+CNBRootModel >> initializeConcepts [
 	concepts addAll: self dominantSuffixes keys
 ]
 
 { #category : #testing }
-DMRootModel >> isMonoClass [
+CNBRootModel >> isMonoClass [
 	 type = 'monoClass'
 	ifTrue: [ ^true ]
 	ifFalse: [ ^false ]
 ]
 
 { #category : #testing }
-DMRootModel >> isMonoSuffix [
+CNBRootModel >> isMonoSuffix [
 	type = 'monoSuffix'
 	ifTrue: [ ^true ]
 	ifFalse: [ ^false ]
 ]
 
 { #category : #testing }
-DMRootModel >> isMultiSuffix [
+CNBRootModel >> isMultiSuffix [
 	type = 'multiSuffix'
 	ifTrue: [ ^true ]
 	ifFalse: [ ^false ]
 ]
 
 { #category : #printing }
-DMRootModel >> printOn: aStream [
+CNBRootModel >> printOn: aStream [
 	super printOn: aStream. 
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.
@@ -108,58 +108,58 @@ DMRootModel >> printOn: aStream [
 ]
 
 { #category : #accessing }
-DMRootModel >> reference [ 
+CNBRootModel >> reference [ 
 	^reference
 ]
 
 { #category : #accessing }
-DMRootModel >> reference: aClass [
+CNBRootModel >> reference: aClass [
 	reference := aClass
 ]
 
 { #category : #accessing }
-DMRootModel >> size [
+CNBRootModel >> size [
 	^ subclasses size
 	
 ]
 
 { #category : #accessing }
-DMRootModel >> size: aSize [
+CNBRootModel >> size: aSize [
 	size := aSize 
 ]
 
 { #category : #accessing }
-DMRootModel >> subclasses [ 
+CNBRootModel >> subclasses [ 
 	^subclasses
 ]
 
 { #category : #accessing }
-DMRootModel >> subclasses: aCollectionOfSubClassModels [
+CNBRootModel >> subclasses: aCollectionOfSubClassModels [
 
 	subclasses := aCollectionOfSubClassModels.
 	
 ]
 
 { #category : #accessing }
-DMRootModel >> suffixes [ 
+CNBRootModel >> suffixes [ 
 	
 	^suffixes
 	
 ]
 
 { #category : #accessing }
-DMRootModel >> suffixes: suffixesDictionary [
+CNBRootModel >> suffixes: suffixesDictionary [
 	suffixes := suffixesDictionary
 	
 	
 ]
 
 { #category : #accessing }
-DMRootModel >> type [ 
+CNBRootModel >> type [ 
 	^type
 ]
 
 { #category : #accessing }
-DMRootModel >> type: aType [
+CNBRootModel >> type: aType [
 	type := aType.
 ]

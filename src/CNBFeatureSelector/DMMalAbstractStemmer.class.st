@@ -44,6 +44,13 @@ DMMalAbstractStemmer >> isVowelAt: anIndex [
 ]
 
 { #category : #'private-algorithm' }
+DMMalAbstractStemmer >> performStemming: aString [
+	"Perform the stemming of a string."
+	
+	^self subclassResponsibility
+]
+
+{ #category : #'private-algorithm' }
 DMMalAbstractStemmer >> removeSuffix [
 	"comment stating purpose of message"
 	

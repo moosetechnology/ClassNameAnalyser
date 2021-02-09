@@ -1,5 +1,5 @@
 Class {
-	#name : #DMClassNamesBlueprint,
+	#name : #ClassNamesBlueprint,
 	#superclass : #Object,
 	#instVars : [
 		'viewModel',
@@ -8,10 +8,10 @@ Class {
 	#category : #CNBModels
 }
 
-{ #category : #'as yet unclassified' }
-DMClassNamesBlueprint >> description [
+{ #category : #description }
+ClassNamesBlueprint >> description [
 | thePackageModels cnbDescription |
-	cnbDescription := DMCNBDescriptionModel new.
+	cnbDescription := CNBDescriptionModel new.
 	thePackageModels := (DMBuilder doPackageModelsOf: self viewModel).
 	cnbDescription 
 		name: self model name;
@@ -25,54 +25,54 @@ DMClassNamesBlueprint >> description [
 ]
 
 { #category : #initialization }
-DMClassNamesBlueprint >> initialize [
+ClassNamesBlueprint >> initialize [
 	super initialize.
-	viewModel := DMViewModel new.
+	viewModel := CNBViewModel new.
 	visualizer := DMVisualizer new
 ]
 
 { #category : #accessing }
-DMClassNamesBlueprint >> model [
+ClassNamesBlueprint >> model [
 	^viewModel model
 ]
 
 { #category : #accessing }
-DMClassNamesBlueprint >> model: aModel [
+ClassNamesBlueprint >> model: aModel [
 	self viewModel model: aModel 
 ]
 
 { #category : #accessing }
-DMClassNamesBlueprint >> motherRoot [
+ClassNamesBlueprint >> motherRoot [
 	^viewModel motherRoot
 ]
 
 { #category : #accessing }
-DMClassNamesBlueprint >> motherRoot: aClass [ 
+ClassNamesBlueprint >> motherRoot: aClass [ 
 	viewModel motherRoot: aClass
 ]
 
-{ #category : #'as yet unclassified' }
-DMClassNamesBlueprint >> orderByColor [ 	
+{ #category : #operations }
+ClassNamesBlueprint >> orderByColor [ 	
 	visualizer orderByColor
 ]
 
-{ #category : #'as yet unclassified' }
-DMClassNamesBlueprint >> orderBySize [
+{ #category : #operations }
+ClassNamesBlueprint >> orderBySize [
 	visualizer orderBySize 
 ]
 
 { #category : #accessing }
-DMClassNamesBlueprint >> rootModels [ 
+ClassNamesBlueprint >> rootModels [ 
 	^viewModel rootModels
 ]
 
 { #category : #accessing }
-DMClassNamesBlueprint >> show [
+ClassNamesBlueprint >> show [
 	^visualizer roassal3View: viewModel 
 ]
 
-{ #category : #'as yet unclassified' }
-DMClassNamesBlueprint >> startBuilding [
+{ #category : #operations }
+ClassNamesBlueprint >> startBuilding [
 	| thePackageModels |
 	thePackageModels := (DMBuilder doPackageModelsOf: self viewModel).
 	self viewModel 
@@ -86,17 +86,17 @@ DMClassNamesBlueprint >> startBuilding [
 ]
 
 { #category : #accessing }
-DMClassNamesBlueprint >> viewModel [
+ClassNamesBlueprint >> viewModel [
 	^viewModel 
 ]
 
 { #category : #accessing }
-DMClassNamesBlueprint >> viewModel: aViewModel [
+ClassNamesBlueprint >> viewModel: aViewModel [
 	viewModel := aViewModel 
 ]
 
 { #category : #'adding/removing' }
-DMClassNamesBlueprint >> withoutClasses [ 
+ClassNamesBlueprint >> withoutClasses [ 
 
 	viewModel classViewModels do:  [ :each | each borderColor: Color transparent ]
 	

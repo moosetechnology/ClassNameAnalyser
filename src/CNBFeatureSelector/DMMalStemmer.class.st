@@ -31,13 +31,6 @@ DMMalStemmer >> cache [
 		ifFalse: [cache]
 ]
 
-{ #category : #'private-algorithm' }
-DMMalStemmer >> performStemming: aString [
-	"Perform the stemming of a string."
-	
-	^self subclassResponsibility
-]
-
 { #category : #accessing }
 DMMalStemmer >> purgeCache [
 	"Clear the recievers cache of stemmed words."

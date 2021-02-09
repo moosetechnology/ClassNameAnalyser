@@ -42,7 +42,7 @@ DMClassType class >> with: aCollectionOfSubClassModels [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #checking }
 DMClassType >> checkIfMonoClassWith: aCollectionOfClassModels [
 
 	(aCollectionOfClassModels size = 1
@@ -54,7 +54,7 @@ DMClassType >> checkIfMonoClassWith: aCollectionOfClassModels [
 		^nil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #checking }
 DMClassType >> checkIfMonoSuffixWith: aCollectionOfClassModels [
 	(aCollectionOfClassModels collect: [ :each | each concept ]) asSet
 		size = 1
@@ -67,7 +67,7 @@ DMClassType >> checkIfMonoSuffixWith: aCollectionOfClassModels [
 		^nil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #checking }
 DMClassType >> checkIfMultiSuffix: aCollectionOfClassModels [
 
 	| root rootsConcept concepts |
@@ -81,7 +81,7 @@ DMClassType >> checkIfMultiSuffix: aCollectionOfClassModels [
 	^nil 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #checking }
 DMClassType >> checkIfTraitWith: 	aCollectionOfClassModels [ 
 	
 		(aCollectionOfClassModels 

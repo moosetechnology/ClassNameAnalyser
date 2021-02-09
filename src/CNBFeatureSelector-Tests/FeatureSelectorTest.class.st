@@ -16,8 +16,8 @@ FeatureSelectorTest >> setUp [
 FeatureSelectorTest >> testEXtractConceptFromAClassName [
 
 	| classModel aConcept |
-	classModel := DMClassModel new.
-	aConcept := featureSelector extractConceptFrom: DMPackageModel name.
+	classModel := CNBClassModel new.
+	aConcept := featureSelector extractConceptFrom: CNBPackageModel name.
 	self assert: aConcept equals: 'Model'.
 	
 ]

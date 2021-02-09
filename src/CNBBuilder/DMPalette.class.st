@@ -18,7 +18,7 @@ DMPalette class >> with: aCollectionOfColors [
 		multiSuffixColors:  aCollectionOfColors
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #selecting }
 DMPalette >> aColorForMultiSuffix [
 
 	"we have 24 important colors"

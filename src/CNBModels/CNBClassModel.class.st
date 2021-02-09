@@ -2,8 +2,8 @@
 I am the simple model representation of a class, without visualization informations.
 "
 Class {
-	#name : #DMClassModel,
-	#superclass : #DMModel,
+	#name : #CNBClassModel,
+	#superclass : #CNBAbstractModel,
 	#instVars : [
 		'concept',
 		'root',
@@ -14,18 +14,18 @@ Class {
 }
 
 { #category : #accessing }
-DMClassModel >> concept [
+CNBClassModel >> concept [
 	^concept
 ]
 
 { #category : #accessing }
-DMClassModel >> concept: className [
+CNBClassModel >> concept: className [
 
 	concept := DMFeatureSelector new extractConceptFrom: className
 ]
 
 { #category : #printing }
-DMClassModel >> printOn: aStream [
+CNBClassModel >> printOn: aStream [
 	super printOn: aStream. 
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.
@@ -33,39 +33,39 @@ DMClassModel >> printOn: aStream [
 ]
 
 { #category : #accessing }
-DMClassModel >> reference [
+CNBClassModel >> reference [
 	^reference
 ]
 
 { #category : #accessing }
-DMClassModel >> reference: aReference [
+CNBClassModel >> reference: aReference [
 
 	reference := aReference
 ]
 
 { #category : #accessing }
-DMClassModel >> root [
+CNBClassModel >> root [
 	^root
 	
 ]
 
 { #category : #accessing }
-DMClassModel >> root: aRoot [
+CNBClassModel >> root: aRoot [
 	root := aRoot.
 ]
 
-{ #category : #'as yet unclassified' }
-DMClassModel >> rootAccordingTo: aMotherClass [
+{ #category : #accessing }
+CNBClassModel >> rootAccordingTo: aMotherClass [
 	self root: (reference rootAccordingTo: aMotherClass).
 	^self root
 ]
 
 { #category : #accessing }
-DMClassModel >> superclass [
+CNBClassModel >> superclass [
 	^superclass
 ]
 
 { #category : #accessing }
-DMClassModel >> superclass: aClass [
+CNBClassModel >> superclass: aClass [
 	superclass := aClass 
 ]

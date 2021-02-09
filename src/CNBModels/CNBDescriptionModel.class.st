@@ -2,8 +2,8 @@
 I hold the patterns of the ClassNames Blueprint visualization using queries.
 "
 Class {
-	#name : #DMCNBDescriptionModel,
-	#superclass : #DMViewModel,
+	#name : #CNBDescriptionModel,
+	#superclass : #CNBViewModel,
 	#instVars : [
 		'nbrClasses',
 		'nbrMonoSuffix',
@@ -19,18 +19,18 @@ Class {
 	#category : #CNBModels
 }
 
-{ #category : #'as yet unclassified' }
-DMCNBDescriptionModel >> allConceptViewModels [
+{ #category : #accessing }
+CNBDescriptionModel >> allConceptViewModels [
 	^self packageViewModels flatCollect: #suffixViewModels
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> averageClassesPerSuffix [
+CNBDescriptionModel >> averageClassesPerSuffix [
 	^averageClassesPerSuffix
 ]
 
-{ #category : #'as yet unclassified' }
-DMCNBDescriptionModel >> countAverageClassesPerSuffix [
+{ #category : #queries }
+CNBDescriptionModel >> countAverageClassesPerSuffix [
 
 	averageClassesPerSuffix := (self allConceptViewModels collect: [ 
 		                            :each | each classViewModels size ])
@@ -38,13 +38,13 @@ DMCNBDescriptionModel >> countAverageClassesPerSuffix [
 	^ averageClassesPerSuffix
 ]
 
-{ #category : #'as yet unclassified' }
-DMCNBDescriptionModel >> countConcepts [
+{ #category : #queries }
+CNBDescriptionModel >> countConcepts [
 	nbrSuffixes := (self allClassModels collect: #concept ) asSet size
 ]
 
-{ #category : #'as yet unclassified' }
-DMCNBDescriptionModel >> countHomogeneous [
+{ #category : #queries }
+CNBDescriptionModel >> countHomogeneous [
 
 	"first select the concepts dominated by a mono hierarchy, then check if all inner classes belong to mono suffix hierarchies"
 
@@ -59,47 +59,47 @@ DMCNBDescriptionModel >> countHomogeneous [
 			                aCVM root isMonoSuffix ] ]) size
 ]
 
-{ #category : #'as yet unclassified' }
-DMCNBDescriptionModel >> countIntruders [ 
+{ #category : #queries }
+CNBDescriptionModel >> countIntruders [ 
 	 nbrIntruders:= (DMBuilder countIntrudersIn: self)
 ]
 
-{ #category : #'as yet unclassified' }
-DMCNBDescriptionModel >> countMonoClasses [
+{ #category : #queries }
+CNBDescriptionModel >> countMonoClasses [
 
 	nbrMonoClasses := (self rootModels select: [ :each | each isMonoClass ]) size
 ]
 
-{ #category : #'as yet unclassified' }
-DMCNBDescriptionModel >> countMonoSuffixHierarchies [
+{ #category : #queries }
+CNBDescriptionModel >> countMonoSuffixHierarchies [
 	nbrMonoSuffix := (self rootModels select: [ :each | each isMonoSuffix ] ) size
 ]
 
-{ #category : #'as yet unclassified' }
-DMCNBDescriptionModel >> countNumberOfClasses [
+{ #category : #queries }
+CNBDescriptionModel >> countNumberOfClasses [
 	nbrClasses := self allClassModels size
 ]
 
-{ #category : #'as yet unclassified' }
-DMCNBDescriptionModel >> countRootModels [
+{ #category : #queries }
+CNBDescriptionModel >> countRootModels [
 	| roots |
 	roots := self rootModels copy removeAllSuchThat: [ :each | each isMonoClass ].
 	nbrRoots := roots size
 ]
 
-{ #category : #'as yet unclassified' }
-DMCNBDescriptionModel >> countSnowFlakes [
+{ #category : #queries }
+CNBDescriptionModel >> countSnowFlakes [
 	snowFlakes := (self allConceptViewModels select: [ :each | each root isMonoClass ]) size.
 	
 ]
 
-{ #category : #'as yet unclassified' }
-DMCNBDescriptionModel >> countnMultiSuffixHierarchies [
+{ #category : #queries }
+CNBDescriptionModel >> countnMultiSuffixHierarchies [
 	nbrMultiSuffix := (self rootModels select: [ :each | each isMultiSuffix ] ) size
 ]
 
 { #category : #operations }
-DMCNBDescriptionModel >> create [
+CNBDescriptionModel >> create [
 	self countIntruders.
 	self countNumberOfClasses.
 	self countMonoClasses.
@@ -120,76 +120,76 @@ DMCNBDescriptionModel >> create [
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> homogeneous [
+CNBDescriptionModel >> homogeneous [
 	^homogeneous 
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> nbrClasses [ 
+CNBDescriptionModel >> nbrClasses [ 
 	^nbrClasses 
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> nbrClasses: aNumber [
+CNBDescriptionModel >> nbrClasses: aNumber [
 	nbrClasses := aNumber 
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> nbrIntruders [
+CNBDescriptionModel >> nbrIntruders [
 	^nbrIntruders
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> nbrMonoClasses [
+CNBDescriptionModel >> nbrMonoClasses [
 	^nbrMonoClasses
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> nbrMonoClasses: aNumber [
+CNBDescriptionModel >> nbrMonoClasses: aNumber [
 	nbrMonoClasses:= aNumber
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> nbrMonoSuffix [
+CNBDescriptionModel >> nbrMonoSuffix [
 	^nbrMonoSuffix
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> nbrMonoSuffix: aNumber [
+CNBDescriptionModel >> nbrMonoSuffix: aNumber [
 	nbrMonoSuffix := aNumber
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> nbrMultiSuffix [
+CNBDescriptionModel >> nbrMultiSuffix [
 	^nbrMultiSuffix
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> nbrMultiSuffix: aNumber [
+CNBDescriptionModel >> nbrMultiSuffix: aNumber [
 	nbrMultiSuffix := aNumber
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> nbrRoots [
+CNBDescriptionModel >> nbrRoots [
 	^nbrRoots
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> nbrRoots: aNumber [ 
+CNBDescriptionModel >> nbrRoots: aNumber [ 
 	nbrRoots := aNumber
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> nbrSuffixes [
+CNBDescriptionModel >> nbrSuffixes [
 	^nbrSuffixes
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> nbrSuffixes: aNumber [
+CNBDescriptionModel >> nbrSuffixes: aNumber [
 	nbrSuffixes := aNumber
 ]
 
 { #category : #accessing }
-DMCNBDescriptionModel >> snowFlakes [
+CNBDescriptionModel >> snowFlakes [
 	^snowFlakes
 ]

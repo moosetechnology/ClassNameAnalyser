@@ -81,7 +81,18 @@ DMBuilder class >> sort: aCollection [
 		sortAccordingToPalette: aCollection 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+DMBuilder >> color: rootModels [
+	| sortedRootModels coloredRootModels |
+	sortedRootModels := self sortRootModels: rootModels.
+	coloredRootModels := (sortedRootModels 
+		collect: 
+			[ :eachRootModel | eachRootModel color: (self assignColorByType: eachRootModel type) ]).
+	^coloredRootModels 
+	
+]
+
+{ #category : #counting }
 DMBuilder >> countIntrudersIn: aCnbDescription [
 
 	| conceptVModels intruders conceptIntruders |
@@ -112,7 +123,7 @@ DMBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 			| itsRoot |
 			itsRoot := rootModels
 				detect: [ :eachRootModel | eachClassModel root name = eachRootModel name ].
-			DMClassViewModel new
+			CNBClassViewModel new
 				name: eachClassModel name;
 				reference: eachClassModel reference;
 				concept: eachClassModel concept;
@@ -134,27 +145,27 @@ DMBuilder >> doConceptViewModelsOf: aPackageModel using: rootModels [
 				using: rootModels.
 			classmodels := aPackageModel classModels
 				select: [ :eachClassmodel | eachClassmodel concept = eachConcept ].
-			DMSuffixViewModel new
+			CNBSuffixViewModel new
 				name: eachConcept;
 				classViewModels: (self doClassViewModelsOf: classmodels using: rootModels);
 				root: itsRoot;
 				color: itsRoot color ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #doing }
 DMBuilder >> doPackageModelsOf: aViewModel [
 	^ aViewModel model packages
 		collect: [ :eachPackage | 
-			DMPackageModel 
+			CNBPackageModel 
 				of: eachPackage root: aViewModel motherRoot ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #doing }
 DMBuilder >> doPackageViewModelsOf: aViewModel [ 
 
 	^(aViewModel packageModels 
 		collect: [ :eachPackageModel | 
-				DMPackageViewModel new
+				CNBPackageViewModel new
 					name: eachPackageModel name;
 					suffixViewModels:
 						(self
@@ -162,7 +173,7 @@ DMBuilder >> doPackageViewModelsOf: aViewModel [
 											using: aViewModel rootModels) ])
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #doing }
 DMBuilder >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
 	| allRoots initialeRootModels coloredRootModels rootModels |
 	self initialize.
@@ -173,14 +184,14 @@ DMBuilder >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
 			| subclasses |
 			subclasses := aCollectionOfClassModels
 				select: [ :aClass | aClass root = aRootClass ].
-			DMRootModel reference: aRootClass with: subclasses ].
+			CNBRootModel reference: aRootClass with: subclasses ].
 	coloredRootModels := self color: initialeRootModels.
 	rootModels := self startFightOverConceptsBetween: coloredRootModels.
 	rootModels do: [ :aRootModel | aRootModel initializeConcepts ].
 	^ rootModels asSet
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #doing }
 DMBuilder >> doSuffixesDictionaryFrom: aCollectionOfClassModels [
 	| suffixes concepts |
 	suffixes := Dictionary new.
@@ -189,12 +200,12 @@ DMBuilder >> doSuffixesDictionaryFrom: aCollectionOfClassModels [
 	^suffixes 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #sorting }
 DMBuilder >> sortRootModels: aSetOfRootModels [
 	^(aSetOfRootModels sorted: #size descending)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #internal }
 DMBuilder >> startFightOverConceptsBetween: aCollectionOfRootModels [
 	| concepts |
 	concepts := (aCollectionOfRootModels

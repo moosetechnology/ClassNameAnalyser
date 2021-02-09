@@ -2,8 +2,8 @@
 I am a simple model of a Package
 "
 Class {
-	#name : #DMPackageModel,
-	#superclass : #DMModel,
+	#name : #CNBPackageModel,
+	#superclass : #CNBAbstractModel,
 	#instVars : [
 		'classModels'
 	],
@@ -11,25 +11,25 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-DMPackageModel class >> of: aPackage root: aClass [ 
+CNBPackageModel class >> of: aPackage root: aClass [ 
 	^self new
 		name: aPackage name;
 		classModels: (aPackage classes collect: [ :each | each classModelAccordingTo: aClass ])
 ]
 
 { #category : #accessing }
-DMPackageModel >> classModels [
+CNBPackageModel >> classModels [
 	^classModels
 ]
 
 { #category : #accessing }
-DMPackageModel >> classModels: aCollectionOfClassModels [
+CNBPackageModel >> classModels: aCollectionOfClassModels [
 
 	classModels := aCollectionOfClassModels
 ]
 
 { #category : #printing }
-DMPackageModel >> printOn: aStream [
+CNBPackageModel >> printOn: aStream [
 	super printOn: aStream. 
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.

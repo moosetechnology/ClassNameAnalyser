@@ -2,8 +2,8 @@
 I hold the models of the ClassNames Blueprint visualization
 "
 Class {
-	#name : #DMViewModel,
-	#superclass : #DMConceptualModel,
+	#name : #CNBViewModel,
+	#superclass : #CNBConceptualModel,
 	#instVars : [
 		'packageViewModels',
 		'border'
@@ -12,12 +12,12 @@ Class {
 }
 
 { #category : #accessing }
-DMViewModel >> border [
+CNBViewModel >> border [
 	^border color: Color black;yourself
 ]
 
 { #category : #accessing }
-DMViewModel >> classViewModels [ 
+CNBViewModel >> classViewModels [ 
 	^ ((packageViewModels 
 		flatCollect: 
 			#suffixViewModels) flatCollect: 
@@ -25,33 +25,33 @@ DMViewModel >> classViewModels [
 ]
 
 { #category : #initialization }
-DMViewModel >> initialize [
+CNBViewModel >> initialize [
 	super initialize.
 	border := RSBorder new. 
 ]
 
 { #category : #accessing }
-DMViewModel >> models [
+CNBViewModel >> models [
 	^packageViewModels 
 ]
 
-{ #category : #'as yet unclassified' }
-DMViewModel >> modelsOrderedAscending [
+{ #category : #accessing }
+CNBViewModel >> modelsOrderedAscending [
 	^packageViewModels sorted: #size ascending
 ]
 
-{ #category : #'as yet unclassified' }
-DMViewModel >> modelsOrderedDescending [
+{ #category : #accessing }
+CNBViewModel >> modelsOrderedDescending [
 	^ packageViewModels sorted: #size descending
 ]
 
 { #category : #accessing }
-DMViewModel >> packageViewModels [
+CNBViewModel >> packageViewModels [
 	^ packageViewModels 
 ]
 
 { #category : #accessing }
-DMViewModel >> packageViewModels: collectionOfPackageViewModels [
+CNBViewModel >> packageViewModels: collectionOfPackageViewModels [
  
 	packageViewModels := collectionOfPackageViewModels 
 ]

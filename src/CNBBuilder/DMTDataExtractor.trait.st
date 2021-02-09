@@ -3,26 +3,26 @@ Trait {
 	#category : #CNBBuilder
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #extracting }
 DMTDataExtractor >> extractClassModelsFrom: packageModels [
 	^ (packageModels
 		flatCollect: [ :eachPackageModel | eachPackageModel classModels ])
 		asOrderedCollection
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #extracting }
 DMTDataExtractor >> extractClassViewModelsFrom: aViewModel [
 
 	^(aViewModel models flatCollect: [ :eachPackageViewModel |  eachPackageViewModel models flatCollect: #models])
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #extracting }
 DMTDataExtractor >> extractConceptsFrom: aPackageModel [
 
 	^aPackageModel classModels collect: [ :aClassModel | aClassModel concept ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #selecting }
 DMTDataExtractor >> selectBiggestHierarchyOf: aConcept using: aCollectioOfRootModels [
 	^(aCollectioOfRootModels detect: [ :aRoot | aRoot concepts includes: aConcept ]).
 ]

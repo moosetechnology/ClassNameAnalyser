@@ -36,7 +36,7 @@ DMVisualizer >> orderBySize [
 	orderBySize := true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #view }
 DMVisualizer >> roassal3View: aViewModel [
 	
 	| roassal3View |

@@ -4,13 +4,13 @@ Class {
 	#category : #CNBVisualization
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #creating }
 DMRoassal3Visualizer >> createBoxOf: aCNBObject [
 
 	^aCNBObject createBox.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #creating }
 DMRoassal3Visualizer >> createClassBoxesOf: aSuffix [
 	| classBoxes |
 	classBoxes := aSuffix classViewModels 
@@ -18,7 +18,7 @@ DMRoassal3Visualizer >> createClassBoxesOf: aSuffix [
 	^classBoxes 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #creating }
 DMRoassal3Visualizer >> createPackageBoxesOf: aViewModel [
 
 	| packages packageBoxes  |
@@ -47,7 +47,7 @@ DMRoassal3Visualizer >> createPackageBoxesOf: aViewModel [
 		^packageBoxes 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #creating }
 DMRoassal3Visualizer >> createSuffixBoxesOf: aPackage [ 
 	| suffixes suffixBoxes |
 	suffixes := aPackage suffixViewModels.

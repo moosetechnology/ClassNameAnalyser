@@ -1,5 +1,5 @@
 Class {
-	#name : #DMModel,
+	#name : #CNBAbstractModel,
 	#superclass : #Object,
 	#instVars : [
 		'name'
@@ -8,32 +8,21 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-DMModel class >> name: aName with: something [
+CNBAbstractModel class >> name: aName with: something [
 	^self new name: aName with: something 
 ]
 
 { #category : #'as yet unclassified' }
-DMModel class >> name: aName with: something and: else [
+CNBAbstractModel class >> name: aName with: something and: else [
 	^self new name: aName with: something and: else
 ]
 
 { #category : #accessing }
-DMModel >> borderColor [ 
-
-	self subclassResponsibility 
-]
-
-{ #category : #accessing }
-DMModel >> color [
-	^Color white
-]
-
-{ #category : #accessing }
-DMModel >> name [ 
+CNBAbstractModel >> name [ 
 	^name
 ]
 
 { #category : #accessing }
-DMModel >> name: aName [
+CNBAbstractModel >> name: aName [
 	name := aName asString
 ]

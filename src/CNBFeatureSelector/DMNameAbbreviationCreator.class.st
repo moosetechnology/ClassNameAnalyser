@@ -12,7 +12,7 @@ DMNameAbbreviationCreator class >> abbreviate: aName until: aNumber [
 	until: aNumber
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #splitjoin }
 DMNameAbbreviationCreator >> abbreviate: aName until: aNumber [
 	| tokens collections abbreviations |
 	tokens := DMNameTokenizer tokenize: aName.
@@ -25,7 +25,7 @@ DMNameAbbreviationCreator >> abbreviate: aName until: aNumber [
 	^aName
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #splitjoin }
 DMNameAbbreviationCreator >> devide: aCollection until: aNumber [
 	| collection1 collection2 |
 	aCollection size > aNumber

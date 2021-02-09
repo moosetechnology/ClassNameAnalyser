@@ -26,13 +26,13 @@ DMFeatureSelector class >> extractConceptFrom: aString [
 DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackageNames [
 
 	| conceptualModel classes |
-	conceptualModel := DMConceptualModel new.
+	conceptualModel := CNBConceptualModel new.
 	conceptualModel packageModels: (aCollectionOfPackageNames collect: [ :aPackageName |		| packageModel |
-		packageModel := DMPackageModel new. 
+		packageModel := CNBPackageModel new. 
 		packageModel name: aPackageName.
 		classes := self extractClassesFrom: aPackageName.
 		packageModel classModels: (classes collect: [ :aClass | | classModel | 
-			classModel := DMClassModel new.
+			classModel := CNBClassModel new.
 			classModel name: aClass.
 			classModel concept: (self extractConceptFrom: aClass name).
 			classModel root: (self extractRootClassFrom: aClass).

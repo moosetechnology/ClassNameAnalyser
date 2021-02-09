@@ -2,8 +2,8 @@
 I hold all models of the ClassNamesBlueprint.
 "
 Class {
-	#name : #DMConceptualModel,
-	#superclass : #DMModel,
+	#name : #CNBConceptualModel,
+	#superclass : #CNBAbstractModel,
 	#instVars : [
 		'model',
 		'packageModels',
@@ -13,54 +13,54 @@ Class {
 	#category : #CNBModels
 }
 
-{ #category : #'as yet unclassified' }
-DMConceptualModel >> allClassModels [ 
+{ #category : #accessing }
+CNBConceptualModel >> allClassModels [ 
 	 ^DMBuilder extractClassModelsFrom: self packageModels.
 	
 ]
 
 { #category : #initialization }
-DMConceptualModel >> initialize [ 
+CNBConceptualModel >> initialize [ 
 	super initialize.
 	rootModels := Set new.
 ]
 
 { #category : #accessing }
-DMConceptualModel >> model [ 
+CNBConceptualModel >> model [ 
 	^model
 ]
 
 { #category : #accessing }
-DMConceptualModel >> model: aModel [
+CNBConceptualModel >> model: aModel [
 	model := aModel
 ]
 
 { #category : #accessing }
-DMConceptualModel >> motherRoot [ 
+CNBConceptualModel >> motherRoot [ 
 	^motherRoot 
 ]
 
 { #category : #accessing }
-DMConceptualModel >> motherRoot: aClass [ 
+CNBConceptualModel >> motherRoot: aClass [ 
 	motherRoot := aClass
 ]
 
 { #category : #accessing }
-DMConceptualModel >> packageModels [
+CNBConceptualModel >> packageModels [
 	^packageModels
 ]
 
 { #category : #accessing }
-DMConceptualModel >> packageModels: aCollectionOfPackageModels [
+CNBConceptualModel >> packageModels: aCollectionOfPackageModels [
 	packageModels := aCollectionOfPackageModels.
 ]
 
 { #category : #accessing }
-DMConceptualModel >> rootModels [
+CNBConceptualModel >> rootModels [
 	^rootModels
 ]
 
 { #category : #accessing }
-DMConceptualModel >> rootModels: aCollectionOfRootmodels [
+CNBConceptualModel >> rootModels: aCollectionOfRootmodels [
 	rootModels := aCollectionOfRootmodels 
 ]

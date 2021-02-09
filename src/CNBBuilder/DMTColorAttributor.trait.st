@@ -6,8 +6,8 @@ Trait {
 	#category : #CNBBuilder
 }
 
-{ #category : #'as yet unclassified' }
-DMTColorAttributor >> attributeColorByType: aType [
+{ #category : #assignments }
+DMTColorAttributor >> assignColorByType: aType [
 
 	(aType = DMClassType trait)
 	ifTrue: [ ^palette traitColor ].
@@ -28,12 +28,12 @@ DMTColorAttributor >> color: rootModels [
 	sortedRootModels := self sortRootModels: rootModels.
 	coloredRootModels := (sortedRootModels 
 		collect: 
-			[ :eachRootModel | eachRootModel color: (self attributeColorByType: eachRootModel type) ]).
+			[ :eachRootModel | eachRootModel color: (self assignColorByType: eachRootModel type) ]).
 	^coloredRootModels 
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialize }
 DMTColorAttributor >> initialize [
 	super initialize.
 	palette := DMPalette
@@ -44,7 +44,7 @@ DMTColorAttributor >> initialize [
 			#palePeach . #paleRed . #lightBrown . #paleTan . #paleMagenta}
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #sorting }
 DMTColorAttributor >> sortAccordingToPalette: aCollection [
 	| newPalette |
 	newPalette := palette multiSuffixColors asOrderedCollection.

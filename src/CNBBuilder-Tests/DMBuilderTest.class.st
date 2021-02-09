@@ -270,12 +270,12 @@ DMBuilderTest >> testSelectColorFor [
 { #category : #tests }
 DMBuilderTest >> testSortRootModels [
 	| rm1 rm2 rm3 rm4 rm5 rm6 c |
-	rm1 := DMRootModel new name: 'rm1';size: 3.
-	rm2 := DMRootModel new name: 'rm2';size: 0.
-	rm3 := DMRootModel new name: 'rm3';size: 4.
-	rm4 := DMRootModel new name: 'rm4';size: 2.
-	rm5 := DMRootModel new name: 'rm5';size: 7.
-	rm6 := DMRootModel new name: 'rm6';size: 0.
+	rm1 := CNBRootModel new name: 'rm1';size: 3.
+	rm2 := CNBRootModel new name: 'rm2';size: 0.
+	rm3 := CNBRootModel new name: 'rm3';size: 4.
+	rm4 := CNBRootModel new name: 'rm4';size: 2.
+	rm5 := CNBRootModel new name: 'rm5';size: 7.
+	rm6 := CNBRootModel new name: 'rm6';size: 0.
 	c := { rm1 . rm2 . rm3 . rm4 . rm5 . rm6 } asSet.
 	self assert: (builder sortRootModels: c) asSet equals: { rm5 . rm3. rm1 . rm4 . rm2 . rm6} asSet
 ]

@@ -10,7 +10,7 @@ ProtoObject >> classDepth [
 { #category : #'*CNBModels' }
 ProtoObject >> classModelAccordingTo: aMotherClass [
 
-	^	DMClassModel new 
+	^	CNBClassModel new 
 							reference: self;
 							name: self name;
 							root: (self rootAccordingTo: aMotherClass);
