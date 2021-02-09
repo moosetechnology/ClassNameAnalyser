@@ -2,6 +2,7 @@ Class {
 	#name : #CNBAbstractViewModel,
 	#superclass : #CNBAbstractModel,
 	#instVars : [
+		'box',
 		'color',
 		'border'
 	],
@@ -47,15 +48,13 @@ CNBAbstractViewModel >> color: aColor [
 
 { #category : #initialization }
 CNBAbstractViewModel >> createBox [ 
-	| box  |
-		
-	box := RSComposite new 
-				model: self;
-				color: self color;
-				popupText: name;  
-				withBorder; 
-				border: self border.
-	
+
+	box
+		model: self;
+		color: self color;
+		popupText: name;  
+		withBorder; 
+		border: self border.	
 	^box 
 ]
 
@@ -78,8 +77,11 @@ CNBAbstractViewModel >> defaultColor [
 
 { #category : #initialization }
 CNBAbstractViewModel >> initialize [ 
+
 	super initialize.
-	border := RSBorder new
+	border := RSBorder new.
+	box := RSComposite new.
+	box when: RSMouseClick do: [ :evt | self processEvent: evt ].
 ]
 
 { #category : #printing }
@@ -90,4 +92,10 @@ CNBAbstractViewModel >> printOn: aStream [
 	aStream nextPutAll: ')'
 
 	
+]
+
+{ #category : #'events-processing' }
+CNBAbstractViewModel >> processEvent: evt [
+
+	^self inspect
 ]
