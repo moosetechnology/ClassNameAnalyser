@@ -30,16 +30,15 @@ DMPackageViewModel >> color [
 
 { #category : #initialization }
 DMPackageViewModel >> createBox [ 
-	| packageBox nameAbbreviated labeled |
-	nameAbbreviated := DMNameAbbreviationCreator abbreviate: self name until: 4.
-	labeled := RSLabeled text: nameAbbreviated.
+	| packageBox  |
+		
 	packageBox := RSComposite new 
 				model: self;
 				color: self color;
 				popupText: name;  
 				withBorder; 
 				border: self border.
-	packageBox @ (labeled fontSize: 20).
+	
 	^packageBox 
 ]
 

@@ -6,7 +6,8 @@ Class {
 		'color',
 		'base',
 		'border',
-		'labeled'
+		'labeled',
+		'label'
 	],
 	#category : #CNBVisualization
 }
@@ -20,23 +21,30 @@ CNBExpandingBoxes >> close: shape [
 { #category : #initialization }
 CNBExpandingBoxes >> initialize [
 	super initialize.
-	labeled := RSLabeled new.
+	label := RSLabel new.
 	canvas := RSCanvas new.
 	color := NSScale category20b.
 	base := RSComposite new.
-	base popup.
+	base popupText: #name.
+	label text: (base popupText: #name).
 	base when: RSMouseLeftClick do: [ :evt | self processEvent: evt ].
 	border := RSBorder new color: Color black
 ]
 
 { #category : #helpers }
 CNBExpandingBoxes >> nodeFor: model [
-	| com |
+	| com composite |
+	labeled := label copy.
 	com := base copy.
+	composite := base copy.
 	com model: model.
 	com border: model border.
-	com announcer: base announcer.
 	com color: (model color).
+	com announcer: base announcer.
+	composite add: labeled.
+	composite add: com.
+	RSVerticalLineLayout new alignCenter; on: { label . com } asGroup.
+   composite adjustToChildren.
 	^ com
 ]
 

@@ -47,17 +47,14 @@ DMSuffixViewModel >> color: aColor [
 
 { #category : #initialization }
 DMSuffixViewModel >> createBox [
-	| suffixBox labeled |
-	labeled := RSLabeled text: self name.
-	labeled fontSize: 20.
-	labeled location top; center.
+	| suffixBox  |
 	suffixBox := RSComposite new 
 						model: self;
 						popupText: name; 
 						withBorder;
 						color: self color;
 						border: self border.
-	^suffixBox @ labeled
+	^suffixBox
 
 ]
 
