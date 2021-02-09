@@ -21,8 +21,7 @@ DMRoassal3Visualizer >> createClassBoxesOf: aSuffix [
 { #category : #'as yet unclassified' }
 DMRoassal3Visualizer >> createPackageBoxesOf: aViewModel [
 
-	| packages packageBoxes composite |
-	composite := RSComposite new.
+	| packages packageBoxes  |
 	packages := orderBySize isNotNil 
 		ifTrue: [ aViewModel modelsOrderedDescending ]
 		ifFalse: [ aViewModel packageViewModels ].
@@ -30,17 +29,19 @@ DMRoassal3Visualizer >> createPackageBoxesOf: aViewModel [
 	packageBoxes :=
 	(packages
 		collect: 
-			[ :package | | packageComposite label |
-				label := RSLabel new text: package name.
+			[ :package | | packageComposite label composite namedAbbreviated |
+			namedAbbreviated := DMNameAbbreviationCreator abbreviate: package name until: 4.
+				label := RSLabel new text: namedAbbreviated;fontSize: 30;bold.
+				composite := RSComposite new.
 				packageComposite := self createBoxOf: package.
 				packageComposite addAll: (self createSuffixBoxesOf: package).
 				RSGridLayout new on: packageComposite children;gapSize: 20.
 				packageComposite border: package border.
 				packageComposite adjustToChildren.
 				packageComposite padding: 20.
-			"	composite add: label; add: packageComposite.
+				composite add: label; add: packageComposite.
 				RSVerticalLineLayout new alignCenter; on:  { label . packageComposite }.
-				composite adjustToChildren."
+				composite adjustToChildren.
 				
 				 ]).
 		^packageBoxes 
