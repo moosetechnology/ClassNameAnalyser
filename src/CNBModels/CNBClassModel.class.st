@@ -5,23 +5,23 @@ Class {
 	#name : #CNBClassModel,
 	#superclass : #CNBAbstractModel,
 	#instVars : [
-		'concept',
+		'suffix',
 		'root',
 		'superclass',
-		'reference'
+		'reference',
+		'prefix'
 	],
 	#category : #CNBModels
 }
 
 { #category : #accessing }
-CNBClassModel >> concept [
-	^concept
+CNBClassModel >> prefix [
+	^prefix
 ]
 
 { #category : #accessing }
-CNBClassModel >> concept: className [
-
-	concept := DMFeatureSelector new extractSuffixFrom: className
+CNBClassModel >> prefix: aPrefix [
+	prefix := aPrefix
 ]
 
 { #category : #printing }
@@ -58,6 +58,16 @@ CNBClassModel >> root: aRoot [
 CNBClassModel >> rootAccordingTo: aMotherClass [
 	self root: (reference rootAccordingTo: aMotherClass).
 	^self root
+]
+
+{ #category : #accessing }
+CNBClassModel >> suffix [
+	^suffix
+]
+
+{ #category : #accessing }
+CNBClassModel >> suffix: aSuffix [
+	suffix := aSuffix
 ]
 
 { #category : #accessing }

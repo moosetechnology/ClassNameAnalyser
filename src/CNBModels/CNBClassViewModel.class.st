@@ -6,10 +6,11 @@ Class {
 	#superclass : #CNBAbstractViewModel,
 	#instVars : [
 		'root',
-		'concept',
 		'reference',
 		'height',
-		'width'
+		'width',
+		'suffix',
+		'prefix'
 	],
 	#category : #CNBModels
 }
@@ -23,16 +24,6 @@ CNBClassViewModel >> border [
 		ifFalse: [ self defaultBorderWidth ] ).
 	border width: borderWidth.
 	^border
-]
-
-{ #category : #accessing }
-CNBClassViewModel >> concept [
-	^concept
-]
-
-{ #category : #accessing }
-CNBClassViewModel >> concept: aClassName [
-	concept := DMFeatureSelector new extractSuffixFrom: aClassName
 ]
 
 { #category : #initialization }
@@ -60,6 +51,16 @@ CNBClassViewModel >> models [
 ]
 
 { #category : #accessing }
+CNBClassViewModel >> prefix [
+	^prefix
+]
+
+{ #category : #accessing }
+CNBClassViewModel >> prefix: aPrefix [
+	prefix := aPrefix
+]
+
+{ #category : #accessing }
 CNBClassViewModel >> reference [ 
 	^reference
 ]
@@ -80,6 +81,16 @@ CNBClassViewModel >> root: aRoot [
 
 	root := aRoot
 		
+]
+
+{ #category : #accessing }
+CNBClassViewModel >> suffix [
+	^suffix
+]
+
+{ #category : #accessing }
+CNBClassViewModel >> suffix: aSuffix [
+	suffix := aSuffix
 ]
 
 { #category : #accessing }

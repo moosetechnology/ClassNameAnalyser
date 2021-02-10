@@ -19,7 +19,7 @@ DMTDataExtractor >> extractClassViewModelsFrom: aViewModel [
 { #category : #extracting }
 DMTDataExtractor >> extractConceptsFrom: aPackageModel [
 
-	^aPackageModel classModels collect: [ :aClassModel | aClassModel concept ]
+	^aPackageModel classModels collect: [ :aClassModel | aClassModel suffix ]
 ]
 
 { #category : #selecting }

@@ -40,7 +40,7 @@ CNBDescriptionModel >> countAverageClassesPerSuffix [
 
 { #category : #queries }
 CNBDescriptionModel >> countConcepts [
-	nbrSuffixes := (self allClassModels collect: #concept ) asSet size
+	nbrSuffixes := (self allClassModels collect: #suffix ) asSet size
 ]
 
 { #category : #queries }

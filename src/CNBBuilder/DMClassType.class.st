@@ -56,10 +56,10 @@ DMClassType >> checkIfMonoClassWith: aCollectionOfClassModels [
 
 { #category : #checking }
 DMClassType >> checkIfMonoSuffixWith: aCollectionOfClassModels [
-	(aCollectionOfClassModels collect: [ :each | each concept ]) asSet
+	(aCollectionOfClassModels collect: [ :each | each suffix ]) asSet
 		size = 1
 		&
-			(aCollectionOfClassModels atRandom concept
+			(aCollectionOfClassModels atRandom suffix
 				=
 					(DMFeatureSelector
 						extractSuffixFrom: aCollectionOfClassModels atRandom root name))
@@ -73,7 +73,7 @@ DMClassType >> checkIfMultiSuffix: aCollectionOfClassModels [
 	| root rootsConcept concepts |
 	root := aCollectionOfClassModels first root.
 	rootsConcept := DMFeatureSelector extractSuffixFrom: root name. 
-	concepts := (aCollectionOfClassModels collect: #concept) 
+	concepts := (aCollectionOfClassModels collect: #suffix) 
 		add: rootsConcept;
 		yourself.
 	(concepts) size > 1

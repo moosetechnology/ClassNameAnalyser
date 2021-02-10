@@ -70,7 +70,7 @@ DMBuilderTest >> testBuildPackageViewModels [
 
 	expectedClassModels := (mooseClasses
 		collect: [ :each | each classModelAccordingTo: Object]).
-	expectedConcepts := expectedClassModels collect: #concept.
+	expectedConcepts := expectedClassModels collect: #suffix.
 	expectedPackagesNames := (moosePackages collect: #name) asSet.
 	
 	self

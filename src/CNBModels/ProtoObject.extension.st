@@ -15,7 +15,8 @@ ProtoObject >> classModelAccordingTo: aMotherClass [
 							name: self name;
 							root: (self rootAccordingTo: aMotherClass);
 							superclass: self superclass;
-							concept: (DMFeatureSelector new extractSuffixFrom: self name)
+							suffix: (DMFeatureSelector new extractSuffixFrom: self name);
+							prefix: (DMFeatureSelector new extractPrefixFrom: self name)
 ]
 
 { #category : #'*CNBModels' }

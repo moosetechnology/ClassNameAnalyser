@@ -133,7 +133,8 @@ DMBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 			CNBClassViewModel new
 				name: eachClassModel name;
 				reference: eachClassModel reference;
-				concept: eachClassModel concept;
+				suffix: eachClassModel suffix;
+				prefix: eachClassModel prefix;
 				root: itsRoot;
 				color: itsRoot color ]
 ]
@@ -143,7 +144,7 @@ DMBuilder >> doConceptViewModelsOf: aPackageModel using: rootModels [
 	"On enveloppe chaque class du package dans son concept box "
 
 	| concepts |
-	concepts := (aPackageModel classModels collect: #concept) asSet.
+	concepts := (aPackageModel classModels collect: #suffix) asSet.
 	^ concepts
 		collect: [ :eachConcept | 
 			| classmodels itsRoot |
@@ -151,7 +152,7 @@ DMBuilder >> doConceptViewModelsOf: aPackageModel using: rootModels [
 				selectBiggestHierarchyOf: eachConcept
 				using: rootModels.
 			classmodels := aPackageModel classModels
-				select: [ :eachClassmodel | eachClassmodel concept = eachConcept ].
+				select: [ :eachClassmodel | eachClassmodel suffix = eachConcept ].
 			CNBSuffixViewModel new
 				name: eachConcept;
 				classViewModels: (self doClassViewModelsOf: classmodels using: rootModels);
@@ -182,18 +183,11 @@ DMBuilder >> doPackageViewModelsOf: aViewModel [
 
 { #category : #doing }
 DMBuilder >> doPrefixesDictionaryFrom: aCollectionOfClassModels [
-	| prefixesDictionary names featureSelector prefixes |
-	
-	featureSelector := DMFeatureSelector new.
-	prefixesDictionary := Dictionary new.
-	
-	names := aCollectionOfClassModels collect: #name.
-	prefixes := names
-		collect: [ :each | featureSelector extractPrefixFrom: each ].
-	prefixes
-		do:
-			[ :aPrefix | prefixesDictionary at: aPrefix put: (prefixes occurrencesOf: aPrefix) ].
-	^ prefixesDictionary
+	| prefixes  concepts |
+	prefixes := Dictionary new.
+	concepts := (aCollectionOfClassModels collect: #prefix).
+	concepts do: [ :aConcept | prefixes at: aConcept put: (concepts occurrencesOf: aConcept) ].
+	^prefixes 
 ]
 
 { #category : #doing }
@@ -218,9 +212,15 @@ DMBuilder >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
 DMBuilder >> doSuffixesDictionaryFrom: aCollectionOfClassModels [
 	| suffixes concepts |
 	suffixes := Dictionary new.
-	concepts := (aCollectionOfClassModels collect: #concept).
+	concepts := (aCollectionOfClassModels collect: #suffix).
 	concepts do: [ :aConcept | suffixes at: aConcept put: (concepts occurrencesOf: aConcept) ].
 	^suffixes 
+]
+
+{ #category : #extracting }
+DMBuilder >> extractConceptsFrom: aPackageModel [
+
+	^aPackageModel classModels collect: [ :aClassModel | aClassModel suffix ]
 ]
 
 { #category : #sorting }
