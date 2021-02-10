@@ -17,27 +17,9 @@ Class {
 }
 
 { #category : #actions }
-DMFeatureSelector class >> extractConceptFrom: aString [
+DMFeatureSelector class >> extractSuffixFrom: aString [
 	^self new
-		extractConceptFrom: aString
-]
-
-{ #category : #actions }
-DMFeatureSelector >> applyFeaturesOn: aCollectionOfPackageNames [
-
-	| conceptualModel classes |
-	conceptualModel := CNBConceptualModel new.
-	conceptualModel packageModels: (aCollectionOfPackageNames collect: [ :aPackageName |		| packageModel |
-		packageModel := CNBPackageModel new. 
-		packageModel name: aPackageName.
-		classes := self extractClassesFrom: aPackageName.
-		packageModel classModels: (classes collect: [ :aClass | | classModel | 
-			classModel := CNBClassModel new.
-			classModel name: aClass.
-			classModel concept: (self extractConceptFrom: aClass name).
-			classModel root: (self extractRootClassFrom: aClass).
-			])  ]).
-	^conceptualModel.
+		extractSuffixFrom: aString
 ]
 
 { #category : #actions }
@@ -53,12 +35,12 @@ DMFeatureSelector >> extractClassesFrom: aPackageName [
 ]
 
 { #category : #actions }
-DMFeatureSelector >> extractConceptFrom: aName [
+DMFeatureSelector >> extractPrefixFrom: aName [
 
 	| aConcept tokens|
 	tokens := self tokenize: aName.
-	aConcept := self selectConceptFrom: tokens.
-	aConcept := self filter: aConcept.
+	aConcept := self selectPrefixFrom: tokens.
+	aConcept := filterer removeAllDigitsFrom: aConcept.
 	aConcept := self stem: aConcept.
 	^ aConcept
 ]
@@ -76,6 +58,17 @@ DMFeatureSelector >> extractRootClassFrom: aClass [
 		ifTrue: [ ^ aClass  ].
 	
 	^ self extractRootClassFrom: (aClass superclass).
+]
+
+{ #category : #actions }
+DMFeatureSelector >> extractSuffixFrom: aName [
+
+	| aConcept tokens|
+	tokens := self tokenize: aName.
+	aConcept := self selectSuffixFrom: tokens.
+	aConcept := filterer removeAllDigitsFrom: aConcept.
+	aConcept := self stem: aConcept.
+	^ aConcept
 ]
 
 { #category : #actions }
@@ -122,7 +115,13 @@ DMFeatureSelector >> initialize [
 ]
 
 { #category : #actions }
-DMFeatureSelector >> selectConceptFrom: tokens [
+DMFeatureSelector >> selectPrefixFrom: tokens [
+
+ ^ conceptualSymbolSelector selectFirstSymbolFrom: tokens 
+]
+
+{ #category : #actions }
+DMFeatureSelector >> selectSuffixFrom: tokens [
 
  ^ conceptualSymbolSelector selectLastSymbolFrom: tokens 
 ]

@@ -32,7 +32,7 @@ CNBClassViewModel >> concept [
 
 { #category : #accessing }
 CNBClassViewModel >> concept: aClassName [
-	concept := DMFeatureSelector new extractConceptFrom: aClassName
+	concept := DMFeatureSelector new extractSuffixFrom: aClassName
 ]
 
 { #category : #initialization }

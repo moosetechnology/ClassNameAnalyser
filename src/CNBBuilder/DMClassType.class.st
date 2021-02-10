@@ -62,7 +62,7 @@ DMClassType >> checkIfMonoSuffixWith: aCollectionOfClassModels [
 			(aCollectionOfClassModels atRandom concept
 				=
 					(DMFeatureSelector
-						extractConceptFrom: aCollectionOfClassModels atRandom root name))
+						extractSuffixFrom: aCollectionOfClassModels atRandom root name))
 		ifTrue: [ ^ self monoSuffix ].
 		^nil
 ]
@@ -72,7 +72,7 @@ DMClassType >> checkIfMultiSuffix: aCollectionOfClassModels [
 
 	| root rootsConcept concepts |
 	root := aCollectionOfClassModels first root.
-	rootsConcept := DMFeatureSelector extractConceptFrom: root name. 
+	rootsConcept := DMFeatureSelector extractSuffixFrom: root name. 
 	concepts := (aCollectionOfClassModels collect: #concept) 
 		add: rootsConcept;
 		yourself.

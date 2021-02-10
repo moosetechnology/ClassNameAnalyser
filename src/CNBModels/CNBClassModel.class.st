@@ -21,7 +21,7 @@ CNBClassModel >> concept [
 { #category : #accessing }
 CNBClassModel >> concept: className [
 
-	concept := DMFeatureSelector new extractConceptFrom: className
+	concept := DMFeatureSelector new extractSuffixFrom: className
 ]
 
 { #category : #printing }

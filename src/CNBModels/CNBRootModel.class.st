@@ -12,7 +12,8 @@ Class {
 		'suffixes',
 		'size',
 		'dominantSuffixes',
-		'concepts'
+		'concepts',
+		'prefixes'
 	],
 	#category : #CNBModels
 }
@@ -27,6 +28,7 @@ CNBRootModel class >> reference: aClass with: aCollectionOfSubClassModels [
 		subclasses: aCollectionOfSubClassModels;
 		size: aCollectionOfSubClassModels size;
 		suffixes: (DMBuilder doSuffixesDictionaryFrom: aCollectionOfSubClassModels);
+		prefixes: (DMBuilder doPrefixesDictionaryFrom: aCollectionOfSubClassModels); 
 		type: rootType.
 	
 	
@@ -99,6 +101,17 @@ CNBRootModel >> isMultiSuffix [
 	ifFalse: [ ^false ]
 ]
 
+{ #category : #accessing }
+CNBRootModel >> prefixes [
+	^prefixes
+	
+]
+
+{ #category : #accessing }
+CNBRootModel >> prefixes: aDictionary [
+	prefixes := aDictionary 
+]
+
 { #category : #printing }
 CNBRootModel >> printOn: aStream [
 	super printOn: aStream. 
@@ -142,7 +155,6 @@ CNBRootModel >> subclasses: aCollectionOfSubClassModels [
 
 { #category : #accessing }
 CNBRootModel >> suffixes [ 
-	
 	^suffixes
 	
 ]

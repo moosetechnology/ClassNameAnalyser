@@ -17,7 +17,7 @@ FeatureSelectorTest >> testEXtractConceptFromAClassName [
 
 	| classModel aConcept |
 	classModel := CNBClassModel new.
-	aConcept := featureSelector extractConceptFrom: CNBPackageModel name.
+	aConcept := featureSelector extractSuffixFrom: CNBPackageModel name.
 	self assert: aConcept equals: 'Model'.
 	
 ]
@@ -25,17 +25,17 @@ FeatureSelectorTest >> testEXtractConceptFromAClassName [
 { #category : #tests }
 FeatureSelectorTest >> testExtractConceptFrom [
 
-	self assert: (featureSelector extractConceptFrom: 'ClassName') equals: 'Name'
+	self assert: (featureSelector extractSuffixFrom: 'ClassName') equals: 'Name'
 ]
 
 { #category : #tests }
 FeatureSelectorTest >> testExtractConceptFromNameByDefault [
 	"extracts the last symbol by default, the last word in CamelCase without any filters"
 	
-	self assert: (featureSelector extractConceptFrom: 'ClassName34Blueprint') equals: 'Blueprint'.
-	self assert: (featureSelector extractConceptFrom: 'ClassName34') equals: 'Name34'.
-	self assert: (featureSelector extractConceptFrom: '%ClassName34%') equals: 'Name34%'.
-	self assert: (featureSelector extractConceptFrom: '%Class%') equals: 'Class%'.
+	self assert: (featureSelector extractSuffixFrom: 'ClassName34Blueprint') equals: 'Blueprint'.
+	self assert: (featureSelector extractSuffixFrom: 'ClassName34') equals: 'Name34'.
+	self assert: (featureSelector extractSuffixFrom: '%ClassName34%') equals: 'Name34%'.
+	self assert: (featureSelector extractSuffixFrom: '%Class%') equals: 'Class%'.
 ]
 
 { #category : #tests }
@@ -44,7 +44,7 @@ FeatureSelectorTest >> testFilterAllSpecialCharsLastSymbol [
 	| expected actual |
 	actual := featureSelector 
 					filterSpecialChars: true ; 
-					extractConceptFrom: '12ClassName34Blueprint%./?'.
+					extractSuffixFrom: '12ClassName34Blueprint%./?'.
 	expected := 'Blueprint'.
 	self assert: actual equals: expected.
 ]
@@ -55,7 +55,7 @@ FeatureSelectorTest >> testFilterBothDigitsAndSpecialCharsLastSymbol [
 	| expected actual |
 	actual := featureSelector 
 					filterAllDigitsAndSpecialChars: true; 
-					extractConceptFrom: '12ClassName34Blueprint5%6/78'.
+					extractSuffixFrom: '12ClassName34Blueprint5%6/78'.
 	expected := 'Blueprint'.
 	self assert: actual equals: expected.
 ]
@@ -67,7 +67,7 @@ FeatureSelectorTest >> testFilterDigitsAndSpecialCharsLastSymbol [
 	actual := featureSelector 
 					filterAllDigits: true ; 
 					filterSpecialChars: true ;
-					extractConceptFrom: '12ClassName34Blueprint5%6/78'.
+					extractSuffixFrom: '12ClassName34Blueprint5%6/78'.
 	expected := 'Blueprint'.
 	self assert: actual equals: expected.
 ]
@@ -78,7 +78,7 @@ FeatureSelectorTest >> testFilteringAllDigitsLastSymbol [
 	| expected actual |
 	actual := featureSelector 
 					filterAllDigits: true ; 
-					extractConceptFrom: '12ClassName34Blueprint56'.
+					extractSuffixFrom: '12ClassName34Blueprint56'.
 	expected := 'Blueprint'.
 	self assert: actual equals: expected.
 ]
@@ -90,7 +90,7 @@ FeatureSelectorTest >> testStem [
 	actual := featureSelector 
 					filterAllDigits: true ; 
 					stemming: true;
-					extractConceptFrom: '12ClassName34Building56'.
+					extractSuffixFrom: '12ClassName34Building56'.
 	expected := 'build'.
 	self assert: actual equals: expected.
 
@@ -104,7 +104,7 @@ FeatureSelectorTest >> testStemLastSymbol [
 					filterAllDigits: true ; 
 					filterSpecialChars: true; 
 					stemming: true;
-					extractConceptFrom: '12ClassBuil23%ding'.
+					extractSuffixFrom: '12ClassBuil23%ding'.
 	expected := 'build'.
 	self assert: actual equals: expected.
 

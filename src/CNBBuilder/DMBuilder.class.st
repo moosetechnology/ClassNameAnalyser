@@ -10,7 +10,7 @@ Class {
 	#category : #CNBBuilder
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #counting }
 DMBuilder class >> countIntrudersIn: aViewModel [
 	^self new
 		countIntrudersIn: aViewModel
@@ -22,33 +22,40 @@ DMBuilder class >> do: anObject [
 		do: anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #doing }
 DMBuilder class >> doPackageModelsOf: aModel [
 
 	^self new 
 		doPackageModelsOf: aModel 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #doing }
 DMBuilder class >> doPackageViewModelsOf: packageModels [
 	^self new
 	doPackageViewModelsOf: packageModels 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #doing }
+DMBuilder class >> doPrefixesDictionaryFrom: aCollectionOfClassModels [
+	^self new 
+	doPrefixesDictionaryFrom: aCollectionOfClassModels
+
+]
+
+{ #category : #doing }
 DMBuilder class >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
 	^self new
 		doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass  
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #doing }
 DMBuilder class >> doSuffixesDictionaryFrom: aCollectionOfClassModels [
 	^self new 
 	doSuffixesDictionaryFrom: aCollectionOfClassModels
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #extraction }
 DMBuilder class >> extractBiggestClassDepthFrom: aConceptualModel [ 
 	| classModels |
 	classModels := self new 
@@ -57,13 +64,13 @@ DMBuilder class >> extractBiggestClassDepthFrom: aConceptualModel [
 		extractBiggestClassDepthFrom: classModels.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #extraction }
 DMBuilder class >> extractClassModelsFrom: packageModels [ 	
 	^self new
 		extractClassModelsFrom: packageModels 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #extraction }
 DMBuilder class >> extractSmallestClassDepthFrom: aConceptualModel [
 	| classModels |
 	classModels := self new 
@@ -171,6 +178,22 @@ DMBuilder >> doPackageViewModelsOf: aViewModel [
 						(self
 							doConceptViewModelsOf: eachPackageModel 
 											using: aViewModel rootModels) ])
+]
+
+{ #category : #doing }
+DMBuilder >> doPrefixesDictionaryFrom: aCollectionOfClassModels [
+	| prefixesDictionary names featureSelector prefixes |
+	
+	featureSelector := DMFeatureSelector new.
+	prefixesDictionary := Dictionary new.
+	
+	names := aCollectionOfClassModels collect: #name.
+	prefixes := names
+		collect: [ :each | featureSelector extractPrefixFrom: each ].
+	prefixes
+		do:
+			[ :aPrefix | prefixesDictionary at: aPrefix put: (prefixes occurrencesOf: aPrefix) ].
+	^ prefixesDictionary
 ]
 
 { #category : #doing }

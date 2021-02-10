@@ -81,7 +81,7 @@ CNBAbstractViewModel >> initialize [
 	super initialize.
 	border := RSBorder new.
 	box := RSComposite new.
-	box when: RSMouseClick do: [ :evt | self processEvent: evt ].
+	box when: RSMouseLeftClick do: [ :evt | self processEvent: evt ].
 ]
 
 { #category : #printing }
