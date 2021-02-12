@@ -6,7 +6,8 @@ Class {
 	#superclass : #CNBConceptualModel,
 	#instVars : [
 		'packageViewModels',
-		'border'
+		'border',
+		'defaultColor'
 	],
 	#category : #CNBModels
 }
@@ -16,12 +17,27 @@ CNBViewModel >> border [
 	^border color: Color black;yourself
 ]
 
+{ #category : #'as yet unclassified' }
+CNBViewModel >> buildRoassal3View [ 
+	^CNBRoassal3Builder build: self 
+]
+
 { #category : #accessing }
 CNBViewModel >> classViewModels [ 
 	^ ((packageViewModels 
 		flatCollect: 
 			#suffixViewModels) flatCollect: 
 				[ :each | each classViewModels ])
+]
+
+{ #category : #accessing }
+CNBViewModel >> color [
+	^defaultColor
+]
+
+{ #category : #accessing }
+CNBViewModel >> defaultColor [ 
+	^Color white darker
 ]
 
 { #category : #initialization }

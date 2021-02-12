@@ -9,6 +9,11 @@ Class {
 	#category : #CNBModels
 }
 
+{ #category : #initialization }
+CNBAbstractViewModel class >> defaultColor [ 
+	^Color black
+]
+
 { #category : #accessing }
 CNBAbstractViewModel >> border [ 
 	border color: self defaultBorderColor.

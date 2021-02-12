@@ -68,7 +68,10 @@ ClassNamesBlueprint >> rootModels [
 
 { #category : #accessing }
 ClassNamesBlueprint >> show [
-	^visualizer roassal3View: viewModel 
+	^visualizer 
+		roassal3VisualizerShow: 
+			(CNBRoassal3Builder new 
+				model: self ) 
 ]
 
 { #category : #operations }

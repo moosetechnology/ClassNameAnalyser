@@ -14,7 +14,7 @@ DMVisualizer class >> exampleCalypsoView [
 	<sampleInstance>
 	| viewModel |
 	viewModel := (DMClassNamesBlueprintSample projectNameMatches: 'calypso*') viewModel.
-	^ self new roassal3View: viewModel
+	^ self new roassal3VisualizerShow: viewModel
 ]
 
 { #category : #'as yet unclassified' }
@@ -23,7 +23,7 @@ DMVisualizer class >> exampleView [
 	<sampleInstance>
 	| viewModel |
 	viewModel := (DMClassNamesBlueprintSample importProject: '/Users/nour/Downloads/Lucene2.mse') viewModel.
-	^ self new roassal3View: viewModel
+	^ self new roassal3VisualizerShow: viewModel
 ]
 
 { #category : #'as yet unclassified' }
@@ -32,7 +32,7 @@ DMVisualizer class >> exampleViewWithoutClassBorders [
 	<sampleInstance>
 	| viewModel |
 	viewModel := ((DMClassNamesBlueprintSample projectNameMatches: 'calypso*') withoutClasses) viewModel.
-	^ self new roassal3View: viewModel
+	^ self new roassal3VisualizerShow: viewModel
 ]
 
 { #category : #accessing }
@@ -46,7 +46,7 @@ DMVisualizer >> orderBySize [
 ]
 
 { #category : #view }
-DMVisualizer >> roassal3View: aViewModel [
+DMVisualizer >> roassal3VisualizerShow: aViewModel [
 	
 	| roassal3View |
 	roassal3View := DMRoassal3Visualizer new.
