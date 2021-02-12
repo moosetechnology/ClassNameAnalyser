@@ -2,7 +2,8 @@ Class {
 	#name : #CNBRoassal3Builder,
 	#superclass : #Object,
 	#instVars : [
-		'model'
+		'model',
+		'canvas'
 	],
 	#category : #CNBVisualization
 }
@@ -13,15 +14,59 @@ CNBRoassal3Builder class >> build: aViewModel [
 		build: aViewModel 
 ]
 
+{ #category : #'as yet unclassified' }
+CNBRoassal3Builder class >> exampleMooseCanvas [
+	<sampleInstance>
+	^(DMClassNamesBlueprintSample projectNameMatches: 'moose*') show
+]
+
+{ #category : #'as yet unclassified' }
+CNBRoassal3Builder class >> mooseOn: aCanvas [
+
+	| cnb |
+	cnb := DMClassNamesBlueprintSample projectNameMatches: 'moose*'.
+	aCanvas addAll: (self new buildShapesOf: cnb).
+	RSFlowLayout on: aCanvas nodes.
+	aCanvas @ RSCanvasController.
+	^aCanvas
+]
+
+{ #category : #'as yet unclassified' }
+CNBRoassal3Builder class >> projectNameMatches: aString on: aCanvas [
+	
+	| cnb |
+	cnb := DMClassNamesBlueprintSample projectNameMatches: aString.
+	aCanvas addAll: (self new buildShapesOf: cnb).
+	RSFlowLayout on: aCanvas nodes.
+	aCanvas @ RSCanvasController.
+	^aCanvas
+]
+
 { #category : #building }
 CNBRoassal3Builder >> build: cnbModel [
-	| canvas |
-	canvas := RSCanvas new.
 	canvas addAll: (self createPackageBoxesOf: cnbModel).
 	
 	RSFlowLayout on: canvas nodes.
 	canvas @ RSCanvasController.
 	^canvas
+]
+
+{ #category : #'as yet unclassified' }
+CNBRoassal3Builder >> buildShapesOf: cnbModel [
+
+		^self createPackageBoxesOf: cnbModel.
+	
+]
+
+{ #category : #accessing }
+CNBRoassal3Builder >> canvas [ 
+	^canvas
+]
+
+{ #category : #accessing }
+CNBRoassal3Builder >> canvas: aCanvas [
+
+	canvas := aCanvas
 ]
 
 { #category : #creating }
@@ -92,6 +137,12 @@ CNBRoassal3Builder >> createSuffixBoxesOf: aPackage [
 	^suffixBoxes 
 					
 		
+]
+
+{ #category : #initialization }
+CNBRoassal3Builder >> initialize [ 
+	super initialize.
+	canvas := RSCanvas new.
 ]
 
 { #category : #accessing }
