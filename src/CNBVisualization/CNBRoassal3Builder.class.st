@@ -9,9 +9,9 @@ Class {
 }
 
 { #category : #building }
-CNBRoassal3Builder class >> build: aViewModel [
+CNBRoassal3Builder class >> build: cnbModel [
 	^self new
-		build: aViewModel 
+		build: cnbModel 
 ]
 
 { #category : #'as yet unclassified' }
