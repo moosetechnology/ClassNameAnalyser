@@ -35,6 +35,12 @@ DMVisualizer class >> exampleViewWithoutClassBorders [
 	^ self new roassal3VisualizerShow: viewModel
 ]
 
+{ #category : #'as yet unclassified' }
+DMVisualizer class >> roassal3View: aCanvas [
+	^self new
+		roassal3VisualizerShow: aCanvas 
+]
+
 { #category : #accessing }
 DMVisualizer >> orderByColor [
 	orderByColor := true 
