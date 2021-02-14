@@ -8,7 +8,9 @@ Class {
 		'packageSearch',
 		'cnbSpecView',
 		'hierarchies',
-		'loadProjectButton'
+		'loadProjectButton',
+		'prefix',
+		'suffix'
 	],
 	#category : #CNBSpec
 }
@@ -26,6 +28,7 @@ CNBPresenter class >> defaultSpec [
 			add: #projectSelector height: self buttonHeight;
 			add: 'Project path' height: self labelHeight;
 			add: #pathSelector height: self buttonHeight;
+			add: #prefix height: self buttonHeight; add: #suffix height: self buttonHeight;
 			add: #loadProjectButton width: self buttonWidth;
 			add: 'Pattern' height: self labelHeight;
 			add: #patternsDropList height: self buttonHeight;
@@ -82,10 +85,13 @@ CNBPresenter >> initializePresenters [
 	packageSearch := self newSearchInput
 		placeholder: 'Search...';
 		yourself.
-		
+	prefix := self newRadioButton.
+	suffix := self newRadioButton.
+	
+	prefix associatedRadioButtons:  { suffix }.
+	prefix label: 'Prefix'.
+	suffix label: 'Suffix'.	
 	cnbSpecView := SpRoassalPresenter new.
-		"script: [ :canvas | CNBRoassal3Builder projectNameMatches: on: canvas ];
-		yourself."
 	"hierarchies := CNBSpecHierarchies new."
 ]
 
