@@ -2,8 +2,7 @@ Class {
 	#name : #DMVisualizer,
 	#superclass : #Object,
 	#instVars : [
-		'orderBySize',
-		'orderByColor'
+		'settings'
 	],
 	#category : #CNBVisualization
 }
@@ -41,27 +40,9 @@ DMVisualizer class >> roassal3View: aCanvas [
 		roassal3VisualizerShow: aCanvas 
 ]
 
-{ #category : #accessing }
-DMVisualizer >> orderByColor [
-	orderByColor := true 
-]
-
-{ #category : #accessing }
-DMVisualizer >> orderBySize [
-	orderBySize := true
-]
-
 { #category : #view }
 DMVisualizer >> roassal3VisualizerShow: aViewModel [
 	
-	| roassal3View |
-	roassal3View := DMRoassal3Visualizer new.
-	
-	self orderByColor isNotNil 
-		ifTrue: [ roassal3View orderByColor ].
-	self orderBySize isNotNil 
-		ifTrue: [ roassal3View orderBySize ].
-		
-	^roassal3View 
+	^ DMRoassal3Visualizer new
 		view: aViewModel 
 ]

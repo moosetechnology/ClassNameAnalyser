@@ -10,7 +10,8 @@ Class {
 		'hierarchies',
 		'loadProjectButton',
 		'prefix',
-		'suffix'
+		'suffix',
+		'rootSelector'
 	],
 	#category : #CNBSpec
 }
@@ -28,7 +29,9 @@ CNBPresenter class >> defaultSpec [
 			add: #projectSelector height: self buttonHeight;
 			add: 'Project path' height: self labelHeight;
 			add: #pathSelector height: self buttonHeight;
-			add: #prefix height: self buttonHeight; add: #suffix height: self buttonHeight;
+			add: 'Root class' height: self labelHeight;
+			add: #rootSelector height: self buttonHeight;
+			add: #suffix height: self buttonHeight; add:#prefix height: self buttonHeight;
 			add: #loadProjectButton width: self buttonWidth;
 			add: 'Pattern' height: self labelHeight;
 			add: #patternsDropList height: self buttonHeight;
@@ -79,18 +82,19 @@ CNBPresenter >> initializePresenters [
 	
 	projectSelector := self newTextInput.
 	pathSelector := self newTextInput.
+	rootSelector := self newTextInput.
+	prefix := self newRadioButton.
+	suffix := self newRadioButton.	
+	suffix associatedRadioButtons:  { prefix }.
+	prefix label: 'Prefix'.
+	suffix label: 'Suffix'.
+	
 	loadProjectButton := self newButton label: 'Load project'.
 	patternsDropList := CNBSpecElementDropList new.
 	
 	packageSearch := self newSearchInput
 		placeholder: 'Search...';
-		yourself.
-	prefix := self newRadioButton.
-	suffix := self newRadioButton.
-	
-	prefix associatedRadioButtons:  { suffix }.
-	prefix label: 'Prefix'.
-	suffix label: 'Suffix'.	
+		yourself.	
 	cnbSpecView := SpRoassalPresenter new.
 	"hierarchies := CNBSpecHierarchies new."
 ]
@@ -107,7 +111,6 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 { #category : #'as yet unclassified' }
 CNBPresenter >> onLoadProjectClicked [
 
-	
 		cnbSpecView script: [ :canvas | 
 			projectSelector text ~='' 
 				ifTrue: [  CNBRoassal3Builder 

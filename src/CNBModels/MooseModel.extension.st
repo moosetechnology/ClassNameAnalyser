@@ -41,8 +41,6 @@ MooseModel >> defaultClassNamesBlueprint [
 	^ ClassNamesBlueprint new 
 	model: self;
 	motherRoot: Object;
-	orderBySize;
-	orderByColor;
 	startBuilding.
 	
 	

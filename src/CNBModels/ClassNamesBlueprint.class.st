@@ -76,16 +76,18 @@ ClassNamesBlueprint >> show [
 
 { #category : #operations }
 ClassNamesBlueprint >> startBuilding [
+
 	| thePackageModels |
-	thePackageModels := (DMBuilder doPackageModelsOf: self viewModel).
-	self viewModel 
+	thePackageModels := DMBuilder doPackageModelsOf: self viewModel.
+	self viewModel
 		name: self model name;
 		packageModels: thePackageModels;
 		motherRoot: self motherRoot;
 		model: self model;
-		rootModels: (DMBuilder doRootsOf: (thePackageModels flatCollect: #classModels) Accordingto: 		self motherRoot);
-		packageViewModels: (DMBuilder doPackageViewModelsOf: self viewModel).
-	 
+		rootModels: (DMBuilder
+				 doRootsOf: (thePackageModels flatCollect: #classModels)
+				 Accordingto: self motherRoot);
+		packageViewModels: (DMBuilder doPackageViewModelsOf: self viewModel)
 ]
 
 { #category : #accessing }
