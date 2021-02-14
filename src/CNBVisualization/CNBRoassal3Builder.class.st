@@ -21,6 +21,17 @@ CNBRoassal3Builder class >> exampleMooseCanvas [
 ]
 
 { #category : #'as yet unclassified' }
+CNBRoassal3Builder class >> importProject: aPath on: aCanvas [
+
+	| cnb |
+	cnb := DMClassNamesBlueprintSample importProject: aPath.
+	aCanvas addAll: (self new buildShapesOf: cnb).
+	RSFlowLayout on: aCanvas nodes.
+	aCanvas @ RSCanvasController.
+	^aCanvas
+]
+
+{ #category : #'as yet unclassified' }
 CNBRoassal3Builder class >> mooseOn: aCanvas [
 
 	| cnb |

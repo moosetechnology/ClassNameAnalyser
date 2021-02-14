@@ -15,17 +15,22 @@ CNBSpecElementDropList class >> defaultSpec [
 
 { #category : #initialization }
 CNBSpecElementDropList >> initialize [
+
 	super initialize.
-	patterns :=  { ('Flat Blob'-> 'Condition') . ('Snow Flakes'-> 'Condition') . ('Homogeneity Breaker' -> 'Condition') . ('Intruders' -> 'Condition') . ('Confetti' -> 'Condition'). ('Homogeneous' -> 'Condition') . ('Scattered Vocabulary' -> 'Condition')} asDictionary.
-	
-	(self 
+	patterns := { 
+		            ('Flat Blob' -> 'Condition').
+		            ('Snow Flakes' -> 'Condition').
+		            ('Homogeneity Breaker' -> 'Condition').
+		            ('Intruders' -> 'Condition').
+		            ('Confetti' -> 'Condition').
+		            ('Homogeneous' -> 'Condition').
+		            ('Scattered Vocabulary' -> 'Condition') } asDictionary.
+
+	self
 		help: 'Choose a pattern';
 		items: self patternsNames;
 		display: [ :aPattern | aPattern ];
-		whenSelectedItemChangedDo: [ :aPattern | aPattern crTrace ])
-		
-		
-		
+		whenSelectedItemChangedDo: [ :aPattern | aPattern crTrace ]
 ]
 
 { #category : #initialization }
