@@ -2,21 +2,11 @@ Class {
 	#name : #CNBSettings,
 	#superclass : #Object,
 	#instVars : [
-		'conceptLocation',
+		'token',
 		'rootClass'
 	],
-	#category : #CNBModels
+	#category : #'CNB-Core'
 }
-
-{ #category : #accessing }
-CNBSettings >> conceptLocation [
-	^conceptLocation
-]
-
-{ #category : #accessing }
-CNBSettings >> conceptLocation: aSymbol [
-	conceptLocation := aSymbol
-]
 
 { #category : #'as yet unclassified' }
 CNBSettings >> defaultRootClass [ 
@@ -31,4 +21,14 @@ CNBSettings >> rootClass [
 { #category : #accessing }
 CNBSettings >> rootClass: aClassName [
 	rootClass := aClassName 
+]
+
+{ #category : #accessing }
+CNBSettings >> token [
+	^token
+]
+
+{ #category : #accessing }
+CNBSettings >> token: aSymbol [
+	token := aSymbol
 ]

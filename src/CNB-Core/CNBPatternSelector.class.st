@@ -8,18 +8,12 @@ Class {
 }
 
 { #category : #'instance creation' }
-CNBPatternSelector class >> of: aClassNamesBlueprint [
-
-	^self new
-		of: aClassNamesBlueprint
+CNBPatternSelector class >> of: aCNB [
+	^ self new
+		of: aCNB
 ]
 
 { #category : #'instance creation' }
 CNBPatternSelector >> of: aCNB [
 	cnb := aCNB
-]
-
-{ #category : #'instance creation' }
-CNBPatternSelector >> selectHomogeneous [
-	
 ]

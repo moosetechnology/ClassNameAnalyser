@@ -23,6 +23,20 @@ CNBSuffixViewModel >> classViewModels: aCollectionOfClassViewModels [
 	size := aCollectionOfClassViewModels size
 ]
 
+{ #category : #testing }
+CNBSuffixViewModel >> isHomogeneous [ 
+	| classColors |
+	classColors := classViewModels collect: #color.
+	
+	(classColors 
+		allSatisfy: [ :aColor | 
+			aColor isMonoSuffixColor ])
+				ifFalse: [ ^false ]
+				ifTrue: [ self color isMonoSuffixColor
+						ifTrue: [ ^true ]
+			 ]
+]
+
 { #category : #accessing }
 CNBSuffixViewModel >> models [
 	^classViewModels 

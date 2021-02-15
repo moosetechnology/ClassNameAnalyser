@@ -5,13 +5,8 @@ Class {
 		'viewModel',
 		'visualizer'
 	],
-	#category : #CNBModels
+	#category : #'CNB-Core'
 }
-
-{ #category : #accessing }
-ClassNamesBlueprint >> conceptLocation: aSymbol [
-	viewModel settings conceptLocation: aSymbol
-]
 
 { #category : #description }
 ClassNamesBlueprint >> description [
@@ -88,6 +83,11 @@ ClassNamesBlueprint >> startBuilding [
 				 doRootsOf: (thePackageModels flatCollect: #classModels)
 				 Accordingto: self rootClass);
 		packageViewModels: (DMBuilder doPackageViewModelsOf: self viewModel)
+]
+
+{ #category : #accessing }
+ClassNamesBlueprint >> token: aSymbol [
+	viewModel settings token: aSymbol
 ]
 
 { #category : #accessing }
