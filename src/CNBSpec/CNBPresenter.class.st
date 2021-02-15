@@ -11,7 +11,8 @@ Class {
 		'loadProjectButton',
 		'prefix',
 		'suffix',
-		'rootSelector'
+		'rootSelector',
+		'goDarker'
 	],
 	#category : #CNBSpec
 }
@@ -50,6 +51,7 @@ CNBPresenter class >> defaultSpec [
 				add: 'Pattern' height: self labelHeight;
 				add: #patternsDropList height: self buttonHeight;
 				yourself) height: self labelHeight + self buttonHeight;
+			add: #goDarker height: self buttonHeight;
 			add: '';
 			yourself) width: 180;
 		add: (SpBoxLayout newVertical
@@ -97,7 +99,8 @@ CNBPresenter >> initializePresenters [
 	
 	projectSelector := self newTextInput.
 	pathSelector := self newTextInput.
-	rootSelector := self newTextInput.
+	rootSelector := self newTextInput. 
+	goDarker := self newButton label: 'goDarker'. 
 	prefix := self newRadioButton.
 	suffix := self newRadioButton.	
 	suffix associatedRadioButtons:  { prefix }.
