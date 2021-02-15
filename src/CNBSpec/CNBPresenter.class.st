@@ -24,17 +24,32 @@ CNBPresenter class >> defaultExtent [
 { #category : #specs }
 CNBPresenter class >> defaultSpec [ 
 	^ SpBoxLayout newHorizontal
+		spacing: 7;
 		add: (SpBoxLayout newVertical
-			add: 'Package name' height: self labelHeight;
-			add: #projectSelector height: self buttonHeight;
-			add: 'Project path' height: self labelHeight;
-			add: #pathSelector height: self buttonHeight;
-			add: 'Root class' height: self labelHeight;
-			add: #rootSelector height: self buttonHeight;
-			add: #suffix height: self buttonHeight; add:#prefix height: self buttonHeight;
-			add: #loadProjectButton width: self buttonWidth;
-			add: 'Pattern' height: self labelHeight;
-			add: #patternsDropList height: self buttonHeight;
+			spacing: 4;
+			add: (SpBoxLayout newVertical
+				add: 'Package name' height: self labelHeight;
+				add: #projectSelector height: self buttonHeight;
+				yourself) height: self labelHeight + self buttonHeight;
+			add: (SpBoxLayout newVertical 
+				add: 'Project path' height: self labelHeight;
+				add: #pathSelector height: self buttonHeight;
+				yourself) height: self labelHeight + self buttonHeight;
+			add: (SpBoxLayout newVertical 
+				add: 'Root class' height: self labelHeight;
+				add: #rootSelector height: self buttonHeight;
+				yourself) height: self labelHeight + self buttonHeight;
+			add: (SpBoxLayout newVertical
+				add: #suffix height: self buttonHeight;
+				add: #prefix height: self buttonHeight;
+				yourself) height: self buttonHeight + self buttonHeight;
+			add: (SpBoxLayout newVertical 
+				add: #loadProjectButton width: self buttonWidth;
+				yourself) height: self buttonHeight + self buttonHeight;
+			add: (SpBoxLayout newVertical 
+				add: 'Pattern' height: self labelHeight;
+				add: #patternsDropList height: self buttonHeight;
+				yourself) height: self labelHeight + self buttonHeight;
 			add: '';
 			yourself) width: 180;
 		add: (SpBoxLayout newVertical
