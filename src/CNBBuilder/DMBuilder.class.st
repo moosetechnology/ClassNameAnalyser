@@ -165,7 +165,7 @@ DMBuilder >> doPackageModelsOf: aViewModel [
 	^ aViewModel model packages
 		collect: [ :eachPackage | 
 			CNBPackageModel 
-				of: eachPackage root: aViewModel motherRoot ]
+				of: eachPackage root: aViewModel settings rootClass ]
 ]
 
 { #category : #doing }

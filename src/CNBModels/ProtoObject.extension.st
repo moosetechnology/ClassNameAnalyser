@@ -20,16 +20,16 @@ ProtoObject >> classModelAccordingTo: aMotherClass [
 ]
 
 { #category : #'*CNBModels' }
-ProtoObject >> rootAccordingTo: aMotherClass [
+ProtoObject >> rootAccordingTo: aRootClassName [
 
 	self isTrait
 		ifTrue: [ ^ self ].
-	(aMotherClass = self name)
+	(aRootClassName = self name)
 		ifTrue: [ ^ self ].
 	self superclass isNotNil
 		ifFalse: [ ^ self ].
-	self superclass name = aMotherClass name
+	self superclass name = aRootClassName
 		ifTrue: [ ^ self ].
-	^ self superclass rootAccordingTo: aMotherClass 
+	^ self superclass rootAccordingTo: aRootClassName 
 	
 ]

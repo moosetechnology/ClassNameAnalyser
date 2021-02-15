@@ -36,16 +36,6 @@ CNBConceptualModel >> model: aModel [
 ]
 
 { #category : #accessing }
-CNBConceptualModel >> motherRoot [ 
-	^motherRoot 
-]
-
-{ #category : #accessing }
-CNBConceptualModel >> motherRoot: aClass [ 
-	motherRoot := aClass
-]
-
-{ #category : #accessing }
 CNBConceptualModel >> packageModels [
 	^packageModels
 ]

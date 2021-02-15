@@ -8,6 +8,11 @@ Class {
 	#category : #CNBModels
 }
 
+{ #category : #accessing }
+ClassNamesBlueprint >> conceptLocation: aSymbol [
+	viewModel settings conceptLocation: aSymbol
+]
+
 { #category : #description }
 ClassNamesBlueprint >> description [
 | thePackageModels cnbDescription |
@@ -16,9 +21,9 @@ ClassNamesBlueprint >> description [
 	cnbDescription 
 		name: self model name;
 		packageModels: thePackageModels;
-		motherRoot: self motherRoot;
+		rootClass: self rootClass;
 		model: self model;
-		rootModels: (DMBuilder doRootsOf: (thePackageModels flatCollect: #classModels) Accordingto: 		self motherRoot);
+		rootModels: (DMBuilder doRootsOf: (thePackageModels flatCollect: #classModels) Accordingto: 		self rootClass);
 		packageViewModels: (DMBuilder doPackageViewModelsOf: self viewModel).
 		cnbDescription create.
 		^cnbDescription 
@@ -28,7 +33,8 @@ ClassNamesBlueprint >> description [
 ClassNamesBlueprint >> initialize [
 	super initialize.
 	viewModel := CNBViewModel new.
-	visualizer := DMVisualizer new
+	visualizer := DMVisualizer new.
+
 ]
 
 { #category : #accessing }
@@ -42,28 +48,23 @@ ClassNamesBlueprint >> model: aModel [
 ]
 
 { #category : #accessing }
-ClassNamesBlueprint >> motherRoot [
-	^viewModel motherRoot
+ClassNamesBlueprint >> rootClass [
+	^viewModel settings rootClass
 ]
 
 { #category : #accessing }
-ClassNamesBlueprint >> motherRoot: aClass [ 
-	viewModel motherRoot: aClass
-]
-
-{ #category : #operations }
-ClassNamesBlueprint >> orderByColor [ 	
-	visualizer orderByColor
-]
-
-{ #category : #operations }
-ClassNamesBlueprint >> orderBySize [
-	visualizer orderBySize 
+ClassNamesBlueprint >> rootClass: aClass [ 
+	viewModel settings rootClass: aClass
 ]
 
 { #category : #accessing }
 ClassNamesBlueprint >> rootModels [ 
 	^viewModel rootModels
+]
+
+{ #category : #accessing }
+ClassNamesBlueprint >> settings [
+	^ viewModel settings
 ]
 
 { #category : #accessing }
@@ -82,11 +83,10 @@ ClassNamesBlueprint >> startBuilding [
 	self viewModel
 		name: self model name;
 		packageModels: thePackageModels;
-		motherRoot: self motherRoot;
 		model: self model;
 		rootModels: (DMBuilder
 				 doRootsOf: (thePackageModels flatCollect: #classModels)
-				 Accordingto: self motherRoot);
+				 Accordingto: self rootClass);
 		packageViewModels: (DMBuilder doPackageViewModelsOf: self viewModel)
 ]
 

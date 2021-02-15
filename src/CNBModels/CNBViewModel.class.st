@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'packageViewModels',
 		'border',
-		'defaultColor'
+		'defaultColor',
+		'settings'
 	],
 	#category : #CNBModels
 }
@@ -43,7 +44,8 @@ CNBViewModel >> defaultColor [
 { #category : #initialization }
 CNBViewModel >> initialize [
 	super initialize.
-	border := RSBorder new. 
+	border := RSBorder new.
+	settings := CNBSettings new
 ]
 
 { #category : #accessing }
@@ -70,4 +72,9 @@ CNBViewModel >> packageViewModels [
 CNBViewModel >> packageViewModels: collectionOfPackageViewModels [
  
 	packageViewModels := collectionOfPackageViewModels 
+]
+
+{ #category : #accessing }
+CNBViewModel >> settings [
+	^settings
 ]

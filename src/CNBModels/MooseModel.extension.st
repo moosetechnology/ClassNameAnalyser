@@ -23,9 +23,7 @@ MooseModel >> classNamesBlueprintAccordingTo: aClass [
 
 	^ ClassNamesBlueprint new 
 	model: self;
-	motherRoot: aClass;
-	orderBySize;
-	orderByColor;
+	rootClass: aClass;
 	startBuilding.
 	
 	
@@ -40,7 +38,6 @@ MooseModel >> defaultClassNamesBlueprint [
 
 	^ ClassNamesBlueprint new 
 	model: self;
-	motherRoot: Object;
 	startBuilding.
 	
 	
