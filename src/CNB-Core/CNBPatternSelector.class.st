@@ -5,10 +5,17 @@ Class {
 		'cnb',
 		'intrudersPercentage',
 		'fatBlobSize',
-		'snowFlakesSize'
+		'snowFlakesSize',
+		'confettiSize'
 	],
 	#category : #'CNB-Core'
 }
+
+{ #category : #accessing }
+CNBPatternSelector class >> confettiSize [ 
+	^self new
+		confettiSize 
+]
 
 { #category : #'as yet unclassified' }
 CNBPatternSelector class >> fatBlobSize [
@@ -34,6 +41,16 @@ CNBPatternSelector class >> snowFlakesSize [
 		snowFlakesSize
 ]
 
+{ #category : #accessing }
+CNBPatternSelector >> confettiSize [ 
+	^ confettiSize 
+]
+
+{ #category : #accessing }
+CNBPatternSelector >> fatBlobSize [ 
+	^ fatBlobSize 
+]
+
 { #category : #'as yet unclassified' }
 CNBPatternSelector >> hasIntrudersPercentageOf: aPercentage [
 	| intrudersModels models |
@@ -47,12 +64,18 @@ CNBPatternSelector >> initialize [
 	super initialize.
 	intrudersPercentage := 50.
 	fatBlobSize := 7.
-	snowFlakesSize := 3 
+	snowFlakesSize := 3.
+	confettiSize := 3
 ]
 
 { #category : #accessing }
 CNBPatternSelector >> intrudersPercentage [
-	^intrudersPercentage 
+	^ intrudersPercentage 
+]
+
+{ #category : #accessing }
+CNBPatternSelector >> models [
+	^ cnb viewModel packageViewModels flatCollect: #models.
 ]
 
 { #category : #'instance creation' }
@@ -61,33 +84,39 @@ CNBPatternSelector >> of: aCNB [
 ]
 
 { #category : #'as yet unclassified' }
+CNBPatternSelector >> selectConfetti [
+	
+	^ self models select: [ :each | each isConfetti ]
+
+	
+]
+
+{ #category : #'as yet unclassified' }
 CNBPatternSelector >> selectFatBlob [
-	| fatBlobModels models |
-	models := cnb viewModel packageViewModels flatCollect: #models.
-	fatBlobModels := models select: [ :each | each isFatBlob ].
-	^fatBlobModels 
+
+	^ self models select: [ :each | each isFatBlob ].
+	
 ]
 
 { #category : #'as yet unclassified' }
 CNBPatternSelector >> selectHomogeneous [
-	| homogeneousModels models |
-	models := cnb viewModel packageViewModels flatCollect: #models.
-	homogeneousModels := models select: [ :each | each isHomogeneous ].
-	^homogeneousModels 
+	
+	^ self models select: [ :each | each isHomogeneous ]
 ]
 
 { #category : #'as yet unclassified' }
 CNBPatternSelector >> selectIntruders [
-	| intrudersModels models |
-	models := cnb viewModel packageViewModels flatCollect: #models.
-	intrudersModels := models select: [ :each | each hasIntruders ].
-	^intrudersModels 
+	
+	^ self models select: [ :each | each hasIntruders ]
 ]
 
 { #category : #'as yet unclassified' }
 CNBPatternSelector >> selectSnowFlakes [
-	| snowFlakesModels models |
-	models := cnb viewModel packageViewModels flatCollect: #models.
-	snowFlakesModels := models select: [ :each | each isSnowFlakes ].
-	^snowFlakesModels 
+	
+	^ self models select: [ :each | each isSnowFlakes ]
+]
+
+{ #category : #accessing }
+CNBPatternSelector >> snowFlakesSize [ 
+	^ snowFlakesSize 
 ]
