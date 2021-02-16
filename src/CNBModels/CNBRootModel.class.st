@@ -67,6 +67,11 @@ CNBRootModel >> dominantSuffixes: aConceptAssociation [
 	dominantSuffixes add: aConceptAssociation
 ]
 
+{ #category : #testing }
+CNBRootModel >> hasScatteredVocabulary [
+	
+]
+
 { #category : #initialization }
 CNBRootModel >> initialize [ 	
 	super initialize.

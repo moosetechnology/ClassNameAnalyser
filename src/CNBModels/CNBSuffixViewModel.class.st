@@ -5,6 +5,7 @@ Class {
 	#name : #CNBSuffixViewModel,
 	#superclass : #CNBAbstractViewModel,
 	#instVars : [
+		'package',
 		'root',
 		'classViewModels',
 		'size'
@@ -103,6 +104,16 @@ CNBSuffixViewModel >> isSnowFlakes [
 { #category : #accessing }
 CNBSuffixViewModel >> models [
 	^classViewModels 
+]
+
+{ #category : #accessing }
+CNBSuffixViewModel >> package [
+	^package 
+]
+
+{ #category : #accessing }
+CNBSuffixViewModel >> package: aPackage [
+	package := aPackage
 ]
 
 { #category : #accessing }

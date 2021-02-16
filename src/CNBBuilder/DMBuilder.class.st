@@ -154,6 +154,7 @@ DMBuilder >> doConceptViewModelsOf: aPackageModel using: rootModels [
 			classmodels := aPackageModel classModels
 				select: [ :eachClassmodel | eachClassmodel suffix = eachConcept ].
 			CNBSuffixViewModel new
+				package: aPackageModel name;
 				name: eachConcept;
 				classViewModels: (self doClassViewModelsOf: classmodels using: rootModels);
 				root: itsRoot;
