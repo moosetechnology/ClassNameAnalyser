@@ -25,51 +25,52 @@ CNBSuffixViewModel >> classViewModels: aCollectionOfClassViewModels [
 
 { #category : #testing }
 CNBSuffixViewModel >> hasIntruders [
-	| classColors potentialIntrudersPercentage  potentialIntruders |
+	| potentialIntrudersPercentage  potentialIntruders |
 	
-	classColors := classViewModels collect: #color.
+	potentialIntruders := (self innerColors select: [ :each | each ~= self color ]).
 	
-	potentialIntruders 
-		:= (classColors select: [ :each | each ~= self color ]).
-	potentialIntrudersPercentage 
-		:= ((potentialIntruders size * 100) / size) asFloat.
+	potentialIntrudersPercentage := ((potentialIntruders size * 100) / size) asFloat.
 	
-	(potentialIntruders anySatisfy: [ :each | each isMonoClassColor ])
-		ifTrue: [ ^false ] ifFalse: [  
-	 ^((potentialIntruders asSet size = 1) 
-		and: 
+	(potentialIntruders 
+		anySatisfy: [ :each | each isMonoClassColor ])
+		ifTrue: [ ^false ] 
+		ifFalse: [  
+	 			^((potentialIntruders asSet size = 1) 
+				and: 
 			[ potentialIntrudersPercentage <= CNBPatternSelector intrudersPercentage ]) ]
 	
 	
 ]
 
+{ #category : #'as yet unclassified' }
+CNBSuffixViewModel >> innerColors [
+	
+	^ classViewModels collect: #color.
+]
+
 { #category : #testing }
 CNBSuffixViewModel >> isConfetti [
-
-	| classColors |
-	classColors := classViewModels collect: #color.
 	
-	(classColors anySatisfy: [ :each | each = self color ])
+	(self innerColors anySatisfy: [ :each | each = self color ])
 	ifTrue: [ ^ false ] "or without monoClassColor >= ..."
-	ifFalse: [ ^ (classColors asSet size >= CNBPatternSelector confettiSize) ]
+	ifFalse: [ ^ (self innerColors asSet size >= CNBPatternSelector confettiSize) ]
 	
 ]
 
 { #category : #testing }
 CNBSuffixViewModel >> isFatBlob [
-	| classColors |
-	classColors := classViewModels collect: #color.
+
 	(classViewModels size >= CNBPatternSelector fatBlobSize
 		and: [ 
-	classColors asSet size = 1
+	self innerColors asSet size = 1
 			 			
 	])
 		ifFalse: [ ^false ]
 		ifTrue: [ 
-			^ (classColors atRandom 
+			^ (self innerColors atRandom 
 					isMonoSuffixColor not 
 						and: [ 
-						classColors atRandom 
+						self innerColors atRandom 
 							isMonoClassColor not 
 				])
 			 ].
@@ -77,10 +78,8 @@ CNBSuffixViewModel >> isFatBlob [
 
 { #category : #testing }
 CNBSuffixViewModel >> isHomogeneous [ 
-	| classColors |
-	classColors := classViewModels collect: #color.
 	
-	(classColors 
+	(self innerColors 
 		allSatisfy: [ :aColor | 
 			aColor isMonoSuffixColor ])
 				ifFalse: [ ^ false ]
@@ -90,14 +89,13 @@ CNBSuffixViewModel >> isHomogeneous [
 { #category : #testing }
 CNBSuffixViewModel >> isSnowFlakes [
 
-	| classColors |
-	classColors := classViewModels collect: #color.
 	
-	^ (classColors size 
+	
+	^ (self innerColors size 
 			>= 
 		CNBPatternSelector snowFlakesSize) 
 			and: [ 
-				classColors 
+				self innerColors 
 					allSatisfy: [ :each | each isMonoClassColor ]
 				].
 ]
