@@ -13,12 +13,23 @@ Class {
 	#category : #CNBModels
 }
 
+{ #category : #'accessing - attributes' }
+CNBViewModel >> attributeSuffixModelsToRoots [
+	| suffixModels |
+	suffixModels := packageViewModels flatCollect: #suffixViewModels.
+	
+	rootModels 
+		do: [ :aRoot | 
+			aRoot resetConcepts.
+			aRoot concepts addAll: (suffixModels select: [ :each | each root == aRoot ]) ]
+]
+
 { #category : #accessing }
 CNBViewModel >> border [
 	^border color: Color black;yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'building actions' }
 CNBViewModel >> buildRoassal3View [ 
 	^CNBRoassal3Builder build: self 
 ]

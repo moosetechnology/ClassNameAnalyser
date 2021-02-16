@@ -82,7 +82,8 @@ ClassNamesBlueprint >> startBuilding [
 		rootModels: (DMBuilder
 				 doRootsOf: (thePackageModels flatCollect: #classModels)
 				 Accordingto: self rootClass);
-		packageViewModels: (DMBuilder doPackageViewModelsOf: self viewModel)
+		packageViewModels: (DMBuilder doPackageViewModelsOf: self viewModel).
+		self viewModel attributeSuffixModelsToRoots.
 ]
 
 { #category : #accessing }
@@ -103,6 +104,6 @@ ClassNamesBlueprint >> viewModel: aViewModel [
 { #category : #'adding/removing' }
 ClassNamesBlueprint >> withoutClasses [ 
 
-	viewModel classViewModels do:  [ :each | each borderColor: Color transparent ]
+	viewModel classViewModels do:  [ :each | each border color: Color transparent ]
 	
 ]

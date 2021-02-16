@@ -7,7 +7,6 @@ Class {
 	#instVars : [
 		'model',
 		'packageModels',
-		'motherRoot',
 		'rootModels'
 	],
 	#category : #CNBModels

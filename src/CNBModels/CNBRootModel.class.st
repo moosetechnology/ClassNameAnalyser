@@ -49,7 +49,7 @@ CNBRootModel >> color: aColor [
 
 { #category : #accessing }
 CNBRootModel >> concepts [
-	^concepts flattened
+	^concepts 
 ]
 
 { #category : #accessing }
@@ -128,6 +128,12 @@ CNBRootModel >> reference [
 { #category : #accessing }
 CNBRootModel >> reference: aClass [
 	reference := aClass
+]
+
+{ #category : #initialization }
+CNBRootModel >> resetConcepts [
+	concepts asOrderedCollection removeAll.
+	concepts := Set new
 ]
 
 { #category : #accessing }
