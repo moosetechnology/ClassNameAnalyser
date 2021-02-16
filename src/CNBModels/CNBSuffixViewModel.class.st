@@ -25,9 +25,20 @@ CNBSuffixViewModel >> classViewModels: aCollectionOfClassViewModels [
 
 { #category : #testing }
 CNBSuffixViewModel >> hasIntruders [
-	| classColors |
+	| classColors potentialIntrudersPercentage  potentialIntruders |
+	
 	classColors := classViewModels collect: #color.
-	Number
+	
+	potentialIntruders 
+		:= (classColors select: [ :each | each ~= self color ]).
+	potentialIntrudersPercentage 
+		:= ((potentialIntruders size * 100) / size) asFloat.
+	
+	(potentialIntruders anySatisfy: [ :each | each isMonoClassColor ])
+		ifTrue: [ ^false ] ifFalse: [  
+	 ^((potentialIntruders asSet size = 1) 
+		and: 
+			[ potentialIntrudersPercentage <= CNBPatternSelector intrudersPercentage ]) ]
 	
 	
 ]

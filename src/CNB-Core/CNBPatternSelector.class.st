@@ -2,15 +2,41 @@ Class {
 	#name : #CNBPatternSelector,
 	#superclass : #Object,
 	#instVars : [
-		'cnb'
+		'cnb',
+		'intrudersPercentage'
 	],
 	#category : #'CNB-Core'
 }
+
+{ #category : #accessing }
+CNBPatternSelector class >> intrudersPercentage [ 
+	^self new
+		intrudersPercentage 
+]
 
 { #category : #'instance creation' }
 CNBPatternSelector class >> of: aCNB [
 	^ self new
 		of: aCNB
+]
+
+{ #category : #'as yet unclassified' }
+CNBPatternSelector >> hasIntrudersPercentageOf: aPercentage [
+	| intrudersModels models |
+	models := cnb viewModel packageViewModels flatCollect: #models.
+	intrudersModels := models select: [ :each | each hasIntruder ].
+	^intrudersModels 
+]
+
+{ #category : #initialization }
+CNBPatternSelector >> initialize [ 
+	super initialize.
+	intrudersPercentage := 50
+]
+
+{ #category : #accessing }
+CNBPatternSelector >> intrudersPercentage [
+	^intrudersPercentage 
 ]
 
 { #category : #'instance creation' }
@@ -38,7 +64,7 @@ CNBPatternSelector >> selectHomogeneous [
 CNBPatternSelector >> selectIntruders [
 	| intrudersModels models |
 	models := cnb viewModel packageViewModels flatCollect: #models.
-	intrudersModels := models select: [ :each | each hasIntruder ].
+	intrudersModels := models select: [ :each | each hasIntruders ].
 	^intrudersModels 
 ]
 
