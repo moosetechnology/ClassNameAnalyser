@@ -24,6 +24,37 @@ CNBSuffixViewModel >> classViewModels: aCollectionOfClassViewModels [
 ]
 
 { #category : #testing }
+CNBSuffixViewModel >> hasIntruders [
+	| classColors |
+	classColors := classViewModels collect: #color.
+	Number
+	
+	
+]
+
+{ #category : #testing }
+CNBSuffixViewModel >> isFatBlob [
+	| classColors |
+	classColors := classViewModels collect: #color.
+	(classViewModels size >= 7
+		and: [ 
+	classColors asSet size = 1
+			 ])
+		ifFalse: [ ^false ]
+		ifTrue: [ 
+			classColors atRandom 
+				isMonoSuffixColor not 
+			and: [ 
+			classColors atRandom 
+				isMonoClassColor not 
+				ifTrue: [ ^true ]
+				ifFalse: [ ^false ]  
+				]
+			 ].
+		^false
+]
+
+{ #category : #testing }
 CNBSuffixViewModel >> isHomogeneous [ 
 	| classColors |
 	classColors := classViewModels collect: #color.
@@ -34,7 +65,8 @@ CNBSuffixViewModel >> isHomogeneous [
 				ifFalse: [ ^false ]
 				ifTrue: [ self color isMonoSuffixColor
 						ifTrue: [ ^true ]
-			 ]
+			 ].
+		^false
 ]
 
 { #category : #testing }
@@ -47,7 +79,7 @@ CNBSuffixViewModel >> isSnowFlakes [
 		) and: [ 
 		classColors 
 			allSatisfy: [ :each | each isMonoClassColor ]
-				]
+				].
 ]
 
 { #category : #accessing }
