@@ -37,6 +37,19 @@ CNBSuffixViewModel >> isHomogeneous [
 			 ]
 ]
 
+{ #category : #testing }
+CNBSuffixViewModel >> isSnowFlakes [
+
+	| classColors |
+	classColors := classViewModels collect: #color.
+	^ (classColors 
+			size >= 3
+		) and: [ 
+		classColors 
+			allSatisfy: [ :each | each isMonoClassColor ]
+				]
+]
+
 { #category : #accessing }
 CNBSuffixViewModel >> models [
 	^classViewModels 

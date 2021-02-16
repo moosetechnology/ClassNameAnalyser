@@ -25,3 +25,11 @@ CNBPatternSelector >> selectHomogeneous [
 	homogeneousModels := models select: [ :each | each isHomogeneous ].
 	^homogeneousModels 
 ]
+
+{ #category : #'as yet unclassified' }
+CNBPatternSelector >> selectSnowFlakes [
+	| snowFlakesModels models |
+	models := cnb viewModel packageViewModels flatCollect: #models.
+	snowFlakesModels := models select: [ :each | each isSnowFlakes ].
+	^snowFlakesModels 
+]
