@@ -47,7 +47,7 @@ CNBSuffixViewModel >> hasIntruders [
 CNBSuffixViewModel >> isFatBlob [
 	| classColors |
 	classColors := classViewModels collect: #color.
-	(classViewModels size >= 7
+	(classViewModels size >= CNBPatternSelector fatBlobSize
 		and: [ 
 	classColors asSet size = 1
 			 ])
@@ -86,7 +86,7 @@ CNBSuffixViewModel >> isSnowFlakes [
 	| classColors |
 	classColors := classViewModels collect: #color.
 	^ (classColors 
-			size >= 3
+			size >= CNBPatternSelector snowFlakesSize
 		) and: [ 
 		classColors 
 			allSatisfy: [ :each | each isMonoClassColor ]

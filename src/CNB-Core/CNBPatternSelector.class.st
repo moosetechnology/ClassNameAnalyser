@@ -3,10 +3,18 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'cnb',
-		'intrudersPercentage'
+		'intrudersPercentage',
+		'fatBlobSize',
+		'snowFlakesSize'
 	],
 	#category : #'CNB-Core'
 }
+
+{ #category : #'as yet unclassified' }
+CNBPatternSelector class >> fatBlobSize [
+	^self new
+		fatBlobSize 
+]
 
 { #category : #accessing }
 CNBPatternSelector class >> intrudersPercentage [ 
@@ -21,6 +29,12 @@ CNBPatternSelector class >> of: aCNB [
 ]
 
 { #category : #'as yet unclassified' }
+CNBPatternSelector class >> snowFlakesSize [
+	^self new
+		snowFlakesSize
+]
+
+{ #category : #'as yet unclassified' }
 CNBPatternSelector >> hasIntrudersPercentageOf: aPercentage [
 	| intrudersModels models |
 	models := cnb viewModel packageViewModels flatCollect: #models.
@@ -31,7 +45,9 @@ CNBPatternSelector >> hasIntrudersPercentageOf: aPercentage [
 { #category : #initialization }
 CNBPatternSelector >> initialize [ 
 	super initialize.
-	intrudersPercentage := 50
+	intrudersPercentage := 50.
+	fatBlobSize := 7.
+	snowFlakesSize := 3 
 ]
 
 { #category : #accessing }
