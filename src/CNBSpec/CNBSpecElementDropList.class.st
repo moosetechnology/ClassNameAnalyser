@@ -18,7 +18,7 @@ CNBSpecElementDropList >> initialize [
 
 	super initialize.
 	patterns := { 
-		            #'Flat Blob' .
+		            #'Fat Blob' .
 		            #'Snow Flakes'.
 		            #'Homogeneity Breaker'.
 		            #'Intruders'.

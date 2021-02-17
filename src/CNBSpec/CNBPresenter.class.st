@@ -87,17 +87,32 @@ CNBPresenter class >> open [
 	self new openWithSpec.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CNBPresenter >> boxesToHightlightFor: aPattern [
-	^(CNBPatternSelector of: projectCNB) selectPatternOf: aPattern
-	
+
+	| suffixModelsToBeHighlighted allNodes |
+	suffixModelsToBeHighlighted := self lookFor: aPattern.
+	suffixModelsToBeHighlighted isNotEmpty ifFalse: [ ^ self ].
+	allNodes := cnbSpecView canvas deepNodes.
+	^ allNodes reject: [ :each | 
+		                        suffixModelsToBeHighlighted includes:
+			                        each model ].
 ]
 
 { #category : #initialization }
 CNBPresenter >> connectPresenters [
 	super connectPresenters.
 	loadProjectButton action: [ self onLoadProjectClicked  ]. 
-	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self boxesToHightlightFor: aPattern ].
+	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self highlight: aPattern ].
+	
+]
+
+{ #category : #util }
+CNBPresenter >> highlight: aPattern [
+	| 	boxesToBeDarker |
+	boxesToBeDarker := self boxesToHightlightFor: aPattern.
+	cnbSpecView canvas color: Color black whiter.
+	boxesToBeDarker do: [ :each | each color muchDarker ]
 	
 ]
 
@@ -132,6 +147,13 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter
 		title: self class defaultTitle;
 		initialExtent: self class defaultExtent
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> lookFor: aPattern [
+	" returns suffix models to be highlighted"
+	^ ((CNBPatternSelector of: projectCNB) selectPatternOf: aPattern)
+	
 ]
 
 { #category : #'as yet unclassified' }

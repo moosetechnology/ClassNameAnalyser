@@ -41,6 +41,11 @@ CNBAbstractViewModel >> borderColor: aColor [
 ]
 
 { #category : #accessing }
+CNBAbstractViewModel >> box [
+	^box
+]
+
+{ #category : #accessing }
 CNBAbstractViewModel >> color [ 
 	^color isNotNil
 	ifTrue: [ color ] ifFalse: [ self defaultColor ]

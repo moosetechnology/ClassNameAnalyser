@@ -153,6 +153,7 @@ CNBPatternSelector >> selectIntruders [
 
 { #category : #'as yet unclassified' }
 CNBPatternSelector >> selectPatternOf: aSymbol [
+
 	^patternsDictionary at: aSymbol
 ]
 
