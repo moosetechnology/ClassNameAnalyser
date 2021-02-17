@@ -88,31 +88,34 @@ CNBPresenter class >> open [
 ]
 
 { #category : #accessing }
-CNBPresenter >> boxesToHightlightFor: aPattern [
+CNBPresenter >> boxesToBeDarkerFor: aPattern [
 
-	| suffixModelsToBeHighlighted allNodes |
+	| suffixModelsToBeHighlighted allNodes classModelsToBeHighlighted |
 	suffixModelsToBeHighlighted := self lookFor: aPattern.
+	classModelsToBeHighlighted := suffixModelsToBeHighlighted flatCollect: [ :each | each classViewModels ].
 	suffixModelsToBeHighlighted isNotEmpty ifFalse: [ ^ self ].
 	allNodes := cnbSpecView canvas deepNodes.
-	^ allNodes reject: [ :each | 
-		                        suffixModelsToBeHighlighted includes:
-			                        each model ].
+	^ (allNodes reject: [ :each | 
+		                        (suffixModelsToBeHighlighted union: classModelsToBeHighlighted) includes:
+			                        each model ]).
 ]
 
 { #category : #initialization }
 CNBPresenter >> connectPresenters [
 	super connectPresenters.
 	loadProjectButton action: [ self onLoadProjectClicked  ]. 
-	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self highlight: aPattern ].
+	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self goDarkerFor: aPattern ].
 	
 ]
 
 { #category : #util }
-CNBPresenter >> highlight: aPattern [
-	| 	boxesToBeDarker |
-	boxesToBeDarker := self boxesToHightlightFor: aPattern.
+CNBPresenter >> goDarkerFor: aPattern [
+	| boxesToBeDarker |
+	boxesToBeDarker := (self boxesToBeDarkerFor: aPattern).
+	(boxesToBeDarker isCollection not or: [ boxesToBeDarker isEmpty ])
+		ifTrue: [ ^self ].
 	cnbSpecView canvas color: Color black whiter.
-	boxesToBeDarker do: [ :each | each color muchDarker ]
+	boxesToBeDarker do: [ :each | each color: each color muchDarker ]
 	
 ]
 
