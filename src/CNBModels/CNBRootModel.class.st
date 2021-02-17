@@ -13,7 +13,8 @@ Class {
 		'size',
 		'dominantSuffixes',
 		'concepts',
-		'prefixes'
+		'prefixes',
+		'scatteredSuffixes'
 	],
 	#category : #CNBModels
 }
@@ -69,7 +70,27 @@ CNBRootModel >> dominantSuffixes: aConceptAssociation [
 
 { #category : #testing }
 CNBRootModel >> hasScatteredVocabulary [
-	
+
+	| packageSuffixDictionary potentialCases potentialConcepts |
+	packageSuffixDictionary := Dictionary new.
+	" min 3 classes per suffix"
+	potentialConcepts := concepts select: [ :each | 
+		                     each size >= CNBPatternSelector svMinClassSize ].
+
+	self packages do: [ :aPackageName | 
+		packageSuffixDictionary
+			at: aPackageName
+			put:
+			(potentialConcepts select: [ :each | each package = aPackageName ]) ].
+
+	"min 3 suffixes per package"
+	potentialCases := packageSuffixDictionary select: [ :each | 
+		                  each value size
+		                  >= CNBPatternSelector svMinSuffixSize ].
+	potentialCases isNotEmpty ifTrue: [ 
+		potentialCases valuesDo: [ :each | 
+			each do: [ :suffix | suffix beScattered ] ] ].
+	^ potentialCases isNotEmpty
 ]
 
 { #category : #initialization }
@@ -104,6 +125,11 @@ CNBRootModel >> isMultiSuffix [
 	type = 'multiSuffix'
 	ifTrue: [ ^true ]
 	ifFalse: [ ^false ]
+]
+
+{ #category : #accessing }
+CNBRootModel >> packages [ 
+	^ concepts collect: #package
 ]
 
 { #category : #accessing }

@@ -8,10 +8,16 @@ Class {
 		'package',
 		'root',
 		'classViewModels',
-		'size'
+		'size',
+		'isScattered'
 	],
 	#category : #CNBModels
 }
+
+{ #category : #'as yet unclassified' }
+CNBSuffixViewModel >> beScattered [
+	isScattered := true
+]
 
 { #category : #accessing }
 CNBSuffixViewModel >> classViewModels [
@@ -41,6 +47,13 @@ CNBSuffixViewModel >> hasIntruders [
 			[ potentialIntrudersPercentage <= CNBPatternSelector intrudersPercentage ]) ]
 	
 	
+]
+
+{ #category : #initialization }
+CNBSuffixViewModel >> initialize [ 
+	super initialize.
+	isScattered := false.
+ 
 ]
 
 { #category : #'as yet unclassified' }
@@ -88,10 +101,13 @@ CNBSuffixViewModel >> isHomogeneous [
 ]
 
 { #category : #testing }
+CNBSuffixViewModel >> isScattered [
+	^ isScattered 
+]
+
+{ #category : #testing }
 CNBSuffixViewModel >> isSnowFlakes [
 
-	
-	
 	^ (self innerColors size 
 			>= 
 		CNBPatternSelector snowFlakesSize) 
@@ -123,7 +139,8 @@ CNBSuffixViewModel >> root [
 
 { #category : #accessing }
 CNBSuffixViewModel >> root: biggestHierarchy [
-	root := biggestHierarchy
+	root := biggestHierarchy.
+
 ]
 
 { #category : #accessing }

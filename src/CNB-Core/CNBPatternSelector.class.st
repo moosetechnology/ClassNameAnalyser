@@ -6,7 +6,9 @@ Class {
 		'intrudersPercentage',
 		'fatBlobSize',
 		'snowFlakesSize',
-		'confettiSize'
+		'confettiSize',
+		'svMinClassSize',
+		'svMinSuffixSize'
 	],
 	#category : #'CNB-Core'
 }
@@ -42,6 +44,18 @@ CNBPatternSelector class >> snowFlakesSize [
 ]
 
 { #category : #accessing }
+CNBPatternSelector class >> svMinClassSize [
+	^ self new
+		svMinClassSize
+]
+
+{ #category : #'as yet unclassified' }
+CNBPatternSelector class >> svMinSuffixSize [
+	^self new
+		svMinSuffixSize
+]
+
+{ #category : #accessing }
 CNBPatternSelector >> confettiSize [ 
 	^ confettiSize 
 ]
@@ -65,7 +79,9 @@ CNBPatternSelector >> initialize [
 	intrudersPercentage := 50.
 	fatBlobSize := 7.
 	snowFlakesSize := 3.
-	confettiSize := 3
+	confettiSize := 3.
+	svMinClassSize := 3.
+	svMinSuffixSize := 3
 ]
 
 { #category : #accessing }
@@ -111,6 +127,12 @@ CNBPatternSelector >> selectIntruders [
 ]
 
 { #category : #'as yet unclassified' }
+CNBPatternSelector >> selectScatteredVocabulary [
+	cnb rootModels do: [ :each | each hasScatteredVocabulary ].
+	^ self models select: [ :each | each isScattered ]
+]
+
+{ #category : #'as yet unclassified' }
 CNBPatternSelector >> selectSnowFlakes [
 	
 	^ self models select: [ :each | each isSnowFlakes ]
@@ -119,4 +141,14 @@ CNBPatternSelector >> selectSnowFlakes [
 { #category : #accessing }
 CNBPatternSelector >> snowFlakesSize [ 
 	^ snowFlakesSize 
+]
+
+{ #category : #accessing }
+CNBPatternSelector >> svMinClassSize [
+	^ svMinClassSize
+]
+
+{ #category : #accessing }
+CNBPatternSelector >> svMinSuffixSize [
+	^ svMinSuffixSize
 ]
