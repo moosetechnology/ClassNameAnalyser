@@ -8,7 +8,8 @@ Class {
 		'snowFlakesSize',
 		'confettiSize',
 		'svMinClassSize',
-		'svMinSuffixSize'
+		'svMinSuffixSize',
+		'patternsDictionary'
 	],
 	#category : #'CNB-Core'
 }
@@ -81,7 +82,24 @@ CNBPatternSelector >> initialize [
 	snowFlakesSize := 3.
 	confettiSize := 3.
 	svMinClassSize := 3.
-	svMinSuffixSize := 3
+	svMinSuffixSize := 3.
+	
+	
+]
+
+{ #category : #initialization }
+CNBPatternSelector >> initializePatternsDictionary [
+	patternsDictionary 
+		:= 
+			 { #'Fat Blob' -> self selectFatBlob .
+				#'Homogeneous' -> self selectHomogeneous .
+				#'Confetti' -> self selectConfetti .
+				#'Intruders' -> self selectIntruders .
+				#'Scattered Vocabulary' -> self selectScatteredVocabulary .
+				#'Snow Flakes' -> self selectSnowFlakes .
+				
+	 } asDictionary 
+	"#'Homogeneity Breaker' -> self selectHomogeneityBreaker"
 ]
 
 { #category : #accessing }
@@ -96,7 +114,14 @@ CNBPatternSelector >> models [
 
 { #category : #'instance creation' }
 CNBPatternSelector >> of: aCNB [
-	cnb := aCNB
+	cnb := aCNB.
+	self initializePatternsDictionary
+]
+
+{ #category : #accessing }
+CNBPatternSelector >> patternsDictionary [
+	
+	^patternsDictionary 
 ]
 
 { #category : #'as yet unclassified' }
@@ -124,6 +149,11 @@ CNBPatternSelector >> selectHomogeneous [
 CNBPatternSelector >> selectIntruders [
 	
 	^ self models select: [ :each | each hasIntruders ]
+]
+
+{ #category : #'as yet unclassified' }
+CNBPatternSelector >> selectPatternOf: aSymbol [
+	^patternsDictionary at: aSymbol
 ]
 
 { #category : #'as yet unclassified' }

@@ -2,6 +2,7 @@ Class {
 	#name : #CNBPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
+		'projectCNB',
 		'projectSelector',
 		'pathSelector',
 		'patternsDropList',
@@ -86,10 +87,17 @@ CNBPresenter class >> open [
 	self new openWithSpec.
 ]
 
+{ #category : #'as yet unclassified' }
+CNBPresenter >> boxesToHightlightFor: aPattern [
+	^(CNBPatternSelector of: projectCNB) selectPatternOf: aPattern
+	
+]
+
 { #category : #initialization }
 CNBPresenter >> connectPresenters [
 	super connectPresenters.
 	loadProjectButton action: [ self onLoadProjectClicked  ]. 
+	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self boxesToHightlightFor: aPattern ].
 	
 ]
 
@@ -129,16 +137,11 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 { #category : #'as yet unclassified' }
 CNBPresenter >> onLoadProjectClicked [
 
-		cnbSpecView script: [ :canvas | 
-			projectSelector text ~='' 
-				ifTrue: [  CNBRoassal3Builder 
-					projectNameMatches: projectSelector text 
-					on: canvas ]
-				ifFalse: [ CNBRoassal3Builder 
-					importProject: pathSelector text 
-					on: canvas  ] ]
-	 
-		 
+	projectCNB := (projectSelector text ~= '' 
+			
+				ifTrue: [  CNBRoassal3Builder projectNameMatches: projectSelector text ]	
+				ifFalse: [ CNBRoassal3Builder importProject: pathSelector text ]). 
+		cnbSpecView script: [ :canvas | projectCNB on: canvas ].
 		
 
 		

@@ -42,6 +42,11 @@ ClassNamesBlueprint >> model: aModel [
 	self viewModel model: aModel 
 ]
 
+{ #category : #'instance creation' }
+ClassNamesBlueprint >> on: aCanvas [
+	^ CNBRoassal3Builder model: self on: aCanvas 
+]
+
 { #category : #accessing }
 ClassNamesBlueprint >> rootClass [
 	^viewModel settings rootClass

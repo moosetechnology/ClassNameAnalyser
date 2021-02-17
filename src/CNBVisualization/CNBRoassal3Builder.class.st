@@ -21,11 +21,26 @@ CNBRoassal3Builder class >> exampleMooseCanvas [
 ]
 
 { #category : #'as yet unclassified' }
+CNBRoassal3Builder class >> importProject: aPath [
+
+	^ DMClassNamesBlueprintSample importProject: aPath.
+]
+
+{ #category : #'as yet unclassified' }
 CNBRoassal3Builder class >> importProject: aPath on: aCanvas [
 
 	| cnb |
-	cnb := DMClassNamesBlueprintSample importProject: aPath.
+	cnb := self importProject: aPath.
 	aCanvas addAll: (self new buildShapesOf: cnb).
+	RSFlowLayout on: aCanvas nodes.
+	aCanvas @ RSCanvasController.
+	^aCanvas
+]
+
+{ #category : #'as yet unclassified' }
+CNBRoassal3Builder class >> model: aCNB on: aCanvas [
+	
+	aCanvas addAll: (self new buildShapesOf: aCNB).
 	RSFlowLayout on: aCanvas nodes.
 	aCanvas @ RSCanvasController.
 	^aCanvas
@@ -43,11 +58,34 @@ CNBRoassal3Builder class >> mooseOn: aCanvas [
 ]
 
 { #category : #'as yet unclassified' }
+CNBRoassal3Builder class >> projectNameMatches: aString [
+	
+	^ DMClassNamesBlueprintSample projectNameMatches: aString.
+	
+]
+
+{ #category : #'as yet unclassified' }
 CNBRoassal3Builder class >> projectNameMatches: aString on: aCanvas [
 	
 	| cnb |
-	cnb := DMClassNamesBlueprintSample projectNameMatches: aString.
+	cnb := self projectNameMatches: aString.
 	aCanvas addAll: (self new buildShapesOf: cnb).
+	RSFlowLayout on: aCanvas nodes.
+	aCanvas @ RSCanvasController.
+	^aCanvas
+]
+
+{ #category : #'as yet unclassified' }
+CNBRoassal3Builder class >> showPatternNameOn: aCanvas [
+
+	
+]
+
+{ #category : #'as yet unclassified' }
+CNBRoassal3Builder class >> showPatternNameOn: aCanvas with: aPattern [
+
+	
+	aCanvas addAll: { RSLabel new text: aPattern . RSBox new}.
 	RSFlowLayout on: aCanvas nodes.
 	aCanvas @ RSCanvasController.
 	^aCanvas

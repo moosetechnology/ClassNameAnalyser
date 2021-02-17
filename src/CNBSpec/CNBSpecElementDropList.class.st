@@ -18,25 +18,24 @@ CNBSpecElementDropList >> initialize [
 
 	super initialize.
 	patterns := { 
-		            ('Flat Blob' -> 'Condition').
-		            ('Snow Flakes' -> 'Condition').
-		            ('Homogeneity Breaker' -> 'Condition').
-		            ('Intruders' -> 'Condition').
-		            ('Confetti' -> 'Condition').
-		            ('Homogeneous' -> 'Condition').
-		            ('Scattered Vocabulary' -> 'Condition') } asDictionary.
+		            #'Flat Blob' .
+		            #'Snow Flakes'.
+		            #'Homogeneity Breaker'.
+		            #'Intruders'.
+		            #'Confetti'.
+		            #'Homogeneous'.
+		            #'Scattered Vocabulary' }.
 
 	self
 		help: 'Choose a pattern';
-		items: self patternsNames;
-		display: [ :aPattern | aPattern ];
-		whenSelectedItemChangedDo: [ :aPattern | aPattern crTrace ]
+		items: self patterns;
+		display: [ :aPattern | aPattern ]
 ]
 
 { #category : #initialization }
 CNBSpecElementDropList >> items [
 
-	^self patternsNames.
+	^self patterns.
 ]
 
 { #category : #initialization }
@@ -47,11 +46,6 @@ CNBSpecElementDropList >> patterns [
 { #category : #initialization }
 CNBSpecElementDropList >> patterns: aDictionary [
 	patterns := aDictionary
-]
-
-{ #category : #initialization }
-CNBSpecElementDropList >> patternsNames [
-	^patterns keys
 ]
 
 { #category : #initialization }
