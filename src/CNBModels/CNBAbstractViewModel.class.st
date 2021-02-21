@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'box',
 		'color',
-		'border'
+		'border',
+		'originalColor'
 	],
 	#category : #CNBModels
 }
@@ -47,8 +48,9 @@ CNBAbstractViewModel >> box [
 
 { #category : #accessing }
 CNBAbstractViewModel >> color [ 
-	^color isNotNil
-	ifTrue: [ color ] ifFalse: [ self defaultColor ]
+	^ color isNotNil
+	ifTrue: [ color ]
+	ifFalse: [ self defaultColor ]
 ]
 
 { #category : #accessing }
@@ -82,7 +84,7 @@ CNBAbstractViewModel >> defaultBorderWidth [
 
 { #category : #initialization }
 CNBAbstractViewModel >> defaultColor [ 
-	^Color white darker
+	^ Color white darker
 ]
 
 { #category : #initialization }
@@ -92,6 +94,16 @@ CNBAbstractViewModel >> initialize [
 	border := RSBorder new.
 	box := RSComposite new.
 	box when: RSMouseLeftClick do: [ :evt | self processEvent: evt ].
+]
+
+{ #category : #accessing }
+CNBAbstractViewModel >> originalColor [
+	 ^ originalColor 
+]
+
+{ #category : #accessing }
+CNBAbstractViewModel >> originalColor: aColor [
+	 originalColor := aColor
 ]
 
 { #category : #printing }

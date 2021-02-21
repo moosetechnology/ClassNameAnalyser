@@ -136,6 +136,7 @@ DMBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 				suffix: eachClassModel suffix;
 				prefix: eachClassModel prefix;
 				root: itsRoot;
+				originalColor: itsRoot color;
 				color: itsRoot color ]
 ]
 
@@ -158,6 +159,7 @@ DMBuilder >> doConceptViewModelsOf: aPackageModel using: rootModels [
 				name: eachConcept;
 				classViewModels: (self doClassViewModelsOf: classmodels using: rootModels);
 				root: itsRoot;
+				originalColor: itsRoot color;
 				color: itsRoot color ]
 ]
 
@@ -176,6 +178,8 @@ DMBuilder >> doPackageViewModelsOf: aViewModel [
 		collect: [ :eachPackageModel | 
 				CNBPackageViewModel new
 					name: eachPackageModel name;
+					color: CNBPackageViewModel new defaultColor;
+					originalColor: CNBPackageViewModel new defaultColor;
 					suffixViewModels:
 						(self
 							doConceptViewModelsOf: eachPackageModel 

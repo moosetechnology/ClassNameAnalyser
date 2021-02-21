@@ -16,7 +16,8 @@ Class {
 
 { #category : #'as yet unclassified' }
 CNBSuffixViewModel >> beScattered [
-	isScattered := true
+	isScattered := true.
+	
 ]
 
 { #category : #accessing }
@@ -33,7 +34,11 @@ CNBSuffixViewModel >> classViewModels: aCollectionOfClassViewModels [
 { #category : #testing }
 CNBSuffixViewModel >> hasIntruders [
 	| potentialIntrudersPercentage  potentialIntruders |
-	
+	(self classViewModels 
+		size >= 
+			CNBPatternSelector nbrIntrudersNeighbors) 
+				ifFalse: [ ^ false ].
+				
 	potentialIntruders := (self innerColors select: [ :each | each ~= self color ]).
 	
 	potentialIntrudersPercentage := ((potentialIntruders size * 100) / size) asFloat.
@@ -93,11 +98,10 @@ CNBSuffixViewModel >> isFatBlob [
 { #category : #testing }
 CNBSuffixViewModel >> isHomogeneous [ 
 	
-	(self innerColors 
-		allSatisfy: [ :aColor | 
-			aColor isMonoSuffixColor ])
-				ifFalse: [ ^ false ]
-				ifTrue: [ ^ (self color isMonoSuffixColor) ].
+	^ (self color isMonoSuffixColor)
+	ifFalse: [ false ]
+	ifTrue: [ (self innerColors allSatisfy: [ :aColor | aColor isMonoSuffixColor ]) ]
+
 ]
 
 { #category : #testing }

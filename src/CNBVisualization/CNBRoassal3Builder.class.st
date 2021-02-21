@@ -34,6 +34,7 @@ CNBRoassal3Builder class >> importProject: aPath on: aCanvas [
 	aCanvas addAll: (self new buildShapesOf: cnb).
 	RSFlowLayout on: aCanvas nodes.
 	aCanvas @ RSCanvasController.
+	aCanvas color: aCanvas color darker.
 	^aCanvas
 ]
 
@@ -43,6 +44,7 @@ CNBRoassal3Builder class >> model: aCNB on: aCanvas [
 	aCanvas addAll: (self new buildShapesOf: aCNB).
 	RSFlowLayout on: aCanvas nodes.
 	aCanvas @ RSCanvasController.
+	aCanvas color: aCanvas color darker.
 	^aCanvas
 ]
 
@@ -54,6 +56,7 @@ CNBRoassal3Builder class >> mooseOn: aCanvas [
 	aCanvas addAll: (self new buildShapesOf: cnb).
 	RSFlowLayout on: aCanvas nodes.
 	aCanvas @ RSCanvasController.
+	aCanvas color: aCanvas color darker.
 	^aCanvas
 ]
 
@@ -72,22 +75,7 @@ CNBRoassal3Builder class >> projectNameMatches: aString on: aCanvas [
 	aCanvas addAll: (self new buildShapesOf: cnb).
 	RSFlowLayout on: aCanvas nodes.
 	aCanvas @ RSCanvasController.
-	^aCanvas
-]
-
-{ #category : #'as yet unclassified' }
-CNBRoassal3Builder class >> showPatternNameOn: aCanvas [
-
-	
-]
-
-{ #category : #'as yet unclassified' }
-CNBRoassal3Builder class >> showPatternNameOn: aCanvas with: aPattern [
-
-	
-	aCanvas addAll: { RSLabel new text: aPattern . RSBox new}.
-	RSFlowLayout on: aCanvas nodes.
-	aCanvas @ RSCanvasController.
+	aCanvas color: aCanvas color darker.
 	^aCanvas
 ]
 
@@ -128,7 +116,9 @@ CNBRoassal3Builder >> createBoxOf: aCNBObject [
 CNBRoassal3Builder >> createClassBoxesOf: aSuffix [
 	| classBoxes |
 	classBoxes := aSuffix classViewModels 
-						collect: [ :class |  self createBoxOf: class ].
+						collect: [ :class |  | classBox |
+							classBox := self createBoxOf: class.
+							classBox model: class ].
 	^classBoxes 
 ]
 
@@ -147,11 +137,14 @@ CNBRoassal3Builder >> createPackageBoxesOf: cnbModel [
 				label := RSLabel new text: namedAbbreviated;fontSize: 30;bold.
 				composite := RSComposite new.
 				packageComposite := self createBoxOf: package.
+				packageComposite model: package.
 				packageComposite addAll: (self createSuffixBoxesOf: package).
 				RSGridLayout new on: packageComposite children;gapSize: 20.
 				packageComposite border: package border.
 				packageComposite adjustToChildren.
 				packageComposite padding: 20.
+				
+				composite color: packageComposite color.
 				composite add: label; add: packageComposite.
 				RSVerticalLineLayout new alignCenter; on:  { label . packageComposite }.
 				composite adjustToChildren.
@@ -171,12 +164,14 @@ CNBRoassal3Builder >> createSuffixBoxesOf: aPackage [
 				composite := RSComposite new.
 					label := RSLabel new text: suffix name;bold; fontSize:20.
 					suffixComposite := self createBoxOf: suffix.
+					suffixComposite model: suffix.
 					suffixComposite addAll: (self createClassBoxesOf: suffix).
 					suffixComposite border: suffix border.
 					suffixComposite adjustToChildren.
 					RSGridLayout new on: suffixComposite children.
 					suffixComposite padding: 12.
 					
+					composite color: Color white darker.
 					composite add: label; add: suffixComposite.
 					RSVerticalLineLayout new alignCenter on: composite children.
 					composite adjustToChildren.

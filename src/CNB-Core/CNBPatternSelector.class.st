@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'cnb',
 		'intrudersPercentage',
+		'nbrIntrudersNeighbors',
 		'fatBlobSize',
 		'snowFlakesSize',
 		'confettiSize',
@@ -30,6 +31,12 @@ CNBPatternSelector class >> fatBlobSize [
 CNBPatternSelector class >> intrudersPercentage [ 
 	^self new
 		intrudersPercentage 
+]
+
+{ #category : #'as yet unclassified' }
+CNBPatternSelector class >> nbrIntrudersNeighbors [
+	^self new
+		nbrIntrudersNeighbors
 ]
 
 { #category : #'instance creation' }
@@ -83,8 +90,7 @@ CNBPatternSelector >> initialize [
 	confettiSize := 3.
 	svMinClassSize := 3.
 	svMinSuffixSize := 3.
-	
-	
+	nbrIntrudersNeighbors := 3
 ]
 
 { #category : #initialization }
@@ -110,6 +116,11 @@ CNBPatternSelector >> intrudersPercentage [
 { #category : #accessing }
 CNBPatternSelector >> models [
 	^ cnb viewModel packageViewModels flatCollect: #models.
+]
+
+{ #category : #accessing }
+CNBPatternSelector >> nbrIntrudersNeighbors [
+	^ nbrIntrudersNeighbors
 ]
 
 { #category : #'instance creation' }

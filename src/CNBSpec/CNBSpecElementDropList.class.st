@@ -17,7 +17,7 @@ CNBSpecElementDropList class >> defaultSpec [
 CNBSpecElementDropList >> initialize [
 
 	super initialize.
-	patterns := { 
+	patterns := { 	#'-------' .
 		            #'Fat Blob' .
 		            #'Snow Flakes'.
 		            #'Homogeneity Breaker'.

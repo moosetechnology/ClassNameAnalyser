@@ -28,6 +28,11 @@ CNBPackageModel >> classModels: aCollectionOfClassModels [
 	classModels := aCollectionOfClassModels
 ]
 
+{ #category : #accessing }
+CNBPackageModel >> originalColor [
+	^ self defaultColor 
+]
+
 { #category : #printing }
 CNBPackageModel >> printOn: aStream [
 	super printOn: aStream. 
