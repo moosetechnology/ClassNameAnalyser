@@ -15,7 +15,8 @@ Class {
 		'rootSelector',
 		'goDarker',
 		'boxesToBeDarker',
-		'boxesToHighlight'
+		'boxesToHighlight',
+		'reset'
 	],
 	#category : #CNBSpec
 }
@@ -54,7 +55,7 @@ CNBPresenter class >> defaultSpec [
 				add: 'Pattern' height: self labelHeight;
 				add: #patternsDropList height: self buttonHeight;
 				yourself) height: self labelHeight + self buttonHeight;
-			add: #goDarker height: self buttonHeight;
+			add: #reset height: self buttonHeight;
 			add: '';
 			yourself) width: 180;
 		add: (SpBoxLayout newVertical
@@ -106,17 +107,23 @@ CNBPresenter >> boxesToBeDarkerFor: aPattern [
 	
 ]
 
+{ #category : #accessing }
+CNBPresenter >> cnbSpecView [
+	^ cnbSpecView
+]
+
 { #category : #initialization }
 CNBPresenter >> connectPresenters [
 	super connectPresenters.
 	loadProjectButton action: [ self onLoadProjectClicked  ]. 
 	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self goDarkerFor: aPattern ].
+	reset action: [ self onResetClicked ] 
 	
 ]
 
 { #category : #util }
 CNBPresenter >> goDarkerFor: aPattern [
-	self reset.
+	self onResetClicked.
 	boxesToBeDarker := (self boxesToBeDarkerFor: aPattern).
 	(boxesToBeDarker isCollection not or: [ boxesToBeDarker isEmpty ])
 		ifTrue: [ ^self ].
@@ -124,7 +131,6 @@ CNBPresenter >> goDarkerFor: aPattern [
 	boxesToBeDarker do: [ :each |
 		Transcript show: each; cr.
 		each color: each color muchDarker ].
-	"boxesToHighlight do: [ :each | each border width: 5 ]"
 	
 ]
 
@@ -141,7 +147,7 @@ CNBPresenter >> initializePresenters [
 	projectSelector := self newTextInput.
 	pathSelector := self newTextInput.
 	rootSelector := self newTextInput. 
-	goDarker := self newButton label: 'goDarker'. 
+	reset := self newButton label: 'Reset'. 
 	prefix := self newRadioButton.
 	suffix := self newRadioButton.	
 	suffix associatedRadioButtons:  { prefix }.
@@ -170,21 +176,31 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 { #category : #'as yet unclassified' }
 CNBPresenter >> lookFor: aPattern [
 	" returns suffix models to be highlighted"
+
 	^ ((CNBPatternSelector of: projectCNB) selectPatternOf: aPattern)
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CNBPresenter >> onLoadProjectClicked [
 
-	projectCNB := (projectSelector text ~= '' 
-			
-				ifTrue: [  CNBRoassal3Builder projectNameMatches: projectSelector text ]	
-				ifFalse: [ CNBRoassal3Builder importProject: pathSelector text ]). 
-		cnbSpecView script: [ :canvas | projectCNB on: canvas ].
-		
+	projectCNB := projectSelector text ~= ''
+		              ifTrue: [ 
+		              CNBRoassal3Builder projectNameMatches:
+			              projectSelector text ]
+		              ifFalse: [ 
+		              CNBRoassal3Builder importProject: pathSelector text ].
+	cnbSpecView script: [ :canvas | projectCNB on: canvas ]
+]
 
-		
+{ #category : #'as yet unclassified' }
+CNBPresenter >> onResetClicked [
+	self reset
+]
+
+{ #category : #accessing }
+CNBPresenter >> projectSelector [ 
+	^ projectSelector 
 ]
 
 { #category : #initialization }
