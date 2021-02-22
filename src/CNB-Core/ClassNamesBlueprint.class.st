@@ -89,6 +89,7 @@ ClassNamesBlueprint >> startBuilding [
 				 Accordingto: self rootClass);
 		packageViewModels: (DMBuilder doPackageViewModelsOf: self viewModel).
 		self viewModel attributeSuffixModelsToRoots.
+		self viewModel attributePatterns.
 ]
 
 { #category : #accessing }

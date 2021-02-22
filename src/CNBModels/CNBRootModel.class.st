@@ -14,8 +14,7 @@ Class {
 		'dominantSuffixes',
 		'concepts',
 		'prefixes',
-		'scatteredSuffixes',
-		'pattern'
+		'scatteredSuffixes'
 	],
 	#category : #CNBModels
 }
@@ -131,16 +130,6 @@ CNBRootModel >> isMultiSuffix [
 { #category : #accessing }
 CNBRootModel >> packages [ 
 	^ concepts collect: #package
-]
-
-{ #category : #accessing }
-CNBRootModel >> pattern [
-	^ pattern
-]
-
-{ #category : #accessing }
-CNBRootModel >> pattern: aPattern [
-	pattern := aPattern 
 ]
 
 { #category : #accessing }

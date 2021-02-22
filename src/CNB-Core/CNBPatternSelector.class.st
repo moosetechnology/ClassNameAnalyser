@@ -132,7 +132,7 @@ CNBPatternSelector >> of: aCNB [
 { #category : #accessing }
 CNBPatternSelector >> patternsDictionary [
 	
-	^patternsDictionary 
+	^ patternsDictionary 
 ]
 
 { #category : #'as yet unclassified' }
@@ -146,26 +146,26 @@ CNBPatternSelector >> selectConfetti [
 { #category : #'as yet unclassified' }
 CNBPatternSelector >> selectFatBlob [
 
-	^ self models select: [ :each | each isFatBlob ].
+	^ self models select: [ :each | each checkFatBlob ].
 	
 ]
 
 { #category : #'as yet unclassified' }
 CNBPatternSelector >> selectHomogeneous [
 	
-	^ self models select: [ :each | each isHomogeneous ]
+	^ self models select: [ :each | each checkHomogeneous ]
 ]
 
 { #category : #'as yet unclassified' }
 CNBPatternSelector >> selectIntruders [
 	
-	^ self models select: [ :each | each hasIntruders ]
+	^ self models select: [ :each | each checkIntruder ]
 ]
 
 { #category : #'as yet unclassified' }
 CNBPatternSelector >> selectPatternOf: aSymbol [
 
-	^patternsDictionary at: aSymbol
+	^ patternsDictionary at: aSymbol
 ]
 
 { #category : #'as yet unclassified' }

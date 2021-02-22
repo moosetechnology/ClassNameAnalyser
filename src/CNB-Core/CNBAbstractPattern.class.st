@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'description',
-		'condition'
+		'condition',
+		'elements'
 	],
 	#category : #'CNB-Core'
 }
@@ -15,5 +16,10 @@ CNBAbstractPattern >> condition [
 
 { #category : #accessing }
 CNBAbstractPattern >> description [
+	self subclassResponsibility 
+]
+
+{ #category : #accessing }
+CNBAbstractPattern >> elements [
 	self subclassResponsibility 
 ]

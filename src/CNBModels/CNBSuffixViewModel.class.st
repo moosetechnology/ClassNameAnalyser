@@ -9,15 +9,63 @@ Class {
 		'root',
 		'classViewModels',
 		'size',
-		'isScattered'
+		'isScattered',
+		'patterns'
 	],
 	#category : #CNBModels
 }
 
 { #category : #'as yet unclassified' }
+CNBSuffixViewModel >> attributePattern [ 
+	self checkPatterns.
+	
+]
+
+{ #category : #'as yet unclassified' }
 CNBSuffixViewModel >> beScattered [
 	isScattered := true.
 	
+]
+
+{ #category : #testing }
+CNBSuffixViewModel >> checkFatBlob [
+
+	| fatBlobPattern |
+	fatBlobPattern := CNBFatBlobPattern new.
+	(fatBlobPattern check: self)
+			ifTrue: [ self patterns: fatBlobPattern ]
+	
+]
+
+{ #category : #testing }
+CNBSuffixViewModel >> checkHomogeneous [ 
+	
+	| homogeneousPattern |
+	
+	homogeneousPattern := CNBHomogeneousPattern new.
+	(homogeneousPattern check: self)
+		ifTrue: [ self patterns: homogeneousPattern ]
+]
+
+{ #category : #testing }
+CNBSuffixViewModel >> checkIntruder [
+
+	| intruderPattern |
+	intruderPattern := CNBIntruderPattern new.
+	(intruderPattern check: self)
+	ifTrue: [ self patterns: intruderPattern ]
+	
+]
+
+{ #category : #'as yet unclassified' }
+CNBSuffixViewModel >> checkPatterns [ 
+	self 
+		checkFatBlob;
+		checkHomogeneous;
+		isConfetti;
+		isSnowFlakes;
+		checkIntruder.
+		
 ]
 
 { #category : #accessing }
@@ -31,77 +79,29 @@ CNBSuffixViewModel >> classViewModels: aCollectionOfClassViewModels [
 	size := aCollectionOfClassViewModels size
 ]
 
-{ #category : #testing }
-CNBSuffixViewModel >> hasIntruders [
-	| potentialIntrudersPercentage  potentialIntruders |
-	(self classViewModels 
-		size >= 
-			CNBPatternSelector nbrIntrudersNeighbors) 
-				ifFalse: [ ^ false ].
-				
-	potentialIntruders := (self innerColors select: [ :each | each ~= self color ]).
-	
-	potentialIntrudersPercentage := ((potentialIntruders size * 100) / size) asFloat.
-	
-	(potentialIntruders 
-		anySatisfy: [ :each | each isMonoClassColor ])
-		ifTrue: [ ^false ] 
-		ifFalse: [  
-	 			^((potentialIntruders asSet size = 1) 
-				and: 
-			[ potentialIntrudersPercentage <= CNBPatternSelector intrudersPercentage ]) ]
-	
-	
-]
-
 { #category : #initialization }
 CNBSuffixViewModel >> initialize [ 
 	super initialize.
 	isScattered := false.
+	patterns := OrderedCollection new.
+	
  
 ]
 
 { #category : #'as yet unclassified' }
-CNBSuffixViewModel >> innerColors [
+CNBSuffixViewModel >> innerRoots [
 	
-	^ classViewModels collect: #color.
+	^ classViewModels collect: #root.
 ]
 
 { #category : #testing }
 CNBSuffixViewModel >> isConfetti [
 	
-	(self innerColors anySatisfy: [ :each | each = self color ])
-	ifTrue: [ ^ false ] "or without monoClassColor >= ..."
-	ifFalse: [ ^ (self innerColors asSet size >= CNBPatternSelector confettiSize) ]
+	| confetti |
+	confetti := CNBConfettiPattern new.
+	(confetti check: self)
+	ifTrue: [ self patterns: confetti ]
 	
-]
-
-{ #category : #testing }
-CNBSuffixViewModel >> isFatBlob [
-
-	(classViewModels size >= CNBPatternSelector fatBlobSize
-		and: [ 
-	self innerColors asSet size = 1
-			 			
-	])
-		ifFalse: [ ^false ]
-		ifTrue: [ 
-			^ (self innerColors atRandom 
-					isMonoSuffixColor not 
-						and: [ 
-						self innerColors atRandom 
-							isMonoClassColor not 
-				])
-			 ].
-]
-
-{ #category : #testing }
-CNBSuffixViewModel >> isHomogeneous [ 
-	
-	^ (self color isMonoSuffixColor)
-	ifFalse: [ false ]
-	ifTrue: [ (self innerColors allSatisfy: [ :aColor | aColor isMonoSuffixColor ]) ]
-
 ]
 
 { #category : #testing }
@@ -112,13 +112,11 @@ CNBSuffixViewModel >> isScattered [
 { #category : #testing }
 CNBSuffixViewModel >> isSnowFlakes [
 
-	^ (self innerColors size 
-			>= 
-		CNBPatternSelector snowFlakesSize) 
-			and: [ 
-				self innerColors 
-					allSatisfy: [ :each | each isMonoClassColor ]
-				].
+	| snowFlakesPattern |
+	snowFlakesPattern := CNBSnowFlakesPattern new.
+	^ (snowFlakesPattern check: self)
+	ifTrue: [ self patterns: snowFlakesPattern. ]
+	ifFalse: [ false  ]
 ]
 
 { #category : #accessing }
@@ -134,6 +132,16 @@ CNBSuffixViewModel >> package [
 { #category : #accessing }
 CNBSuffixViewModel >> package: aPackage [
 	package := aPackage
+]
+
+{ #category : #accessing }
+CNBSuffixViewModel >> patterns [ 
+	^ patterns
+]
+
+{ #category : #accessing }
+CNBSuffixViewModel >> patterns: aPattern [
+	patterns add: aPattern 
 ]
 
 { #category : #accessing }

@@ -130,11 +130,7 @@ DMBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 			| itsRoot |
 			itsRoot := rootModels
 				detect: [ :eachRootModel | eachClassModel root name = eachRootModel name ].
-			CNBClassViewModel new
-				name: eachClassModel name;
-				reference: eachClassModel reference;
-				suffix: eachClassModel suffix;
-				prefix: eachClassModel prefix;
+			CNBClassViewModel new create: eachClassModel;
 				root: itsRoot;
 				originalColor: itsRoot color;
 				color: itsRoot color ]

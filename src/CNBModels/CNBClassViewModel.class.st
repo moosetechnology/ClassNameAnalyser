@@ -26,6 +26,16 @@ CNBClassViewModel >> border [
 	^border
 ]
 
+{ #category : #'as yet unclassified' }
+CNBClassViewModel >> create: aClassModel [
+
+	name := aClassModel name.
+	reference := aClassModel reference;
+	suffix: aClassModel suffix;
+	prefix: aClassModel prefix; yourself
+	
+]
+
 { #category : #initialization }
 CNBClassViewModel >> createBox [ 
 	^super createBox

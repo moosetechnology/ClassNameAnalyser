@@ -13,15 +13,18 @@ Class {
 	#category : #CNBModels
 }
 
+{ #category : #'as yet unclassified' }
+CNBViewModel >> attributePatterns [
+	self suffixModels do: [ :each | each attributePattern ]
+]
+
 { #category : #'accessing - attributes' }
 CNBViewModel >> attributeSuffixModelsToRoots [
-	| suffixModels |
-	suffixModels := packageViewModels flatCollect: #suffixViewModels.
 	
 	rootModels 
 		do: [ :aRoot | 
 			aRoot resetConcepts.
-			aRoot concepts addAll: (suffixModels select: [ :each | each root == aRoot ]) ]
+			aRoot concepts addAll: (self suffixModels select: [ :each | each root == aRoot ]) ]
 ]
 
 { #category : #accessing }
@@ -88,4 +91,10 @@ CNBViewModel >> packageViewModels: collectionOfPackageViewModels [
 { #category : #accessing }
 CNBViewModel >> settings [
 	^settings
+]
+
+{ #category : #'accessing - attributes' }
+CNBViewModel >> suffixModels [	
+
+	^ packageViewModels flatCollect: #suffixViewModels.
 ]
