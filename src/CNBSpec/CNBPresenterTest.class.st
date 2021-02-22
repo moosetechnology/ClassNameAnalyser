@@ -41,7 +41,7 @@ CNBPresenterTest >> testCanvasNotNil [
 	self assert: presenter cnbSpecView canvas isNotNil equals: true
 ]
 
-{ #category : #tests }
+{ #category : #checkingOneSuffixPattern }
 CNBPresenterTest >> testCheckConfetti [
 	| aSuffixModel expectedPatterns actualPatterns |
 	self changeToCalypso.
@@ -63,7 +63,7 @@ CNBPresenterTest >> testCheckConfetti [
 		equals: actualPatterns  
 ]
 
-{ #category : #tests }
+{ #category : #checkingOneSuffixPattern }
 CNBPresenterTest >> testCheckFatBlob [
 	| aSuffixModel expectedPatterns actualPatterns |
 	actualPatterns := { #'Fat Blob'}.
@@ -80,7 +80,29 @@ CNBPresenterTest >> testCheckFatBlob [
 		equals: actualPatterns asSet 
 ]
 
-{ #category : #tests }
+{ #category : #checkingOneSuffixPattern }
+CNBPresenterTest >> testCheckHomogeneityBreaker [
+	| aSuffixModel expectedPatterns actualPatterns |
+	self changeToCalypso.
+	actualPatterns :=  #'Homogeneity Breaker'.
+	
+	aSuffixModel := suffixModels 
+		detect: [ :each | each name = 'Strategy' 
+			and: [ each package = 'Calypso-SystemTools-QueryBrowser' ] ].
+	
+		
+	aSuffixModel checkPatterns.
+	
+	expectedPatterns := aSuffixModel patterns 
+		detect: [ :each | each name = #'Homogeneity Breaker' ].
+	
+	self
+		assert: expectedPatterns name
+		
+		equals: actualPatterns  
+]
+
+{ #category : #checkingOneSuffixPattern }
 CNBPresenterTest >> testCheckHomogeneous [
 	| aSuffixModel expectedPatterns actualPatterns |
 	
@@ -101,7 +123,7 @@ CNBPresenterTest >> testCheckHomogeneous [
 		equals: actualPatterns  
 ]
 
-{ #category : #tests }
+{ #category : #checkingOneSuffixPattern }
 CNBPresenterTest >> testCheckIntruder [
 	| aSuffixModel expectedPatterns actualPatterns |
 	
@@ -121,7 +143,27 @@ CNBPresenterTest >> testCheckIntruder [
 		equals: actualPatterns  
 ]
 
-{ #category : #tests }
+{ #category : #checkingOneSuffixPattern }
+CNBPresenterTest >> testCheckScatteredVocabulary [
+	| aSuffixModel expectedPatterns actualPatterns |
+	
+	actualPatterns :=  #'Scattered Vocabulary'.
+	
+	aSuffixModel := suffixModels 
+		detect: [ :each | each name = 'Operator' ].
+	
+		
+	aSuffixModel checkPatterns.
+	
+	expectedPatterns := aSuffixModel patterns 
+		detect: [ :each | each name = #'Scattered Vocabulary' ].
+	
+	self
+		assert: expectedPatterns name
+		equals: actualPatterns  
+]
+
+{ #category : #checkingOneSuffixPattern }
 CNBPresenterTest >> testCheckSnowFlakes [
 	| aSuffixModel expectedPatterns actualPatterns |
 	

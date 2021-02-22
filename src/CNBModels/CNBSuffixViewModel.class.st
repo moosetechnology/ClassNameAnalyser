@@ -80,7 +80,8 @@ CNBSuffixViewModel >> checkPatterns [
 		checkHomogeneous;
 		checkConfetti;
 		checkSnowFlakes;
-		checkIntruder.
+		checkIntruder;
+		checkScatteredVocabulary.
 		"checkHomogeneityBreaker".
 		
 ]

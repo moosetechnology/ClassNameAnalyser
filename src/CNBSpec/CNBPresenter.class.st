@@ -155,7 +155,7 @@ CNBPresenter >> goDarkerFor: aPattern [
 	(boxesToBeDarker isCollection not or: [ boxesToBeDarker isEmpty ])
 		ifTrue: [ ^ self ].
 	
-	self goDarker.
+	self goDarker. 
 	
 ]
 
