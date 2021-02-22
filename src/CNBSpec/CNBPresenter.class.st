@@ -198,6 +198,11 @@ CNBPresenter >> onResetClicked [
 	self reset
 ]
 
+{ #category : #initialization }
+CNBPresenter >> patternsDropList [
+	^ patternsDropList
+]
+
 { #category : #accessing }
 CNBPresenter >> projectSelector [ 
 	^ projectSelector 

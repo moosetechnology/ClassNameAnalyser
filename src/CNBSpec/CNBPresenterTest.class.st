@@ -2,9 +2,9 @@ Class {
 	#name : #CNBPresenterTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'cnbPresenter',
 		'projectCNB',
-		'cnbCanvas'
+		'cnbCanvas',
+		'presenter'
 	],
 	#category : #CNBSpec
 }
@@ -13,18 +13,19 @@ Class {
 CNBPresenterTest >> setUp [
 	super setUp.
 
-	cnbPresenter := CNBPresenter new.
+	presenter := CNBPresenter new.
 	projectCNB := CNBRoassal3Builder projectNameMatches: 'moose-*'.
 	cnbCanvas := projectCNB on: RSCanvas new.
-	cnbPresenter projectSelector text: 'moose-*'. 
-	cnbPresenter onLoadProjectClicked.
+	presenter projectSelector text: 'moose-*'. 
+	presenter onLoadProjectClicked.
+	presenter cnbSpecView openWithSpec.
 ]
 
 { #category : #tests }
 CNBPresenterTest >> testCanvasNotNil [
 
 
-	self assert: cnbPresenter cnbSpecView canvas isNotNil equals: true
+	self assert: presenter cnbSpecView canvas isNotNil equals: true
 ]
 
 { #category : #tests }
@@ -46,13 +47,13 @@ CNBPresenterTest >> testGoDarker [
 	
 	highlightedBoxes := ((CNBPatternSelector of: projectCNB) 
 			selectPatternOf: #'Scattered Vocabulary').
-	expectedBoxesToGoDarker := cnbPresenter boxesToBeDarkerFor: #'Scattered Vocabulary'.
+	expectedBoxesToGoDarker := presenter boxesToBeDarkerFor: #'Scattered Vocabulary'.
 	actualBoxesToGoDarker := cnbCanvas deepNodes 
 		reject: [ :each | highlightedBoxes includes: each model ].
 
-	cnbPresenter lookFor: #'Scattered Vocabulary'.
-	darkerBoxes := cnbPresenter boxesToBeDarkerFor: #'Scattered Vocabulary'.
-	self assert: highlightedBoxes size equals: (cnbPresenter lookFor: #'Scattered Vocabulary') size.
+	presenter lookFor: #'Scattered Vocabulary'.
+	darkerBoxes := presenter boxesToBeDarkerFor: #'Scattered Vocabulary'.
+	self assert: highlightedBoxes size equals: (presenter lookFor: #'Scattered Vocabulary') size.
 ]
 
 { #category : #tests }
@@ -65,4 +66,12 @@ CNBPresenterTest >> testNumberColorHighlighted [
 		selectPatternOf: #'Scattered Vocabulary').
 		
 	self assert: highlightedBoxes size equals: 3.
+]
+
+{ #category : #tests }
+CNBPresenterTest >> testSelectFatBlobs [
+	
+
+	presenter patternsDropList selectItem: #'Fat Blob'.
+	
 ]
