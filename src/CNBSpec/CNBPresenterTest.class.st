@@ -5,7 +5,8 @@ Class {
 		'projectCNB',
 		'cnbCanvas',
 		'presenter',
-		'roots'
+		'roots',
+		'suffixModels'
 	],
 	#category : #CNBSpec
 }
@@ -21,6 +22,7 @@ CNBPresenterTest >> setUp [
 	presenter projectSelector text: 'moose-*'. 
 	presenter onLoadProjectClicked.
 	presenter cnbSpecView openWithSpec.
+	suffixModels := projectCNB viewModel suffixModels.
 ]
 
 { #category : #tests }
@@ -28,6 +30,40 @@ CNBPresenterTest >> testCanvasNotNil [
 
 
 	self assert: presenter cnbSpecView canvas isNotNil equals: true
+]
+
+{ #category : #tests }
+CNBPresenterTest >> testCheckConfetti [
+	| aSuffixModel expectedPatterns actualPatterns |
+	actualPatterns := { }.
+	
+	aSuffixModel := suffixModels 
+		detect: [ :each | each package = 'Moose-Algos-Graph-Tests'].
+		
+	aSuffixModel checkPatterns.
+	
+	expectedPatterns := aSuffixModel patterns.
+	
+	self
+		assert: (expectedPatterns collect: #name) asSet
+		equals: actualPatterns asSet 
+]
+
+{ #category : #tests }
+CNBPresenterTest >> testCheckFatBlob [
+	| aSuffixModel expectedPatterns actualPatterns |
+	actualPatterns := { #'Fat Blob'}.
+	
+	aSuffixModel := suffixModels 
+		detect: [ :each | each package = 'Moose-Algos-Graph-Tests'].
+		
+	aSuffixModel checkPatterns.
+	
+	expectedPatterns := aSuffixModel patterns.
+	
+	self
+		assert: (expectedPatterns collect: #name) asSet
+		equals: actualPatterns asSet 
 ]
 
 { #category : #tests }
@@ -56,14 +92,6 @@ CNBPresenterTest >> testGoDarker [
 	presenter lookFor: #'Scattered Vocabulary'.
 	darkerBoxes := presenter boxesToBeDarkerFor: #'Scattered Vocabulary'.
 	self assert: highlightedBoxes size equals: (presenter lookFor: #'Scattered Vocabulary') size.
-]
-
-{ #category : #tests }
-CNBPresenterTest >> testHierarchyPattern [
-
-	| aRoot |
-	aRoot := roots atRandom.
-	self assert: aRoot pattern name equals: (CNBPatternSelector of: aRoot) name 
 ]
 
 { #category : #tests }

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'description',
 		'condition',
-		'elements'
+		'elements',
+		'name'
 	],
 	#category : #'CNB-Core'
 }
@@ -21,5 +22,10 @@ CNBAbstractPattern >> description [
 
 { #category : #accessing }
 CNBAbstractPattern >> elements [
+	self subclassResponsibility 
+]
+
+{ #category : #accessing }
+CNBAbstractPattern >> name [
 	self subclassResponsibility 
 ]

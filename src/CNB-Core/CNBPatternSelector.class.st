@@ -73,14 +73,6 @@ CNBPatternSelector >> fatBlobSize [
 	^ fatBlobSize 
 ]
 
-{ #category : #'as yet unclassified' }
-CNBPatternSelector >> hasIntrudersPercentageOf: aPercentage [
-	| intrudersModels models |
-	models := cnb viewModel packageViewModels flatCollect: #models.
-	intrudersModels := models select: [ :each | each hasIntruder ].
-	^intrudersModels 
-]
-
 { #category : #initialization }
 CNBPatternSelector >> initialize [ 
 	super initialize.
@@ -135,49 +127,57 @@ CNBPatternSelector >> patternsDictionary [
 	^ patternsDictionary 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #selectPatterns }
 CNBPatternSelector >> selectConfetti [
 	
-	^ self models select: [ :each | each isConfetti ]
+	^ self models select: [ :each | (each patterns collect: #name) includes:  #'Confetti' ]
 
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #selectPatterns }
 CNBPatternSelector >> selectFatBlob [
 
-	^ self models select: [ :each | each checkFatBlob ].
+	^ self models select: [ :each | (each patterns collect: #name) includes: #'Fat Blob'  ].
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #selectPatterns }
+CNBPatternSelector >> selectHomogeneityBreaker [ 
+
+	^ self models select: [ :each | (each patterns collect: #name) includes: #'Homogeneity Breaker' ]
+
+]
+
+{ #category : #selectPatterns }
 CNBPatternSelector >> selectHomogeneous [
 	
-	^ self models select: [ :each | each checkHomogeneous ]
+	^ self models select: [ :each | (each patterns collect: #name) includes:  #'Homogeneous' ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #selectPatterns }
 CNBPatternSelector >> selectIntruders [
 	
-	^ self models select: [ :each | each checkIntruder ]
+	^ self models select: [ :each | (each patterns collect: #name) includes:  #'Intruder' ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #selectPatterns }
 CNBPatternSelector >> selectPatternOf: aSymbol [
 
 	^ patternsDictionary at: aSymbol
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #selectPatterns }
 CNBPatternSelector >> selectScatteredVocabulary [
+
 	cnb rootModels do: [ :each | each hasScatteredVocabulary ].
-	^ self models select: [ :each | each isScattered ]
+	^ self models select: [ :each | (each patterns collect: #name) includes: #'Scattered Vocabulary' ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #selectPatterns }
 CNBPatternSelector >> selectSnowFlakes [
 	
-	^ self models select: [ :each | each isSnowFlakes ]
+	^ self models select: [ :each | (each patterns collect: #name) includes:  #'Snow Flakes' ]
 ]
 
 { #category : #accessing }

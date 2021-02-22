@@ -13,3 +13,20 @@ CNBHomogeneousPattern >> check: aSuffixModel [
 
 
 ]
+
+{ #category : #accessing }
+CNBHomogeneousPattern >> description [
+	^ description
+]
+
+{ #category : #initialization }
+CNBHomogeneousPattern >> initialize [
+	super initialize.
+	description := 'I am a Homogeneous'.
+	name := #'Homogeneous'
+]
+
+{ #category : #accessing }
+CNBHomogeneousPattern >> name [
+	^ name
+]

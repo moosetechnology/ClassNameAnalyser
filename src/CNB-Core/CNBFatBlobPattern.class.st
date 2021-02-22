@@ -23,10 +23,17 @@ CNBFatBlobPattern >> check: aSuffixModel [
 
 { #category : #accessing }
 CNBFatBlobPattern >> description [ 
-	^ 'I am  FAT BLOB'
+	^ description
 ]
 
 { #category : #initialization }
 CNBFatBlobPattern >> initialize [
 	super initialize.
+	description := 'I am  FAT BLOB'.
+	name := #'Fat Blob'
+]
+
+{ #category : #accessing }
+CNBFatBlobPattern >> name [
+	^ name
 ]

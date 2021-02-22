@@ -16,7 +16,19 @@ CNBSnowFlakesPattern >> check: aSuffixModel [
 				].
 ]
 
+{ #category : #accessing }
+CNBSnowFlakesPattern >> description [
+	^ description
+]
+
 { #category : #initialization }
 CNBSnowFlakesPattern >> initialize [
 	super initialize.
+	description := 'I am a Snow Flakes'.
+	name := #'Snow Flakes'
+]
+
+{ #category : #accessing }
+CNBSnowFlakesPattern >> name [
+	^ name
 ]

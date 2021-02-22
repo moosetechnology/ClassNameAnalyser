@@ -27,3 +27,20 @@ CNBIntruderPattern >> check: aSuffixModel [
 	
 	
 ]
+
+{ #category : #accessing }
+CNBIntruderPattern >> description [
+	^ description
+]
+
+{ #category : #initialization }
+CNBIntruderPattern >> initialize [
+	super initialize.
+	description := 'I am a Intruder'.
+	name := #'Intruder'
+]
+
+{ #category : #accessing }
+CNBIntruderPattern >> name [
+	^ name
+]

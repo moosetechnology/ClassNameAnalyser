@@ -9,21 +9,25 @@ Class {
 		'root',
 		'classViewModels',
 		'size',
-		'isScattered',
 		'patterns'
 	],
 	#category : #CNBModels
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #attribution }
 CNBSuffixViewModel >> attributePattern [ 
 	self checkPatterns.
 	
 ]
 
-{ #category : #'as yet unclassified' }
-CNBSuffixViewModel >> beScattered [
-	isScattered := true.
+{ #category : #testing }
+CNBSuffixViewModel >> checkConfetti [
+	
+	| confetti |
+	confetti := CNBConfettiPattern new.
+	
+	(confetti check: self)
+		ifTrue: [ self patterns: confetti ]
 	
 ]
 
@@ -32,17 +36,28 @@ CNBSuffixViewModel >> checkFatBlob [
 
 	| fatBlobPattern |
 	fatBlobPattern := CNBFatBlobPattern new.
+	
 	(fatBlobPattern check: self)
 			ifTrue: [ self patterns: fatBlobPattern ]
 	
 ]
 
 { #category : #testing }
+CNBSuffixViewModel >> checkHomogeneityBreaker [
+
+	| homogeneityBreakerPattern |
+	homogeneityBreakerPattern := CNBHomogeneityBreakerPattern new.
+	
+	(homogeneityBreakerPattern check: self)
+		ifTrue: [ self patterns: homogeneityBreakerPattern. ]
+]
+
+{ #category : #testing }
 CNBSuffixViewModel >> checkHomogeneous [ 
 	
-	| homogeneousPattern |
-	
+	| homogeneousPattern |	
 	homogeneousPattern := CNBHomogeneousPattern new.
+	
 	(homogeneousPattern check: self)
 		ifTrue: [ self patterns: homogeneousPattern ]
 ]
@@ -52,20 +67,42 @@ CNBSuffixViewModel >> checkIntruder [
 
 	| intruderPattern |
 	intruderPattern := CNBIntruderPattern new.
+	
 	(intruderPattern check: self)
-	ifTrue: [ self patterns: intruderPattern ]
+		ifTrue: [ self patterns: intruderPattern ]
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #checking }
 CNBSuffixViewModel >> checkPatterns [ 
 	self 
 		checkFatBlob;
 		checkHomogeneous;
-		isConfetti;
-		isSnowFlakes;
+		checkConfetti;
+		checkSnowFlakes;
 		checkIntruder.
+		"checkHomogeneityBreaker".
 		
+]
+
+{ #category : #testing }
+CNBSuffixViewModel >> checkScatteredVocabulary [
+	
+	| scatteredVocabularyPattern |
+	scatteredVocabularyPattern := CNBScatteredVocabularyPattern new.
+	
+	(scatteredVocabularyPattern check: self)
+		ifTrue: [ self patterns: scatteredVocabularyPattern. ]
+]
+
+{ #category : #testing }
+CNBSuffixViewModel >> checkSnowFlakes [
+
+	| snowFlakesPattern |
+	snowFlakesPattern := CNBSnowFlakesPattern new.
+	
+	(snowFlakesPattern check: self)
+		ifTrue: [ self patterns: snowFlakesPattern. ]
 ]
 
 { #category : #accessing }
@@ -82,41 +119,15 @@ CNBSuffixViewModel >> classViewModels: aCollectionOfClassViewModels [
 { #category : #initialization }
 CNBSuffixViewModel >> initialize [ 
 	super initialize.
-	isScattered := false.
 	patterns := OrderedCollection new.
 	
  
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CNBSuffixViewModel >> innerRoots [
 	
 	^ classViewModels collect: #root.
-]
-
-{ #category : #testing }
-CNBSuffixViewModel >> isConfetti [
-	
-	| confetti |
-	confetti := CNBConfettiPattern new.
-	(confetti check: self)
-	ifTrue: [ self patterns: confetti ]
-	
-]
-
-{ #category : #testing }
-CNBSuffixViewModel >> isScattered [
-	^ isScattered 
-]
-
-{ #category : #testing }
-CNBSuffixViewModel >> isSnowFlakes [
-
-	| snowFlakesPattern |
-	snowFlakesPattern := CNBSnowFlakesPattern new.
-	^ (snowFlakesPattern check: self)
-	ifTrue: [ self patterns: snowFlakesPattern. ]
-	ifFalse: [ false  ]
 ]
 
 { #category : #accessing }

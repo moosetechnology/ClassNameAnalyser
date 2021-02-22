@@ -13,8 +13,19 @@ CNBConfettiPattern >> check: aSuffixModel [
 	
 ]
 
+{ #category : #accessing }
+CNBConfettiPattern >> description [
+	^ description
+]
+
 { #category : #initialization }
 CNBConfettiPattern >> initialize [ 
 	super initialize.
-	
+	description := 'I am a Confetti'.
+	name := #'Confetti'
+]
+
+{ #category : #accessing }
+CNBConfettiPattern >> name [
+	^ name
 ]
