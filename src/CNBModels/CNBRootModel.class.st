@@ -87,9 +87,7 @@ CNBRootModel >> hasScatteredVocabulary [
 	potentialCases := packageSuffixDictionary select: [ :each | 
 		                  each value size
 		                  >= CNBPatternSelector svMinSuffixSize ].
-	potentialCases isNotEmpty ifTrue: [ 
-		potentialCases valuesDo: [ :each | 
-			each do: [ :suffix | suffix beScattered ] ] ].
+	
 	^ potentialCases isNotEmpty
 ]
 

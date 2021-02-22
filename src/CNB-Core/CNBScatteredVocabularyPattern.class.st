@@ -5,7 +5,9 @@ Class {
 }
 
 { #category : #validation }
-CNBScatteredVocabularyPattern >> check: aSuffixModel [
+CNBScatteredVocabularyPattern >> check: aRoot [
+	^ aRoot hasScatteredVocabulary 
+	
 
 ]
 

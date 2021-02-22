@@ -40,7 +40,7 @@ CNBPresenterTest >> testCheckConfetti [
 	aSuffixModel := suffixModels 
 		detect: [ :each | each package = 'Moose-Algos-Graph-Tests'].
 		
-	aSuffixModel checkPatterns.
+	aSuffixModel attributePatterns.
 	
 	expectedPatterns := aSuffixModel patterns.
 	
@@ -95,6 +95,25 @@ CNBPresenterTest >> testGoDarker [
 ]
 
 { #category : #tests }
+CNBPresenterTest >> testGoDarkerForFatBlob [
+	
+	| expectedDarkerBoxes actualDarkerBoxes suffixViewModels |
+	
+	expectedDarkerBoxes := (presenter goDarkerFor: #'Fat Blob') 
+		collect: [ :each | each ] .
+	
+	suffixViewModels := roots 
+		flatCollect: [ :each | each concepts ].
+	actualDarkerBoxes := suffixViewModels 
+		select: [ :each | (each patterns collect: #name) includes: #'Fat Blob' ].
+	
+	self 
+		assert: (expectedDarkerBoxes collect: #package) asSet 
+		equals: (actualDarkerBoxes collect: #package)
+	
+]
+
+{ #category : #tests }
 CNBPresenterTest >> testHomogeneous [
 
 	| cnb homogeneousPackage homogeneousModel |
@@ -106,6 +125,25 @@ CNBPresenterTest >> testHomogeneous [
 		                    first.
 	self assert: homogeneousModel checkHomogeneous equals: true.
 
+]
+
+{ #category : #tests }
+CNBPresenterTest >> testLookForFatBlob [
+	
+	| expectedFatBlobBoxes actualFatBlobBoxes suffixViewModels |
+	
+	expectedFatBlobBoxes := (presenter lookFor: #'Fat Blob') 
+		collect: [ :each | each ] .
+	
+	suffixViewModels := roots 
+		flatCollect: [ :each | each concepts ].
+	actualFatBlobBoxes := suffixViewModels 
+		select: [ :each | (each patterns collect: #name) includes: #'Fat Blob' ].
+	
+	self 
+		assert: (expectedFatBlobBoxes collect: #package) asSet 
+		equals: (actualFatBlobBoxes collect: #package)
+	
 ]
 
 { #category : #tests }
@@ -139,7 +177,7 @@ CNBPresenterTest >> testSelectFatBlobs [
 	
 	| expectedFatBlobBoxes actualFatBlobBoxes suffixViewModels |
 	
-	expectedFatBlobBoxes := (presenter lookFor: #'Fat Blob') 
+	expectedFatBlobBoxes := (presenter goDarkerFor: #'Fat Blob') 
 		collect: [ :each | each ] .
 	
 	suffixViewModels := roots 

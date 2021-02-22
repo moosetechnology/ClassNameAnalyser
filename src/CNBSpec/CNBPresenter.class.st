@@ -129,7 +129,6 @@ CNBPresenter >> goDarkerFor: aPattern [
 		ifTrue: [ ^self ].
 	cnbSpecView canvas color: Color black whiter.
 	boxesToBeDarker do: [ :each |
-		Transcript show: each; cr.
 		each color: each color muchDarker ].
 	
 ]

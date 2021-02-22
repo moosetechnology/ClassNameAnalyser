@@ -91,7 +91,7 @@ CNBSuffixViewModel >> checkScatteredVocabulary [
 	| scatteredVocabularyPattern |
 	scatteredVocabularyPattern := CNBScatteredVocabularyPattern new.
 	
-	(scatteredVocabularyPattern check: self)
+	(scatteredVocabularyPattern check: self root)
 		ifTrue: [ self patterns: scatteredVocabularyPattern. ]
 ]
 
