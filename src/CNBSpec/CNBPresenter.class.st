@@ -91,20 +91,36 @@ CNBPresenter class >> open [
 ]
 
 { #category : #accessing }
+CNBPresenter >> allNodes [
+	^ cnbSpecView canvas deepNodes
+]
+
+{ #category : #accessing }
 CNBPresenter >> boxesToBeDarkerFor: aPattern [
 
-	| suffixModelsToBeHighlighted allNodes classModelsToBeHighlighted |
-	suffixModelsToBeHighlighted := self lookFor: aPattern.	
-	classModelsToBeHighlighted := suffixModelsToBeHighlighted 
-		                              flatCollect: [ :each | 
-		                              each classViewModels ].
-	boxesToHighlight := suffixModelsToBeHighlighted union: classModelsToBeHighlighted.
-	suffixModelsToBeHighlighted isNotEmpty ifFalse: [ ^ self ].
-	allNodes := cnbSpecView canvas deepNodes.
-	^ allNodes reject: [ :each | 
+
+	boxesToHighlight := self boxesToHighlightFor: aPattern.
+	boxesToHighlight isNotEmpty ifFalse: [ ^ self ].
+	
+	^ self allNodes reject: [ :each | 
 		  (boxesToHighlight) 
 			  includes: each model ].
 	
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> boxesToHighlightFor: aPattern [
+
+	| suffixModelsToBeHighlighted classModelsToBeHighlighted |
+	
+	suffixModelsToBeHighlighted := self lookFor: aPattern.	
+		
+	classModelsToBeHighlighted := suffixModelsToBeHighlighted 
+		                              flatCollect: [ :each | 
+		                              each classViewModels ].
+	
+	^ (suffixModelsToBeHighlighted
+			union: classModelsToBeHighlighted).
 ]
 
 { #category : #accessing }
@@ -121,15 +137,25 @@ CNBPresenter >> connectPresenters [
 	
 ]
 
+{ #category : #accessing }
+CNBPresenter >> goDarker [ 
+
+	cnbSpecView canvas 
+		color: Color black whiter.
+		
+	boxesToBeDarker do: [ :each |
+		each color: each color muchDarker ].
+]
+
 { #category : #util }
 CNBPresenter >> goDarkerFor: aPattern [
 	self onResetClicked.
+	
 	boxesToBeDarker := (self boxesToBeDarkerFor: aPattern).
 	(boxesToBeDarker isCollection not or: [ boxesToBeDarker isEmpty ])
-		ifTrue: [ ^self ].
-	cnbSpecView canvas color: Color black whiter.
-	boxesToBeDarker do: [ :each |
-		each color: each color muchDarker ].
+		ifTrue: [ ^ self ].
+	
+	self goDarker.
 	
 ]
 

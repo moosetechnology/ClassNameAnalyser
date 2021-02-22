@@ -11,6 +11,15 @@ Class {
 	#category : #CNBSpec
 }
 
+{ #category : #tests }
+CNBPresenterTest >> changeToCalypso [ 
+	projectCNB := CNBRoassal3Builder projectNameMatches: 'calypso-*'.
+	presenter projectSelector text: 'calypso-*'. 
+	presenter onLoadProjectClicked.
+	presenter cnbSpecView openWithSpec.
+	suffixModels := projectCNB viewModel suffixModels.
+]
+
 { #category : #running }
 CNBPresenterTest >> setUp [
 	super setUp.
@@ -35,18 +44,23 @@ CNBPresenterTest >> testCanvasNotNil [
 { #category : #tests }
 CNBPresenterTest >> testCheckConfetti [
 	| aSuffixModel expectedPatterns actualPatterns |
-	actualPatterns := { }.
+	self changeToCalypso.
+	
+	actualPatterns :=  #'Confetti'.
 	
 	aSuffixModel := suffixModels 
-		detect: [ :each | each package = 'Moose-Algos-Graph-Tests'].
-		
-	aSuffixModel attributePatterns.
+		detect: [ :each | each name = 'Example' 
+			and: [ each package = 'Calypso-NavigationModel-Tests' ] ].
 	
-	expectedPatterns := aSuffixModel patterns.
+		
+	aSuffixModel checkPatterns.
+	
+	expectedPatterns := aSuffixModel patterns detect: [ :each | each name = #'Confetti' ].
 	
 	self
-		assert: (expectedPatterns collect: #name) asSet
-		equals: actualPatterns asSet 
+		assert: expectedPatterns name
+		
+		equals: actualPatterns  
 ]
 
 { #category : #tests }
@@ -64,6 +78,67 @@ CNBPresenterTest >> testCheckFatBlob [
 	self
 		assert: (expectedPatterns collect: #name) asSet
 		equals: actualPatterns asSet 
+]
+
+{ #category : #tests }
+CNBPresenterTest >> testCheckHomogeneous [
+	| aSuffixModel expectedPatterns actualPatterns |
+	
+	actualPatterns :=  #'Homogeneous'.
+	
+	aSuffixModel := suffixModels 
+		detect: [ :each | each name = 'Strategy' 
+			and: [ each package = 'Moose-Query' ] ].
+	
+		
+	aSuffixModel checkPatterns.
+	
+	expectedPatterns := aSuffixModel patterns detect: [ :each | each name = #'Homogeneous' ].
+	
+	self
+		assert: expectedPatterns name
+		
+		equals: actualPatterns  
+]
+
+{ #category : #tests }
+CNBPresenterTest >> testCheckIntruder [
+	| aSuffixModel expectedPatterns actualPatterns |
+	
+	actualPatterns :=  #'Intruder'.
+	
+	aSuffixModel := suffixModels 
+		detect: [ :each | each name = 'Command' ].
+	
+		
+	aSuffixModel checkPatterns.
+	
+	expectedPatterns := aSuffixModel patterns detect: [ :each | each name = #'Intruder' ].
+	
+	self
+		assert: expectedPatterns name
+		
+		equals: actualPatterns  
+]
+
+{ #category : #tests }
+CNBPresenterTest >> testCheckSnowFlakes [
+	| aSuffixModel expectedPatterns actualPatterns |
+	
+	actualPatterns :=  #'Snow Flakes'.
+	
+	aSuffixModel := suffixModels 
+		detect: [ :each | each name = 'Engine' ].
+	
+		
+	aSuffixModel checkPatterns.
+	
+	expectedPatterns := aSuffixModel patterns detect: [ :each | each name = #'Snow Flakes' ].
+	
+	self
+		assert: expectedPatterns name
+		
+		equals: actualPatterns  
 ]
 
 { #category : #tests }
@@ -91,16 +166,21 @@ CNBPresenterTest >> testGoDarker [
 
 	presenter lookFor: #'Scattered Vocabulary'.
 	darkerBoxes := presenter boxesToBeDarkerFor: #'Scattered Vocabulary'.
-	self assert: highlightedBoxes size equals: (presenter lookFor: #'Scattered Vocabulary') size.
+	self 
+		assert: highlightedBoxes size 
+		equals: (presenter lookFor: #'Scattered Vocabulary') size.
 ]
 
 { #category : #tests }
 CNBPresenterTest >> testGoDarkerForFatBlob [
 	
-	| expectedDarkerBoxes actualDarkerBoxes suffixViewModels |
+	| expectedDarkerBoxes actualDarkerBoxes suffixViewModels fatBlobs |
 	
-	expectedDarkerBoxes := (presenter goDarkerFor: #'Fat Blob') 
-		collect: [ :each | each ] .
+	(presenter goDarkerFor: #'Fat Blob').
+	fatBlobs := (presenter boxesToBeDarkerFor: #'Fat Blob') 
+		collect: [ :each | each ].
+	expectedDarkerBoxes := (presenter cnbSpecView canvas deepNodes collect: [ :each | each model ])
+		reject: fatBlobs.
 	
 	suffixViewModels := roots 
 		flatCollect: [ :each | each concepts ].
@@ -177,7 +257,7 @@ CNBPresenterTest >> testSelectFatBlobs [
 	
 	| expectedFatBlobBoxes actualFatBlobBoxes suffixViewModels |
 	
-	expectedFatBlobBoxes := (presenter goDarkerFor: #'Fat Blob') 
+	expectedFatBlobBoxes := (presenter lookFor: #'Fat Blob') 
 		collect: [ :each | each ] .
 	
 	suffixViewModels := roots 
