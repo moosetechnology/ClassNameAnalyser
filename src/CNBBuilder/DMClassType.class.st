@@ -110,7 +110,7 @@ DMClassType >> multiSuffix [
 
 { #category : #accessing }
 DMClassType >> trait [ 	
-	type := #trait
+	type := #Trait
 ]
 
 { #category : #accessing }

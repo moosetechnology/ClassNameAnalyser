@@ -56,7 +56,6 @@ CNBPresenterTest >> testCheckConfetti [
 	aSuffixModel checkPatterns.
 	
 	expectedPatterns := aSuffixModel patterns detect: [ :each | each name = #'Confetti' ].
-	
 	self
 		assert: expectedPatterns name
 		
@@ -73,8 +72,7 @@ CNBPresenterTest >> testCheckFatBlob [
 		
 	aSuffixModel checkPatterns.
 	
-	expectedPatterns := aSuffixModel patterns.
-	
+	expectedPatterns := aSuffixModel patterns.	
 	self
 		assert: (expectedPatterns collect: #name) asSet
 		equals: actualPatterns asSet 
@@ -115,8 +113,7 @@ CNBPresenterTest >> testCheckHomogeneous [
 		
 	aSuffixModel checkPatterns.
 	
-	expectedPatterns := aSuffixModel patterns detect: [ :each | each name = #'Homogeneous' ].
-	
+	expectedPatterns := aSuffixModel patterns detect: [ :each | each name = #'Homogeneous' ].	
 	self
 		assert: expectedPatterns name
 		
@@ -236,20 +233,6 @@ CNBPresenterTest >> testGoDarkerForFatBlob [
 ]
 
 { #category : #tests }
-CNBPresenterTest >> testHomogeneous [
-
-	| cnb homogeneousPackage homogeneousModel |
-	cnb := DMClassNamesBlueprintSample projectNameMatches: 'moose-*'.
-	homogeneousPackage := cnb viewModel models detect: [ :package | 
-		                      package name = 'Moose-MenuBar' ].
-
-	homogeneousModel := homogeneousPackage models asOrderedCollection
-		                    first.
-	self assert: homogeneousModel checkHomogeneous equals: true.
-
-]
-
-{ #category : #tests }
 CNBPresenterTest >> testLookForFatBlob [
 	
 	| expectedFatBlobBoxes actualFatBlobBoxes suffixViewModels |
@@ -266,20 +249,6 @@ CNBPresenterTest >> testLookForFatBlob [
 		assert: (expectedFatBlobBoxes collect: #package) asSet 
 		equals: (actualFatBlobBoxes collect: #package)
 	
-]
-
-{ #category : #tests }
-CNBPresenterTest >> testNotHomogeneous [
-
-	| cnb notHomogeneousPackage notHomogeneousModel |
-	cnb := DMClassNamesBlueprintSample projectNameMatches: 'moose-*'.
-
-	notHomogeneousPackage := cnb viewModel models detect: [ :package | 
-		                         package name = 'Moose-Algos-Graph' ].
-
-	notHomogeneousModel := notHomogeneousPackage models
-		                       asOrderedCollection first. 
-		self assert: notHomogeneousModel checkHomogeneous equals: false
 ]
 
 { #category : #tests }

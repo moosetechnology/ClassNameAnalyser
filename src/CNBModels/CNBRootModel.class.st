@@ -106,23 +106,22 @@ CNBRootModel >> initializeConcepts [
 
 { #category : #testing }
 CNBRootModel >> isMonoClass [
-	 type = 'monoClass'
-	ifTrue: [ ^true ]
-	ifFalse: [ ^false ]
+	 ^ type = 'monoClass'
 ]
 
 { #category : #testing }
 CNBRootModel >> isMonoSuffix [
-	type = 'monoSuffix'
-	ifTrue: [ ^true ]
-	ifFalse: [ ^false ]
+	^ type = 'monoSuffix'
 ]
 
 { #category : #testing }
 CNBRootModel >> isMultiSuffix [
-	type = 'multiSuffix'
-	ifTrue: [ ^true ]
-	ifFalse: [ ^false ]
+	^ type = 'multiSuffix'
+]
+
+{ #category : #testing }
+CNBRootModel >> isTrait [ 
+	^ type = 'Trait'
 ]
 
 { #category : #accessing }
@@ -203,7 +202,7 @@ CNBRootModel >> suffixes: suffixesDictionary [
 
 { #category : #accessing }
 CNBRootModel >> type [ 
-	^type
+	^ type
 ]
 
 { #category : #accessing }

@@ -20,6 +20,11 @@ CNBSuffixViewModel >> attributePattern [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+CNBSuffixViewModel >> belongers [
+	^ self classViewModels select: [ :each | each root = root ].
+]
+
 { #category : #testing }
 CNBSuffixViewModel >> checkConfetti [
 	
@@ -134,6 +139,11 @@ CNBSuffixViewModel >> innerRoots [
 { #category : #accessing }
 CNBSuffixViewModel >> models [
 	^classViewModels 
+]
+
+{ #category : #'as yet unclassified' }
+CNBSuffixViewModel >> outsiders [
+	^ self classViewModels select: [ :each | each root ~= root ].
 ]
 
 { #category : #accessing }
