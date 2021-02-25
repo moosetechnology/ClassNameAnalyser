@@ -38,7 +38,7 @@ DMTColorAttributor >> initialize [
 	super initialize.
 	palette := DMPalette
 		with:
-			{#red . #yellow . #blue . #purple . #brown . #magenta . #orange . #green.
+			{#red . #yellow . #blue .#purple . #brown . #magenta . #orange . #green.
 			#pink . #tan . #cyan . #lightRed . #lightGreen . #lightMagenta.
 			#lightOrange . #lightYellow . #paleGreen . #paleMagenta . #paleOrange.
 			#palePeach . #paleRed . #lightBrown . #paleTan . #paleMagenta}

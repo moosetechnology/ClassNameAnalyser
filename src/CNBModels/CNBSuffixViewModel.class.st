@@ -96,8 +96,10 @@ CNBSuffixViewModel >> checkScatteredVocabulary [
 	
 	| scatteredVocabularyPattern |
 	scatteredVocabularyPattern := CNBScatteredVocabularyPattern new.
-	
-	(scatteredVocabularyPattern check: self root)
+	" min 3 classes per suffix"
+	(self hasNoOutsiders and: [ size >= CNBPatternSelector svMinClassSize ])
+		ifFalse: [ ^ false ].
+	(scatteredVocabularyPattern check: self)
 		ifTrue: [ self patterns: scatteredVocabularyPattern. ]
 ]
 
@@ -120,6 +122,11 @@ CNBSuffixViewModel >> classViewModels [
 CNBSuffixViewModel >> classViewModels: aCollectionOfClassViewModels [
 	classViewModels := aCollectionOfClassViewModels.
 	size := aCollectionOfClassViewModels size
+]
+
+{ #category : #testing }
+CNBSuffixViewModel >> hasNoOutsiders [
+	^ self belongers size = size
 ]
 
 { #category : #initialization }

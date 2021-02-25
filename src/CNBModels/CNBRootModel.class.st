@@ -69,26 +69,15 @@ CNBRootModel >> dominantSuffixes: aConceptAssociation [
 ]
 
 { #category : #testing }
-CNBRootModel >> hasScatteredVocabulary [
+CNBRootModel >> hasScatteredVocabularyInside: aPackageString [
 
-	| packageSuffixDictionary potentialCases potentialConcepts |
-	packageSuffixDictionary := Dictionary new.
-	" min 3 classes per suffix"
-	potentialConcepts := concepts select: [ :each | 
-		                     each size >= CNBPatternSelector svMinClassSize ].
+	 | electedSuffixes |
+	electedSuffixes := concepts 
+								select: [ :each | each package = aPackageString 
+										and: [ each size >= CNBPatternSelector svMinClassSize ] ].
 
-	self packages do: [ :aPackageName | 
-		packageSuffixDictionary
-			at: aPackageName
-			put:
-			(potentialConcepts select: [ :each | each package = aPackageName ]) ].
-
-	"min 3 suffixes per package"
-	potentialCases := packageSuffixDictionary select: [ :each | 
-		                  each value size
-		                  >= CNBPatternSelector svMinSuffixSize ].
+	^ (electedSuffixes size >= CNBPatternSelector svMinSuffixSize)
 	
-	^ potentialCases isNotEmpty
 ]
 
 { #category : #initialization }
