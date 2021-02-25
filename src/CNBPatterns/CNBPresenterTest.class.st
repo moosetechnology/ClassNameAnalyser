@@ -299,6 +299,55 @@ CNBPresenterTest >> testColorHighlighted [
 		equals: { Color purple } asSet 
 ]
 
+{ #category : #FatBlobTests }
+CNBPresenterTest >> testFatBlobsAreNotHomogeneous [
+
+	| fatBlobs |
+	fatBlobs := suffixModels select: [ :each | (each patterns collect: #name) includes: #'Fat Blob' ].
+	
+
+	self 
+		assert: (fatBlobs anySatisfy: [ :each | (each patterns collect: #name ) 
+					includes: #'Homogenerous'])
+		equals: false
+]
+
+{ #category : #FatBlobTests }
+CNBPresenterTest >> testFatBlobsBelongToMultiSuffix [
+
+	| fatBlobs |
+	fatBlobs := suffixModels select: [ :each | (each patterns collect: #name) includes: #'Fat Blob' ].
+	
+
+	self 
+		assert: (fatBlobs allSatisfy: [ :each | each root isMultiSuffix ])
+		equals: true
+]
+
+{ #category : #FatBlobTests }
+CNBPresenterTest >> testFatBlobsHasNoOutsiders [
+
+	| fatBlobs |
+	fatBlobs := suffixModels select: [ :each | (each patterns collect: #name) includes: #'Fat Blob' ].
+	
+
+	self 
+		assert: (fatBlobs allSatisfy: [ :each | each outsiders isEmpty ])
+		equals: true
+]
+
+{ #category : #FatBlobTests }
+CNBPresenterTest >> testFatBlobsSize [
+
+	| fatBlobs |
+	fatBlobs := suffixModels select: [ :each | (each patterns collect: #name) includes: #'Fat Blob' ].
+	
+
+	self 
+		assert: (fatBlobs allSatisfy: [ :each | each size >= CNBPatternSelector fatBlobSize ])
+		equals: true
+]
+
 { #category : #goDarker }
 CNBPresenterTest >> testGoDarkerForConfetti [ 
 	

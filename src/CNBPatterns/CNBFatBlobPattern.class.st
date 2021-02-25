@@ -7,19 +7,13 @@ Class {
 { #category : #validation }
 CNBFatBlobPattern >> check: aSuffixModel [
 
-	(aSuffixModel classViewModels size >= CNBPatternSelector fatBlobSize
-		and: [ 
-	aSuffixModel innerRoots asSet size = 1		 			
-	])
+	(aSuffixModel classViewModels size >= CNBPatternSelector fatBlobSize and: [ 
+		aSuffixModel outsiders isEmpty	])
 		ifFalse: [ ^false ]
+		
 		ifTrue: [ 
-			^ (aSuffixModel innerRoots atRandom 
-					isMonoSuffix not 
-						and: [ 
-						aSuffixModel innerRoots atRandom 
-							isMonoClass not 
-				])
-			 ]. 
+			^ (aSuffixModel root isMonoSuffix not and: [ aSuffixModel root isMonoClass not 
+				]) ]. 
 ]
 
 { #category : #accessing }
