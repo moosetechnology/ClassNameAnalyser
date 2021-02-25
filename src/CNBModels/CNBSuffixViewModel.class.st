@@ -16,6 +16,7 @@ Class {
 
 { #category : #attribution }
 CNBSuffixViewModel >> attributePattern [ 
+
 	self checkPatterns.
 	
 ]
@@ -95,10 +96,12 @@ CNBSuffixViewModel >> checkPatterns [
 CNBSuffixViewModel >> checkScatteredVocabulary [
 	
 	| scatteredVocabularyPattern |
+	
 	scatteredVocabularyPattern := CNBScatteredVocabularyPattern new.
-	" min 3 classes per suffix"
+	
 	(self hasNoOutsiders and: [ size >= CNBPatternSelector svMinClassSize ])
 		ifFalse: [ ^ false ].
+		
 	(scatteredVocabularyPattern check: self)
 		ifTrue: [ self patterns: scatteredVocabularyPattern. ]
 ]
