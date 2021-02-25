@@ -156,6 +156,17 @@ CNBPresenterTest >> testCheckConfetti [
 		equals: actualPatterns  
 ]
 
+{ #category : #confettiTests }
+CNBPresenterTest >> testCheckConfettiNumberInCNB [
+
+	| confetti |
+	confetti := suffixModels select: [ :each | (each patterns collect: #name) includes: #'Confetti' ].
+	
+	self 
+		assert: confetti size 
+		equals: 1
+]
+
 { #category : #checkingOneSuffixPattern }
 CNBPresenterTest >> testCheckFatBlob [
 	| aSuffixModel expectedPatterns actualPatterns |
@@ -297,6 +308,34 @@ CNBPresenterTest >> testColorHighlighted [
 	self
 		assert: (highlightedBoxes collect: #color) asSet
 		equals: { Color purple } asSet 
+]
+
+{ #category : #confettiTests }
+CNBPresenterTest >> testConfettiOutsiders [
+
+	| confetti |
+	confetti := suffixModels select: [ :each | (each patterns collect: #name) includes: #'Confetti' ].
+	
+	self 
+		assert: (confetti allSatisfy: [ :each | 
+						(each outsiders size <= CNBPatternSelector confettiPourcentage ) ])
+		equals: true
+
+	
+]
+
+{ #category : #confettiTests }
+CNBPresenterTest >> testConfettiSize [
+
+	| confetti |
+	confetti := suffixModels select: [ :each | (each patterns collect: #name) includes: #'Confetti' ].
+	
+	self 
+		assert: (confetti allSatisfy: [ :each | 
+						(each belongers size >= CNBPatternSelector confettiSize ) ])
+		equals: true
+
+	
 ]
 
 { #category : #FatBlobTests }
