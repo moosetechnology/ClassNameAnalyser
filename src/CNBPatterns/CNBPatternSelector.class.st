@@ -11,7 +11,12 @@ Class {
 		'svMinClassSize',
 		'svMinSuffixSize',
 		'patternsDictionary',
-		'confettiPourcentage'
+		'confettiPourcentage',
+		'hbMonoMinSuffixSize',
+		'hbMonoMaxSuffixSize',
+		'hbMultiPourcentage',
+		'hbMultiMinSuffixSize',
+		'occurrences'
 	],
 	#category : #CNBPatterns
 }
@@ -35,9 +40,51 @@ CNBPatternSelector class >> fatBlobSize [
 ]
 
 { #category : #accessing }
+CNBPatternSelector class >> hbMaxSuffixSize [
+	^ self new
+		hbMonoMaxSuffixSize
+]
+
+{ #category : #accessing }
+CNBPatternSelector class >> hbMinSuffixSize [
+	^ self new
+		hbMinSuffixSize
+]
+
+{ #category : #accessing }
+CNBPatternSelector class >> hbMonoMaxSuffixSize [
+	^ self new
+		hbMonoMaxSuffixSize
+]
+
+{ #category : #accessing }
+CNBPatternSelector class >> hbMonoMinSuffixSize [
+	^ self new
+		hbMonoMinSuffixSize
+]
+
+{ #category : #accessing }
+CNBPatternSelector class >> hbMultiMinSuffixSize [ 
+	^ self new
+		hbMultiMinSuffixSize
+]
+
+{ #category : #accessing }
+CNBPatternSelector class >> hbMultiPourcentage [
+	^ self new
+		hbMultiPourcentage
+]
+
+{ #category : #accessing }
 CNBPatternSelector class >> intrudersPercentage [ 
 	^self new
 		intrudersPercentage 
+]
+
+{ #category : #'as yet unclassified' }
+CNBPatternSelector class >> occurrences [ 
+	^ self new
+		occurrences
 ]
 
 { #category : #'instance creation' }
@@ -79,6 +126,26 @@ CNBPatternSelector >> fatBlobSize [
 	^ fatBlobSize 
 ]
 
+{ #category : #accessing }
+CNBPatternSelector >> hbMonoMaxSuffixSize [
+	^ hbMonoMaxSuffixSize
+]
+
+{ #category : #accessing }
+CNBPatternSelector >> hbMonoMinSuffixSize [
+	^ hbMonoMinSuffixSize
+]
+
+{ #category : #accessing }
+CNBPatternSelector >> hbMultiMinSuffixSize [
+	^ hbMultiMinSuffixSize
+]
+
+{ #category : #accessing }
+CNBPatternSelector >> hbMultiPourcentage [
+	^ hbMultiPourcentage
+]
+
 { #category : #initialization }
 CNBPatternSelector >> initialize [ 
 	super initialize.
@@ -89,7 +156,11 @@ CNBPatternSelector >> initialize [
 	confettiPourcentage := 30. 
 	svMinClassSize := 3.
 	svMinSuffixSize := 3.
-	
+	hbMonoMinSuffixSize := 1. 
+	hbMonoMaxSuffixSize := 6 .
+	hbMultiPourcentage := 50.
+	hbMultiMinSuffixSize := 3.
+	occurrences := 2.
 ]
 
 { #category : #initialization }
@@ -102,9 +173,9 @@ CNBPatternSelector >> initializePatternsDictionary [
 				#'Intruders' -> self selectIntruders .
 				#'Scattered Vocabulary' -> self selectScatteredVocabulary .
 				#'Snow Flakes' -> self selectSnowFlakes .
-				
+				#'Homogeneity Breaker' -> self selectHomogeneityBreaker
 	 } asDictionary 
-	"#'Homogeneity Breaker' -> self selectHomogeneityBreaker"
+	
 ]
 
 { #category : #accessing }
@@ -120,6 +191,11 @@ CNBPatternSelector >> models [
 { #category : #accessing }
 CNBPatternSelector >> nbrIntrudersNeighbors [
 	^ nbrIntrudersNeighbors
+]
+
+{ #category : #accessing }
+CNBPatternSelector >> occurrences [ 
+	^ occurrences
 ]
 
 { #category : #'instance creation' }

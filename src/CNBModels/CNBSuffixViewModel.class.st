@@ -14,6 +14,19 @@ Class {
 	#category : #CNBModels
 }
 
+{ #category : #'as yet unclassified' }
+CNBSuffixViewModel >> appearsInSeveralPackages [
+	
+	| siblings homogeneityBreakerSiblingsCheck |
+	siblings := self root concepts select: [ :each | each name = name ].
+	
+	homogeneityBreakerSiblingsCheck := (siblings asOrderedCollection 
+		collect: [ :each | CNBHomogeneityBreakerPattern check: each ]).
+	
+	^ ((homogeneityBreakerSiblingsCheck occurrencesOf: true) >= CNBPatternSelector occurrences) 
+	
+]
+
 { #category : #attribution }
 CNBSuffixViewModel >> attributePattern [ 
 
@@ -54,7 +67,7 @@ CNBSuffixViewModel >> checkHomogeneityBreaker [
 	| homogeneityBreakerPattern |
 	homogeneityBreakerPattern := CNBHomogeneityBreakerPattern new.
 	
-	(homogeneityBreakerPattern check: self)
+	((homogeneityBreakerPattern check: self) and: [ self appearsInSeveralPackages ])
 		ifTrue: [ self patterns: homogeneityBreakerPattern. ]
 ]
 
@@ -87,8 +100,8 @@ CNBSuffixViewModel >> checkPatterns [
 		checkConfetti;
 		checkSnowFlakes;
 		checkIntruder;
-		checkScatteredVocabulary.
-		"checkHomogeneityBreaker".
+		checkScatteredVocabulary;
+		checkHomogeneityBreaker.
 		
 ]
 

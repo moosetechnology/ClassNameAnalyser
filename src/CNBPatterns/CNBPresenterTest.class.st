@@ -183,7 +183,7 @@ CNBPresenterTest >> testCheckFatBlob [
 		equals: actualPatterns asSet 
 ]
 
-{ #category : #checkingOneSuffixPattern }
+{ #category : #HomogeneityBreakerTests }
 CNBPresenterTest >> testCheckHomogeneityBreaker [
 	| aSuffixModel expectedPatterns actualPatterns |
 	self changeToCalypso.
@@ -455,6 +455,49 @@ CNBPresenterTest >> testGoDarkerForSnowFlakes [
 	| expectedFatBlobBoxes actualFatBlobBoxes suffixViewModels |
 	
 	expectedFatBlobBoxes := (presenter goDarkerFor: #'Snow Flakes') 
+	
+]
+
+{ #category : #HomogeneityBreakerTests }
+CNBPresenterTest >> testHomogeneityBreakerExists [
+
+	| homogeneityBreakers |
+	homogeneityBreakers := suffixModels 
+			select: [ :each | (each patterns collect: #name) includes: #'Homogeneity Breaker' ].
+	
+	self 
+		assert: homogeneityBreakers isNotEmpty 
+		equals: true
+]
+
+{ #category : #HomogeneityBreakerTests }
+CNBPresenterTest >> testHomogeneityBreakerIsNotIntruder [
+
+	| homoBreaker intruders |
+	homoBreaker := suffixModels 
+			select: [ :each | (each patterns collect: #name) includes: #'Homogeneity Breaker'  ].
+	intruders := suffixModels 
+			select: [ :each | (each patterns collect: #name) includes: #'Intruder' ].
+			
+	self
+		assert: homoBreaker = intruders 
+		equals: false
+	
+	
+]
+
+{ #category : #HomogeneityBreakerTests }
+CNBPresenterTest >> testHomogeneityBreakerSelector [
+	
+		| aSuffixModel |
+		self changeToCalypso.
+		aSuffixModel := suffixModels detect: [ :each | each name = 'Strategy' ].
+		aSuffixModel checkHomogeneityBreaker.
+		
+		self 
+			assert: ((aSuffixModel patterns collect: #name) includes: #'Homogeneity Breaker')
+			equals: true
+
 	
 ]
 

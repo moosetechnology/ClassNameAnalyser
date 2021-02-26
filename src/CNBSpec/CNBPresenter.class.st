@@ -102,9 +102,7 @@ CNBPresenter >> boxesToBeDarkerFor: aPattern [
 	boxesToHighlight := self boxesToHighlightFor: aPattern.
 	boxesToHighlight isNotEmpty ifFalse: [ ^ self ].
 	
-	^ self allNodes reject: [ :each | 
-		  (boxesToHighlight) 
-			  includes: each model ].
+	^ self allNodes reject: [ :each | (boxesToHighlight) includes: each model ].
 	
 ]
 

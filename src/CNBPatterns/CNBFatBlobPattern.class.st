@@ -9,7 +9,7 @@ CNBFatBlobPattern >> check: aSuffixModel [
 
 	(aSuffixModel classViewModels size >= CNBPatternSelector fatBlobSize and: [ 
 		aSuffixModel outsiders isEmpty	])
-		ifFalse: [ ^false ]
+		ifFalse: [ ^ false ]
 		
 		ifTrue: [ 
 			^ (aSuffixModel root isMonoSuffix not and: [ aSuffixModel root isMonoClass not 
