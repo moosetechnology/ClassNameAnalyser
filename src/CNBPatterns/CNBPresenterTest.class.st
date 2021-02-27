@@ -487,18 +487,15 @@ CNBPresenterTest >> testHomogeneityBreakerIsNotIntruder [
 ]
 
 { #category : #HomogeneityBreakerTests }
-CNBPresenterTest >> testHomogeneityBreakerSelector [
-	
-		| aSuffixModel |
-		self changeToCalypso.
-		aSuffixModel := suffixModels detect: [ :each | each name = 'Strategy' ].
-		aSuffixModel checkHomogeneityBreaker.
-		
-		self 
-			assert: ((aSuffixModel patterns collect: #name) includes: #'Homogeneity Breaker')
-			equals: true
+CNBPresenterTest >> testHomogeneityBreakersInCNB [
 
-	
+	| homogeneityBreakers |
+	homogeneityBreakers := suffixModels 
+		select: [ :each | (each patterns collect: #name) includes: #'Homogeneity Breaker' ].
+		
+	self 
+		assert: homogeneityBreakers size 
+		equals: 0
 ]
 
 { #category : #intrudersTests }

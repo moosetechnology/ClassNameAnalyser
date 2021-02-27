@@ -12,8 +12,13 @@ CNBHomogeneityBreakerPattern class >> check: aSuffixModel [
 
 { #category : #validation }
 CNBHomogeneityBreakerPattern >> check: aSuffixModel [
-
-	^ ((self checkMonoSuffix: aSuffixModel) or: [ self checkMultiSuffix: aSuffixModel ]).
+	
+	((aSuffixModel innerRoots 
+		anySatisfy: [ :each | each isMonoClass ]) 
+			or: [ aSuffixModel root isMonoSuffix ]) ifTrue: [ ^ false ].
+			
+	^ ((self checkMonoSuffix: aSuffixModel) 
+		or: [ self checkMultiSuffix: aSuffixModel ]).
 		
 ]
 
@@ -21,7 +26,7 @@ CNBHomogeneityBreakerPattern >> check: aSuffixModel [
 CNBHomogeneityBreakerPattern >> checkMonoSuffix: aSuffixModel [
 	
 	^ ((aSuffixModel root isMonoSuffix) 
-			and: [ (aSuffixModel outsiders collect: #root) asSet size = 1 
+			and: [ (aSuffixModel outsiders collect: #root) asSet size = 1 "are not monoclasses"
 				and: [ aSuffixModel outsiders size
 					between: CNBPatternSelector hbMonoMinSuffixSize 
 					and: CNBPatternSelector hbMaxSuffixSize ] ]).
