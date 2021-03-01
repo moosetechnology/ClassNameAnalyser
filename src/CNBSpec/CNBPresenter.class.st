@@ -14,8 +14,9 @@ Class {
 		'suffix',
 		'rootSelector',
 		'goDarker',
-		'boxesToBeDarker',
-		'boxesToHighlight',
+		'n',
+		'nodesToBeDarker',
+		'nodesToHighlight',
 		'reset'
 	],
 	#category : #CNBSpec
@@ -95,32 +96,6 @@ CNBPresenter >> allNodes [
 	^ cnbSpecView canvas deepNodes
 ]
 
-{ #category : #highlighting }
-CNBPresenter >> boxesToBeDarkerFor: aPattern [
-
-
-	boxesToHighlight := self boxesToHighlightFor: aPattern.
-	boxesToHighlight isNotEmpty ifFalse: [ ^ self ].
-	
-	^ self allNodes reject: [ :each | (boxesToHighlight) includes: each model ].
-	
-]
-
-{ #category : #highlighting }
-CNBPresenter >> boxesToHighlightFor: aPattern [
-
-	| suffixModelsToBeHighlighted classModelsToBeHighlighted |
-	
-	suffixModelsToBeHighlighted := self lookFor: aPattern.	
-		
-	classModelsToBeHighlighted := suffixModelsToBeHighlighted 
-		                              flatCollect: [ :each | 
-		                              each classViewModels ].
-	
-	^ (suffixModelsToBeHighlighted
-			union: classModelsToBeHighlighted).
-]
-
 { #category : #accessing }
 CNBPresenter >> cnbSpecView [
 	^ cnbSpecView
@@ -131,7 +106,7 @@ CNBPresenter >> connectPresenters [
 	super connectPresenters.
 	loadProjectButton action: [ self onLoadProjectClicked  ]. 
 	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self goDarkerFor: aPattern ].
-	reset action: [ self onResetClicked ] 
+	"reset action: [ self onResetClicked ] "
 	
 ]
 
@@ -141,16 +116,16 @@ CNBPresenter >> goDarker [
 	cnbSpecView canvas 
 		color: Color black whiter.
 		
-	boxesToBeDarker do: [ :each |
+	nodesToBeDarker do: [ :each |
 		each color: each color muchDarker ].
 ]
 
 { #category : #highlighting }
 CNBPresenter >> goDarkerFor: aPattern [
-	self onResetClicked.
+	"self onResetClicked."
 	
-	boxesToBeDarker := (self boxesToBeDarkerFor: aPattern).
-	(boxesToBeDarker isCollection not or: [ boxesToBeDarker isEmpty ])
+	nodesToBeDarker := (self nodesToBeDarkerFor: aPattern).
+	(nodesToBeDarker isCollection not or: [ nodesToBeDarker isEmpty ])
 		ifTrue: [ ^ self ].
 	
 	self goDarker. 
@@ -160,7 +135,7 @@ CNBPresenter >> goDarkerFor: aPattern [
 { #category : #initialization }
 CNBPresenter >> initialize [
 	super initialize.
-	boxesToBeDarker := OrderedCollection new.
+	nodesToBeDarker := OrderedCollection new.
 ]
 
 { #category : #initialization }
@@ -200,7 +175,46 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 CNBPresenter >> lookFor: aPattern [
 	" returns suffix models to be highlighted"
 
-	^ ((CNBPatternSelector of: projectCNB) selectPatternOf: aPattern)
+	^ (CNBPatternSelector of: projectCNB) 
+				selectPatternOf: aPattern
+	
+]
+
+{ #category : #highlighting }
+CNBPresenter >> nodesToBeDarker [
+	^ nodesToBeDarker
+]
+
+{ #category : #highlighting }
+CNBPresenter >> nodesToBeDarkerFor: aPattern [
+
+
+	nodesToHighlight := self nodesToHighlightFor: aPattern.
+	nodesToHighlight isNotEmpty ifFalse: [ ^ self ].
+	
+	^ self allNodes difference: nodesToHighlight
+	
+]
+
+{ #category : #highlighting }
+CNBPresenter >> nodesToHighlight [
+	^ nodesToHighlight
+]
+
+{ #category : #highlighting }
+CNBPresenter >> nodesToHighlightFor: aPattern [
+
+	| suffixModelsToBeHighlighted classModelsToBeHighlighted highlightedModels |
+	
+	suffixModelsToBeHighlighted := self lookFor: aPattern.	
+		
+	classModelsToBeHighlighted := suffixModelsToBeHighlighted 
+		                              flatCollect: [ :each | each classViewModels ].
+	
+	highlightedModels := (suffixModelsToBeHighlighted
+			union: classModelsToBeHighlighted).
+	
+	^ self allNodes select: [ :each | highlightedModels includes: each model ]
 	
 ]
 
@@ -218,7 +232,7 @@ CNBPresenter >> onLoadProjectClicked [
 
 { #category : #actions }
 CNBPresenter >> onResetClicked [
-	self reset
+	"self reset"
 ]
 
 { #category : #initialization }
@@ -235,15 +249,15 @@ CNBPresenter >> projectSelector [
 CNBPresenter >> reset [
 
 	| holderComposites boxesToReset labels |
-	(boxesToBeDarker isCollection not or: [ boxesToBeDarker isEmpty ]) 
+	(nodesToBeDarker isCollection not or: [ nodesToBeDarker isEmpty ]) 
 		ifTrue: [ ^ self ].
-	holderComposites := boxesToBeDarker select: [ :each | each class = RSComposite and:  
-		                    [ each children size = 2] ].
-	labels := boxesToBeDarker select: [ :each | each model isNil ].
+	holderComposites := nodesToBeDarker select: [ :each | each class = RSComposite and:  
+		                    [ each children size = 2] ]. "even suffix composites with 2 boxes"
+	labels := nodesToBeDarker select: [ :each | each model isNil ].
 	labels do: [ :each | each color: RSLabel new color ].
 	holderComposites do: [ :each | each color: Color white darker ].
 	cnbSpecView canvas color: Color white darker.
-	boxesToReset := boxesToBeDarker difference: holderComposites.
+	boxesToReset := nodesToBeDarker difference: holderComposites.
 	boxesToReset := boxesToReset difference: labels.
 	boxesToReset do: [ :each | each color: each model originalColor ]
 ]

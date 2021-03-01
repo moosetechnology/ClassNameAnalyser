@@ -148,7 +148,7 @@ CNBBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 				detect: [ :eachRootModel | eachClassModel root name = eachRootModel name ].
 			CNBClassViewModel new create: eachClassModel;
 				root: itsRoot;
-				originalColor: itsRoot color;
+				originalColor: itsRoot color copy;
 				color: itsRoot color ]
 ]
 
@@ -171,7 +171,7 @@ CNBBuilder >> doConceptViewModelsOf: aPackageModel using: rootModels [
 				name: eachConcept;
 				classViewModels: (self doClassViewModelsOf: classmodels using: rootModels);
 				root: itsRoot;
-				originalColor: itsRoot color;
+				originalColor: itsRoot color copy;
 				color: itsRoot color ]
 ]
 

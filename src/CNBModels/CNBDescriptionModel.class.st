@@ -120,6 +120,11 @@ CNBDescriptionModel >> create [
 ]
 
 { #category : #accessing }
+CNBDescriptionModel >> defaultColor [
+	^ Color white darker
+]
+
+{ #category : #accessing }
 CNBDescriptionModel >> homogeneous [
 	^homogeneous 
 ]

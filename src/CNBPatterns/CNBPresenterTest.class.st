@@ -393,20 +393,13 @@ CNBPresenterTest >> testFatBlobsSize [
 CNBPresenterTest >> testGoDarkerForFatBlob [ 
 
 
-	| expectedBoxes actualBoxes classBoxes suffixBoxes |
+	| expectedBoxes expectedColors actualColors  |
 	
-	expectedBoxes := presenter boxesToBeDarkerFor: #'Fat Blob'. 
-	
-	suffixBoxes := suffixModels 
-		select: [ :each | (each patterns collect: #name) includes: #'Fat Blob' ].
-		
-	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
-	
-	actualBoxes := suffixBoxes union: classBoxes.
-		
+	expectedBoxes := presenter nodesToBeDarkerFor: #'Fat Blob'. 
+	expectedColors := expectedBoxes collect: [ :each | each color ].
 	self 
-		assert: expectedBoxes  
-		equals: actualBoxes 
+		assert: expectedColors  
+		equals: actualColors  
 	
 	
 	
@@ -428,7 +421,7 @@ CNBPresenterTest >> testGoDarkerForHomogeneous [
 	
 	| expectedBoxes actualBoxes classBoxes suffixBoxes |
 	
-	expectedBoxes := presenter boxesToHighlightFor: #'Homogeneous'. 
+	expectedBoxes := presenter nodesToHighlightFor: #'Homogeneous'. 
 	suffixBoxes := suffixModels 
 		select: [ :each | (each patterns collect: #name) includes: #'Homogeneous' ].
 	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
@@ -449,12 +442,12 @@ CNBPresenterTest >> testGoDarkerForScatteredVocabulary [
 	
 	highlightedBoxes := ((CNBPatternSelector of: projectCNB) 
 			selectPatternOf: #'Scattered Vocabulary').
-	expectedBoxesToGoDarker := presenter boxesToBeDarkerFor: #'Scattered Vocabulary'.
+	expectedBoxesToGoDarker := presenter nodesToBeDarkerFor: #'Scattered Vocabulary'.
 	actualBoxesToGoDarker := cnbCanvas deepNodes 
 		reject: [ :each | highlightedBoxes includes: each model ].
 
 	presenter lookFor: #'Scattered Vocabulary'.
-	darkerBoxes := presenter boxesToBeDarkerFor: #'Scattered Vocabulary'.
+	darkerBoxes := presenter nodesToBeDarkerFor: #'Scattered Vocabulary'.
 	self 
 		assert: highlightedBoxes size 
 		equals: (presenter lookFor: #'Scattered Vocabulary') size.
@@ -475,7 +468,7 @@ CNBPresenterTest >> testHighlightConfetti [
 	| expectedBoxes actualBoxes classBoxes suffixBoxes |
 	self changeToCalypso.
 	
-	expectedBoxes := presenter boxesToHighlightFor: #'Confetti'. 
+	expectedBoxes := presenter nodesToHighlightFor: #'Confetti'. 
 	
 	suffixBoxes := suffixModels 
 		select: [ :each | (each patterns collect: #name) includes: #'Confetti' ].
@@ -494,7 +487,7 @@ CNBPresenterTest >> testHighlightFatBlob [
 
 	| expectedBoxes actualBoxes classBoxes suffixBoxes |
 	
-	expectedBoxes := presenter boxesToHighlightFor: #'Fat Blob'. 
+	expectedBoxes := presenter nodesToHighlightFor: #'Fat Blob'. 
 	
 	suffixBoxes := suffixModels 
 		select: [ :each | (each patterns collect: #name) includes: #'Fat Blob' ].
@@ -518,7 +511,7 @@ CNBPresenterTest >> testHighlightHomogeneityBreaker [
 	| expectedBoxes actualBoxes classBoxes suffixBoxes |
 	self changeToCalypso.
 	
-	expectedBoxes := presenter boxesToHighlightFor: #'Homogeneity Breaker'. 
+	expectedBoxes := presenter nodesToHighlightFor: #'Homogeneity Breaker'. 
 	
 	suffixBoxes := suffixModels 
 		select: [ :each | (each patterns collect: #name) includes: #'Homogeneity Breaker' ].
@@ -541,7 +534,7 @@ CNBPresenterTest >> testHighlightIntruders [
 
 	| expectedBoxes actualBoxes classBoxes suffixBoxes |
 	
-	expectedBoxes := presenter boxesToHighlightFor: #'Intruder'.
+	expectedBoxes := presenter nodesToHighlightFor: #'Intruder'.
 	 
 	suffixBoxes := suffixModels 
 		select: [ :each | (each patterns collect: #name) includes: #'Intruder' ].
@@ -565,7 +558,7 @@ CNBPresenterTest >> testHighlightScatteredVocabulary [
 
 	| expectedBoxes actualBoxes classBoxes suffixBoxes |
 	
-	expectedBoxes := presenter boxesToHighlightFor: #'Scattered Vocabulary'. 
+	expectedBoxes := presenter nodesToHighlightFor: #'Scattered Vocabulary'. 
 	
 	suffixBoxes := suffixModels 
 		select: [ :each | (each patterns collect: #name) includes: #'Scattered Vocabulary' ].
@@ -575,8 +568,8 @@ CNBPresenterTest >> testHighlightScatteredVocabulary [
 	actualBoxes := suffixBoxes union: classBoxes.
 		
 	self 
-		assert: expectedBoxes  
-		equals: actualBoxes 
+		assert: (expectedBoxes collect: #model) asOrderedCollection 
+		equals: actualBoxes asOrderedCollection 
 	
 	
 	
@@ -588,7 +581,7 @@ CNBPresenterTest >> testHighlightSnowFlakes [
 
 	| expectedBoxes actualBoxes classBoxes suffixBoxes |
 	
-	expectedBoxes := presenter boxesToHighlightFor: #'Snow Flakes'. 
+	expectedBoxes := presenter nodesToHighlightFor: #'Snow Flakes'. 
 	
 	suffixBoxes := suffixModels 
 		select: [ :each | (each patterns collect: #name) includes: #'Snow Flakes' ].
@@ -646,6 +639,42 @@ CNBPresenterTest >> testHomogeneityBreakersInCNB [
 		equals: 0
 ]
 
+{ #category : #goDarker }
+CNBPresenterTest >> testHomogeneousDarkerNodesDontIncludesHighlightedNodes [
+
+	| highlightedNodes darkerNodes |
+	presenter goDarkerFor: #'Homogeneous'.
+	
+	highlightedNodes := presenter nodesToHighlight.
+	darkerNodes := presenter nodesToBeDarker.
+	
+		self 
+			assert: (darkerNodes includesAll: highlightedNodes)
+			equals: false
+]
+
+{ #category : #goDarker }
+CNBPresenterTest >> testHomogeneousNodesGoDarkerColorName [
+
+	| highlightedNodes |
+	presenter goDarkerFor: #'Homogeneous'.
+	highlightedNodes := presenter nodesToHighlight.
+	self 
+		assert: (highlightedNodes collect: #color) atRandom name
+		equals: #gray
+]
+
+{ #category : #goDarker }
+CNBPresenterTest >> testHomogeneousNodesGoDarkerColorSize [
+
+	| highlightedNodes |
+	presenter goDarkerFor: #'Homogeneous'.
+	highlightedNodes := presenter nodesToHighlight.
+	self 
+		assert: (highlightedNodes collect: #color) asSet size 
+		equals: 1
+]
+
 { #category : #intrudersTests }
 CNBPresenterTest >> testIntrudersAreNotMonoClasses [
 
@@ -680,6 +709,17 @@ CNBPresenterTest >> testIntrudersSizeInsideCNB [
 	self 
 		assert: intruders size
 		equals: 6
+]
+
+{ #category : #goDarker }
+CNBPresenterTest >> testNodesGoDarker [
+
+	| darkerNodes highlightedNodes |
+	presenter goDarkerFor: #'Homogeneous'.
+	highlightedNodes := presenter nodesToHighlight.
+	self 
+		assert: (highlightedNodes collect: #color) asSet size 
+		equals: 1
 ]
 
 { #category : #tests }
