@@ -4,7 +4,7 @@ Extension { #name : #String }
 String >> piecesCutWhereNonAlphaNumeric [
 
 	| word nonAlphaNumericIndexes tokenizer pieces|
-	tokenizer := DMNameTokenizer new.
+	tokenizer := CNBNameTokenizer new.
 	nonAlphaNumericIndexes := OrderedCollection new.
 	pieces := OrderedCollection new.
 	word := self deepCopy.

@@ -1,11 +1,11 @@
 Class {
-	#name : #DMFilterer,
+	#name : #CNBFilterer,
 	#superclass : #Object,
 	#category : #CNBFeatureSelector
 }
 
 { #category : #filtering }
-DMFilterer >> removeAllDigitsAndSpecialCharsFrom: aName [
+CNBFilterer >> removeAllDigitsAndSpecialCharsFrom: aName [
 
 	| tokens |
 	tokens := self removeAllDigitsFrom: aName.
@@ -14,7 +14,7 @@ DMFilterer >> removeAllDigitsAndSpecialCharsFrom: aName [
 ]
 
 { #category : #filtering }
-DMFilterer >> removeAllDigitsFrom: aName [
+CNBFilterer >> removeAllDigitsFrom: aName [
 
 	| tokens token |
 	token := ''.
@@ -25,11 +25,11 @@ DMFilterer >> removeAllDigitsFrom: aName [
 ]
 
 { #category : #filtering }
-DMFilterer >> removeAllSpecialCharsFrom: aName [
+CNBFilterer >> removeAllSpecialCharsFrom: aName [
 
 	| tokenizer token tokens|
 	token := ''.
-	tokenizer := DMNameTokenizer new.
+	tokenizer := CNBNameTokenizer new.
 	tokens := aName piecesCutWhereNonAlphaNumeric.
 	tokens := tokens reject: [ :each | each asString isAllAlphaNumerics not ].
 	tokens do: [ :each | token := token , each asString ].	

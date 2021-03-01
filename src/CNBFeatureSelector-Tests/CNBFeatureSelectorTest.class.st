@@ -1,5 +1,5 @@
 Class {
-	#name : #FeatureSelectorTest,
+	#name : #CNBFeatureSelectorTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'featureSelector'
@@ -8,12 +8,12 @@ Class {
 }
 
 { #category : #running }
-FeatureSelectorTest >> setUp [ 
-	featureSelector := DMFeatureSelector new.
+CNBFeatureSelectorTest >> setUp [ 
+	featureSelector := CNBFeatureSelector new.
 ]
 
 { #category : #tests }
-FeatureSelectorTest >> testEXtractConceptFromAClassName [
+CNBFeatureSelectorTest >> testEXtractConceptFromAClassName [
 
 	| classModel aConcept |
 	classModel := CNBClassModel new.
@@ -23,13 +23,13 @@ FeatureSelectorTest >> testEXtractConceptFromAClassName [
 ]
 
 { #category : #tests }
-FeatureSelectorTest >> testExtractConceptFrom [
+CNBFeatureSelectorTest >> testExtractConceptFrom [
 
 	self assert: (featureSelector extractSuffixFrom: 'ClassName') equals: 'Name'
 ]
 
 { #category : #tests }
-FeatureSelectorTest >> testExtractConceptFromNameByDefault [
+CNBFeatureSelectorTest >> testExtractConceptFromNameByDefault [
 	"extracts the last symbol by default, the last word in CamelCase without any filters"
 	
 	self assert: (featureSelector extractSuffixFrom: 'ClassName34Blueprint') equals: 'Blueprint'.
@@ -39,7 +39,7 @@ FeatureSelectorTest >> testExtractConceptFromNameByDefault [
 ]
 
 { #category : #tests }
-FeatureSelectorTest >> testFilterAllSpecialCharsLastSymbol [
+CNBFeatureSelectorTest >> testFilterAllSpecialCharsLastSymbol [
 
 	| expected actual |
 	actual := featureSelector 
@@ -50,7 +50,7 @@ FeatureSelectorTest >> testFilterAllSpecialCharsLastSymbol [
 ]
 
 { #category : #tests }
-FeatureSelectorTest >> testFilterBothDigitsAndSpecialCharsLastSymbol [
+CNBFeatureSelectorTest >> testFilterBothDigitsAndSpecialCharsLastSymbol [
 
 	| expected actual |
 	actual := featureSelector 
@@ -61,7 +61,7 @@ FeatureSelectorTest >> testFilterBothDigitsAndSpecialCharsLastSymbol [
 ]
 
 { #category : #tests }
-FeatureSelectorTest >> testFilterDigitsAndSpecialCharsLastSymbol [
+CNBFeatureSelectorTest >> testFilterDigitsAndSpecialCharsLastSymbol [
 
 	| expected actual |
 	actual := featureSelector 
@@ -73,7 +73,7 @@ FeatureSelectorTest >> testFilterDigitsAndSpecialCharsLastSymbol [
 ]
 
 { #category : #tests }
-FeatureSelectorTest >> testFilteringAllDigitsLastSymbol [
+CNBFeatureSelectorTest >> testFilteringAllDigitsLastSymbol [
 
 	| expected actual |
 	actual := featureSelector 
@@ -84,7 +84,7 @@ FeatureSelectorTest >> testFilteringAllDigitsLastSymbol [
 ]
 
 { #category : #tests }
-FeatureSelectorTest >> testStem [
+CNBFeatureSelectorTest >> testStem [
 
 	| expected actual |
 	actual := featureSelector 
@@ -97,7 +97,7 @@ FeatureSelectorTest >> testStem [
 ]
 
 { #category : #tests }
-FeatureSelectorTest >> testStemLastSymbol [
+CNBFeatureSelectorTest >> testStemLastSymbol [
 
 	| expected actual |
 	actual := featureSelector 

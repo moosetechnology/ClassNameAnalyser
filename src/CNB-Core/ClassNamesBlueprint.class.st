@@ -12,14 +12,14 @@ Class {
 ClassNamesBlueprint >> description [
 | thePackageModels cnbDescription |
 	cnbDescription := CNBDescriptionModel new.
-	thePackageModels := (DMBuilder doPackageModelsOf: self viewModel).
+	thePackageModels := (CNBBuilder doPackageModelsOf: self viewModel).
 	cnbDescription 
 		name: self model name;
 		packageModels: thePackageModels;
 		rootClass: self rootClass;
 		model: self model;
-		rootModels: (DMBuilder doRootsOf: (thePackageModels flatCollect: #classModels) Accordingto: 		self rootClass);
-		packageViewModels: (DMBuilder doPackageViewModelsOf: self viewModel).
+		rootModels: (CNBBuilder doRootsOf: (thePackageModels flatCollect: #classModels) Accordingto: 		self rootClass);
+		packageViewModels: (CNBBuilder doPackageViewModelsOf: self viewModel).
 		cnbDescription create.
 		^cnbDescription 
 ]
@@ -28,7 +28,7 @@ ClassNamesBlueprint >> description [
 ClassNamesBlueprint >> initialize [
 	super initialize.
 	viewModel := CNBViewModel new.
-	visualizer := DMVisualizer new.
+	visualizer := CNBVisualizer new.
 
 ]
 
@@ -79,15 +79,15 @@ ClassNamesBlueprint >> show [
 ClassNamesBlueprint >> startBuilding [
 
 	| thePackageModels |
-	thePackageModels := DMBuilder doPackageModelsOf: self viewModel.
+	thePackageModels := CNBBuilder doPackageModelsOf: self viewModel.
 	self viewModel
 		name: self model name;
 		packageModels: thePackageModels;
 		model: self model;
-		rootModels: (DMBuilder
+		rootModels: (CNBBuilder
 				 doRootsOf: (thePackageModels flatCollect: #classModels)
 				 Accordingto: self rootClass);
-		packageViewModels: (DMBuilder doPackageViewModelsOf: self viewModel).
+		packageViewModels: (CNBBuilder doPackageViewModelsOf: self viewModel).
 		self viewModel attributeSuffixModelsToRoots.
 		self viewModel attributePatterns.
 ]

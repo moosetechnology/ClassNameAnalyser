@@ -23,7 +23,7 @@ CNBPackageViewModel >> modelsOrderedAscending [
 
 { #category : #accessing }
 CNBPackageViewModel >> modelsOrderedByColor [
-	^DMBuilder sort: suffixViewModels
+	^CNBBuilder sort: suffixViewModels
 ]
 
 { #category : #accessing }

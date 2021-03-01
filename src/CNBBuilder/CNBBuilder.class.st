@@ -1,8 +1,8 @@
 Class {
-	#name : #DMBuilder,
+	#name : #CNBBuilder,
 	#superclass : #Object,
-	#traits : 'DMTColorAttributor + DMTDataExtractor',
-	#classTraits : 'DMTColorAttributor classTrait + DMTDataExtractor classTrait',
+	#traits : 'CNBTColorAttributor + CNBTDataExtractor',
+	#classTraits : 'CNBTColorAttributor classTrait + CNBTDataExtractor classTrait',
 	#classInstVars : [
 		'rootmodels',
 		'conceptualmodel'
@@ -11,52 +11,52 @@ Class {
 }
 
 { #category : #counting }
-DMBuilder class >> countIntrudersIn: aViewModel [
+CNBBuilder class >> countIntrudersIn: aViewModel [
 	^self new
 		countIntrudersIn: aViewModel
 ]
 
 { #category : #enumerating }
-DMBuilder class >> do: anObject [
+CNBBuilder class >> do: anObject [
 	^self new 
 		do: anObject
 ]
 
 { #category : #doing }
-DMBuilder class >> doPackageModelsOf: aModel [
+CNBBuilder class >> doPackageModelsOf: aModel [
 
 	^self new 
 		doPackageModelsOf: aModel 
 ]
 
 { #category : #doing }
-DMBuilder class >> doPackageViewModelsOf: packageModels [
+CNBBuilder class >> doPackageViewModelsOf: packageModels [
 	^self new
 	doPackageViewModelsOf: packageModels 
 ]
 
 { #category : #doing }
-DMBuilder class >> doPrefixesDictionaryFrom: aCollectionOfClassModels [
+CNBBuilder class >> doPrefixesDictionaryFrom: aCollectionOfClassModels [
 	^self new 
 	doPrefixesDictionaryFrom: aCollectionOfClassModels
 
 ]
 
 { #category : #doing }
-DMBuilder class >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
+CNBBuilder class >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
 	^self new
 		doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass  
 ]
 
 { #category : #doing }
-DMBuilder class >> doSuffixesDictionaryFrom: aCollectionOfClassModels [
+CNBBuilder class >> doSuffixesDictionaryFrom: aCollectionOfClassModels [
 	^self new 
 	doSuffixesDictionaryFrom: aCollectionOfClassModels
 
 ]
 
 { #category : #extraction }
-DMBuilder class >> extractBiggestClassDepthFrom: aConceptualModel [ 
+CNBBuilder class >> extractBiggestClassDepthFrom: aConceptualModel [ 
 	| classModels |
 	classModels := self new 
 		extractClassModelsFrom: aConceptualModel.
@@ -65,13 +65,13 @@ DMBuilder class >> extractBiggestClassDepthFrom: aConceptualModel [
 ]
 
 { #category : #extraction }
-DMBuilder class >> extractClassModelsFrom: packageModels [ 	
+CNBBuilder class >> extractClassModelsFrom: packageModels [ 	
 	^self new
 		extractClassModelsFrom: packageModels 
 ]
 
 { #category : #extraction }
-DMBuilder class >> extractSmallestClassDepthFrom: aConceptualModel [
+CNBBuilder class >> extractSmallestClassDepthFrom: aConceptualModel [
 	| classModels |
 	classModels := self new 
 		extractClassModelsFrom: aConceptualModel.
@@ -82,14 +82,30 @@ DMBuilder class >> extractSmallestClassDepthFrom: aConceptualModel [
 ]
 
 { #category : #sorting }
-DMBuilder class >> sort: aCollection [ 
+CNBBuilder class >> sort: aCollection [ 
 
 	^self new
 		sortAccordingToPalette: aCollection 
 ]
 
+{ #category : #assignments }
+CNBBuilder >> assignColorByType: aType [
+
+	(aType = CNBClassType trait)
+	ifTrue: [ ^palette traitColor ].
+	
+	(aType = CNBClassType monoClass)
+	ifTrue: [ ^palette monoClassColor ].
+	
+	(aType = CNBClassType monoSuffix)
+	ifTrue: [  ^palette monoSuffixColor ].
+	
+	(aType = CNBClassType multiSuffix)
+	ifTrue: [ ^palette aColorForMultiSuffix ].
+]
+
 { #category : #accessing }
-DMBuilder >> color: rootModels [
+CNBBuilder >> color: rootModels [
 	| sortedRootModels coloredRootModels |
 	sortedRootModels := self sortRootModels: rootModels.
 	coloredRootModels := (sortedRootModels 
@@ -100,7 +116,7 @@ DMBuilder >> color: rootModels [
 ]
 
 { #category : #counting }
-DMBuilder >> countIntrudersIn: aCnbDescription [
+CNBBuilder >> countIntrudersIn: aCnbDescription [
 
 	| conceptVModels intruders conceptIntruders |
 	
@@ -119,12 +135,12 @@ DMBuilder >> countIntrudersIn: aCnbDescription [
 ]
 
 { #category : #enumerating }
-DMBuilder >> do: anObject [
+CNBBuilder >> do: anObject [
 	^anObject startBuilding 
 ]
 
 { #category : #accessing }
-DMBuilder >> doClassViewModelsOf: classmodels using: rootModels [
+CNBBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 	^ classmodels
 		collect: [ :eachClassModel | 
 			| itsRoot |
@@ -137,7 +153,7 @@ DMBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 ]
 
 { #category : #accessing }
-DMBuilder >> doConceptViewModelsOf: aPackageModel using: rootModels [
+CNBBuilder >> doConceptViewModelsOf: aPackageModel using: rootModels [
 	"On enveloppe chaque class du package dans son concept box "
 
 	| concepts |
@@ -160,7 +176,7 @@ DMBuilder >> doConceptViewModelsOf: aPackageModel using: rootModels [
 ]
 
 { #category : #doing }
-DMBuilder >> doPackageModelsOf: aViewModel [
+CNBBuilder >> doPackageModelsOf: aViewModel [
 	^ aViewModel model packages
 		collect: [ :eachPackage | 
 			CNBPackageModel 
@@ -168,7 +184,7 @@ DMBuilder >> doPackageModelsOf: aViewModel [
 ]
 
 { #category : #doing }
-DMBuilder >> doPackageViewModelsOf: aViewModel [ 
+CNBBuilder >> doPackageViewModelsOf: aViewModel [ 
 
 	^(aViewModel packageModels 
 		collect: [ :eachPackageModel | 
@@ -183,7 +199,7 @@ DMBuilder >> doPackageViewModelsOf: aViewModel [
 ]
 
 { #category : #doing }
-DMBuilder >> doPrefixesDictionaryFrom: aCollectionOfClassModels [
+CNBBuilder >> doPrefixesDictionaryFrom: aCollectionOfClassModels [
 	| prefixes  concepts |
 	prefixes := Dictionary new.
 	concepts := (aCollectionOfClassModels collect: #prefix).
@@ -192,7 +208,7 @@ DMBuilder >> doPrefixesDictionaryFrom: aCollectionOfClassModels [
 ]
 
 { #category : #doing }
-DMBuilder >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
+CNBBuilder >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
 	| allRoots initialeRootModels coloredRootModels rootModels |
 	self initialize.
 	allRoots := aCollectionOfClassModels
@@ -210,7 +226,7 @@ DMBuilder >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
 ]
 
 { #category : #doing }
-DMBuilder >> doSuffixesDictionaryFrom: aCollectionOfClassModels [
+CNBBuilder >> doSuffixesDictionaryFrom: aCollectionOfClassModels [
 	| suffixes concepts |
 	suffixes := Dictionary new.
 	concepts := (aCollectionOfClassModels collect: #suffix).
@@ -219,18 +235,29 @@ DMBuilder >> doSuffixesDictionaryFrom: aCollectionOfClassModels [
 ]
 
 { #category : #extracting }
-DMBuilder >> extractConceptsFrom: aPackageModel [
+CNBBuilder >> extractConceptsFrom: aPackageModel [
 
 	^aPackageModel classModels collect: [ :aClassModel | aClassModel suffix ]
 ]
 
+{ #category : #initialize }
+CNBBuilder >> initialize [
+	super initialize.
+	palette := CNBPalette
+		with:
+			{#red . #yellow . #blue .#purple . #brown . #magenta . #orange . #green.
+			#pink . #tan . #cyan . #lightRed . #lightGreen . #lightMagenta.
+			#lightOrange . #lightYellow . #paleGreen . #paleMagenta . #paleOrange.
+			#palePeach . #paleRed . #lightBrown . #paleTan . #paleMagenta}
+]
+
 { #category : #sorting }
-DMBuilder >> sortRootModels: aSetOfRootModels [
+CNBBuilder >> sortRootModels: aSetOfRootModels [
 	^(aSetOfRootModels sorted: #size descending)
 ]
 
 { #category : #internal }
-DMBuilder >> startFightOverConceptsBetween: aCollectionOfRootModels [
+CNBBuilder >> startFightOverConceptsBetween: aCollectionOfRootModels [
 	| concepts |
 	concepts := (aCollectionOfRootModels
 		flatCollect: [ :each | each suffixes keys ]) asSet.

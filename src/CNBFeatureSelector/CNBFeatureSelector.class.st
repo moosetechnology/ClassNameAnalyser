@@ -1,5 +1,5 @@
 Class {
-	#name : #DMFeatureSelector,
+	#name : #CNBFeatureSelector,
 	#superclass : #Object,
 	#instVars : [
 		'filtererAllDigits',
@@ -17,25 +17,25 @@ Class {
 }
 
 { #category : #actions }
-DMFeatureSelector class >> extractSuffixFrom: aString [
+CNBFeatureSelector class >> extractSuffixFrom: aString [
 	^self new
 		extractSuffixFrom: aString
 ]
 
 { #category : #actions }
-DMFeatureSelector >> extractClassNamesFrom: aPackageName [
+CNBFeatureSelector >> extractClassNamesFrom: aPackageName [
 	^ ((RPackageOrganizer default packageNamed: aPackageName)  definedClasses collect: [ :each | each instanceSide name ]).
 ]
 
 { #category : #actions }
-DMFeatureSelector >> extractClassesFrom: aPackageName [
+CNBFeatureSelector >> extractClassesFrom: aPackageName [
 
 	^ ((RPackageOrganizer default packageNamed: aPackageName)  
 			definedClasses collect: [ :each | each  ]) asOrderedCollection
 ]
 
 { #category : #actions }
-DMFeatureSelector >> extractPrefixFrom: aName [
+CNBFeatureSelector >> extractPrefixFrom: aName [
 
 	| aConcept tokens|
 	tokens := self tokenize: aName.
@@ -46,7 +46,7 @@ DMFeatureSelector >> extractPrefixFrom: aName [
 ]
 
 { #category : #actions }
-DMFeatureSelector >> extractRootClassFrom: aClass [
+CNBFeatureSelector >> extractRootClassFrom: aClass [
 
 	({ Object . ProtoObject } includes: aClass)
 		ifTrue: [ ^ aClass ].
@@ -61,7 +61,7 @@ DMFeatureSelector >> extractRootClassFrom: aClass [
 ]
 
 { #category : #actions }
-DMFeatureSelector >> extractSuffixFrom: aName [
+CNBFeatureSelector >> extractSuffixFrom: aName [
 
 	| aConcept tokens|
 	tokens := self tokenize: aName.
@@ -72,7 +72,7 @@ DMFeatureSelector >> extractSuffixFrom: aName [
 ]
 
 { #category : #actions }
-DMFeatureSelector >> filter: aConcept [
+CNBFeatureSelector >> filter: aConcept [
 
 	| symbol |
 	symbol := aConcept.
@@ -85,49 +85,49 @@ DMFeatureSelector >> filter: aConcept [
 ]
 
 { #category : #setter }
-DMFeatureSelector >> filterAllDigits: aBoolean [
+CNBFeatureSelector >> filterAllDigits: aBoolean [
 	 filtererAllDigits := aBoolean
 ]
 
 { #category : #setter }
-DMFeatureSelector >> filterAllDigitsAndSpecialChars: aBoolean [
+CNBFeatureSelector >> filterAllDigitsAndSpecialChars: aBoolean [
 
 	self filterAllDigits: aBoolean.
 	self filterSpecialChars: aBoolean
 ]
 
 { #category : #setter }
-DMFeatureSelector >> filterSpecialChars: aBoolean [
+CNBFeatureSelector >> filterSpecialChars: aBoolean [
 	 filterSpecialChars := aBoolean 
 ]
 
 { #category : #initialization }
-DMFeatureSelector >> initialize [ 
+CNBFeatureSelector >> initialize [ 
 
 	super initialize.
-	nameTokenizer := DMNameTokenizer new.
-	tokenStemmer := DMTokenStemmer new.
-	conceptualSymbolSelector := DMConceptualSymbolSelector new.
-	filterer := DMFilterer new.
+	nameTokenizer := CNBNameTokenizer new.
+	tokenStemmer := CNBTokenStemmer new.
+	conceptualSymbolSelector := CNBConceptualSymbolSelector new.
+	filterer := CNBFilterer new.
 	stemming := false.
 	filtererAllDigits := false.
 	filterSpecialChars := false.
 ]
 
 { #category : #actions }
-DMFeatureSelector >> selectPrefixFrom: tokens [
+CNBFeatureSelector >> selectPrefixFrom: tokens [
 
  ^ conceptualSymbolSelector selectFirstSymbolFrom: tokens 
 ]
 
 { #category : #actions }
-DMFeatureSelector >> selectSuffixFrom: tokens [
+CNBFeatureSelector >> selectSuffixFrom: tokens [
 
  ^ conceptualSymbolSelector selectLastSymbolFrom: tokens 
 ]
 
 { #category : #actions }
-DMFeatureSelector >> stem: aConcept [
+CNBFeatureSelector >> stem: aConcept [
 
 	(stemming) 
 		ifTrue: [ ^tokenStemmer stemToken: aConcept ]
@@ -135,13 +135,13 @@ DMFeatureSelector >> stem: aConcept [
 ]
 
 { #category : #setter }
-DMFeatureSelector >> stemming: aBoolean [
+CNBFeatureSelector >> stemming: aBoolean [
 
 	(aBoolean) 
 		ifTrue: [ stemming := true ]
 ]
 
 { #category : #actions }
-DMFeatureSelector >> tokenize: aName [
+CNBFeatureSelector >> tokenize: aName [
 	^ nameTokenizer tokenize: aName
 ]

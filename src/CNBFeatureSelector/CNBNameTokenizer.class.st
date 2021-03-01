@@ -1,16 +1,16 @@
 Class {
-	#name : #DMNameTokenizer,
+	#name : #CNBNameTokenizer,
 	#superclass : #Object,
 	#category : #CNBFeatureSelector
 }
 
 { #category : #parsing }
-DMNameTokenizer class >> tokenize: aName [ 
+CNBNameTokenizer class >> tokenize: aName [ 
 	^self new tokenize: aName 
 ]
 
 { #category : #tokenizing }
-DMNameTokenizer >> tokenize: aName [
+CNBNameTokenizer >> tokenize: aName [
 	| word token allTokens resultedTokens|
 	word := aName deepCopy.
 	token := ''.

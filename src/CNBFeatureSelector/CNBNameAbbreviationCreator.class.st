@@ -1,11 +1,11 @@
 Class {
-	#name : #DMNameAbbreviationCreator,
+	#name : #CNBNameAbbreviationCreator,
 	#superclass : #Object,
 	#category : #CNBFeatureSelector
 }
 
 { #category : #'as yet unclassified' }
-DMNameAbbreviationCreator class >> abbreviate: aName until: aNumber [ 
+CNBNameAbbreviationCreator class >> abbreviate: aName until: aNumber [ 
 
 	 ^self new 
 	abbreviate: aName
@@ -13,9 +13,9 @@ DMNameAbbreviationCreator class >> abbreviate: aName until: aNumber [
 ]
 
 { #category : #splitjoin }
-DMNameAbbreviationCreator >> abbreviate: aName until: aNumber [
+CNBNameAbbreviationCreator >> abbreviate: aName until: aNumber [
 	| tokens collections abbreviations |
-	tokens := DMNameTokenizer tokenize: aName.
+	tokens := CNBNameTokenizer tokenize: aName.
 	tokens size > aNumber
 		ifTrue: [ collections := self devide: tokens until: aNumber .
 	abbreviations := collections first
@@ -26,7 +26,7 @@ DMNameAbbreviationCreator >> abbreviate: aName until: aNumber [
 ]
 
 { #category : #splitjoin }
-DMNameAbbreviationCreator >> devide: aCollection until: aNumber [
+CNBNameAbbreviationCreator >> devide: aCollection until: aNumber [
 	| collection1 collection2 |
 	aCollection size > aNumber
 		ifTrue: [ collection1 := aCollection copyFrom: 1 to: aNumber.

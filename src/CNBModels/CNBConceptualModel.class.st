@@ -14,7 +14,7 @@ Class {
 
 { #category : #accessing }
 CNBConceptualModel >> allClassModels [ 
-	 ^DMBuilder extractClassModelsFrom: self packageModels.
+	 ^CNBBuilder extractClassModelsFrom: self packageModels.
 	
 ]
 

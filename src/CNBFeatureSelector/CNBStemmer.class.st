@@ -1,17 +1,17 @@
 Class {
-	#name : #DMStemmer,
-	#superclass : #DMMalAbstractStemmer,
+	#name : #CNBStemmer,
+	#superclass : #CNBMalAbstractStemmer,
 	#category : #CNBFeatureSelector
 }
 
 { #category : #'private-algorithm' }
-DMStemmer >> isVowelAt: anIndex [
+CNBStemmer >> isVowelAt: anIndex [
 	
 	^#eaoiuy includes: (string at: anIndex)
 ]
 
 { #category : #'private-algorithm' }
-DMStemmer >> performStemming: aString [
+CNBStemmer >> performStemming: aString [
 	"Performs the Porter stemming algrothim. More see:
 	M. Porter, An algorithm for suffix stripping, Program (1980)/ Vol. 14, No. 3, 130-137"
 	
@@ -34,7 +34,7 @@ DMStemmer >> performStemming: aString [
 ]
 
 { #category : #'private-algorithm' }
-DMStemmer >> preprocessing [
+CNBStemmer >> preprocessing [
 	
 	string first = $y ifTrue: [string at: 1 put: $Y].
 	2
@@ -46,7 +46,7 @@ DMStemmer >> preprocessing [
 ]
 
 { #category : #'private-algorithm' }
-DMStemmer >> stemEndsWithConsonantVowelConsonant [
+CNBStemmer >> stemEndsWithConsonantVowelConsonant [
 	
 	^cursor >= 3
 		and:
@@ -58,7 +58,7 @@ DMStemmer >> stemEndsWithConsonantVowelConsonant [
 ]
 
 { #category : #'private-algorithm' }
-DMStemmer >> stemEndsWithDoubleConsonant [
+CNBStemmer >> stemEndsWithDoubleConsonant [
 	"comment stating purpose of message"
 	
 	^cursor >= 2
@@ -68,7 +68,7 @@ DMStemmer >> stemEndsWithDoubleConsonant [
 ]
 
 { #category : #'private-algorithm' }
-DMStemmer >> stemIncludesVowel [
+CNBStemmer >> stemIncludesVowel [
 	"comment stating purpose of message"
 	
 	1
@@ -78,7 +78,7 @@ DMStemmer >> stemIncludesVowel [
 ]
 
 { #category : #'private-algorithm' }
-DMStemmer >> step1a [
+CNBStemmer >> step1a [
 	"comment stating purpose of message"
 	
 	string last == $s
@@ -108,7 +108,7 @@ DMStemmer >> step1a [
 ]
 
 { #category : #'private-algorithm' }
-DMStemmer >> step1b [
+CNBStemmer >> step1b [
 	(self endsWith: 'eed')
 		ifTrue: [ cursor >= r1
 				ifTrue: [ self setSuffix: 'ee' ].
@@ -133,7 +133,7 @@ DMStemmer >> step1b [
 ]
 
 { #category : #'private-algorithm' }
-DMStemmer >> step1c [
+CNBStemmer >> step1c [
 	
 	(((self endsWith: 'y') or: [self endsWith: 'Y'])
 		and: [self stemIncludesVowel])
@@ -144,7 +144,7 @@ DMStemmer >> step1c [
 ]
 
 { #category : #'private-algorithm' }
-DMStemmer >> step2 [
+CNBStemmer >> step2 [
 	"comment stating purpose of message"
 	
 	#(#(#iveness #ive) #(#fulness #ful) #(#ousness #ous) #(#ization #ize) #(#ational #ate) #(#tional #tion) #(#biliti #ble) #(#ation #ate) #(#alism #al) #(#aliti #al) #(#iviti #ive) #(#ousli #ous) #(#entli #ent) #(#ator #ate) #(#enci #ence) #(#anci #ance) #(#logi #log) #(#izer #ize) #(#bli #ble) #(#alli #al) #(#eli #e))
@@ -157,7 +157,7 @@ DMStemmer >> step2 [
 ]
 
 { #category : #'private-algorithm' }
-DMStemmer >> step3 [
+CNBStemmer >> step3 [
 	
 	#(#(#ative #'') #(#icate #ic) #(#alize #al) #(#iciti #ic) #(#ical #ic) #(#ness #'') #(#ful #''))
 		do:
@@ -169,7 +169,7 @@ DMStemmer >> step3 [
 ]
 
 { #category : #'private-algorithm' }
-DMStemmer >> step4 [
+CNBStemmer >> step4 [
 	#(#ement #ance #ence #able #ible #ment)
 		do: [ :rule | 
 			(self endsWith: rule)
@@ -189,7 +189,7 @@ DMStemmer >> step4 [
 ]
 
 { #category : #'private-algorithm' }
-DMStemmer >> step5a [
+CNBStemmer >> step5a [
 	cursor := string size - 1.
 	(string last == $e
 		and: [ string size > r2
@@ -201,7 +201,7 @@ DMStemmer >> step5a [
 ]
 
 { #category : #'private-algorithm' }
-DMStemmer >> step5b [
+CNBStemmer >> step5b [
 	
 	cursor := string size.
 	((self endsWith: 'll') and: [cursor + 1 >= r2])

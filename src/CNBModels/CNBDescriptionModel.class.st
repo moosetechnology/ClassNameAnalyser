@@ -61,7 +61,7 @@ CNBDescriptionModel >> countHomogeneous [
 
 { #category : #queries }
 CNBDescriptionModel >> countIntruders [ 
-	 nbrIntruders:= (DMBuilder countIntrudersIn: self)
+	 nbrIntruders:= (CNBBuilder countIntrudersIn: self)
 ]
 
 { #category : #queries }

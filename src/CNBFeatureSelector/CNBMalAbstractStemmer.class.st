@@ -1,6 +1,6 @@
 Class {
-	#name : #DMMalAbstractStemmer,
-	#superclass : #DMMalStemmer,
+	#name : #CNBMalAbstractStemmer,
+	#superclass : #CNBMalStemmer,
 	#instVars : [
 		'string',
 		'r1',
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #'private-algorithm' }
-DMMalAbstractStemmer >> endsWith: aSuffix [
+CNBMalAbstractStemmer >> endsWith: aSuffix [
 	"comment stating purpose of message"
 	
 	| position |
@@ -26,39 +26,39 @@ DMMalAbstractStemmer >> endsWith: aSuffix [
 ]
 
 { #category : #'private-algorithm' }
-DMMalAbstractStemmer >> endsWith: aSuffix in: aMark [
+CNBMalAbstractStemmer >> endsWith: aSuffix in: aMark [
 	
 	^(self endsWith: aSuffix) and: [cursor >= aMark]
 ]
 
 { #category : #'private-algorithm' }
-DMMalAbstractStemmer >> isConsonantAt: anIndex [
+CNBMalAbstractStemmer >> isConsonantAt: anIndex [
 	
 	^(self isVowelAt: anIndex) not
 ]
 
 { #category : #'private-algorithm' }
-DMMalAbstractStemmer >> isVowelAt: anIndex [
+CNBMalAbstractStemmer >> isVowelAt: anIndex [
 	
 	self subclassResponsibility
 ]
 
 { #category : #'private-algorithm' }
-DMMalAbstractStemmer >> performStemming: aString [
+CNBMalAbstractStemmer >> performStemming: aString [
 	"Perform the stemming of a string."
 	
 	^self subclassResponsibility
 ]
 
 { #category : #'private-algorithm' }
-DMMalAbstractStemmer >> removeSuffix [
+CNBMalAbstractStemmer >> removeSuffix [
 	"comment stating purpose of message"
 	
 	string := string copyFrom: 1 to: cursor
 ]
 
 { #category : #'private-algorithm' }
-DMMalAbstractStemmer >> setMarks [
+CNBMalAbstractStemmer >> setMarks [
 	"All the stemmers make use of at least one of the region definitions R1 and R2. They are defined as follows: 
 		R1 is the region after the first non-vowel following a vowel, or is the null region at the end of the word if there is no such non-vowel. 
 		R2 is the region after the first non-vowel following a vowel in R1, or is the null region at the end of the word if there is no such non-vowel. 
@@ -78,7 +78,7 @@ DMMalAbstractStemmer >> setMarks [
 ]
 
 { #category : #'private-algorithm' }
-DMMalAbstractStemmer >> setSuffix: newSuffix [
+CNBMalAbstractStemmer >> setSuffix: newSuffix [
 	"comment stating purpose of message"
 	
 	string := (string copyFrom: 1 to: cursor) , newSuffix

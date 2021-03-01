@@ -1,5 +1,5 @@
 Class {
-	#name : #DMPalette,
+	#name : #CNBPalette,
 	#superclass : #Object,
 	#instVars : [
 		'multiSuffixColors',
@@ -13,13 +13,13 @@ Class {
 }
 
 { #category : #'instance creation' }
-DMPalette class >> with: aCollectionOfColors [
+CNBPalette class >> with: aCollectionOfColors [
 	^self new
 		multiSuffixColors:  aCollectionOfColors
 ]
 
 { #category : #selecting }
-DMPalette >> aColorForMultiSuffix [
+CNBPalette >> aColorForMultiSuffix [
 
 	"we have 24 important colors"
 	index := index +1.
@@ -30,42 +30,42 @@ DMPalette >> aColorForMultiSuffix [
 ]
 
 { #category : #accessing }
-DMPalette >> defaultColor [ 
+CNBPalette >> defaultColor [ 
 	^Color black
 ]
 
 { #category : #accessing }
-DMPalette >> initialize [
+CNBPalette >> initialize [
 	super initialize.
 	index := 0
 ]
 
 { #category : #accessing }
-DMPalette >> monoClassColor [
+CNBPalette >> monoClassColor [
 	^Color white
 ]
 
 { #category : #accessing }
-DMPalette >> monoClassColor: aColor [ 
+CNBPalette >> monoClassColor: aColor [ 
 	monoClassColor := aColor
 ]
 
 { #category : #accessing }
-DMPalette >> monoSuffixColor [
+CNBPalette >> monoSuffixColor [
 	^Color gray
 ]
 
 { #category : #accessing }
-DMPalette >> multiSuffixColors [
+CNBPalette >> multiSuffixColors [
 	^multiSuffixColors
 ]
 
 { #category : #accessing }
-DMPalette >> multiSuffixColors: aCollectionOfColors [ 
+CNBPalette >> multiSuffixColors: aCollectionOfColors [ 
 	multiSuffixColors := aCollectionOfColors collect: [ :aColorName | Color value: aColorName ]
 ]
 
 { #category : #accessing }
-DMPalette >> traitColor [
+CNBPalette >> traitColor [
 	^Color white
 ]

@@ -1,11 +1,11 @@
 Class {
-	#name : #MooseModelSample,
+	#name : #CNBMooseModelGenerator,
 	#superclass : #Object,
 	#category : #CNBProjectImporter
 }
 
 { #category : #'as yet unclassified' }
-MooseModelSample class >> importProject: aPath [ 
+CNBMooseModelGenerator class >> importProject: aPath [ 
 
 	^aPath asFileReference 
 		readStreamDo: [ :stream | MooseModel importFromMSEStream: stream ].
@@ -14,7 +14,7 @@ MooseModelSample class >> importProject: aPath [
 ]
 
 { #category : #'as yet unclassified' }
-MooseModelSample class >> projectNameMatches: aString [ 
+CNBMooseModelGenerator class >> projectNameMatches: aString [ 
 	| model  |
 
 	model := FamixStModel new.

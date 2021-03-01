@@ -80,7 +80,7 @@ CNBExpandingBoxes >> relayout: shape [
 CNBExpandingBoxes >> run [
 	<script: 'self new run'>
 		| cNBViewModel |
-	cNBViewModel := (DMClassNamesBlueprintSample projectNameMatches: 'calypso*') viewModel.
+	cNBViewModel := (CNBClassNamesBlueprintGenerator projectNameMatches: 'calypso*') viewModel.
 	canvas add: (self nodeFor: cNBViewModel ).
 	self update.
 	canvas open

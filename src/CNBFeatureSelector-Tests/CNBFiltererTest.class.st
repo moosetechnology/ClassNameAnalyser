@@ -1,5 +1,5 @@
 Class {
-	#name : #FiltererTest,
+	#name : #CNBFiltererTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'filterer'
@@ -8,26 +8,26 @@ Class {
 }
 
 { #category : #running }
-FiltererTest >> setUp [ 
-	filterer := DMFilterer new.
+CNBFiltererTest >> setUp [ 
+	filterer := CNBFilterer new.
 ]
 
 { #category : #tests }
-FiltererTest >> testRemoveAllDigitsAndSpecialCharsFromAlphaNumerics [
+CNBFiltererTest >> testRemoveAllDigitsAndSpecialCharsFromAlphaNumerics [
 
 	self assert: (filterer removeAllDigitsAndSpecialCharsFrom: 'Class34%')  equals: 'Class'.
 	self assert: (filterer removeAllDigitsAndSpecialCharsFrom: 'Class%34')  equals: 'Class'.
 ]
 
 { #category : #tests }
-FiltererTest >> testRemoveAllDigitsFromAlphaNumAndSpecialChars [
+CNBFiltererTest >> testRemoveAllDigitsFromAlphaNumAndSpecialChars [
 
 	self assert: (filterer removeAllDigitsFrom: 'Class1234%') equals: 'Class%'.
 
 ]
 
 { #category : #tests }
-FiltererTest >> testRemoveAllSpecialCharsFrom [
+CNBFiltererTest >> testRemoveAllSpecialCharsFrom [
 
 	self assert: (filterer removeAllSpecialCharsFrom: 'Class%?!' ) equals: 'Class'.
 	self assert: (filterer removeAllSpecialCharsFrom: 'Class34%?!' )  equals: 'Class34'.

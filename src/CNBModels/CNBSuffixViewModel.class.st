@@ -18,7 +18,8 @@ Class {
 CNBSuffixViewModel >> appearsInSeveralPackages [
 	
 	| siblings homogeneityBreakerSiblingsCheck |
-	siblings := self root concepts select: [ :each | each name = name ].
+	siblings := self root concepts 
+		select: [ :each | each name = name ].
 	
 	homogeneityBreakerSiblingsCheck := (siblings asOrderedCollection 
 		collect: [ :each | CNBHomogeneityBreakerPattern check: each ]).
@@ -67,8 +68,8 @@ CNBSuffixViewModel >> checkHomogeneityBreaker [
 	| homogeneityBreakerPattern |
 	homogeneityBreakerPattern := CNBHomogeneityBreakerPattern new.
 	
-	((homogeneityBreakerPattern check: self) and: [ self appearsInSeveralPackages ])
-		ifTrue: [ self patterns: homogeneityBreakerPattern. ]
+	((homogeneityBreakerPattern check: self) 
+		and: [ self appearsInSeveralPackages ]) ifTrue: [ self patterns: homogeneityBreakerPattern. ]
 ]
 
 { #category : #testing }
@@ -87,8 +88,7 @@ CNBSuffixViewModel >> checkIntruder [
 	| intruderPattern |
 	intruderPattern := CNBIntruderPattern new.
 	
-	(intruderPattern check: self)
-		ifTrue: [ self patterns: intruderPattern ]
+	(intruderPattern check: self) ifTrue: [ self patterns: intruderPattern ]
 	
 ]
 
@@ -115,7 +115,7 @@ CNBSuffixViewModel >> checkScatteredVocabulary [
 	(self hasNoOutsiders and: [ size >= CNBPatternSelector svMinClassSize ])
 		ifFalse: [ ^ false ].
 		
-	(scatteredVocabularyPattern check: self)
+	(scatteredVocabularyPattern check: self) 
 		ifTrue: [ self patterns: scatteredVocabularyPattern. ]
 ]
 
@@ -125,8 +125,7 @@ CNBSuffixViewModel >> checkSnowFlakes [
 	| snowFlakesPattern |
 	snowFlakesPattern := CNBSnowFlakesPattern new.
 	
-	(snowFlakesPattern check: self)
-		ifTrue: [ self patterns: snowFlakesPattern. ]
+	(snowFlakesPattern check: self) ifTrue: [ self patterns: snowFlakesPattern. ]
 ]
 
 { #category : #accessing }
@@ -142,6 +141,7 @@ CNBSuffixViewModel >> classViewModels: aCollectionOfClassViewModels [
 
 { #category : #testing }
 CNBSuffixViewModel >> hasNoOutsiders [
+
 	^ self belongers size = size
 ]
 

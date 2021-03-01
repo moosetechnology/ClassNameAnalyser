@@ -1,5 +1,5 @@
 Class {
-	#name : #NameTokenizerTest,
+	#name : #CNBNameTokenizerTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'tokenizer'
@@ -8,12 +8,12 @@ Class {
 }
 
 { #category : #running }
-NameTokenizerTest >> setUp [ 
-	tokenizer := DMNameTokenizer new.
+CNBNameTokenizerTest >> setUp [ 
+	tokenizer := CNBNameTokenizer new.
 ]
 
 { #category : #tests }
-NameTokenizerTest >> testTokenize [
+CNBNameTokenizerTest >> testTokenize [
 
 	self assert: (tokenizer tokenize: 'DMClassNameBlueprint34') equals: #('DM' 'Class' 	'Name' 'Blueprint34') asOrderedCollection 
 ]

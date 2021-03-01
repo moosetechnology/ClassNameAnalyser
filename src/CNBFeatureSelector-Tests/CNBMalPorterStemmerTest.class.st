@@ -1,11 +1,11 @@
 Class {
-	#name : #DMMalPorterStemmerTest,
+	#name : #CNBMalPorterStemmerTest,
 	#superclass : #TestCase,
 	#category : #'CNBFeatureSelector-Tests'
 }
 
 { #category : #constants }
-DMMalPorterStemmerTest class >> porterTestData [
+CNBMalPorterStemmerTest class >> porterTestData [
 	"For more comprehensive test data, ie about 300 KB
  	@see		http://www.tartarus.org/martin/PorterStemmer/voc.txt
 	@see		http://www.tartarus.org/martin/PorterStemmer/output.txt	"
@@ -14,7 +14,7 @@ DMMalPorterStemmerTest class >> porterTestData [
 ]
 
 { #category : #test }
-DMMalPorterStemmerTest >> testEnglishStemmer [
+CNBMalPorterStemmerTest >> testEnglishStemmer [
 	| data |
 	data := ' ' split: self class porterTestData trimBoth.
 	1
@@ -23,5 +23,5 @@ DMMalPorterStemmerTest >> testEnglishStemmer [
 				| each stem |
 				each := data at: index + 1.
 				stem := data at: index.
-				self assert: (DMStemmer new stemming: each) equals: stem ] ]
+				self assert: (CNBStemmer new stemming: each) equals: stem ] ]
 ]

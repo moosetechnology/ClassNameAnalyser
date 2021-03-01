@@ -1,5 +1,5 @@
 Class {
-	#name : #DMTokenStemmer,
+	#name : #CNBTokenStemmer,
 	#superclass : #Object,
 	#instVars : [
 		'internalStemmer'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #initialization }
-DMTokenStemmer >> initialize [ 
+CNBTokenStemmer >> initialize [ 
 
 	super initialize.
-	internalStemmer := DMStemmer new.
+	internalStemmer := CNBStemmer new.
 ]
 
 { #category : #stemming }
-DMTokenStemmer >> stemToken: aToken [
+CNBTokenStemmer >> stemToken: aToken [
 	^ internalStemmer stemming: aToken 
 
 ]
 
 { #category : #stemming }
-DMTokenStemmer >> stemTokens: aCollectionOfTokens [
+CNBTokenStemmer >> stemTokens: aCollectionOfTokens [
 	^ aCollectionOfTokens collect: [ :each | internalStemmer stemming: each ]
 ]

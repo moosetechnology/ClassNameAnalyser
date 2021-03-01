@@ -1,5 +1,5 @@
 Trait {
-	#name : #DMTColorAttributor,
+	#name : #CNBTColorAttributor,
 	#instVars : [
 		'palette'
 	],
@@ -7,23 +7,23 @@ Trait {
 }
 
 { #category : #assignments }
-DMTColorAttributor >> assignColorByType: aType [
+CNBTColorAttributor >> assignColorByType: aType [
 
-	(aType = DMClassType trait)
+	(aType = CNBClassType trait)
 	ifTrue: [ ^palette traitColor ].
 	
-	(aType = DMClassType monoClass)
+	(aType = CNBClassType monoClass)
 	ifTrue: [ ^palette monoClassColor ].
 	
-	(aType = DMClassType monoSuffix)
+	(aType = CNBClassType monoSuffix)
 	ifTrue: [  ^palette monoSuffixColor ].
 	
-	(aType = DMClassType multiSuffix)
+	(aType = CNBClassType multiSuffix)
 	ifTrue: [ ^palette aColorForMultiSuffix ].
 ]
 
 { #category : #accessing }
-DMTColorAttributor >> color: rootModels [
+CNBTColorAttributor >> color: rootModels [
 	| sortedRootModels coloredRootModels |
 	sortedRootModels := self sortRootModels: rootModels.
 	coloredRootModels := (sortedRootModels 
@@ -34,9 +34,9 @@ DMTColorAttributor >> color: rootModels [
 ]
 
 { #category : #initialize }
-DMTColorAttributor >> initialize [
+CNBTColorAttributor >> initialize [
 	super initialize.
-	palette := DMPalette
+	palette := CNBPalette
 		with:
 			{#red . #yellow . #blue .#purple . #brown . #magenta . #orange . #green.
 			#pink . #tan . #cyan . #lightRed . #lightGreen . #lightMagenta.
@@ -45,7 +45,7 @@ DMTColorAttributor >> initialize [
 ]
 
 { #category : #sorting }
-DMTColorAttributor >> sortAccordingToPalette: aCollection [
+CNBTColorAttributor >> sortAccordingToPalette: aCollection [
 	| newPalette |
 	newPalette := palette multiSuffixColors asOrderedCollection.
 	newPalette

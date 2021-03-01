@@ -1,5 +1,5 @@
 Class {
-	#name : #DMNameAbbreviationCreatorTest,
+	#name : #CNBNameAbbreviationCreatorTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'abbreviationcreator'
@@ -8,14 +8,14 @@ Class {
 }
 
 { #category : #running }
-DMNameAbbreviationCreatorTest >> setUp [
+CNBNameAbbreviationCreatorTest >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
-	abbreviationcreator := DMNameAbbreviationCreator new
+	abbreviationcreator := CNBNameAbbreviationCreator new
 
 ]
 
 { #category : #tests }
-DMNameAbbreviationCreatorTest >> testAbbreviateUntil [
+CNBNameAbbreviationCreatorTest >> testAbbreviateUntil [
 
 	self assert: (abbreviationcreator abbreviate: 'DMClassNamesBlueprintTestAbbreviateUntil' until: 3) equals: 'DCNBlueprintTestAbbreviateUntil'
 	
@@ -23,7 +23,7 @@ DMNameAbbreviationCreatorTest >> testAbbreviateUntil [
 ]
 
 { #category : #tests }
-DMNameAbbreviationCreatorTest >> testDevideUntil [
+CNBNameAbbreviationCreatorTest >> testDevideUntil [
 	self
 		assert:
 			(abbreviationcreator

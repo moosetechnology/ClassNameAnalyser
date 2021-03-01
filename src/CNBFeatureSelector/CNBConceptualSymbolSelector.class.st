@@ -1,33 +1,33 @@
 Class {
-	#name : #DMConceptualSymbolSelector,
+	#name : #CNBConceptualSymbolSelector,
 	#superclass : #Object,
 	#category : #CNBFeatureSelector
 }
 
 { #category : #setter }
-DMConceptualSymbolSelector >> selectFirstSymbol: aClassName [
+CNBConceptualSymbolSelector >> selectFirstSymbol: aClassName [
 ]
 
 { #category : #actions }
-DMConceptualSymbolSelector >> selectFirstSymbolFrom: aCollection [
+CNBConceptualSymbolSelector >> selectFirstSymbolFrom: aCollection [
 	^ aCollection first.
 ]
 
 { #category : #setter }
-DMConceptualSymbolSelector >> selectLastSymbol: aClassName [
+CNBConceptualSymbolSelector >> selectLastSymbol: aClassName [
 
 	| nameTokenizer collectionOfSymbols |
-	nameTokenizer := DMNameTokenizer new.
+	nameTokenizer := CNBNameTokenizer new.
 	collectionOfSymbols := nameTokenizer tokenize: aClassName asString .
 	^ self selectLastSymbolFrom: collectionOfSymbols 
 ]
 
 { #category : #actions }
-DMConceptualSymbolSelector >> selectLastSymbolFrom: aCollection [
+CNBConceptualSymbolSelector >> selectLastSymbolFrom: aCollection [
 	^ aCollection last.
 ]
 
 { #category : #actions }
-DMConceptualSymbolSelector >> selectMiddleSymbolFrom: aCollection [
+CNBConceptualSymbolSelector >> selectMiddleSymbolFrom: aCollection [
 	^ aCollection middle.
 ]

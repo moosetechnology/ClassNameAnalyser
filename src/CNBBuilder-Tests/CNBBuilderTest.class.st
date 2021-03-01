@@ -1,5 +1,5 @@
 Class {
-	#name : #DMBuilderTest,
+	#name : #CNBBuilderTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'builder',
@@ -16,15 +16,15 @@ Class {
 }
 
 { #category : #running }
-DMBuilderTest >> setUp [
+CNBBuilderTest >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
 	| lucenePath |
 	lucenePath := '/Users/nour/Downloads/Lucene2.mse'.
-	builder := DMBuilder new.
-	mooseMooseModel := MooseModelSample projectNameMatches: 'moose*'.
-	cnbMoose := DMClassNamesBlueprintSample projectNameMatches: 'moose*'.
-	calypsoMooseModel := MooseModelSample projectNameMatches: 'calypso*'.
-	cnbCalypso := DMClassNamesBlueprintSample projectNameMatches: 'calypso*'.
+	builder := CNBBuilder new.
+	mooseMooseModel := CNBMooseModelGenerator projectNameMatches: 'moose*'.
+	cnbMoose := CNBClassNamesBlueprintGenerator projectNameMatches: 'moose*'.
+	calypsoMooseModel := CNBMooseModelGenerator projectNameMatches: 'calypso*'.
+	cnbCalypso := CNBClassNamesBlueprintGenerator projectNameMatches: 'calypso*'.
 "	luceneMooseModel := MooseModelSample importProject: lucenePath.
 	cnbLucene := DMClassNamesBlueprintSample importProject: lucenePath."
 	moosePackages := mooseMooseModel allModelPackages.
@@ -33,13 +33,13 @@ DMBuilderTest >> setUp [
 ]
 
 { #category : #tests }
-DMBuilderTest >> testAssignColor [
+CNBBuilderTest >> testAssignColor [
 
 	self assert: false.
 ]
 
 { #category : #tests }
-DMBuilderTest >> testBuildConceptViewModels [
+CNBBuilderTest >> testBuildConceptViewModels [
 
 	| mooseSample mooseModel conceptualModel rootModels conceptVModels |
 	mooseSample := MooseSampleData new.
@@ -53,7 +53,7 @@ DMBuilderTest >> testBuildConceptViewModels [
 ]
 
 { #category : #'as yet unclassified' }
-DMBuilderTest >> testBuildConceptualModel [
+CNBBuilderTest >> testBuildConceptualModel [
 
 	| mooseSample mooseModel conceptualModel |
 	mooseSample := MooseSampleData new.
@@ -65,7 +65,7 @@ DMBuilderTest >> testBuildConceptualModel [
 ]
 
 { #category : #tests }
-DMBuilderTest >> testBuildPackageViewModels [
+CNBBuilderTest >> testBuildPackageViewModels [
 	| expectedConcepts expectedPackagesNames  expectedClassModels |
 
 	expectedClassModels := (mooseClasses
@@ -84,7 +84,7 @@ DMBuilderTest >> testBuildPackageViewModels [
 ]
 
 { #category : #tests }
-DMBuilderTest >> testBuildRootModels [
+CNBBuilderTest >> testBuildRootModels [
 
 	| expectedRoots actualRoots |
 	 expectedRoots := (mooseClasses collect: [ :each | each rootAccordingTo: Object]) asSet.
@@ -96,21 +96,21 @@ DMBuilderTest >> testBuildRootModels [
 ]
 
 { #category : #tests }
-DMBuilderTest >> testBuildViewModel [
+CNBBuilderTest >> testBuildViewModel [
 
 	| mooseSample mooseModel conceptualModel viewmodel rootModels |
 	mooseSample := MooseSampleData new.
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	rootModels := builder buildRootModelsFrom: conceptualModel.
-	viewmodel := DMBuilder new buildViewModelFrom: conceptualModel.
+	viewmodel := CNBBuilder new buildViewModelFrom: conceptualModel.
 	
 	self assert: (conceptualModel name) equals: (viewmodel name).
 	self assert: (builder extractAllHierarchiesFrom: conceptualModel models) size equals: (viewmodel rootmodels) size
 ]
 
 { #category : #tests }
-DMBuilderTest >> testClassModels [
+CNBBuilderTest >> testClassModels [
 self assert: 
 		((cnbMoose viewModel packageModels flatCollect: #classModels) collect: #name) asSet 
 				equals: (mooseClasses collect: #name) asSet.
@@ -123,11 +123,11 @@ self assert:
 ]
 
 { #category : #tests }
-DMBuilderTest >> testClassType [
+CNBBuilderTest >> testClassType [
 	| aMonoClass aMonoSuffixHierarchy aMultiSuffixHierarchy monoSuffixType multiSuffixType monoClassType |
-	monoClassType := DMClassType monoClass.
-	monoSuffixType := DMClassType monoSuffix.
-	multiSuffixType := DMClassType multiSuffix.
+	monoClassType := CNBClassType monoClass.
+	monoSuffixType := CNBClassType monoSuffix.
+	multiSuffixType := CNBClassType multiSuffix.
 	aMonoSuffixHierarchy := cnbMoose viewModel rootModels
 		detect: [ :each | each isMonoSuffix ].
 	aMultiSuffixHierarchy := cnbMoose viewModel rootModels
@@ -135,15 +135,15 @@ DMBuilderTest >> testClassType [
 	aMonoClass := cnbMoose viewModel rootModels
 		detect: [ :each | each isMonoClass ].
 	self
-		assert: (DMClassType with: aMonoClass subclasses) type equals: monoClassType.
+		assert: (CNBClassType with: aMonoClass subclasses) type equals: monoClassType.
 	self
-		assert: (DMClassType with: aMonoSuffixHierarchy subclasses) type equals: monoSuffixType.
+		assert: (CNBClassType with: aMonoSuffixHierarchy subclasses) type equals: monoSuffixType.
 	self 
-		assert: (DMClassType with: aMultiSuffixHierarchy subclasses) type equals: multiSuffixType
+		assert: (CNBClassType with: aMultiSuffixHierarchy subclasses) type equals: multiSuffixType
 ]
 
 { #category : #tests }
-DMBuilderTest >> testClassViewModel [
+CNBBuilderTest >> testClassViewModel [
 
 	| mooseSample mooseModel conceptualModel rootModels classmodels classViewModels aClassVM aRandomCVMRoot |
 	mooseSample := MooseSampleData new.
@@ -160,18 +160,18 @@ DMBuilderTest >> testClassViewModel [
 ]
 
 { #category : #tests }
-DMBuilderTest >> testExtractBiggestClassDepthFromAConceptualModel [
+CNBBuilderTest >> testExtractBiggestClassDepthFromAConceptualModel [
 
 	| mooseSample mooseModel conceptualModel |
 	mooseSample := MooseSampleData new.
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	builder buildRootModelsFrom: conceptualModel.
-	self assert: (DMBuilder extractBiggestClassDepthFrom: conceptualModel) equals: 2
+	self assert: (CNBBuilder extractBiggestClassDepthFrom: conceptualModel) equals: 2
 ]
 
 { #category : #tests }
-DMBuilderTest >> testExtractClassModels [
+CNBBuilderTest >> testExtractClassModels [
 
 	| mooseSample mooseModel conceptualModel classModels |
 	mooseSample := MooseSampleData new.
@@ -184,7 +184,7 @@ DMBuilderTest >> testExtractClassModels [
 ]
 
 { #category : #tests }
-DMBuilderTest >> testExtractClassViewModels [
+CNBBuilderTest >> testExtractClassViewModels [
 
 	| mooseSample mooseModel conceptualModel rootModels viewModel classModels classViewModels |
 	mooseSample := MooseSampleData new.
@@ -199,7 +199,7 @@ DMBuilderTest >> testExtractClassViewModels [
 ]
 
 { #category : #tests }
-DMBuilderTest >> testExtractRootModelsForaConcept [ 
+CNBBuilderTest >> testExtractRootModelsForaConcept [ 
 
 	"mooseSample has only one hierarchy that's how I know that the result would be 1 daaah there is only one hierarchy"
 	| mooseSample mooseModel rootModels conceptualmodel|
@@ -212,18 +212,18 @@ DMBuilderTest >> testExtractRootModelsForaConcept [
 ]
 
 { #category : #'as yet unclassified' }
-DMBuilderTest >> testExtractSmallestClassDepthFrom [
+CNBBuilderTest >> testExtractSmallestClassDepthFrom [
 
 	| mooseSample mooseModel conceptualModel |
 	mooseSample := MooseSampleData new.
 	mooseModel := MooseModel new importFromMSEStream: (mooseSample modelVersion4) readStream.
 	conceptualModel := builder buildConceptualModelFrom: mooseModel.
 	builder buildRootModelsFrom: conceptualModel.
-	self assert: (DMBuilder extractSmallestClassDepthFrom: conceptualModel) equals: 0
+	self assert: (CNBBuilder extractSmallestClassDepthFrom: conceptualModel) equals: 0
 ]
 
 { #category : #tests }
-DMBuilderTest >> testPackageModels [.
+CNBBuilderTest >> testPackageModels [.
 	
 	self assert: 
 		(cnbMoose viewModel packageModels collect: #name) asSet 
@@ -240,7 +240,7 @@ DMBuilderTest >> testPackageModels [.
 ]
 
 { #category : #tests }
-DMBuilderTest >> testSelectBiggestHierarchyFor [
+CNBBuilderTest >> testSelectBiggestHierarchyFor [
 
 	"The modelVersion4 has two roots with the same name 'ClassA' one is a monoClass the other is a 	multiSuffix hierarchy each in a different package"
 	| mooseSample mooseModel conceptualModel rootmodel |
@@ -255,7 +255,7 @@ DMBuilderTest >> testSelectBiggestHierarchyFor [
 ]
 
 { #category : #tests }
-DMBuilderTest >> testSelectColorFor [
+CNBBuilderTest >> testSelectColorFor [
 	"there is only one hierarchy its color is red"
 	| mooseSample mooseModel conceptualModel color |
 	mooseSample := MooseSampleData new.
@@ -268,7 +268,7 @@ DMBuilderTest >> testSelectColorFor [
 ]
 
 { #category : #tests }
-DMBuilderTest >> testSortRootModels [
+CNBBuilderTest >> testSortRootModels [
 	| rm1 rm2 rm3 rm4 rm5 rm6 c |
 	rm1 := CNBRootModel new name: 'rm1';size: 3.
 	rm2 := CNBRootModel new name: 'rm2';size: 0.
@@ -281,7 +281,7 @@ DMBuilderTest >> testSortRootModels [
 ]
 
 { #category : #'as yet unclassified' }
-DMBuilderTest >> testbuildConceptViewModels [
+CNBBuilderTest >> testbuildConceptViewModels [
 	""
 	| mooseSample mooseModel conceptualModel conceptViewModels |
 	mooseSample := MooseSampleData new.

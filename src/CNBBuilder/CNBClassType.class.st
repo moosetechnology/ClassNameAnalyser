@@ -1,5 +1,5 @@
 Class {
-	#name : #DMClassType,
+	#name : #CNBClassType,
 	#superclass : #Object,
 	#instVars : [
 		'trait',
@@ -12,38 +12,38 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-DMClassType class >> monoClass [
+CNBClassType class >> monoClass [
 	^(self new
 		monoClass) type
 ]
 
 { #category : #'as yet unclassified' }
-DMClassType class >> monoSuffix [
+CNBClassType class >> monoSuffix [
 	^(self new
 		monoSuffix) type 
 ]
 
 { #category : #'as yet unclassified' }
-DMClassType class >> multiSuffix [
+CNBClassType class >> multiSuffix [
 	^(self new
 		multiSuffix) type
 ]
 
 { #category : #variables }
-DMClassType class >> trait [
+CNBClassType class >> trait [
 	^(self new
 		trait) type
 ]
 
 { #category : #variables }
-DMClassType class >> with: aCollectionOfSubClassModels [ 
+CNBClassType class >> with: aCollectionOfSubClassModels [ 
 	^self new
 		with: aCollectionOfSubClassModels 
 
 ]
 
 { #category : #checking }
-DMClassType >> checkIfMonoClassWith: aCollectionOfClassModels [
+CNBClassType >> checkIfMonoClassWith: aCollectionOfClassModels [
 
 	(aCollectionOfClassModels size = 1
  		and: [(aCollectionOfClassModels first root 
@@ -55,24 +55,24 @@ DMClassType >> checkIfMonoClassWith: aCollectionOfClassModels [
 ]
 
 { #category : #checking }
-DMClassType >> checkIfMonoSuffixWith: aCollectionOfClassModels [
+CNBClassType >> checkIfMonoSuffixWith: aCollectionOfClassModels [
 	(aCollectionOfClassModels collect: [ :each | each suffix ]) asSet
 		size = 1
 		&
 			(aCollectionOfClassModels atRandom suffix
 				=
-					(DMFeatureSelector
+					(CNBFeatureSelector
 						extractSuffixFrom: aCollectionOfClassModels atRandom root name))
 		ifTrue: [ ^ self monoSuffix ].
 		^nil
 ]
 
 { #category : #checking }
-DMClassType >> checkIfMultiSuffix: aCollectionOfClassModels [
+CNBClassType >> checkIfMultiSuffix: aCollectionOfClassModels [
 
 	| root rootsConcept concepts |
 	root := aCollectionOfClassModels first root.
-	rootsConcept := DMFeatureSelector extractSuffixFrom: root name. 
+	rootsConcept := CNBFeatureSelector extractSuffixFrom: root name. 
 	concepts := (aCollectionOfClassModels collect: #suffix) 
 		add: rootsConcept;
 		yourself.
@@ -82,7 +82,7 @@ DMClassType >> checkIfMultiSuffix: aCollectionOfClassModels [
 ]
 
 { #category : #checking }
-DMClassType >> checkIfTraitWith: 	aCollectionOfClassModels [ 
+CNBClassType >> checkIfTraitWith: 	aCollectionOfClassModels [ 
 	
 		(aCollectionOfClassModels 
 			size = 1 
@@ -93,33 +93,33 @@ DMClassType >> checkIfTraitWith: 	aCollectionOfClassModels [
 ]
 
 { #category : #accessing }
-DMClassType >> monoClass [
+CNBClassType >> monoClass [
 	type := #monoClass
 	
 ]
 
 { #category : #accessing }
-DMClassType >> monoSuffix [
+CNBClassType >> monoSuffix [
 	type := #monoSuffix
 ]
 
 { #category : #accessing }
-DMClassType >> multiSuffix [
+CNBClassType >> multiSuffix [
 	type := #multiSuffix
 ]
 
 { #category : #accessing }
-DMClassType >> trait [ 	
+CNBClassType >> trait [ 	
 	type := #Trait
 ]
 
 { #category : #accessing }
-DMClassType >> type [ 	
+CNBClassType >> type [ 	
 	^type
 ]
 
 { #category : #accessing }
-DMClassType >> with: aCollectionOfClassModels [
+CNBClassType >> with: aCollectionOfClassModels [
 	
 	(self checkIfTraitWith: aCollectionOfClassModels)
 		ifNil: 

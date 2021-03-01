@@ -17,13 +17,13 @@ CNBRoassal3Builder class >> build: cnbModel [
 { #category : #'as yet unclassified' }
 CNBRoassal3Builder class >> exampleMooseCanvas [
 	<sampleInstance>
-	^(DMClassNamesBlueprintSample projectNameMatches: 'moose*') show
+	^(CNBClassNamesBlueprintGenerator projectNameMatches: 'moose*') show
 ]
 
 { #category : #'as yet unclassified' }
 CNBRoassal3Builder class >> importProject: aPath [
 
-	^ DMClassNamesBlueprintSample importProject: aPath.
+	^ CNBClassNamesBlueprintGenerator importProject: aPath.
 ]
 
 { #category : #'as yet unclassified' }
@@ -52,7 +52,7 @@ CNBRoassal3Builder class >> model: aCNB on: aCanvas [
 CNBRoassal3Builder class >> mooseOn: aCanvas [
 
 	| cnb |
-	cnb := DMClassNamesBlueprintSample projectNameMatches: 'moose*'.
+	cnb := CNBClassNamesBlueprintGenerator projectNameMatches: 'moose*'.
 	aCanvas addAll: (self new buildShapesOf: cnb).
 	RSFlowLayout on: aCanvas nodes.
 	aCanvas @ RSCanvasController.
@@ -63,7 +63,7 @@ CNBRoassal3Builder class >> mooseOn: aCanvas [
 { #category : #'as yet unclassified' }
 CNBRoassal3Builder class >> projectNameMatches: aString [
 	
-	^ DMClassNamesBlueprintSample projectNameMatches: aString.
+	^ CNBClassNamesBlueprintGenerator projectNameMatches: aString.
 	
 ]
 
@@ -133,7 +133,7 @@ CNBRoassal3Builder >> createPackageBoxesOf: cnbModel [
 	(packages
 		collect: 
 			[ :package | | packageComposite label composite namedAbbreviated |
-			namedAbbreviated := DMNameAbbreviationCreator abbreviate: package name until: 4.
+			namedAbbreviated := CNBNameAbbreviationCreator abbreviate: package name until: 4.
 				label := RSLabel new text: namedAbbreviated;fontSize: 30;bold.
 				composite := RSComposite new.
 				packageComposite := self createBoxOf: package.

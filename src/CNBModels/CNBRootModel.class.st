@@ -22,14 +22,14 @@ Class {
 { #category : #'as yet unclassified' }
 CNBRootModel class >> reference: aClass with: aCollectionOfSubClassModels [ 
 	| rootType |
-	rootType := (DMClassType with: aCollectionOfSubClassModels) type.
+	rootType := (CNBClassType with: aCollectionOfSubClassModels) type.
 	^self new 
 		reference: aClass;
 		name: aClass name;
 		subclasses: aCollectionOfSubClassModels;
 		size: aCollectionOfSubClassModels size;
-		suffixes: (DMBuilder doSuffixesDictionaryFrom: aCollectionOfSubClassModels);
-		prefixes: (DMBuilder doPrefixesDictionaryFrom: aCollectionOfSubClassModels); 
+		suffixes: (CNBBuilder doSuffixesDictionaryFrom: aCollectionOfSubClassModels);
+		prefixes: (CNBBuilder doPrefixesDictionaryFrom: aCollectionOfSubClassModels); 
 		type: rootType.
 	
 	

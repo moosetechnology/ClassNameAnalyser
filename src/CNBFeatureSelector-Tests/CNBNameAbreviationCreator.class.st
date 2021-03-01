@@ -1,5 +1,5 @@
 Class {
-	#name : #NameAbreviationCreator,
+	#name : #CNBNameAbreviationCreator,
 	#superclass : #TestCase,
 	#category : #'CNBFeatureSelector-Tests'
 }
