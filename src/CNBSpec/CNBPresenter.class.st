@@ -95,7 +95,7 @@ CNBPresenter >> allNodes [
 	^ cnbSpecView canvas deepNodes
 ]
 
-{ #category : #accessing }
+{ #category : #highlighting }
 CNBPresenter >> boxesToBeDarkerFor: aPattern [
 
 
@@ -106,7 +106,7 @@ CNBPresenter >> boxesToBeDarkerFor: aPattern [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #highlighting }
 CNBPresenter >> boxesToHighlightFor: aPattern [
 
 	| suffixModelsToBeHighlighted classModelsToBeHighlighted |
@@ -135,7 +135,7 @@ CNBPresenter >> connectPresenters [
 	
 ]
 
-{ #category : #accessing }
+{ #category : #highlighting }
 CNBPresenter >> goDarker [ 
 
 	cnbSpecView canvas 
@@ -145,7 +145,7 @@ CNBPresenter >> goDarker [
 		each color: each color muchDarker ].
 ]
 
-{ #category : #util }
+{ #category : #highlighting }
 CNBPresenter >> goDarkerFor: aPattern [
 	self onResetClicked.
 	
@@ -196,7 +196,7 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 		initialExtent: self class defaultExtent
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #queries }
 CNBPresenter >> lookFor: aPattern [
 	" returns suffix models to be highlighted"
 
@@ -204,7 +204,7 @@ CNBPresenter >> lookFor: aPattern [
 	
 ]
 
-{ #category : #accessing }
+{ #category : #actions }
 CNBPresenter >> onLoadProjectClicked [
 
 	projectCNB := projectSelector text ~= ''
@@ -216,7 +216,7 @@ CNBPresenter >> onLoadProjectClicked [
 	cnbSpecView script: [ :canvas | projectCNB on: canvas ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 CNBPresenter >> onResetClicked [
 	self reset
 ]

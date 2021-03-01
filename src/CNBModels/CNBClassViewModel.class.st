@@ -50,6 +50,14 @@ CNBClassViewModel >> height [
 	^35
 ]
 
+{ #category : #initialization }
+CNBClassViewModel >> initialize [ 
+	super initialize.
+	box := RSBox new.
+	box when: RSMouseLeftClick do: [ :evt | self processEvent: evt ].
+	
+]
+
 { #category : #testing }
 CNBClassViewModel >> isRoot [ 
 	^self name = self root name 

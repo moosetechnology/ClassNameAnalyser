@@ -6,7 +6,8 @@ Class {
 		'cnbCanvas',
 		'presenter',
 		'roots',
-		'suffixModels'
+		'suffixModels',
+		'allNodes'
 	],
 	#category : #CNBPatterns
 }
@@ -32,6 +33,7 @@ CNBPresenterTest >> setUp [
 	presenter onLoadProjectClicked.
 	presenter cnbSpecView openWithSpec.
 	suffixModels := projectCNB viewModel suffixModels.
+	allNodes := cnbCanvas deepNodes.
 ]
 
 { #category : #tests }
@@ -388,20 +390,27 @@ CNBPresenterTest >> testFatBlobsSize [
 ]
 
 { #category : #goDarker }
-CNBPresenterTest >> testGoDarkerForConfetti [ 
-	
-	| expectedFatBlobBoxes actualFatBlobBoxes suffixViewModels |
-	self changeToCalypso.
-	expectedFatBlobBoxes := (presenter goDarkerFor: #'Confetti') 
-	
-]
-
-{ #category : #goDarker }
 CNBPresenterTest >> testGoDarkerForFatBlob [ 
+
+
+	| expectedBoxes actualBoxes classBoxes suffixBoxes |
 	
-	| expectedFatBlobBoxes actualFatBlobBoxes suffixViewModels |
+	expectedBoxes := presenter boxesToBeDarkerFor: #'Fat Blob'. 
 	
-	expectedFatBlobBoxes := (presenter goDarkerFor: #'Fat Blob') 
+	suffixBoxes := suffixModels 
+		select: [ :each | (each patterns collect: #name) includes: #'Fat Blob' ].
+		
+	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
+	
+	actualBoxes := suffixBoxes union: classBoxes.
+		
+	self 
+		assert: expectedBoxes  
+		equals: actualBoxes 
+	
+	
+	
+	
 	
 ]
 
@@ -417,18 +426,20 @@ CNBPresenterTest >> testGoDarkerForHomogeneityBreaker [
 { #category : #goDarker }
 CNBPresenterTest >> testGoDarkerForHomogeneous [
 	
-	| expectedFatBlobBoxes actualFatBlobBoxes suffixViewModels |
+	| expectedBoxes actualBoxes classBoxes suffixBoxes |
 	
-	expectedFatBlobBoxes := (presenter goDarkerFor: #'Homogeneous') 
+	expectedBoxes := presenter boxesToHighlightFor: #'Homogeneous'. 
+	suffixBoxes := suffixModels 
+		select: [ :each | (each patterns collect: #name) includes: #'Homogeneous' ].
+	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
+	actualBoxes := suffixBoxes union: classBoxes.
+		
+	self 
+		assert: expectedBoxes  
+		equals: actualBoxes 
 	
-]
-
-{ #category : #goDarker }
-CNBPresenterTest >> testGoDarkerForIntruder [
 	
-	| expectedFatBlobBoxes actualFatBlobBoxes suffixViewModels |
 	
-	expectedFatBlobBoxes := (presenter goDarkerFor: #'Intruder') 
 	
 ]
 
@@ -455,6 +466,143 @@ CNBPresenterTest >> testGoDarkerForSnowFlakes [
 	| expectedFatBlobBoxes actualFatBlobBoxes suffixViewModels |
 	
 	expectedFatBlobBoxes := (presenter goDarkerFor: #'Snow Flakes') 
+	
+]
+
+{ #category : #highlighting }
+CNBPresenterTest >> testHighlightConfetti [ 
+	
+	| expectedBoxes actualBoxes classBoxes suffixBoxes |
+	self changeToCalypso.
+	
+	expectedBoxes := presenter boxesToHighlightFor: #'Confetti'. 
+	
+	suffixBoxes := suffixModels 
+		select: [ :each | (each patterns collect: #name) includes: #'Confetti' ].
+		
+	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
+	
+	actualBoxes := suffixBoxes union: classBoxes.
+		
+	self 
+		assert: expectedBoxes  
+		equals: actualBoxes 
+]
+
+{ #category : #highlighting }
+CNBPresenterTest >> testHighlightFatBlob [
+
+	| expectedBoxes actualBoxes classBoxes suffixBoxes |
+	
+	expectedBoxes := presenter boxesToHighlightFor: #'Fat Blob'. 
+	
+	suffixBoxes := suffixModels 
+		select: [ :each | (each patterns collect: #name) includes: #'Fat Blob' ].
+		
+	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
+	
+	actualBoxes := suffixBoxes union: classBoxes.
+		
+	self 
+		assert: expectedBoxes  
+		equals: actualBoxes asOrderedCollection
+	
+	
+	
+	
+]
+
+{ #category : #highlighting }
+CNBPresenterTest >> testHighlightHomogeneityBreaker [
+
+	| expectedBoxes actualBoxes classBoxes suffixBoxes |
+	self changeToCalypso.
+	
+	expectedBoxes := presenter boxesToHighlightFor: #'Homogeneity Breaker'. 
+	
+	suffixBoxes := suffixModels 
+		select: [ :each | (each patterns collect: #name) includes: #'Homogeneity Breaker' ].
+		
+	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
+	
+	actualBoxes := suffixBoxes union: classBoxes.
+		
+	self 
+		assert: expectedBoxes  
+		equals: actualBoxes 
+	
+	
+	
+	
+]
+
+{ #category : #highlighting }
+CNBPresenterTest >> testHighlightIntruders [
+
+	| expectedBoxes actualBoxes classBoxes suffixBoxes |
+	
+	expectedBoxes := presenter boxesToHighlightFor: #'Intruder'.
+	 
+	suffixBoxes := suffixModels 
+		select: [ :each | (each patterns collect: #name) includes: #'Intruder' ].
+		
+	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
+	
+	actualBoxes := suffixBoxes union: classBoxes.
+		
+	self 
+		assert: expectedBoxes  
+		equals: actualBoxes 
+	
+	
+	
+	
+]
+
+{ #category : #highlighting }
+CNBPresenterTest >> testHighlightScatteredVocabulary [
+
+
+	| expectedBoxes actualBoxes classBoxes suffixBoxes |
+	
+	expectedBoxes := presenter boxesToHighlightFor: #'Scattered Vocabulary'. 
+	
+	suffixBoxes := suffixModels 
+		select: [ :each | (each patterns collect: #name) includes: #'Scattered Vocabulary' ].
+		
+	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
+	
+	actualBoxes := suffixBoxes union: classBoxes.
+		
+	self 
+		assert: expectedBoxes  
+		equals: actualBoxes 
+	
+	
+	
+	
+]
+
+{ #category : #highlighting }
+CNBPresenterTest >> testHighlightSnowFlakes [
+
+	| expectedBoxes actualBoxes classBoxes suffixBoxes |
+	
+	expectedBoxes := presenter boxesToHighlightFor: #'Snow Flakes'. 
+	
+	suffixBoxes := suffixModels 
+		select: [ :each | (each patterns collect: #name) includes: #'Snow Flakes' ].
+		
+	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
+	
+	actualBoxes := suffixBoxes union: classBoxes.
+		
+	self 
+		assert: expectedBoxes  
+		equals: actualBoxes 
+	
+	
+	
 	
 ]
 

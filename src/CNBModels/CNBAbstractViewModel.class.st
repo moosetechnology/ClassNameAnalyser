@@ -119,5 +119,5 @@ CNBAbstractViewModel >> printOn: aStream [
 { #category : #'events-processing' }
 CNBAbstractViewModel >> processEvent: evt [
 
-	^self inspect
+	^ self inspect
 ]
