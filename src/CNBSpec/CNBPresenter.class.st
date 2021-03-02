@@ -105,8 +105,8 @@ CNBPresenter >> cnbSpecView [
 CNBPresenter >> connectPresenters [
 	super connectPresenters.
 	loadProjectButton action: [ self onLoadProjectClicked  ]. 
-	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self goDarkerFor: aPattern ].
-	reset action: [ self reset ] 
+	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self show: aPattern ].
+	reset action: [ self reset ] 	
 	
 ]
 
@@ -221,6 +221,13 @@ CNBPresenter >> onLoadProjectClicked [
 	cnbSpecView script: [ :canvas | projectCNB on: canvas ]
 ]
 
+{ #category : #'as yet unclassified' }
+CNBPresenter >> onPatternMouseHover [
+	"| description |
+	description := (nodesToBeHighlighted first) model pattern description."
+	"self printOn: description"
+]
+
 { #category : #initialization }
 CNBPresenter >> patternsDropList [
 	^ patternsDropList
@@ -271,4 +278,11 @@ CNBPresenter >> resetHighlightedNodes [
 			width: each model class new defaultBorderWidth ].
 	
 	nodesToBeHighlighted reset
+]
+
+{ #category : #showing }
+CNBPresenter >> show: aPattern [
+
+	self goDarkerFor: aPattern.
+	self onPatternMouseHover.
 ]

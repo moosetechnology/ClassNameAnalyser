@@ -9,7 +9,7 @@ Class {
 		'root',
 		'classViewModels',
 		'size',
-		'patterns'
+		'pattern'
 	],
 	#category : #CNBModels
 }
@@ -47,7 +47,7 @@ CNBSuffixViewModel >> checkConfetti [
 	confetti := CNBConfettiPattern new.
 	
 	(confetti check: self)
-		ifTrue: [ self patterns: confetti ]
+		ifTrue: [ self pattern: confetti ]
 	
 ]
 
@@ -58,7 +58,7 @@ CNBSuffixViewModel >> checkFatBlob [
 	fatBlobPattern := CNBFatBlobPattern new.
 	
 	(fatBlobPattern check: self)
-			ifTrue: [ self patterns: fatBlobPattern ]
+			ifTrue: [ self pattern: fatBlobPattern ]
 	
 ]
 
@@ -69,7 +69,7 @@ CNBSuffixViewModel >> checkHomogeneityBreaker [
 	homogeneityBreakerPattern := CNBHomogeneityBreakerPattern new.
 	
 	((homogeneityBreakerPattern check: self) 
-		and: [ self appearsInSeveralPackages ]) ifTrue: [ self patterns: homogeneityBreakerPattern. ]
+		and: [ self appearsInSeveralPackages ]) ifTrue: [ self pattern: homogeneityBreakerPattern. ]
 ]
 
 { #category : #testing }
@@ -79,7 +79,7 @@ CNBSuffixViewModel >> checkHomogeneous [
 	homogeneousPattern := CNBHomogeneousPattern new.
 	
 	(homogeneousPattern check: self)
-		ifTrue: [ self patterns: homogeneousPattern ]
+		ifTrue: [ self pattern: homogeneousPattern ]
 ]
 
 { #category : #testing }
@@ -88,7 +88,8 @@ CNBSuffixViewModel >> checkIntruder [
 	| intruderPattern |
 	intruderPattern := CNBIntruderPattern new.
 	
-	(intruderPattern check: self) ifTrue: [ self patterns: intruderPattern ]
+	(intruderPattern check: self) 
+		ifTrue: [ self pattern: intruderPattern ]
 	
 ]
 
@@ -116,7 +117,7 @@ CNBSuffixViewModel >> checkScatteredVocabulary [
 		ifFalse: [ ^ false ].
 		
 	(scatteredVocabularyPattern check: self) 
-		ifTrue: [ self patterns: scatteredVocabularyPattern. ]
+		ifTrue: [ self pattern: scatteredVocabularyPattern. ]
 ]
 
 { #category : #testing }
@@ -125,7 +126,7 @@ CNBSuffixViewModel >> checkSnowFlakes [
 	| snowFlakesPattern |
 	snowFlakesPattern := CNBSnowFlakesPattern new.
 	
-	(snowFlakesPattern check: self) ifTrue: [ self patterns: snowFlakesPattern. ]
+	(snowFlakesPattern check: self) ifTrue: [ self pattern: snowFlakesPattern. ]
 ]
 
 { #category : #accessing }
@@ -148,7 +149,6 @@ CNBSuffixViewModel >> hasNoOutsiders [
 { #category : #initialization }
 CNBSuffixViewModel >> initialize [ 
 	super initialize.
-	patterns := OrderedCollection new.
 	
  
 ]
@@ -180,13 +180,13 @@ CNBSuffixViewModel >> package: aPackage [
 ]
 
 { #category : #accessing }
-CNBSuffixViewModel >> patterns [ 
-	^ patterns
+CNBSuffixViewModel >> pattern [ 
+	^ pattern
 ]
 
 { #category : #accessing }
-CNBSuffixViewModel >> patterns: aPattern [
-	patterns add: aPattern 
+CNBSuffixViewModel >> pattern: aPattern [
+	pattern := aPattern 
 ]
 
 { #category : #accessing }

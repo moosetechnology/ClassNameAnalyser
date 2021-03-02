@@ -35,7 +35,7 @@ CNBSpecElementDropList >> initialize [
 { #category : #initialization }
 CNBSpecElementDropList >> items [
 
-	^self patterns.
+	^ self patterns .
 ]
 
 { #category : #initialization }

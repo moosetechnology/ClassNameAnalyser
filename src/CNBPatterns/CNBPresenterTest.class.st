@@ -18,7 +18,7 @@ CNBPresenterTest >> changeToCalypso [
 	presenter projectSelector text: 'calypso-*'. 
 	presenter onLoadProjectClicked.
 	presenter cnbSpecView openWithSpec.
-	suffixModels := projectCNB viewModel suffixModels.
+	suffixModels := projectCNB viewModel suffixModels reject: [ :each | each pattern isNil ]
 ]
 
 { #category : #running }
@@ -32,7 +32,7 @@ CNBPresenterTest >> setUp [
 	presenter projectSelector text: 'moose-*'. 
 	presenter onLoadProjectClicked.
 	presenter cnbSpecView openWithSpec.
-	suffixModels := projectCNB viewModel suffixModels.
+	suffixModels := projectCNB viewModel suffixModels reject: [ :each | each pattern isNil ].
 	allNodes := cnbCanvas deepNodes.
 ]
 
@@ -47,7 +47,7 @@ CNBPresenterTest >> testCanvasNotNil [
 CNBPresenterTest >> testCheckAllHomogeneous [
 	| homogeneous |
 	homogeneous := suffixModels 
-							select: [ :each | (each patterns collect: #name) includes: #'Snow Flakes' ].
+							select: [ :each | each pattern isHomogeneous ].
 	
 	self 
 		assert: (homogeneous collect: #color) asSet size equals: 1
@@ -57,7 +57,7 @@ CNBPresenterTest >> testCheckAllHomogeneous [
 CNBPresenterTest >> testCheckAllHomogeneousColorSize [
 	| homogeneous |
 	homogeneous := suffixModels 
-							select: [ :each | (each patterns collect: #name) includes: #'Snow Flakes' ].
+							select: [ :each | each pattern isHomogeneous ].
 	
 	self 
 		assert: (homogeneous collect: #color) asSet size equals: 1
@@ -68,7 +68,7 @@ CNBPresenterTest >> testCheckAllScatteredVocabularyInsidePackageSize [
 
 	| scatteredVocabulary packageSuffixesDictionary packages |
 	scatteredVocabulary := suffixModels 
-							select: [ :each | (each patterns collect: #name) includes: #'Scattered Vocabulary' ].
+							select: [ :each | each pattern isScatteredVocabulary ].
 	
 	packages := (scatteredVocabulary 
 							collect: [ :each | each package ]) asSet.				
@@ -90,7 +90,7 @@ CNBPresenterTest >> testCheckAllScatteredVocabularySuffixHasNoOutsiders [
 
 	| scatteredVocabulary |
 	scatteredVocabulary := suffixModels 
-							select: [ :each | (each patterns collect: #name) includes: #'Scattered Vocabulary' ].
+							select: [ :each | each pattern isScatteredVocabulary ].
 							
 	
 	self 
@@ -103,7 +103,7 @@ CNBPresenterTest >> testCheckAllScatteredVocabularySuffixSize [
 
 	| scatteredVocabulary |
 	scatteredVocabulary := suffixModels 
-							select: [ :each | (each patterns collect: #name) includes: #'Scattered Vocabulary' ].
+							select: [ :each | each pattern isScatteredVocabulary ].
 							
 	
 	self 
@@ -116,7 +116,7 @@ CNBPresenterTest >> testCheckAllSnowFlakesColorSize [
 
 	| snowFlakes |
 	snowFlakes := suffixModels 
-							select: [ :each | (each patterns collect: #name) includes: #'Snow Flakes' ].
+							select: [ :each | each pattern isSnowFlakes  ].
 							
 	
 	self 
@@ -129,7 +129,7 @@ CNBPresenterTest >> testCheckAllSnowFlakesMaxSize [
 
 	| snowFlakes |
 	snowFlakes := suffixModels 
-							select: [ :each | (each patterns collect: #name) includes: #'Snow Flakes' ].
+							select: [ :each | each pattern isSnowFlakes  ].
 							
 	
 	self 
@@ -139,138 +139,108 @@ CNBPresenterTest >> testCheckAllSnowFlakesMaxSize [
 
 { #category : #checkingOneSuffixPattern }
 CNBPresenterTest >> testCheckConfetti [
-	| aSuffixModel expectedPatterns actualPatterns |
+	| aSuffixModel |
 	self changeToCalypso.
-	
-	actualPatterns :=  #'Confetti'.
 	
 	aSuffixModel := suffixModels 
 		detect: [ :each | each name = 'Example' 
 			and: [ each package = 'Calypso-NavigationModel-Tests' ] ].
-	
 		
 	aSuffixModel checkConfetti.
-	
-	expectedPatterns := aSuffixModel patterns detect: [ :each | each name = #'Confetti' ].
+
 	self
-		assert: expectedPatterns name
+		assert: aSuffixModel pattern isConfetti
 		
-		equals: actualPatterns  
+		equals: true  
 ]
 
 { #category : #confettiTests }
 CNBPresenterTest >> testCheckConfettiNumberInCNB [
 
 	| confetti |
-	confetti := suffixModels select: [ :each | (each patterns collect: #name) includes: #'Confetti' ].
+	confetti := suffixModels select: [ :each | each pattern isConfetti  ].
 	
 	self 
 		assert: confetti size 
-		equals: 1
+		equals: 0
 ]
 
 { #category : #checkingOneSuffixPattern }
 CNBPresenterTest >> testCheckFatBlob [
-	| aSuffixModel expectedPatterns actualPatterns |
-	actualPatterns := { #'Fat Blob'}.
-	
-	aSuffixModel := suffixModels 
-		detect: [ :each | each package = 'Moose-Algos-Graph-Tests'].
+	| aSuffixModel |
+
+	aSuffixModel := suffixModels detect: [ :each | each package = 'Moose-Algos-Graph-Tests'].
 		
 	aSuffixModel checkPatterns.
 	
-	expectedPatterns := aSuffixModel patterns.	
 	self
-		assert: (expectedPatterns collect: #name) asSet
-		equals: actualPatterns asSet 
+		assert: aSuffixModel pattern isFatBlob  
+		equals: true
 ]
 
 { #category : #HomogeneityBreakerTests }
 CNBPresenterTest >> testCheckHomogeneityBreaker [
-	| aSuffixModel expectedPatterns actualPatterns |
+	| aSuffixModel  |
 	self changeToCalypso.
-	actualPatterns :=  #'Homogeneity Breaker'.
 	
 	aSuffixModel := suffixModels 
 		detect: [ :each | each name = 'Strategy' 
 			and: [ each package = 'Calypso-SystemTools-QueryBrowser' ] ].
-	
-		
+			
 	aSuffixModel checkPatterns.
 	
-	expectedPatterns := aSuffixModel patterns 
-		detect: [ :each | each name = #'Homogeneity Breaker' ].
-	
 	self
-		assert: expectedPatterns name
-		
-		equals: actualPatterns  
+		assert: aSuffixModel pattern isHomogeneityBreaker	
+		equals: true
 ]
 
 { #category : #checkingOneSuffixPattern }
 CNBPresenterTest >> testCheckHomogeneous [
-	| aSuffixModel expectedPatterns actualPatterns |
-	
-	actualPatterns :=  #'Homogeneous'.
-	
+	| aSuffixModel  |
+
 	aSuffixModel := suffixModels 
 		detect: [ :each | each name = 'Strategy' 
 			and: [ each package = 'Moose-Query' ] ].
 	
 		
 	aSuffixModel checkPatterns.
-	
-	expectedPatterns := aSuffixModel patterns detect: [ :each | each name = #'Homogeneous' ].	
 	self
-		assert: expectedPatterns name
+		assert: aSuffixModel pattern isHomogeneous 
 		
-		equals: actualPatterns  
+		equals: true  
 ]
 
 { #category : #checkingOneSuffixPattern }
 CNBPresenterTest >> testCheckIntruder [
-	| aSuffixModel expectedPatterns actualPatterns |
+	| aSuffixModel |
 	
-	actualPatterns :=  #'Intruder'.
-	
-	aSuffixModel := suffixModels 
-		detect: [ :each | each name = 'Command' ].
-	
+	aSuffixModel := suffixModels detect: [ :each | each name = 'Command' ].
 		
 	aSuffixModel checkPatterns.
 	
-	expectedPatterns := aSuffixModel patterns detect: [ :each | each name = #'Intruder' ].
-	
 	self
-		assert: expectedPatterns name
-		
-		equals: actualPatterns  
+		assert: aSuffixModel pattern isIntruder	
+		equals: true  
 ]
 
 { #category : #checkingOneSuffixPattern }
 CNBPresenterTest >> testCheckScatteredVocabulary [
-	| aSuffixModel expectedPatterns actualPatterns |
-	
-	actualPatterns :=  #'Scattered Vocabulary'.
+	| aSuffixModel |
 	
 	aSuffixModel := suffixModels 
 		detect: [ :each | each name = 'Task' 
 							and: [ each package = 'Moose-SmalltalkImporter' ] ].
-	
 		
 	aSuffixModel checkScatteredVocabulary.
-	expectedPatterns := (aSuffixModel patterns collect: #name) 
-									includes: #'Scattered Vocabulary' .
+	
 	self
-		assert: expectedPatterns
+		assert: aSuffixModel pattern isScatteredVocabulary
 		equals: true  
 ]
 
 { #category : #SnowFlakesTest }
 CNBPresenterTest >> testCheckSnowFlakes [
-	| aSuffixModel expectedPatterns actualPatterns |
-	
-	actualPatterns :=  #'Snow Flakes'.
+	| aSuffixModel |
 	
 	aSuffixModel := suffixModels 
 		detect: [ :each | each name = 'Engine' ].
@@ -278,12 +248,9 @@ CNBPresenterTest >> testCheckSnowFlakes [
 		
 	aSuffixModel checkPatterns.
 	
-	expectedPatterns := aSuffixModel patterns detect: [ :each | each name = #'Snow Flakes' ].
-	
 	self
-		assert: expectedPatterns name
-		
-		equals: actualPatterns  
+		assert: aSuffixModel pattern isSnowFlakes	
+		equals: true  
 ]
 
 { #category : #SnowFlakesTest }
@@ -291,7 +258,7 @@ CNBPresenterTest >> testCheckSnowFlakesInCNB [
 
 	| snowFlakes actualSnowFlakes |
 	snowFlakes := suffixModels 
-							select: [ :each | (each patterns collect: #name) includes: #'Snow Flakes' ].
+							select: [ :each | each pattern isSnowFlakes ].
 							
 	actualSnowFlakes := { 'Engine' . 'B' }.
 	
@@ -316,7 +283,7 @@ CNBPresenterTest >> testColorHighlighted [
 CNBPresenterTest >> testConfettiOutsiders [
 
 	| confetti |
-	confetti := suffixModels select: [ :each | (each patterns collect: #name) includes: #'Confetti' ].
+	confetti := suffixModels select: [ :each | each pattern isConfetti  ].
 	
 	self 
 		assert: (confetti allSatisfy: [ :each | 
@@ -330,7 +297,7 @@ CNBPresenterTest >> testConfettiOutsiders [
 CNBPresenterTest >> testConfettiSize [
 
 	| confetti |
-	confetti := suffixModels select: [ :each | (each patterns collect: #name) includes: #'Confetti' ].
+	confetti := suffixModels select: [ :each | each pattern isConfetti  ].
 	
 	self 
 		assert: (confetti allSatisfy: [ :each | 
@@ -344,12 +311,10 @@ CNBPresenterTest >> testConfettiSize [
 CNBPresenterTest >> testFatBlobsAreNotHomogeneous [
 
 	| fatBlobs |
-	fatBlobs := suffixModels select: [ :each | (each patterns collect: #name) includes: #'Fat Blob' ].
-	
+	fatBlobs := suffixModels select: [ :each | each pattern isFatBlob ].
 
 	self 
-		assert: (fatBlobs anySatisfy: [ :each | (each patterns collect: #name ) 
-					includes: #'Homogenerous'])
+		assert: (fatBlobs anySatisfy: [ :each | each pattern isHomogeneous ])
 		equals: false
 ]
 
@@ -357,9 +322,8 @@ CNBPresenterTest >> testFatBlobsAreNotHomogeneous [
 CNBPresenterTest >> testFatBlobsBelongToMultiSuffix [
 
 	| fatBlobs |
-	fatBlobs := suffixModels select: [ :each | (each patterns collect: #name) includes: #'Fat Blob' ].
+	fatBlobs := suffixModels select: [ :each | each pattern isFatBlob  ].
 	
-
 	self 
 		assert: (fatBlobs allSatisfy: [ :each | each root isMultiSuffix ])
 		equals: true
@@ -369,9 +333,8 @@ CNBPresenterTest >> testFatBlobsBelongToMultiSuffix [
 CNBPresenterTest >> testFatBlobsHasNoOutsiders [
 
 	| fatBlobs |
-	fatBlobs := suffixModels select: [ :each | (each patterns collect: #name) includes: #'Fat Blob' ].
+	fatBlobs := suffixModels select: [ :each | each pattern isFatBlob ].
 	
-
 	self 
 		assert: (fatBlobs allSatisfy: [ :each | each outsiders isEmpty ])
 		equals: true
@@ -381,8 +344,7 @@ CNBPresenterTest >> testFatBlobsHasNoOutsiders [
 CNBPresenterTest >> testFatBlobsSize [
 
 	| fatBlobs |
-	fatBlobs := suffixModels select: [ :each | (each patterns collect: #name) includes: #'Fat Blob' ].
-	
+	fatBlobs := suffixModels select: [ :each | each pattern isFatBlob ].
 
 	self 
 		assert: (fatBlobs allSatisfy: [ :each | each size >= CNBPatternSelector fatBlobSize ])
@@ -423,7 +385,7 @@ CNBPresenterTest >> testGoDarkerForHomogeneous [
 	
 	expectedBoxes := presenter nodesToHighlightFor: #'Homogeneous'. 
 	suffixBoxes := suffixModels 
-		select: [ :each | (each patterns collect: #name) includes: #'Homogeneous' ].
+		select: [ :each | each pattern isHomogeneous ].
 	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
 	actualBoxes := suffixBoxes union: classBoxes.
 		
@@ -471,7 +433,7 @@ CNBPresenterTest >> testHighlightConfetti [
 	expectedBoxes := presenter nodesToHighlightFor: #'Confetti'. 
 	
 	suffixBoxes := suffixModels 
-		select: [ :each | (each patterns collect: #name) includes: #'Confetti' ].
+		select: [ :each | each pattern isConfetti  ].
 		
 	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
 	
@@ -490,7 +452,7 @@ CNBPresenterTest >> testHighlightFatBlob [
 	expectedBoxes := presenter nodesToHighlightFor: #'Fat Blob'. 
 	
 	suffixBoxes := suffixModels 
-		select: [ :each | (each patterns collect: #name) includes: #'Fat Blob' ].
+		select: [ :each | each pattern isFatBlob ].
 		
 	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
 	
@@ -514,7 +476,7 @@ CNBPresenterTest >> testHighlightHomogeneityBreaker [
 	expectedBoxes := presenter nodesToHighlightFor: #'Homogeneity Breaker'. 
 	
 	suffixBoxes := suffixModels 
-		select: [ :each | (each patterns collect: #name) includes: #'Homogeneity Breaker' ].
+		select: [ :each | each pattern isHomogeneityBreaker ].
 		
 	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
 	
@@ -537,7 +499,7 @@ CNBPresenterTest >> testHighlightIntruders [
 	expectedBoxes := presenter nodesToHighlightFor: #'Intruder'.
 	 
 	suffixBoxes := suffixModels 
-		select: [ :each | (each patterns collect: #name) includes: #'Intruder' ].
+		select: [ :each | each pattern isIntruder ].
 		
 	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
 	
@@ -561,7 +523,7 @@ CNBPresenterTest >> testHighlightScatteredVocabulary [
 	expectedBoxes := presenter nodesToHighlightFor: #'Scattered Vocabulary'. 
 	
 	suffixBoxes := suffixModels 
-		select: [ :each | (each patterns collect: #name) includes: #'Scattered Vocabulary' ].
+		select: [ :each | each pattern isScatteredVocabulary ].
 		
 	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
 	
@@ -584,7 +546,7 @@ CNBPresenterTest >> testHighlightSnowFlakes [
 	expectedBoxes := presenter nodesToHighlightFor: #'Snow Flakes'. 
 	
 	suffixBoxes := suffixModels 
-		select: [ :each | (each patterns collect: #name) includes: #'Snow Flakes' ].
+		select: [ :each | each pattern isConfetti ].
 		
 	classBoxes := suffixBoxes flatCollect: [ :each | each classViewModels ].
 	
@@ -603,8 +565,9 @@ CNBPresenterTest >> testHighlightSnowFlakes [
 CNBPresenterTest >> testHomogeneityBreakerExists [
 
 	| homogeneityBreakers |
+	self changeToCalypso.
 	homogeneityBreakers := suffixModels 
-			select: [ :each | (each patterns collect: #name) includes: #'Homogeneity Breaker' ].
+			select: [ :each | each pattern isHomogeneityBreaker ].
 	
 	self 
 		assert: homogeneityBreakers isNotEmpty 
@@ -616,9 +579,9 @@ CNBPresenterTest >> testHomogeneityBreakerIsNotIntruder [
 
 	| homoBreaker intruders |
 	homoBreaker := suffixModels 
-			select: [ :each | (each patterns collect: #name) includes: #'Homogeneity Breaker'  ].
+			select: [ :each | each pattern isHomogeneityBreaker  ].
 	intruders := suffixModels 
-			select: [ :each | (each patterns collect: #name) includes: #'Intruder' ].
+			select: [ :each | each pattern isIntruder ].
 			
 	self
 		assert: homoBreaker = intruders 
@@ -632,7 +595,7 @@ CNBPresenterTest >> testHomogeneityBreakersInCNB [
 
 	| homogeneityBreakers |
 	homogeneityBreakers := suffixModels 
-		select: [ :each | (each patterns collect: #name) includes: #'Homogeneity Breaker' ].
+		select: [ :each | each pattern isHomogeneityBreaker].
 		
 	self 
 		assert: homogeneityBreakers size 
@@ -679,8 +642,7 @@ CNBPresenterTest >> testHomogeneousNodesGoDarkerColorSize [
 CNBPresenterTest >> testIntrudersAreNotMonoClasses [
 
 	| intruders |
-	intruders := suffixModels select: [ :each | (each patterns collect: #name) 
-										includes: #'Intruder' ].
+	intruders := suffixModels select: [ :each | each pattern isIntruder ].
 																
 	self 
 		assert: (intruders anySatisfy: [ :each | each root isMonoClass ])
@@ -691,8 +653,7 @@ CNBPresenterTest >> testIntrudersAreNotMonoClasses [
 CNBPresenterTest >> testIntrudersPourcentage [
 
 	| intruders |
-	intruders := suffixModels select: [ :each | (each patterns collect: #name) 
-										includes: #'Intruder' ].
+	intruders := suffixModels select: [ :each | each pattern isIntruder ].
 																
 	self 
 		assert: (intruders allSatisfy: [ :each | each outsiders size <=  (each size * CNBPatternSelector intrudersPercentage) percent ])
@@ -703,8 +664,7 @@ CNBPresenterTest >> testIntrudersPourcentage [
 CNBPresenterTest >> testIntrudersSizeInsideCNB [
 
 	| intruders |
-	intruders := suffixModels select: [ :each | (each patterns collect: #name) 
-										includes: #'Intruder' ].
+	intruders := suffixModels select: [ :each | each pattern isIntruder ].
 									
 	self 
 		assert: intruders size
@@ -738,8 +698,7 @@ CNBPresenterTest >> testNumberColorHighlighted [
 CNBPresenterTest >> testScatteredVocabularySuffixesSizeInCNB [
 
 	| scatteredVocabulary |
-	scatteredVocabulary := suffixModels select: [ :each | (each patterns collect: #name) 
-										includes: #'Scattered Vocabulary' ].
+	scatteredVocabulary := suffixModels select: [ :each | each pattern isScatteredVocabulary ].
 									
 	self 
 		assert: scatteredVocabulary size

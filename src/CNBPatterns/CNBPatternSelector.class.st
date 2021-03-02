@@ -185,7 +185,9 @@ CNBPatternSelector >> intrudersPercentage [
 
 { #category : #accessing }
 CNBPatternSelector >> models [
-	^ cnb viewModel packageViewModels flatCollect: #models.
+	| allModels |
+	allModels := cnb viewModel packageViewModels flatCollect: #models.
+	^ allModels reject: [ :each | each pattern isNil ]
 ]
 
 { #category : #accessing }
@@ -213,7 +215,7 @@ CNBPatternSelector >> patternsDictionary [
 { #category : #selectPatterns }
 CNBPatternSelector >> selectConfetti [
 	
-	^ self models select: [ :each | (each patterns collect: #name) includes:  #'Confetti' ]
+	^ self models select: [ :each | each pattern isConfetti  ] 
 
 	
 ]
@@ -221,27 +223,27 @@ CNBPatternSelector >> selectConfetti [
 { #category : #selectPatterns }
 CNBPatternSelector >> selectFatBlob [
 
-	^ self models select: [ :each | (each patterns collect: #name) includes: #'Fat Blob'  ].
+	^ self models select: [ :each | each pattern isFatBlob ].
 	
 ]
 
 { #category : #selectPatterns }
 CNBPatternSelector >> selectHomogeneityBreaker [ 
 
-	^ self models select: [ :each | (each patterns collect: #name) includes: #'Homogeneity Breaker' ]
+	^ self models select: [ :each | each pattern isHomogeneityBreaker ] 
 
 ]
 
 { #category : #selectPatterns }
 CNBPatternSelector >> selectHomogeneous [
 	
-	^ self models select: [ :each | (each patterns collect: #name) includes:  #'Homogeneous' ]
+	^ self models select: [ :each | each pattern isHomogeneous  ] 
 ]
 
 { #category : #selectPatterns }
 CNBPatternSelector >> selectIntruders [
 	
-	^ self models select: [ :each | (each patterns collect: #name) includes:  #'Intruder' ]
+	^ self models select: [ :each | each pattern isIntruder ]
 ]
 
 { #category : #selectPatterns }
@@ -254,13 +256,13 @@ CNBPatternSelector >> selectPatternOf: aSymbol [
 CNBPatternSelector >> selectScatteredVocabulary [
 
 
-	^ self models select: [ :each | (each patterns collect: #name) includes: #'Scattered Vocabulary' ]
+	^ self models select: [ :each | each pattern isScatteredVocabulary ]
 ]
 
 { #category : #selectPatterns }
 CNBPatternSelector >> selectSnowFlakes [
 	
-	^ self models select: [ :each | (each patterns collect: #name) includes:  #'Snow Flakes' ]
+	^ self models select: [ :each | each pattern isSnowFlakes ] 
 ]
 
 { #category : #accessing }
