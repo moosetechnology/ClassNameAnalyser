@@ -29,7 +29,7 @@ CNBAbstractViewModel >> border: aBorder [
 
 { #category : #accessing }
 CNBAbstractViewModel >> borderColor [ 
-	^border color isNotNil
+	^ border color isNotNil
 		ifTrue: [ border color ] ifFalse: [ self defaultBorderColor ]
 	
 	
@@ -43,7 +43,7 @@ CNBAbstractViewModel >> borderColor: aColor [
 
 { #category : #accessing }
 CNBAbstractViewModel >> box [
-	^box
+	^ box
 ]
 
 { #category : #accessing }
@@ -108,16 +108,15 @@ CNBAbstractViewModel >> originalColor: aColor [
 
 { #category : #printing }
 CNBAbstractViewModel >> printOn: aStream [
-	super printOn: aStream. 
-	aStream nextPutAll: ' ('.
-	self name asString printOn: aStream.
-	aStream nextPutAll: ')'
 
-	
+	super printOn: aStream.
+	aStream nextPutAll: '('.
+	self name asString printOn: aStream.
+	aStream nextPutAll: ')'.
 ]
 
 { #category : #'events-processing' }
 CNBAbstractViewModel >> processEvent: evt [
 
-	^ self inspect
+	^ self inspect 
 ]

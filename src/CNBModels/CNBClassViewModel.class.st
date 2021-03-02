@@ -50,6 +50,11 @@ CNBClassViewModel >> height [
 	^35
 ]
 
+{ #category : #'as yet unclassified' }
+CNBClassViewModel >> hideBoxName [ 
+	self box removeInteractionIfPresent: RSPopup 
+]
+
 { #category : #initialization }
 CNBClassViewModel >> initialize [ 
 	super initialize.
@@ -99,6 +104,11 @@ CNBClassViewModel >> root: aRoot [
 
 	root := aRoot
 		
+]
+
+{ #category : #'as yet unclassified' }
+CNBClassViewModel >> showBoxName [
+	self box popupText: name
 ]
 
 { #category : #accessing }

@@ -146,9 +146,16 @@ CNBSuffixViewModel >> hasNoOutsiders [
 	^ self belongers size = size
 ]
 
+{ #category : #'as yet unclassified' }
+CNBSuffixViewModel >> hidePatternDescription [
+	self box popupText: name.
+	self box children do: [ :each | each model showBoxName  ]
+]
+
 { #category : #initialization }
 CNBSuffixViewModel >> initialize [ 
 	super initialize.
+	
 	
  
 ]
@@ -198,6 +205,12 @@ CNBSuffixViewModel >> root [
 CNBSuffixViewModel >> root: biggestHierarchy [
 	root := biggestHierarchy.
 
+]
+
+{ #category : #'as yet unclassified' }
+CNBSuffixViewModel >> showPatternDescription [
+	self box popupText: pattern description.
+	self box children do: [ :each | each model hideBoxName ]
 ]
 
 { #category : #accessing }

@@ -197,8 +197,9 @@ CNBPresenter >> nodesToHighlightFor: aPattern [
 
 	| suffixModelsToBeHighlighted classModelsToBeHighlighted highlightedModels |
 
-	suffixModelsToBeHighlighted := self lookFor: aPattern.	
-		
+	suffixModelsToBeHighlighted := self lookFor: aPattern.
+	suffixModelsToBeHighlighted do: [ :each | each showPatternDescription ].
+
 	classModelsToBeHighlighted := suffixModelsToBeHighlighted 
 		                              flatCollect: [ :each | each classViewModels ].
 	
@@ -277,6 +278,7 @@ CNBPresenter >> resetHighlightedNodes [
 			color: each model class new defaultBorderColor; 
 			width: each model class new defaultBorderWidth ].
 	
+	nodesWithHighlightedBorders do: [ :each | each model hidePatternDescription ].
 	nodesToBeHighlighted reset
 ]
 
