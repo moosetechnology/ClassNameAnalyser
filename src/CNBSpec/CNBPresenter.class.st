@@ -16,7 +16,7 @@ Class {
 		'goDarker',
 		'n',
 		'nodesToBeDarker',
-		'nodesToHighlight',
+		'nodesToBeHighlighted',
 		'reset'
 	],
 	#category : #CNBSpec
@@ -106,29 +106,29 @@ CNBPresenter >> connectPresenters [
 	super connectPresenters.
 	loadProjectButton action: [ self onLoadProjectClicked  ]. 
 	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self goDarkerFor: aPattern ].
-	"reset action: [ self onResetClicked ] "
+	reset action: [ self reset ] 
 	
-]
-
-{ #category : #highlighting }
-CNBPresenter >> goDarker [ 
-
-	cnbSpecView canvas 
-		color: Color black whiter.
-		
-	nodesToBeDarker do: [ :each |
-		each color: each color muchDarker ].
 ]
 
 { #category : #highlighting }
 CNBPresenter >> goDarkerFor: aPattern [
-	"self onResetClicked."
 	
-	nodesToBeDarker := (self nodesToBeDarkerFor: aPattern).
-	(nodesToBeDarker isCollection not or: [ nodesToBeDarker isEmpty ])
-		ifTrue: [ ^ self ].
+	| nodesWithHighlightedBorders |
+	 nodesToBeDarker isNotEmpty
+	ifTrue: [ self reset ]. 
 	
-	self goDarker. 
+	nodesToBeHighlighted := self nodesToHighlightFor: aPattern.
+	nodesToBeHighlighted ifEmpty: [ ^ self ].
+	nodesWithHighlightedBorders := nodesToBeHighlighted select: [ :each | 
+		                               each hasChildren ].
+	nodesToBeDarker := self allNodes difference: nodesToBeHighlighted.
+		
+	nodesToBeDarker do: [ :each |
+		each color: each color muchDarker duller ].
+	nodesWithHighlightedBorders do: [ :each |
+				each border color: Color white; width: 3 ].
+	cnbSpecView canvas 
+		color: Color black whiter.
 	
 ]
 
@@ -182,30 +182,21 @@ CNBPresenter >> lookFor: aPattern [
 
 { #category : #highlighting }
 CNBPresenter >> nodesToBeDarker [
+
 	^ nodesToBeDarker
 ]
 
-{ #category : #highlighting }
-CNBPresenter >> nodesToBeDarkerFor: aPattern [
+{ #category : #accessing }
+CNBPresenter >> nodesToBeHighlighted [ 
 
-
-	nodesToHighlight := self nodesToHighlightFor: aPattern.
-	nodesToHighlight isNotEmpty ifFalse: [ ^ self ].
-	
-	^ self allNodes difference: nodesToHighlight
-	
-]
-
-{ #category : #highlighting }
-CNBPresenter >> nodesToHighlight [
-	^ nodesToHighlight
+	^ nodesToBeHighlighted 
 ]
 
 { #category : #highlighting }
 CNBPresenter >> nodesToHighlightFor: aPattern [
 
 	| suffixModelsToBeHighlighted classModelsToBeHighlighted highlightedModels |
-	
+
 	suffixModelsToBeHighlighted := self lookFor: aPattern.	
 		
 	classModelsToBeHighlighted := suffixModelsToBeHighlighted 
@@ -230,11 +221,6 @@ CNBPresenter >> onLoadProjectClicked [
 	cnbSpecView script: [ :canvas | projectCNB on: canvas ]
 ]
 
-{ #category : #actions }
-CNBPresenter >> onResetClicked [
-	"self reset"
-]
-
 { #category : #initialization }
 CNBPresenter >> patternsDropList [
 	^ patternsDropList
@@ -248,16 +234,41 @@ CNBPresenter >> projectSelector [
 { #category : #initialization }
 CNBPresenter >> reset [
 
-	| holderComposites boxesToReset labels |
-	(nodesToBeDarker isCollection not or: [ nodesToBeDarker isEmpty ]) 
-		ifTrue: [ ^ self ].
-	holderComposites := nodesToBeDarker select: [ :each | each class = RSComposite and:  
-		                    [ each children size = 2] ]. "even suffix composites with 2 boxes"
-	labels := nodesToBeDarker select: [ :each | each model isNil ].
-	labels do: [ :each | each color: RSLabel new color ].
-	holderComposites do: [ :each | each color: Color white darker ].
 	cnbSpecView canvas color: Color white darker.
-	boxesToReset := nodesToBeDarker difference: holderComposites.
-	boxesToReset := boxesToReset difference: labels.
-	boxesToReset do: [ :each | each color: each model originalColor ]
+	
+	self resetHighlightedNodes.
+	self resetDarkerNodes.
+
+	
+	
+]
+
+{ #category : #initialization }
+CNBPresenter >> resetDarkerNodes [
+	| nodesToReset |
+	
+	nodesToReset := nodesToBeDarker copy.
+	
+	nodesToReset do: [ :each | 
+		each model isNotNil
+			ifTrue: [ each color: each model originalColor ]
+			ifFalse: [ each color: each class new color darker ] 
+							].
+						
+	nodesToBeHighlighted reset.
+	
+]
+
+{ #category : #initialization }
+CNBPresenter >> resetHighlightedNodes [
+
+	| nodesWithHighlightedBorders |
+		nodesWithHighlightedBorders := nodesToBeHighlighted select: [ :each | 
+		                               each hasChildren ].
+	nodesWithHighlightedBorders do: [ :each | 
+		each border 
+			color: each model class new defaultBorderColor; 
+			width: each model class new defaultBorderWidth ].
+	
+	nodesToBeHighlighted reset
 ]

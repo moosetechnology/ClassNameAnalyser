@@ -72,12 +72,12 @@ CNBAbstractViewModel >> createBox [
 
 { #category : #initialization }
 CNBAbstractViewModel >> defaultBorderColor [
-	^Color black
+	^ Color black
 ]
 
 { #category : #initialization }
 CNBAbstractViewModel >> defaultBorderWidth [
-	^1
+	^ 1
 	
 
 ]
