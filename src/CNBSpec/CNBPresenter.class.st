@@ -142,7 +142,8 @@ CNBPresenter >> initialize [
 CNBPresenter >> initializePresenters [
 	super initializePresenters.
 	
-	projectSelector := self newTextInput.
+	projectSelector := self newTextInput
+		placeholder: 'projectNameMatches:''....-*'''.
 	pathSelector := self newTextInput.
 	rootSelector := self newTextInput. 
 	reset := self newButton label: 'Reset'. 
