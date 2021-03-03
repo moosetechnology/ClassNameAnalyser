@@ -1,16 +1,9 @@
-Extension { #name : #ProtoObject }
+Extension { #name : #FamixStClass }
 
 { #category : #'*CNBModels' }
-ProtoObject >> classDepth [
-	"To work with FamixStClasses"
-	self superclass ifNil: [^ 1].
-	^ (self superclass classDepth + 1) 
-]
+FamixStClass >> classModelAccordingTo: aMotherClass [
 
-{ #category : #'*CNBModels' }
-ProtoObject >> classModelAccordingTo: aMotherClass [
-
-	^	CNBClassModel new 
+	^ CNBClassModel new 
 							reference: self;
 							name: self name;
 							root: (self rootAccordingTo: aMotherClass);
@@ -20,7 +13,7 @@ ProtoObject >> classModelAccordingTo: aMotherClass [
 ]
 
 { #category : #'*CNBModels' }
-ProtoObject >> rootAccordingTo: aRootClassName [
+FamixStClass >> rootAccordingTo: aRootClassName [
 
 	self isTrait
 		ifTrue: [ ^ self ].

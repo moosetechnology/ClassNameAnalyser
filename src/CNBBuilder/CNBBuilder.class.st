@@ -141,15 +141,18 @@ CNBBuilder >> do: anObject [
 
 { #category : #accessing }
 CNBBuilder >> doClassViewModelsOf: classmodels using: rootModels [
-	^ classmodels
-		collect: [ :eachClassModel | 
-			| itsRoot |
-			itsRoot := rootModels
-				detect: [ :eachRootModel | eachClassModel root name = eachRootModel name ].
-			CNBClassViewModel new create: eachClassModel;
+
+	^ classmodels collect: [ :eachClassModel | 
+				| itsRoot |
+				itsRoot := rootModels 
+					detect: [ :eachRootModel | eachClassModel root name = eachRootModel name ].
+				
+			CNBClassViewModel new 
+				create: eachClassModel;
 				root: itsRoot;
 				originalColor: itsRoot color copy;
-				color: itsRoot color ]
+				color: itsRoot color
+				 ]
 ]
 
 { #category : #accessing }
@@ -177,10 +180,12 @@ CNBBuilder >> doConceptViewModelsOf: aPackageModel using: rootModels [
 
 { #category : #doing }
 CNBBuilder >> doPackageModelsOf: aViewModel [
-	^ aViewModel model packages
-		collect: [ :eachPackage | 
-			CNBPackageModel 
-				of: eachPackage root: aViewModel settings rootClass ]
+
+	^ aViewModel model packages 
+			collect: [ :eachPackage | 
+				CNBPackageModel 
+					of: eachPackage 
+					root: aViewModel settings rootClass ]
 ]
 
 { #category : #doing }

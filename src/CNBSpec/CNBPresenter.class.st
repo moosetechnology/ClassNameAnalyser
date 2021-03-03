@@ -147,9 +147,8 @@ CNBPresenter >> initializePresenters [
 	pathSelector := self newTextInput.
 	rootSelector := self newTextInput. 
 	reset := self newButton label: 'Reset'. 
-	prefix := self newRadioButton.
-	suffix := self newRadioButton.	
-	suffix associatedRadioButtons:  { prefix }.
+	prefix := self newCheckBox.
+	suffix := self newCheckBox.	
 	prefix label: 'Prefix'.
 	suffix label: 'Suffix'.
 	
