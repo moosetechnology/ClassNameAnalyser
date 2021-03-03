@@ -29,10 +29,11 @@ CNBClassViewModel >> border [
 { #category : #'as yet unclassified' }
 CNBClassViewModel >> create: aClassModel [
 
-	name := aClassModel name.
-	reference := aClassModel reference;
-	suffix: aClassModel suffix;
-	prefix: aClassModel prefix; yourself
+	self 
+		name: aClassModel name;
+		reference: aClassModel reference;
+		suffix: aClassModel suffix;
+		prefix: aClassModel prefix
 	
 ]
 
@@ -81,6 +82,12 @@ CNBClassViewModel >> prefix [
 { #category : #accessing }
 CNBClassViewModel >> prefix: aPrefix [
 	prefix := aPrefix
+]
+
+{ #category : #'events-processing' }
+CNBClassViewModel >> processEvent: evt [
+
+	^ (Smalltalk image classNamed: name) browse
 ]
 
 { #category : #accessing }
