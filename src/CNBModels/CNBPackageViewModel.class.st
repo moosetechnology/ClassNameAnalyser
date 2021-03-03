@@ -32,6 +32,12 @@ CNBPackageViewModel >> modelsOrderedDescending [
 	^ suffixViewModels sorted: #size descending
 ]
 
+{ #category : #'events-processing' }
+CNBPackageViewModel >> processEvent: evt [
+
+	Smalltalk tools browser openOnPackage:(RPackageOrganizer default packageNamed: name) 
+]
+
 { #category : #accessing }
 CNBPackageViewModel >> size [
 	^ size
