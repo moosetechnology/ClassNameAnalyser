@@ -116,7 +116,7 @@ CNBPresenter >> goDarkerFor: aPattern [
 	| nodesWithHighlightedBorders |
 	 nodesToBeDarker isNotEmpty
 	ifTrue: [ self reset ]. 
-	
+	projectCNB isNotNil ifFalse: [ ^ self ].
 	nodesToBeHighlighted := self nodesToHighlightFor: aPattern.
 	nodesToBeHighlighted ifEmpty: [ ^ self ].
 	nodesWithHighlightedBorders := nodesToBeHighlighted select: [ :each | 
@@ -223,13 +223,6 @@ CNBPresenter >> onLoadProjectClicked [
 	cnbSpecView script: [ :canvas | projectCNB on: canvas ]
 ]
 
-{ #category : #'as yet unclassified' }
-CNBPresenter >> onPatternMouseHover [
-	"| description |
-	description := (nodesToBeHighlighted first) model pattern description."
-	"self printOn: description"
-]
-
 { #category : #initialization }
 CNBPresenter >> patternsDropList [
 	^ patternsDropList
@@ -287,5 +280,4 @@ CNBPresenter >> resetHighlightedNodes [
 CNBPresenter >> show: aPattern [
 
 	self goDarkerFor: aPattern.
-	self onPatternMouseHover.
 ]
