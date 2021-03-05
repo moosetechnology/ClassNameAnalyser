@@ -218,7 +218,8 @@ CNBPresenter >> onLoadProjectClicked [
 		              CNBRoassal3Builder projectNameMatches:
 			              projectSelector text ]
 		              ifFalse: [ 
-		              CNBRoassal3Builder importProject: pathSelector text ].
+							
+		              CNBRoassal3Builder importProject: pathSelector text asString ].
 	cnbSpecView script: [ :canvas | projectCNB on: canvas ]
 ]
 
