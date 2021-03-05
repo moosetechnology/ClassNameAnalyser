@@ -13,6 +13,11 @@ CNBSettings >> defaultRootClass [
 	^ 'Object'
 ]
 
+{ #category : #'as yet unclassified' }
+CNBSettings >> defaultToken [ 
+	^ #suffix
+]
+
 { #category : #accessing }
 CNBSettings >> rootClass [
 	^ rootClass ifNil: [ self defaultRootClass ]
@@ -25,7 +30,7 @@ CNBSettings >> rootClass: aClassName [
 
 { #category : #accessing }
 CNBSettings >> token [
-	^token
+	^ token ifNil: [ self defaultToken  ]
 ]
 
 { #category : #accessing }

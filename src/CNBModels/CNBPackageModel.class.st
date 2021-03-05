@@ -28,6 +28,15 @@ CNBPackageModel >> classModels: aCollectionOfClassModels [
 	classModels := aCollectionOfClassModels
 ]
 
+{ #category : #testing }
+CNBPackageModel >> includesSuffix: aSuffix [
+
+
+	| suffixes |
+	suffixes := self classModels collect: #suffix.
+	^ (suffixes includes: aSuffix)
+]
+
 { #category : #accessing }
 CNBPackageModel >> originalColor [
 	^ self defaultColor 
@@ -39,4 +48,9 @@ CNBPackageModel >> printOn: aStream [
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.
 	aStream nextPutAll: ')'
+]
+
+{ #category : #accessing }
+CNBPackageModel >> suffixes [ 
+	^ classModels collect: [ :each | each suffix ]
 ]

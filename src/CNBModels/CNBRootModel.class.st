@@ -14,7 +14,8 @@ Class {
 		'dominantSuffixes',
 		'concepts',
 		'prefixes',
-		'scatteredSuffixes'
+		'scatteredSuffixes',
+		'biggestSuffixAssociation'
 	],
 	#category : #CNBModels
 }
@@ -36,6 +37,16 @@ CNBRootModel class >> reference: aClass with: aCollectionOfSubClassModels [
 	
 	
 	
+]
+
+{ #category : #accessing }
+CNBRootModel >> biggestSuffixAssociation [
+	^ biggestSuffixAssociation
+]
+
+{ #category : #'as yet unclassified' }
+CNBRootModel >> biggestSuffixName [
+	^ biggestSuffixAssociation key
 ]
 
 { #category : #accessing }
@@ -77,6 +88,16 @@ CNBRootModel >> hasScatteredVocabularyInside: aPackageString [
 										and: [ each size >= CNBPatternSelector svMinClassSize ] ].
 
 	^ (electedSuffixes size >= CNBPatternSelector svMinSuffixSize)
+	
+]
+
+{ #category : #testing }
+CNBRootModel >> hasVeryScatteredVocabularyInside: aPackageModel [
+
+	| suffixesInPackage selfClassModels |
+	selfClassModels := aPackageModel classModels select: [ :each | each root = self ].
+	suffixesInPackage := (selfClassModels collect: #suffix) asSet.
+	^ (suffixesInPackage size >= CNBPatternSelector scatteredThreshold)
 	
 ]
 
@@ -178,13 +199,14 @@ CNBRootModel >> subclasses: aCollectionOfSubClassModels [
 
 { #category : #accessing }
 CNBRootModel >> suffixes [ 
-	^suffixes
+	^ suffixes
 	
 ]
 
 { #category : #accessing }
 CNBRootModel >> suffixes: suffixesDictionary [
-	suffixes := suffixesDictionary
+	suffixes := suffixesDictionary.
+	biggestSuffixAssociation := (suffixesDictionary associations detectMax: [ :each | each ]) .
 	
 	
 ]

@@ -90,7 +90,7 @@ CNBViewModel >> packageViewModels: collectionOfPackageViewModels [
 
 { #category : #accessing }
 CNBViewModel >> settings [
-	^settings
+	^ settings
 ]
 
 { #category : #'accessing - attributes' }

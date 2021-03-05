@@ -16,7 +16,8 @@ Class {
 		'hbMonoMaxSuffixSize',
 		'hbMultiPourcentage',
 		'hbMultiMinSuffixSize',
-		'occurrences'
+		'occurrences',
+		'scatteredThreshold'
 	],
 	#category : #CNBPatterns
 }
@@ -93,6 +94,12 @@ CNBPatternSelector class >> of: aCNB [
 		of: aCNB
 ]
 
+{ #category : #accessing }
+CNBPatternSelector class >> scatteredThreshold [
+	^ self new
+			scatteredThreshold
+]
+
 { #category : #'as yet unclassified' }
 CNBPatternSelector class >> snowFlakesSize [
 	^self new
@@ -161,6 +168,7 @@ CNBPatternSelector >> initialize [
 	hbMultiPourcentage := 50.
 	hbMultiMinSuffixSize := 3.
 	occurrences := 2.
+	scatteredThreshold := 10
 ]
 
 { #category : #initialization }
@@ -210,6 +218,11 @@ CNBPatternSelector >> of: aCNB [
 CNBPatternSelector >> patternsDictionary [
 	
 	^ patternsDictionary 
+]
+
+{ #category : #accessing }
+CNBPatternSelector >> scatteredThreshold [
+	^ scatteredThreshold
 ]
 
 { #category : #selectPatterns }

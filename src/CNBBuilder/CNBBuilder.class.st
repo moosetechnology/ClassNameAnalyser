@@ -155,29 +155,6 @@ CNBBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 				 ]
 ]
 
-{ #category : #accessing }
-CNBBuilder >> doConceptViewModelsOf: aPackageModel using: rootModels [
-	"On enveloppe chaque class du package dans son concept box "
-
-	| concepts |
-	concepts := (aPackageModel classModels collect: #suffix) asSet.
-	^ concepts
-		collect: [ :eachConcept | 
-			| classmodels itsRoot |
-			itsRoot := self
-				selectBiggestHierarchyOf: eachConcept
-				using: rootModels.
-			classmodels := aPackageModel classModels
-				select: [ :eachClassmodel | eachClassmodel suffix = eachConcept ].
-			CNBSuffixViewModel new
-				package: aPackageModel name;
-				name: eachConcept;
-				classViewModels: (self doClassViewModelsOf: classmodels using: rootModels);
-				root: itsRoot;
-				originalColor: itsRoot color copy;
-				color: itsRoot color ]
-]
-
 { #category : #doing }
 CNBBuilder >> doPackageModelsOf: aViewModel [
 
@@ -199,7 +176,7 @@ CNBBuilder >> doPackageViewModelsOf: aViewModel [
 					originalColor: CNBPackageViewModel new defaultColor;
 					suffixViewModels:
 						(self
-							doConceptViewModelsOf: eachPackageModel 
+							doSuffixViewModelsOf: eachPackageModel 
 											using: aViewModel rootModels) ])
 ]
 
@@ -228,6 +205,29 @@ CNBBuilder >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
 	rootModels := self startFightOverConceptsBetween: coloredRootModels.
 	rootModels do: [ :aRootModel | aRootModel initializeConcepts ].
 	^ rootModels asSet
+]
+
+{ #category : #accessing }
+CNBBuilder >> doSuffixViewModelsOf: aPackageModel using: rootModels [
+	"On enveloppe chaque class du package dans son concept box "
+
+	| suffixes |
+	suffixes := (aPackageModel classModels collect: #suffix) asSet.
+	^ suffixes
+		collect: [ :eachConcept | 
+			| classmodels itsRoot |
+			itsRoot := self
+				selectBiggestHierarchyOf: eachConcept
+				using: rootModels.
+			classmodels := aPackageModel classModels
+				select: [ :eachClassmodel | eachClassmodel suffix = eachConcept ].
+			CNBSuffixViewModel new
+				package: aPackageModel name;
+				name: eachConcept;
+				classViewModels: (self doClassViewModelsOf: classmodels using: rootModels);
+				root: itsRoot;
+				originalColor: itsRoot color copy;
+				color: itsRoot color ]
 ]
 
 { #category : #doing }
