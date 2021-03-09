@@ -12,29 +12,21 @@ Class {
 		'type',
 		'size',
 		'dominantTokens',
-		'tokens',
+		'tokensDictionary',
 		'scatteredSuffixes',
-		'biggestTokenAssociation'
+		'biggestTokenAssociation',
+		'tokenModels'
 	],
 	#category : #CNBModels
 }
 
-{ #category : #'as yet unclassified' }
-CNBRootModel class >> reference: aClass with: aCollectionOfSubClassModels [ 
-	| rootType |
-	rootType := (CNBClassType with: aCollectionOfSubClassModels) type.
-	^self new 
-		model: aClass;
-		name: aClass name;
-		subclasses: aCollectionOfSubClassModels;
-		size: aCollectionOfSubClassModels size;
-		tokens: (CNBBuilder doTokenDictionaryFrom: aCollectionOfSubClassModels); 
-		type: rootType.
+{ #category : #creation }
+CNBRootModel class >> model: aClass with: aCollectionOfSubClassModels [ 
 	
-	
-	
-	
-	
+	^ (self new
+			model: aClass;
+			subclasses: aCollectionOfSubClassModels) create.
+		
 ]
 
 { #category : #accessing }
@@ -42,7 +34,7 @@ CNBRootModel >> biggestTokenAssociation [
 	^ biggestTokenAssociation
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CNBRootModel >> biggestTokenName [
 	^ biggestTokenAssociation key
 ]
@@ -55,6 +47,19 @@ CNBRootModel >> color [
 { #category : #accessing }
 CNBRootModel >> color: aColor [
 	color := aColor
+]
+
+{ #category : #creation }
+CNBRootModel >> create [
+
+	| rootType |
+	rootType := (CNBClassType with: self subclasses) type.
+
+	self 
+		name: model name;
+		type: rootType;
+		size: subclasses size;
+		tokensDictionary: (CNBBuilder doTokenDictionaryFrom: subclasses).
 ]
 
 { #category : #accessing }
@@ -71,7 +76,7 @@ CNBRootModel >> dominantTokens: aConceptAssociation [
 CNBRootModel >> hasScatteredVocabularyInside: aPackageString [
 
 	 | electedSuffixes |
-	electedSuffixes := tokens 
+	electedSuffixes := tokenModels 
 								select: [ :each | each package = aPackageString 
 										and: [ each size >= CNBPatternSelector svMinClassSize ] ].
 
@@ -92,7 +97,7 @@ CNBRootModel >> hasVeryScatteredVocabularyInside: aPackageModel [
 { #category : #initialization }
 CNBRootModel >> initialize [ 	
 	super initialize.
-	tokens := Dictionary new.
+	tokensDictionary := Dictionary new.
 	dominantTokens := Dictionary new.
 ]
 
@@ -134,7 +139,7 @@ CNBRootModel >> name: aName [
 
 { #category : #accessing }
 CNBRootModel >> packages [ 
-	^ tokens collect: #package
+	^ tokenModels collect: #package
 ]
 
 { #category : #printing }
@@ -158,12 +163,11 @@ CNBRootModel >> size: aSize [
 
 { #category : #accessing }
 CNBRootModel >> subclasses [ 
-	^subclasses
+	^ subclasses
 ]
 
 { #category : #accessing }
 CNBRootModel >> subclasses: aCollectionOfSubClassModels [
-
 	subclasses := aCollectionOfSubClassModels.
 	
 ]
@@ -181,15 +185,20 @@ CNBRootModel >> token: aToken [
 ]
 
 { #category : #accessing }
-CNBRootModel >> tokens [ 
-	^ tokens
+CNBRootModel >> tokenModels: aCollection [
+	tokenModels := aCollection 
+]
+
+{ #category : #accessing }
+CNBRootModel >> tokensDictionary [ 
+	^ tokensDictionary
 	
 ]
 
 { #category : #accessing }
-CNBRootModel >> tokens: suffixesDictionary [
-	tokens := suffixesDictionary.
-	biggestTokenAssociation := (suffixesDictionary associations detectMax: [ :each | each ]) .
+CNBRootModel >> tokensDictionary: tokenDictionary [
+	tokensDictionary := tokenDictionary.
+	biggestTokenAssociation := (tokenDictionary associations detectMax: [ :each | each ]) .
 	
 	
 ]

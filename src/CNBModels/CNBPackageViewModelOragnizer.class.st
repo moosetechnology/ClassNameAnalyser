@@ -39,6 +39,6 @@ CNBPackageViewModelOragnizer >> selectRootsInside: aCollectionOfRoots [
 ]
 
 { #category : #accessing }
-CNBPackageViewModelOragnizer >> tokens [ 
+CNBPackageViewModelOragnizer >> tokensDictionary [ 
 	^ self classes collect: #token
 ]

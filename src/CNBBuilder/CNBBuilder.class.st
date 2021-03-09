@@ -181,20 +181,18 @@ CNBBuilder >> doPackageViewModelsOf: aViewModel [
 ]
 
 { #category : #doing }
-CNBBuilder >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
-	| allRoots initialeRootModels coloredRootModels rootModels |
-	self initialize.
-	allRoots := aCollectionOfClassModels
-		collect: [ :aClassModel | aClassModel root ].
-	initialeRootModels := allRoots asSet
-		collect: [ :aRootClass | 
-			| subclasses |
-			subclasses := aCollectionOfClassModels
-				select: [ :aClass | aClass root = aRootClass ].
-			CNBRootModel reference: aRootClass with: subclasses ].
+CNBBuilder >> doRootsOf: classModels Accordingto: aSetting [
+	| initialeRootModels coloredRootModels rootModels |
+	
+	initialeRootModels := (classModels collect: #root) asSet
+		collect: [ :aRootClass | | subclasses |
+				subclasses := classModels select: [ :aClass | aClass root = aRootClass ].
+			CNBRootModel model: aRootClass with: subclasses
+			 ].
+							self halt.
 	coloredRootModels := self color: initialeRootModels.
+
 	rootModels := self startFightOverConceptsBetween: coloredRootModels.
-	rootModels do: [ :aRootModel | aRootModel initializeConcepts ].
 	^ rootModels asSet
 ]
 
@@ -202,8 +200,9 @@ CNBBuilder >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
 CNBBuilder >> doTokenDictionaryFrom: aCollectionOfClassModels [
 	| tokensDictionary tokens |
 	tokensDictionary := Dictionary new.
+	
 	tokens := (aCollectionOfClassModels collect: #token).
-	tokensDictionary do: [ :aConcept | tokens at: aConcept put: (tokens occurrencesOf: aConcept) ].
+	tokens do: [ :aToken | tokensDictionary at: aToken put: (tokens occurrencesOf: aToken) ].
 	^ tokensDictionary 
 ]
 
@@ -254,19 +253,19 @@ CNBBuilder >> sortRootModels: aSetOfRootModels [
 
 { #category : #internal }
 CNBBuilder >> startFightOverConceptsBetween: aCollectionOfRootModels [
-	| concepts |
-	concepts := (aCollectionOfRootModels
-		flatCollect: [ :each | each tokens keys ]) asSet.
-	concepts
-		do: [ :aConcept | 
+	| tokens |
+	tokens := (aCollectionOfRootModels
+		flatCollect: [ :each | each tokensDictionary keys ]) asSet.
+	tokens
+		do: [ :aToken | 
 			| fighters winner |
 			fighters := (aCollectionOfRootModels
-				select: [ :aRoot | aRoot tokens includesKey: aConcept ]) copy
+				select: [ :aRoot | aRoot tokensDictionary includesKey: aToken ]) copy
 				asOrderedCollection.
 			(fighters anySatisfy: [ :aRootModel | aRootModel isMultiSuffix ])
 				ifTrue: [ fighters removeAllSuchThat: [ :aRootM | aRootM isMonoClass ] ].
 			winner := fighters
-				detectMax: [ :aRM | (aRM tokens at: aConcept) value ].
-			winner dominantTokens: (winner tokens associationAt: aConcept) ].
+				detectMax: [ :aRM | (aRM tokensDictionary at: aToken) value ].
+			winner dominantTokens: (winner tokensDictionary associationAt: aToken) ].
 	^ aCollectionOfRootModels
 ]

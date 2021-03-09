@@ -23,8 +23,7 @@ CNBViewModel >> attributeTokenModelsToRoots [
 	
 	rootModels 
 		do: [ :aRoot | 
-			aRoot resetConcepts.
-			aRoot concepts addAll: (self tokenModels select: [ :each | each root == aRoot ]) ]
+			aRoot tokenModels: (self tokenModels select: [ :each | each root == aRoot ]) ]
 ]
 
 { #category : #accessing }
@@ -86,6 +85,25 @@ CNBViewModel >> packageViewModels: collectionOfPackageViewModels [
 { #category : #accessing }
 CNBViewModel >> settings [
 	^ settings
+]
+
+{ #category : #operations }
+CNBViewModel >> startBuilding [ 
+
+	| thePackageModels |
+	thePackageModels := CNBBuilder doPackageModelsOf: self.
+	
+	self 
+		name: model name;
+		packageModels: thePackageModels.
+		self
+		rootModels: (CNBBuilder
+				 doRootsOf: (thePackageModels flatCollect: #classModels)
+				 Accordingto: settings).
+
+		self packageViewModels: (CNBBuilder doPackageViewModelsOf: self).
+		self attributeTokenModelsToRoots.
+		self attributePatterns.
 ]
 
 { #category : #'accessing - attributes' }

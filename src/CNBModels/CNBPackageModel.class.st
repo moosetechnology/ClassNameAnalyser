@@ -46,6 +46,6 @@ CNBPackageModel >> printOn: aStream [
 ]
 
 { #category : #accessing }
-CNBPackageModel >> tokens [ 
+CNBPackageModel >> tokensDictionary [ 
 	^ classModels collect: [ :each | each token ]
 ]

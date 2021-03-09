@@ -8,6 +8,12 @@ Class {
 	#category : #'CNB-Core'
 }
 
+{ #category : #building }
+ClassNamesBlueprint >> build: aViewModel [
+
+	aViewModel startBuilding.
+]
+
 { #category : #description }
 ClassNamesBlueprint >> description [
 | thePackageModels cnbDescription |
@@ -59,27 +65,15 @@ ClassNamesBlueprint >> settings [
 
 { #category : #accessing }
 ClassNamesBlueprint >> show [
-	^visualizer 
-		roassal3VisualizerShow: 
-			(CNBRoassal3Builder new 
-				model: self ) 
+	^ visualizer roassal3VisualizerShow: 
+		(CNBRoassal3Builder new model: self ) 
 ]
 
 { #category : #operations }
 ClassNamesBlueprint >> startBuilding [
-
-	| thePackageModels |
-	thePackageModels := CNBBuilder doPackageModelsOf: self viewModel.
-	self viewModel
-		name: self model name;
-		packageModels: thePackageModels;
-		model: self model;
-		rootModels: (CNBBuilder
-				 doRootsOf: (thePackageModels flatCollect: #classModels)
-				 Accordingto: self settings rootClass);
-		packageViewModels: (CNBBuilder doPackageViewModelsOf: self viewModel).
-		self viewModel attributeTokenModelsToRoots.
-		self viewModel attributePatterns.
+	
+	self build: viewModel.
+	
 ]
 
 { #category : #accessing }
