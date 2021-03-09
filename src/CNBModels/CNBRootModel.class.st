@@ -5,17 +5,16 @@ Class {
 	#name : #CNBRootModel,
 	#superclass : #CNBAbstractModel,
 	#instVars : [
-		'reference',
+		'model',
 		'subclasses',
+		'token',
 		'color',
 		'type',
-		'suffixes',
 		'size',
-		'dominantSuffixes',
-		'concepts',
-		'prefixes',
+		'dominantTokens',
+		'tokens',
 		'scatteredSuffixes',
-		'biggestSuffixAssociation'
+		'biggestTokenAssociation'
 	],
 	#category : #CNBModels
 }
@@ -25,12 +24,11 @@ CNBRootModel class >> reference: aClass with: aCollectionOfSubClassModels [
 	| rootType |
 	rootType := (CNBClassType with: aCollectionOfSubClassModels) type.
 	^self new 
-		reference: aClass;
+		model: aClass;
 		name: aClass name;
 		subclasses: aCollectionOfSubClassModels;
 		size: aCollectionOfSubClassModels size;
-		suffixes: (CNBBuilder doSuffixesDictionaryFrom: aCollectionOfSubClassModels);
-		prefixes: (CNBBuilder doPrefixesDictionaryFrom: aCollectionOfSubClassModels); 
+		tokens: (CNBBuilder doTokenDictionaryFrom: aCollectionOfSubClassModels); 
 		type: rootType.
 	
 	
@@ -40,13 +38,13 @@ CNBRootModel class >> reference: aClass with: aCollectionOfSubClassModels [
 ]
 
 { #category : #accessing }
-CNBRootModel >> biggestSuffixAssociation [
-	^ biggestSuffixAssociation
+CNBRootModel >> biggestTokenAssociation [
+	^ biggestTokenAssociation
 ]
 
 { #category : #'as yet unclassified' }
-CNBRootModel >> biggestSuffixName [
-	^ biggestSuffixAssociation key
+CNBRootModel >> biggestTokenName [
+	^ biggestTokenAssociation key
 ]
 
 { #category : #accessing }
@@ -60,30 +58,20 @@ CNBRootModel >> color: aColor [
 ]
 
 { #category : #accessing }
-CNBRootModel >> concepts [
-	^concepts 
+CNBRootModel >> dominantTokens [
+	^ dominantTokens
 ]
 
 { #category : #accessing }
-CNBRootModel >> concepts: aDominantSuffix [
-	concepts add: aDominantSuffix 
-]
-
-{ #category : #accessing }
-CNBRootModel >> dominantSuffixes [
-	^dominantSuffixes
-]
-
-{ #category : #accessing }
-CNBRootModel >> dominantSuffixes: aConceptAssociation [
-	dominantSuffixes add: aConceptAssociation
+CNBRootModel >> dominantTokens: aConceptAssociation [
+	dominantTokens add: aConceptAssociation
 ]
 
 { #category : #testing }
 CNBRootModel >> hasScatteredVocabularyInside: aPackageString [
 
 	 | electedSuffixes |
-	electedSuffixes := concepts 
+	electedSuffixes := tokens 
 								select: [ :each | each package = aPackageString 
 										and: [ each size >= CNBPatternSelector svMinClassSize ] ].
 
@@ -96,7 +84,7 @@ CNBRootModel >> hasVeryScatteredVocabularyInside: aPackageModel [
 
 	| suffixesInPackage selfClassModels |
 	selfClassModels := aPackageModel classModels select: [ :each | each root = self ].
-	suffixesInPackage := (selfClassModels collect: #suffix) asSet.
+	suffixesInPackage := (selfClassModels collect: #token) asSet.
 	^ (suffixesInPackage size >= CNBPatternSelector scatteredThreshold)
 	
 ]
@@ -104,14 +92,8 @@ CNBRootModel >> hasVeryScatteredVocabularyInside: aPackageModel [
 { #category : #initialization }
 CNBRootModel >> initialize [ 	
 	super initialize.
-	suffixes := Dictionary new.
-	dominantSuffixes := Dictionary new.
-	concepts := Set new
-]
-
-{ #category : #initialization }
-CNBRootModel >> initializeConcepts [
-	concepts addAll: self dominantSuffixes keys
+	tokens := Dictionary new.
+	dominantTokens := Dictionary new.
 ]
 
 { #category : #testing }
@@ -135,19 +117,24 @@ CNBRootModel >> isTrait [
 ]
 
 { #category : #accessing }
+CNBRootModel >> model [ 
+	^ model
+]
+
+{ #category : #accessing }
+CNBRootModel >> model: aClass [
+	model := aClass
+]
+
+{ #category : #accessing }
+CNBRootModel >> name: aName [
+	super name: aName.
+	token := CNBFeatureSelector new extractSuffixFrom: aName
+]
+
+{ #category : #accessing }
 CNBRootModel >> packages [ 
-	^ concepts collect: #package
-]
-
-{ #category : #accessing }
-CNBRootModel >> prefixes [
-	^prefixes
-	
-]
-
-{ #category : #accessing }
-CNBRootModel >> prefixes: aDictionary [
-	prefixes := aDictionary 
+	^ tokens collect: #package
 ]
 
 { #category : #printing }
@@ -156,22 +143,6 @@ CNBRootModel >> printOn: aStream [
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.
 	aStream nextPutAll: ')'
-]
-
-{ #category : #accessing }
-CNBRootModel >> reference [ 
-	^reference
-]
-
-{ #category : #accessing }
-CNBRootModel >> reference: aClass [
-	reference := aClass
-]
-
-{ #category : #initialization }
-CNBRootModel >> resetConcepts [
-	concepts asOrderedCollection removeAll.
-	concepts := Set new
 ]
 
 { #category : #accessing }
@@ -198,15 +169,27 @@ CNBRootModel >> subclasses: aCollectionOfSubClassModels [
 ]
 
 { #category : #accessing }
-CNBRootModel >> suffixes [ 
-	^ suffixes
+CNBRootModel >> token [
+ ^ token
 	
 ]
 
 { #category : #accessing }
-CNBRootModel >> suffixes: suffixesDictionary [
-	suffixes := suffixesDictionary.
-	biggestSuffixAssociation := (suffixesDictionary associations detectMax: [ :each | each ]) .
+CNBRootModel >> token: aToken [
+  token := aToken
+	
+]
+
+{ #category : #accessing }
+CNBRootModel >> tokens [ 
+	^ tokens
+	
+]
+
+{ #category : #accessing }
+CNBRootModel >> tokens: suffixesDictionary [
+	tokens := suffixesDictionary.
+	biggestTokenAssociation := (suffixesDictionary associations detectMax: [ :each | each ]) .
 	
 	
 ]

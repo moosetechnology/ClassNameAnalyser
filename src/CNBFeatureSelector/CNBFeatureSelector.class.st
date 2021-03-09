@@ -22,6 +22,13 @@ CNBFeatureSelector class >> extractSuffixFrom: aString [
 		extractSuffixFrom: aString
 ]
 
+{ #category : #'as yet unclassified' }
+CNBFeatureSelector >> extract: tokenPosition from: aName [
+	^ (tokenPosition = #prefix)
+		ifTrue: [ self extractPrefixFrom: aName ]
+		ifFalse: [ self extractSuffixFrom: aName ]
+]
+
 { #category : #actions }
 CNBFeatureSelector >> extractClassNamesFrom: aPackageName [
 	^ ((RPackageOrganizer default packageNamed: aPackageName)  definedClasses collect: [ :each | each instanceSide name ]).

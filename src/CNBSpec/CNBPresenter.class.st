@@ -14,10 +14,10 @@ Class {
 		'suffix',
 		'rootSelector',
 		'goDarker',
-		'n',
 		'nodesToBeDarker',
 		'nodesToBeHighlighted',
-		'reset'
+		'reset',
+		'selectedPackageBox'
 	],
 	#category : #CNBSpec
 }
@@ -96,6 +96,15 @@ CNBPresenter >> allNodes [
 	^ cnbSpecView canvas deepNodes
 ]
 
+{ #category : #'as yet unclassified' }
+CNBPresenter >> changePackageBorderWidth: aPackageName [
+
+	| shapes|
+	shapes := self allNodes select: [ :each | each hasModel  ].
+	selectedPackageBox := shapes detect: [ :each | each model name = aPackageName  ].
+	selectedPackageBox border width: 5
+]
+
 { #category : #accessing }
 CNBPresenter >> cnbSpecView [
 	^ cnbSpecView
@@ -106,7 +115,9 @@ CNBPresenter >> connectPresenters [
 	super connectPresenters.
 	loadProjectButton action: [ self onLoadProjectClicked  ]. 
 	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self show: aPattern ].
-	reset action: [ self reset ] 	
+	reset action: [ self reset ].
+	packageSearch whenSubmitDo: [ :aRub | self changePackageBorderWidth: aRub text asString ].
+	packageSearch whenResetDo: [ self resetPackageBoder ]
 	
 ]
 
@@ -274,6 +285,13 @@ CNBPresenter >> resetHighlightedNodes [
 	
 	nodesWithHighlightedBorders do: [ :each | each model hidePatternDescription ].
 	nodesToBeHighlighted reset
+]
+
+{ #category : #initialization }
+CNBPresenter >> resetPackageBoder [
+
+	self halt.
+	selectedPackageBox border width: selectedPackageBox model class new defaultBorderWidth 
 ]
 
 { #category : #showing }

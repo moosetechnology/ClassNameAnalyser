@@ -52,7 +52,7 @@ CNBBuilderTest >> testBuildPackageViewModels [
 		equals: expectedPackagesNames.
 	self
 		assert:
-			((cnbMoose viewModel packageViewModels flatCollect: #suffixViewModels) collect: #name)
+			((cnbMoose viewModel packageViewModels flatCollect: #tokenViewModels) collect: #name)
 				asSet
 		equals: expectedConcepts asSet.
 ]
@@ -86,8 +86,8 @@ self assert:
 CNBBuilderTest >> testClassType [
 	| aMonoClass aMonoSuffixHierarchy aMultiSuffixHierarchy monoSuffixType multiSuffixType monoClassType |
 	monoClassType := CNBClassType monoClass.
-	monoSuffixType := CNBClassType monoSuffix.
-	multiSuffixType := CNBClassType multiSuffix.
+	monoSuffixType := CNBClassType monoToken.
+	multiSuffixType := CNBClassType multiToken.
 	aMonoSuffixHierarchy := cnbMoose viewModel rootModels
 		detect: [ :each | each isMonoSuffix ].
 	aMultiSuffixHierarchy := cnbMoose viewModel rootModels

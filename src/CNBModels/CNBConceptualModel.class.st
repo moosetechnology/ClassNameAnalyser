@@ -14,7 +14,7 @@ Class {
 
 { #category : #accessing }
 CNBConceptualModel >> allClassModels [ 
-	 ^CNBBuilder extractClassModelsFrom: self packageModels.
+	 ^ CNBBuilder extractClassModelsFrom: self packageModels.
 	
 ]
 
@@ -26,7 +26,7 @@ CNBConceptualModel >> initialize [
 
 { #category : #accessing }
 CNBConceptualModel >> model [ 
-	^model
+	^ model
 ]
 
 { #category : #accessing }
@@ -36,7 +36,7 @@ CNBConceptualModel >> model: aModel [
 
 { #category : #accessing }
 CNBConceptualModel >> packageModels [
-	^packageModels
+	^ packageModels
 ]
 
 { #category : #accessing }
@@ -46,7 +46,7 @@ CNBConceptualModel >> packageModels: aCollectionOfPackageModels [
 
 { #category : #accessing }
 CNBConceptualModel >> rootModels [
-	^rootModels
+	^ rootModels
 ]
 
 { #category : #accessing }

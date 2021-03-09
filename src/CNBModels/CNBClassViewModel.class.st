@@ -6,11 +6,11 @@ Class {
 	#superclass : #CNBAbstractViewModel,
 	#instVars : [
 		'root',
-		'reference',
 		'height',
 		'width',
-		'suffix',
-		'prefix'
+		'token',
+		'rootBorderWidth',
+		'model'
 	],
 	#category : #CNBModels
 }
@@ -20,26 +20,25 @@ CNBClassViewModel >> border [
 	| borderWidth |
 	super border.
 	borderWidth := (self isRoot 
-		ifTrue: [ 4 ] 
+		ifTrue: [ self rootBorderWidth ]  
 		ifFalse: [ self defaultBorderWidth ] ).
 	border width: borderWidth.
 	^border
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #creation }
 CNBClassViewModel >> create: aClassModel [
 
 	self 
 		name: aClassModel name;
-		reference: aClassModel reference;
-		suffix: aClassModel suffix;
-		prefix: aClassModel prefix
+		model: aClassModel model;
+		token: aClassModel token
 	
 ]
 
 { #category : #initialization }
 CNBClassViewModel >> createBox [ 
-	^super createBox
+	^ super createBox
 						width: self width;
 						height: self height.
 
@@ -48,10 +47,10 @@ CNBClassViewModel >> createBox [
 
 { #category : #accessing }
 CNBClassViewModel >> height [
-	^35
+	^ height
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #interaction }
 CNBClassViewModel >> hideBoxName [ 
 	self box removeInteractionIfPresent: RSPopup 
 ]
@@ -60,50 +59,40 @@ CNBClassViewModel >> hideBoxName [
 CNBClassViewModel >> initialize [ 
 	super initialize.
 	box := RSBox new.
+	rootBorderWidth := 4.
+	height := 35.
+	width := 35.
 	box when: RSMouseLeftClick do: [ :evt | self processEvent: evt ].
 	
 ]
 
 { #category : #testing }
 CNBClassViewModel >> isRoot [ 
-	^self name = self root name 
+	^ self name = self root name 
 ]
 
 { #category : #accessing }
-CNBClassViewModel >> models [ 
-	^ reference methods
+CNBClassViewModel >> model [ 
+	^ model
 ]
 
 { #category : #accessing }
-CNBClassViewModel >> prefix [
-	^prefix
-]
+CNBClassViewModel >> model: aModel [
 
-{ #category : #accessing }
-CNBClassViewModel >> prefix: aPrefix [
-	prefix := aPrefix
+	model := aModel
 ]
 
 { #category : #'events-processing' }
 CNBClassViewModel >> processEvent: evt [
 
-	^ (Smalltalk image classNamed: name) browse
-]
-
-{ #category : #accessing }
-CNBClassViewModel >> reference [ 
-	^reference
-]
-
-{ #category : #accessing }
-CNBClassViewModel >> reference: aReference [
-
-	reference := aReference
+	| class |
+	class := (Smalltalk image classNamed: name).
+	^ class ifNil: [ self inspect ] ifNotNil:  [ class browse ]
 ]
 
 { #category : #accessing }
 CNBClassViewModel >> root [
-	^root
+	^ root
 ]
 
 { #category : #accessing }
@@ -113,22 +102,27 @@ CNBClassViewModel >> root: aRoot [
 		
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+CNBClassViewModel >> rootBorderWidth [
+	^ rootBorderWidth
+]
+
+{ #category : #interaction }
 CNBClassViewModel >> showBoxName [
 	self box popupText: name
 ]
 
 { #category : #accessing }
-CNBClassViewModel >> suffix [
-	^suffix
+CNBClassViewModel >> token [
+	^ token
 ]
 
 { #category : #accessing }
-CNBClassViewModel >> suffix: aSuffix [
-	suffix := aSuffix
+CNBClassViewModel >> token: aToken [
+	token := aToken
 ]
 
 { #category : #accessing }
 CNBClassViewModel >> width [ 
-	^35
+	^ width
 ]

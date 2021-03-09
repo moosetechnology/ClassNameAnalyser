@@ -18,15 +18,15 @@ CNBClassType class >> monoClass [
 ]
 
 { #category : #'as yet unclassified' }
-CNBClassType class >> monoSuffix [
+CNBClassType class >> monoToken [
 	^(self new
-		monoSuffix) type 
+		monoToken) type 
 ]
 
 { #category : #'as yet unclassified' }
-CNBClassType class >> multiSuffix [
+CNBClassType class >> multiToken [
 	^(self new
-		multiSuffix) type
+		multiToken) type
 ]
 
 { #category : #variables }
@@ -48,37 +48,29 @@ CNBClassType >> checkIfMonoClassWith: aCollectionOfClassModels [
 	(aCollectionOfClassModels size = 1
  		and: [(aCollectionOfClassModels first root 
 					= 
-				aCollectionOfClassModels first reference)])
+				aCollectionOfClassModels first model)])
 	ifTrue: [ ^ self monoClass ].
 						
 		^nil
 ]
 
 { #category : #checking }
-CNBClassType >> checkIfMonoSuffixWith: aCollectionOfClassModels [
-	(aCollectionOfClassModels collect: [ :each | each suffix ]) asSet
-		size = 1
-		&
-			(aCollectionOfClassModels atRandom suffix
-				=
-					(CNBFeatureSelector
-						extractSuffixFrom: aCollectionOfClassModels atRandom root name))
-		ifTrue: [ ^ self monoSuffix ].
-		^nil
+CNBClassType >> checkIfMonoTokenWith: aCollectionOfClassModels [
+
+	(aCollectionOfClassModels 
+		allSatisfy: [ :each | each hasRootToken ])
+		ifTrue: [ ^ self monoToken ].
+		^ nil
 ]
 
 { #category : #checking }
-CNBClassType >> checkIfMultiSuffix: aCollectionOfClassModels [
+CNBClassType >> checkIfMultiToken: aCollectionOfClassModels [
 
-	| root rootsConcept concepts |
-	root := aCollectionOfClassModels first root.
-	rootsConcept := CNBFeatureSelector extractSuffixFrom: root name. 
-	concepts := (aCollectionOfClassModels collect: #suffix) 
-		add: rootsConcept;
-		yourself.
-	(concepts) size > 1
-	ifTrue: [ ^self multiSuffix  ].
-	^nil 
+		(self checkIfMonoClassWith: aCollectionOfClassModels)
+		ifNil: [ (self checkIfTraitWith: aCollectionOfClassModels) 
+				ifNil: [ (self checkIfMonoTokenWith: aCollectionOfClassModels)  
+					ifNil: [ ^ self multiToken  ] ] ].
+			^ nil
 ]
 
 { #category : #checking }
@@ -87,7 +79,7 @@ CNBClassType >> checkIfTraitWith: 	aCollectionOfClassModels [
 		(aCollectionOfClassModels 
 			size = 1 
 				and: 
-					[ aCollectionOfClassModels first reference isTrait ])
+					[ aCollectionOfClassModels first model isTrait ])
 		ifTrue: [ ^ self trait ] .
 		^nil
 ]
@@ -99,13 +91,13 @@ CNBClassType >> monoClass [
 ]
 
 { #category : #accessing }
-CNBClassType >> monoSuffix [
-	type := #monoSuffix
+CNBClassType >> monoToken [
+	type := #monoToken
 ]
 
 { #category : #accessing }
-CNBClassType >> multiSuffix [
-	type := #multiSuffix
+CNBClassType >> multiToken [
+	type := #multiToken
 ]
 
 { #category : #accessing }
@@ -115,7 +107,7 @@ CNBClassType >> trait [
 
 { #category : #accessing }
 CNBClassType >> type [ 	
-	^type
+	^ type
 ]
 
 { #category : #accessing }
@@ -125,7 +117,7 @@ CNBClassType >> with: aCollectionOfClassModels [
 		ifNil: 
 		[ (self checkIfMonoClassWith: aCollectionOfClassModels )
 		 	ifNil: 
-			[ (self checkIfMonoSuffixWith: aCollectionOfClassModels) 
+			[ (self checkIfMonoTokenWith: aCollectionOfClassModels) 
 				ifNil: 
-				[ (self checkIfMultiSuffix: aCollectionOfClassModels) ] ] ] 
+				[ (self checkIfMultiToken: aCollectionOfClassModels) ] ] ] 
 ]

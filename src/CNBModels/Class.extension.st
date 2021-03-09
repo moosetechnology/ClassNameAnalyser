@@ -1,15 +1,10 @@
 Extension { #name : #Class }
 
 { #category : #'*CNBModels' }
-Class >> classModelAccordingTo: aMotherClass [
+Class >> classModelAccordingTo: setting [
 
-	^	CNBClassModel new 
-							reference: self;
-							name: self name;
-							root: (self rootAccordingTo: aMotherClass);
-							superclass: self superclass;
-							suffix: (CNBFeatureSelector new extractSuffixFrom: self name);
-							prefix: (CNBFeatureSelector new extractPrefixFrom: self name)
+	^ CNBClassModel of: self accordingTo: setting
+	
 ]
 
 { #category : #'*CNBModels' }

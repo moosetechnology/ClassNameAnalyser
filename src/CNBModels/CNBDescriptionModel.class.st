@@ -21,7 +21,7 @@ Class {
 
 { #category : #accessing }
 CNBDescriptionModel >> allConceptViewModels [
-	^self packageViewModels flatCollect: #suffixViewModels
+	^self packageViewModels flatCollect: #tokenViewModels
 ]
 
 { #category : #accessing }
@@ -40,7 +40,7 @@ CNBDescriptionModel >> countAverageClassesPerSuffix [
 
 { #category : #queries }
 CNBDescriptionModel >> countConcepts [
-	nbrSuffixes := (self allClassModels collect: #suffix ) asSet size
+	nbrSuffixes := (self allClassModels collect: #token ) asSet size
 ]
 
 { #category : #queries }

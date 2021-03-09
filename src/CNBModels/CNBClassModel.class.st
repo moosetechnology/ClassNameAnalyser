@@ -5,23 +5,57 @@ Class {
 	#name : #CNBClassModel,
 	#superclass : #CNBAbstractModel,
 	#instVars : [
-		'suffix',
 		'root',
 		'superclass',
-		'reference',
-		'prefix'
+		'model',
+		'token',
+		'setting'
 	],
 	#category : #CNBModels
 }
 
-{ #category : #accessing }
-CNBClassModel >> prefix [
-	^prefix
+{ #category : #'as yet unclassified' }
+CNBClassModel class >> of: aClass accordingTo: setting [
+
+	^ (self new
+			model: aClass;
+			accordingTo: setting) create.
+]
+
+{ #category : #'as yet unclassified' }
+CNBClassModel >> accordingTo: aSetting [ 
+	setting := aSetting
+]
+
+{ #category : #operations }
+CNBClassModel >> create [
+	| aToken aRoot |
+	aToken := CNBFeatureSelector new extract: setting token from: self model name.
+	aRoot := self rootAccordingTo: setting rootClass.
+		
+		self 
+			name: model name;
+			root: aRoot;
+			superclass: self superclass;
+			token: aToken.
+]
+
+{ #category : #testing }
+CNBClassModel >> hasRootToken [
+	| rootToken |
+	rootToken := CNBFeatureSelector new extract: setting token from: root.
+	^ token = rootToken 
 ]
 
 { #category : #accessing }
-CNBClassModel >> prefix: aPrefix [
-	prefix := aPrefix
+CNBClassModel >> model [
+	^ model
+]
+
+{ #category : #accessing }
+CNBClassModel >> model: aModel [
+
+	model := aModel
 ]
 
 { #category : #printing }
@@ -33,19 +67,8 @@ CNBClassModel >> printOn: aStream [
 ]
 
 { #category : #accessing }
-CNBClassModel >> reference [
-	^reference
-]
-
-{ #category : #accessing }
-CNBClassModel >> reference: aReference [
-
-	reference := aReference
-]
-
-{ #category : #accessing }
 CNBClassModel >> root [
-	^root
+	^ root
 	
 ]
 
@@ -55,27 +78,27 @@ CNBClassModel >> root: aRoot [
 ]
 
 { #category : #accessing }
-CNBClassModel >> rootAccordingTo: aMotherClass [
-	self root: (reference rootAccordingTo: aMotherClass).
-	^self root
-]
-
-{ #category : #accessing }
-CNBClassModel >> suffix [
-	^suffix
-]
-
-{ #category : #accessing }
-CNBClassModel >> suffix: aSuffix [
-	suffix := aSuffix
+CNBClassModel >> rootAccordingTo: aRootClass [
+	self root: (model rootAccordingTo: aRootClass).
+	^ self root
 ]
 
 { #category : #accessing }
 CNBClassModel >> superclass [
-	^superclass
+	^ superclass
 ]
 
 { #category : #accessing }
 CNBClassModel >> superclass: aClass [
 	superclass := aClass 
+]
+
+{ #category : #accessing }
+CNBClassModel >> token [
+	^ token
+]
+
+{ #category : #accessing }
+CNBClassModel >> token: aToken [
+	token := aToken
 ]

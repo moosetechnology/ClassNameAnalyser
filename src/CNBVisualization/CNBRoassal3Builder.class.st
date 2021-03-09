@@ -137,7 +137,6 @@ CNBRoassal3Builder >> createPackageBoxesOf: cnbModel [
 				label := RSLabel new text: namedAbbreviated;fontSize: 30;bold.
 				composite := RSComposite new.
 				packageComposite := self createBoxOf: package.
-				packageComposite model: package.
 				packageComposite addAll: (self createSuffixBoxesOf: package).
 				RSGridLayout new on: packageComposite children;gapSize: 20.
 				packageComposite border: package border.
@@ -156,15 +155,14 @@ CNBRoassal3Builder >> createPackageBoxesOf: cnbModel [
 { #category : #creating }
 CNBRoassal3Builder >> createSuffixBoxesOf: aPackage [ 
 	| suffixBoxes |
-	aPackage suffixViewModels: aPackage modelsOrderedDescending. 
-	aPackage suffixViewModels: aPackage modelsOrderedByColor.
+	aPackage tokenViewModels: aPackage modelsOrderedDescending. 
+	aPackage tokenViewModels: aPackage modelsOrderedByColor.
 		
-	suffixBoxes := (aPackage suffixViewModels 
+	suffixBoxes := (aPackage tokenViewModels 
 			collect: [ :suffix | | suffixComposite label composite |
 				composite := RSComposite new.
 					label := RSLabel new text: suffix name;bold; fontSize:20.
 					suffixComposite := self createBoxOf: suffix.
-					suffixComposite model: suffix.
 					suffixComposite addAll: (self createClassBoxesOf: suffix).
 					suffixComposite border: suffix border.
 					suffixComposite adjustToChildren.

@@ -23,6 +23,6 @@ CNBTDataExtractor >> extractConceptsFrom: aPackageModel [
 ]
 
 { #category : #selecting }
-CNBTDataExtractor >> selectBiggestHierarchyOf: aConcept using: aCollectioOfRootModels [
-	^(aCollectioOfRootModels detect: [ :aRoot | aRoot concepts includes: aConcept ]).
+CNBTDataExtractor >> selectBiggestHierarchyOf: aToken using: aCollectioOfRootModels [
+	^ (aCollectioOfRootModels detect: [ :aRoot | aRoot concepts includes: aToken ]).
 ]

@@ -15,10 +15,10 @@ CNBTColorAttributor >> assignColorByType: aType [
 	(aType = CNBClassType monoClass)
 	ifTrue: [ ^palette monoClassColor ].
 	
-	(aType = CNBClassType monoSuffix)
+	(aType = CNBClassType monoToken)
 	ifTrue: [  ^palette monoSuffixColor ].
 	
-	(aType = CNBClassType multiSuffix)
+	(aType = CNBClassType multiToken)
 	ifTrue: [ ^palette aColorForMultiSuffix ].
 ]
 

@@ -13,46 +13,46 @@ Class {
 	#category : #CNBModels
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #attribution }
 CNBViewModel >> attributePatterns [
-	self suffixModels do: [ :each | each attributePattern ]
+	self tokenModels do: [ :each | each attributePattern ]
 ]
 
 { #category : #'accessing - attributes' }
-CNBViewModel >> attributeSuffixModelsToRoots [
+CNBViewModel >> attributeTokenModelsToRoots [
 	
 	rootModels 
 		do: [ :aRoot | 
 			aRoot resetConcepts.
-			aRoot concepts addAll: (self suffixModels select: [ :each | each root == aRoot ]) ]
+			aRoot concepts addAll: (self tokenModels select: [ :each | each root == aRoot ]) ]
 ]
 
 { #category : #accessing }
 CNBViewModel >> border [
-	^border color: Color black;yourself
+	^ border color: Color black;yourself
 ]
 
 { #category : #'building actions' }
 CNBViewModel >> buildRoassal3View [ 
-	^CNBRoassal3Builder build: self 
+	^ CNBRoassal3Builder build: self 
 ]
 
 { #category : #accessing }
 CNBViewModel >> classViewModels [ 
 	^ ((packageViewModels 
 		flatCollect: 
-			#suffixViewModels) flatCollect: 
+			#tokenViewModels) flatCollect: 
 				[ :each | each classViewModels ])
 ]
 
 { #category : #accessing }
 CNBViewModel >> color [
-	^defaultColor
+	^ defaultColor
 ]
 
 { #category : #accessing }
 CNBViewModel >> defaultColor [ 
-	^Color white darker
+	^ Color white darker
 ]
 
 { #category : #initialization }
@@ -63,13 +63,8 @@ CNBViewModel >> initialize [
 ]
 
 { #category : #accessing }
-CNBViewModel >> models [
-	^packageViewModels 
-]
-
-{ #category : #accessing }
 CNBViewModel >> modelsOrderedAscending [
-	^packageViewModels sorted: #size ascending
+	^ packageViewModels sorted: #size ascending
 ]
 
 { #category : #accessing }
@@ -94,7 +89,7 @@ CNBViewModel >> settings [
 ]
 
 { #category : #'accessing - attributes' }
-CNBViewModel >> suffixModels [	
+CNBViewModel >> tokenModels [	
 
-	^ packageViewModels flatCollect: #suffixViewModels.
+	^ packageViewModels flatCollect: #tokenViewModels.
 ]

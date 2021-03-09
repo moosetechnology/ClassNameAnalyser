@@ -19,7 +19,7 @@ CNBAbstractViewModel class >> defaultColor [
 CNBAbstractViewModel >> border [ 
 	border color: self defaultBorderColor.
 	border width: self defaultBorderWidth.
-	^border
+	^ border
 ]
 
 { #category : #accessing }

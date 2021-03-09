@@ -11,15 +11,15 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-CNBPackageModel class >> of: aPackage root: aClass [ 
-	^self new
+CNBPackageModel class >> of: aPackage withSettings: settings [ 
+	^ self new
 		name: aPackage name;
-		classModels: (aPackage classes collect: [ :each | each classModelAccordingTo: aClass ])
+		classModels: (aPackage classes collect: [ :each | each classModelAccordingTo: settings ])
 ]
 
 { #category : #accessing }
 CNBPackageModel >> classModels [
-	^classModels
+	^ classModels
 ]
 
 { #category : #accessing }
@@ -29,17 +29,12 @@ CNBPackageModel >> classModels: aCollectionOfClassModels [
 ]
 
 { #category : #testing }
-CNBPackageModel >> includesSuffix: aSuffix [
+CNBPackageModel >> includesToken: aToken [
 
 
-	| suffixes |
-	suffixes := self classModels collect: #suffix.
-	^ (suffixes includes: aSuffix)
-]
-
-{ #category : #accessing }
-CNBPackageModel >> originalColor [
-	^ self defaultColor 
+	| tokens |
+	tokens := self classModels collect: #token.
+	^ (tokens includes: aToken)
 ]
 
 { #category : #printing }
@@ -51,6 +46,6 @@ CNBPackageModel >> printOn: aStream [
 ]
 
 { #category : #accessing }
-CNBPackageModel >> suffixes [ 
-	^ classModels collect: [ :each | each suffix ]
+CNBPackageModel >> tokens [ 
+	^ classModels collect: [ :each | each token ]
 ]

@@ -18,7 +18,7 @@ CNBPresenterTest >> changeToCalypso [
 	presenter projectSelector text: 'calypso-*'. 
 	presenter onLoadProjectClicked.
 	presenter cnbSpecView openWithSpec.
-	suffixModels := projectCNB viewModel suffixModels reject: [ :each | each pattern isNil ]
+	suffixModels := projectCNB viewModel tokenModels reject: [ :each | each pattern isNil ]
 ]
 
 { #category : #running }
@@ -32,7 +32,7 @@ CNBPresenterTest >> setUp [
 	presenter projectSelector text: 'moose-*'. 
 	presenter onLoadProjectClicked.
 	presenter cnbSpecView openWithSpec.
-	suffixModels := projectCNB viewModel suffixModels reject: [ :each | each pattern isNil ].
+	suffixModels := projectCNB viewModel tokenModels reject: [ :each | each pattern isNil ].
 	allNodes := cnbCanvas deepNodes.
 ]
 

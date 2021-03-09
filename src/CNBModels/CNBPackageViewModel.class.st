@@ -5,31 +5,31 @@ Class {
 	#name : #CNBPackageViewModel,
 	#superclass : #CNBAbstractViewModel,
 	#instVars : [
-		'suffixViewModels',
-		'size'
+		'size',
+		'tokenViewModels'
 	],
 	#category : #CNBModels
 }
 
 { #category : #accessing }
 CNBPackageViewModel >> models [
-	^suffixViewModels 
+	^tokenViewModels 
 ]
 
 { #category : #accessing }
 CNBPackageViewModel >> modelsOrderedAscending [
-	^ suffixViewModels sorted: #size ascending
+	^ tokenViewModels sorted: #size ascending
 ]
 
 { #category : #accessing }
 CNBPackageViewModel >> modelsOrderedByColor [
-	^CNBBuilder sort: suffixViewModels
+	 ^ CNBBuilder sort: tokenViewModels
 ]
 
 { #category : #accessing }
 CNBPackageViewModel >> modelsOrderedDescending [
 
-	^ suffixViewModels sorted: #size descending
+	^ tokenViewModels sorted: #size descending
 ]
 
 { #category : #'events-processing' }
@@ -44,12 +44,12 @@ CNBPackageViewModel >> size [
 ]
 
 { #category : #accessing }
-CNBPackageViewModel >> suffixViewModels [
-	^ suffixViewModels
+CNBPackageViewModel >> tokenViewModels [
+	^ tokenViewModels
 ]
 
 { #category : #accessing }
-CNBPackageViewModel >> suffixViewModels: collectionOfConceptViewModels [
-	suffixViewModels := collectionOfConceptViewModels.
-	size := (collectionOfConceptViewModels flatCollect: #classViewModels) size
+CNBPackageViewModel >> tokenViewModels: collectionOfTokenModels [
+	tokenViewModels := collectionOfTokenModels.
+	size := (collectionOfTokenModels flatCollect: #classViewModels) size
 ]

@@ -2,20 +2,21 @@
 I am the model of the suffix of a class name (suffix is the last word in a class name written in the camel case form)
 "
 Class {
-	#name : #CNBSuffixViewModel,
+	#name : #CNBTokenViewModel,
 	#superclass : #CNBAbstractViewModel,
 	#instVars : [
 		'package',
 		'root',
 		'classViewModels',
 		'size',
-		'pattern'
+		'pattern',
+		'position'
 	],
 	#category : #CNBModels
 }
 
-{ #category : #'as yet unclassified' }
-CNBSuffixViewModel >> appearsInSeveralPackages [
+{ #category : #checking }
+CNBTokenViewModel >> appearsInSeveralPackages [
 	
 	| siblings homogeneityBreakerSiblingsCheck |
 	siblings := self root concepts 
@@ -29,19 +30,19 @@ CNBSuffixViewModel >> appearsInSeveralPackages [
 ]
 
 { #category : #attribution }
-CNBSuffixViewModel >> attributePattern [ 
+CNBTokenViewModel >> attributePattern [ 
 
 	self checkPatterns.
 	
 ]
 
-{ #category : #'as yet unclassified' }
-CNBSuffixViewModel >> belongers [
+{ #category : #accessing }
+CNBTokenViewModel >> belongers [
 	^ self classViewModels select: [ :each | each root = root ].
 ]
 
 { #category : #testing }
-CNBSuffixViewModel >> checkConfetti [
+CNBTokenViewModel >> checkConfetti [
 	
 	| confetti |
 	confetti := CNBConfettiPattern new.
@@ -52,7 +53,7 @@ CNBSuffixViewModel >> checkConfetti [
 ]
 
 { #category : #testing }
-CNBSuffixViewModel >> checkFatBlob [
+CNBTokenViewModel >> checkFatBlob [
 
 	| fatBlobPattern |
 	fatBlobPattern := CNBFatBlobPattern new.
@@ -63,7 +64,7 @@ CNBSuffixViewModel >> checkFatBlob [
 ]
 
 { #category : #testing }
-CNBSuffixViewModel >> checkHomogeneityBreaker [
+CNBTokenViewModel >> checkHomogeneityBreaker [
 
 	| homogeneityBreakerPattern |
 	homogeneityBreakerPattern := CNBHomogeneityBreakerPattern new.
@@ -73,7 +74,7 @@ CNBSuffixViewModel >> checkHomogeneityBreaker [
 ]
 
 { #category : #testing }
-CNBSuffixViewModel >> checkHomogeneous [ 
+CNBTokenViewModel >> checkHomogeneous [ 
 	
 	| homogeneousPattern |	
 	homogeneousPattern := CNBHomogeneousPattern new.
@@ -83,7 +84,7 @@ CNBSuffixViewModel >> checkHomogeneous [
 ]
 
 { #category : #testing }
-CNBSuffixViewModel >> checkIntruder [
+CNBTokenViewModel >> checkIntruder [
 
 	| intruderPattern |
 	intruderPattern := CNBIntruderPattern new.
@@ -94,7 +95,7 @@ CNBSuffixViewModel >> checkIntruder [
 ]
 
 { #category : #checking }
-CNBSuffixViewModel >> checkPatterns [ 
+CNBTokenViewModel >> checkPatterns [ 
 	self 
 		checkFatBlob;
 		checkHomogeneous;
@@ -107,7 +108,7 @@ CNBSuffixViewModel >> checkPatterns [
 ]
 
 { #category : #testing }
-CNBSuffixViewModel >> checkScatteredVocabulary [
+CNBTokenViewModel >> checkScatteredVocabulary [
 	
 	| scatteredVocabularyPattern |
 	
@@ -121,7 +122,7 @@ CNBSuffixViewModel >> checkScatteredVocabulary [
 ]
 
 { #category : #testing }
-CNBSuffixViewModel >> checkSnowFlakes [
+CNBTokenViewModel >> checkSnowFlakes [
 
 	| snowFlakesPattern |
 	snowFlakesPattern := CNBSnowFlakesPattern new.
@@ -130,30 +131,30 @@ CNBSuffixViewModel >> checkSnowFlakes [
 ]
 
 { #category : #accessing }
-CNBSuffixViewModel >> classViewModels [
+CNBTokenViewModel >> classViewModels [
 	^ classViewModels  
 ]
 
 { #category : #accessing }
-CNBSuffixViewModel >> classViewModels: aCollectionOfClassViewModels [
+CNBTokenViewModel >> classViewModels: aCollectionOfClassViewModels [
 	classViewModels := aCollectionOfClassViewModels.
 	size := aCollectionOfClassViewModels size
 ]
 
 { #category : #testing }
-CNBSuffixViewModel >> hasNoOutsiders [
+CNBTokenViewModel >> hasNoOutsiders [
 
 	^ self belongers size = size
 ]
 
-{ #category : #'as yet unclassified' }
-CNBSuffixViewModel >> hidePatternDescription [
+{ #category : #interactions }
+CNBTokenViewModel >> hidePatternDescription [
 	self box popupText: name.
 	self box children do: [ :each | each model showBoxName  ]
 ]
 
 { #category : #initialization }
-CNBSuffixViewModel >> initialize [ 
+CNBTokenViewModel >> initialize [ 
 	super initialize.
 	
 	
@@ -161,59 +162,59 @@ CNBSuffixViewModel >> initialize [
 ]
 
 { #category : #accessing }
-CNBSuffixViewModel >> innerRoots [
+CNBTokenViewModel >> innerRoots [
 	
 	^ classViewModels collect: #root.
 ]
 
 { #category : #accessing }
-CNBSuffixViewModel >> models [
-	^classViewModels 
+CNBTokenViewModel >> models [
+	^ classViewModels 
 ]
 
-{ #category : #'as yet unclassified' }
-CNBSuffixViewModel >> outsiders [
+{ #category : #accessing }
+CNBTokenViewModel >> outsiders [
 	^ self classViewModels select: [ :each | each root ~= root ].
 ]
 
 { #category : #accessing }
-CNBSuffixViewModel >> package [
-	^package 
+CNBTokenViewModel >> package [
+	^ package 
 ]
 
 { #category : #accessing }
-CNBSuffixViewModel >> package: aPackage [
+CNBTokenViewModel >> package: aPackage [
 	package := aPackage
 ]
 
 { #category : #accessing }
-CNBSuffixViewModel >> pattern [ 
+CNBTokenViewModel >> pattern [ 
 	^ pattern
 ]
 
 { #category : #accessing }
-CNBSuffixViewModel >> pattern: aPattern [
+CNBTokenViewModel >> pattern: aPattern [
 	pattern := aPattern 
 ]
 
 { #category : #accessing }
-CNBSuffixViewModel >> root [
-	^root
+CNBTokenViewModel >> root [
+	^ root
 ]
 
 { #category : #accessing }
-CNBSuffixViewModel >> root: biggestHierarchy [
+CNBTokenViewModel >> root: biggestHierarchy [
 	root := biggestHierarchy.
 
 ]
 
-{ #category : #'as yet unclassified' }
-CNBSuffixViewModel >> showPatternDescription [
+{ #category : #interactions }
+CNBTokenViewModel >> showPatternDescription [
 	self box popupText: pattern description.
 	self box children do: [ :each | each model hideBoxName ]
 ]
 
 { #category : #accessing }
-CNBSuffixViewModel >> size [
-	^size 
+CNBTokenViewModel >> size [
+	^ size 
 ]

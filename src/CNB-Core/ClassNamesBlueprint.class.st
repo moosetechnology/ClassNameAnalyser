@@ -34,7 +34,7 @@ ClassNamesBlueprint >> initialize [
 
 { #category : #accessing }
 ClassNamesBlueprint >> model [
-	^viewModel model
+	^ viewModel model
 ]
 
 { #category : #accessing }
@@ -45,16 +45,6 @@ ClassNamesBlueprint >> model: aModel [
 { #category : #'instance creation' }
 ClassNamesBlueprint >> on: aCanvas [
 	^ CNBRoassal3Builder model: self on: aCanvas 
-]
-
-{ #category : #accessing }
-ClassNamesBlueprint >> rootClass [
-	^viewModel settings rootClass
-]
-
-{ #category : #accessing }
-ClassNamesBlueprint >> rootClass: aClass [ 
-	viewModel settings rootClass: aClass
 ]
 
 { #category : #accessing }
@@ -86,9 +76,9 @@ ClassNamesBlueprint >> startBuilding [
 		model: self model;
 		rootModels: (CNBBuilder
 				 doRootsOf: (thePackageModels flatCollect: #classModels)
-				 Accordingto: self rootClass);
+				 Accordingto: self settings rootClass);
 		packageViewModels: (CNBBuilder doPackageViewModelsOf: self viewModel).
-		self viewModel attributeSuffixModelsToRoots.
+		self viewModel attributeTokenModelsToRoots.
 		self viewModel attributePatterns.
 ]
 

@@ -49,9 +49,9 @@ CNBBuilder class >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClas
 ]
 
 { #category : #doing }
-CNBBuilder class >> doSuffixesDictionaryFrom: aCollectionOfClassModels [
+CNBBuilder class >> doTokenDictionaryFrom: aCollectionOfClassModels [
 	^self new 
-	doSuffixesDictionaryFrom: aCollectionOfClassModels
+	doTokenDictionaryFrom: aCollectionOfClassModels
 
 ]
 
@@ -92,16 +92,16 @@ CNBBuilder class >> sort: aCollection [
 CNBBuilder >> assignColorByType: aType [
 
 	(aType = CNBClassType trait)
-	ifTrue: [ ^palette traitColor ].
+	ifTrue: [ ^ palette traitColor ].
 	
 	(aType = CNBClassType monoClass)
-	ifTrue: [ ^palette monoClassColor ].
+	ifTrue: [ ^ palette monoClassColor ].
 	
-	(aType = CNBClassType monoSuffix)
-	ifTrue: [  ^palette monoSuffixColor ].
+	(aType = CNBClassType monoToken)
+	ifTrue: [  ^ palette monoSuffixColor ].
 	
-	(aType = CNBClassType multiSuffix)
-	ifTrue: [ ^palette aColorForMultiSuffix ].
+	(aType = CNBClassType multiToken)
+	ifTrue: [ ^ palette aColorForMultiSuffix ].
 ]
 
 { #category : #accessing }
@@ -121,7 +121,7 @@ CNBBuilder >> countIntrudersIn: aCnbDescription [
 	| conceptVModels intruders conceptIntruders |
 	
 	intruders := 0.
-	conceptVModels := aCnbDescription packageViewModels flatCollect: #suffixViewModels.
+	conceptVModels := aCnbDescription packageViewModels flatCollect: #tokenViewModels.
 	
 	conceptVModels do: [ :eachCVM |
 		conceptIntruders := eachCVM classViewModels select: [ :cvm |
@@ -136,7 +136,7 @@ CNBBuilder >> countIntrudersIn: aCnbDescription [
 
 { #category : #enumerating }
 CNBBuilder >> do: anObject [
-	^anObject startBuilding 
+	^ anObject startBuilding 
 ]
 
 { #category : #accessing }
@@ -162,7 +162,7 @@ CNBBuilder >> doPackageModelsOf: aViewModel [
 			collect: [ :eachPackage | 
 				CNBPackageModel 
 					of: eachPackage 
-					root: aViewModel settings rootClass ]
+					withSettings: aViewModel settings  ]
 ]
 
 { #category : #doing }
@@ -174,19 +174,10 @@ CNBBuilder >> doPackageViewModelsOf: aViewModel [
 					name: eachPackageModel name;
 					color: CNBPackageViewModel new defaultColor;
 					originalColor: CNBPackageViewModel new defaultColor;
-					suffixViewModels:
+					tokenViewModels:
 						(self
-							doSuffixViewModelsOf: eachPackageModel 
+							doTokenViewModelsOf: eachPackageModel 
 											using: aViewModel rootModels) ])
-]
-
-{ #category : #doing }
-CNBBuilder >> doPrefixesDictionaryFrom: aCollectionOfClassModels [
-	| prefixes  concepts |
-	prefixes := Dictionary new.
-	concepts := (aCollectionOfClassModels collect: #prefix).
-	concepts do: [ :aConcept | prefixes at: aConcept put: (concepts occurrencesOf: aConcept) ].
-	^prefixes 
 ]
 
 { #category : #doing }
@@ -207,36 +198,36 @@ CNBBuilder >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
 	^ rootModels asSet
 ]
 
+{ #category : #doing }
+CNBBuilder >> doTokenDictionaryFrom: aCollectionOfClassModels [
+	| tokensDictionary tokens |
+	tokensDictionary := Dictionary new.
+	tokens := (aCollectionOfClassModels collect: #token).
+	tokensDictionary do: [ :aConcept | tokens at: aConcept put: (tokens occurrencesOf: aConcept) ].
+	^ tokensDictionary 
+]
+
 { #category : #accessing }
-CNBBuilder >> doSuffixViewModelsOf: aPackageModel using: rootModels [
+CNBBuilder >> doTokenViewModelsOf: aPackageModel using: rootModels [
 	"On enveloppe chaque class du package dans son concept box "
 
-	| suffixes |
-	suffixes := (aPackageModel classModels collect: #suffix) asSet.
-	^ suffixes
-		collect: [ :eachConcept | 
+	| tokens |
+	tokens := (aPackageModel classModels collect: #token) asSet.
+	^ tokens
+		collect: [ :aToken | 
 			| classmodels itsRoot |
 			itsRoot := self
-				selectBiggestHierarchyOf: eachConcept
+				selectBiggestHierarchyOf: aToken
 				using: rootModels.
 			classmodels := aPackageModel classModels
-				select: [ :eachClassmodel | eachClassmodel suffix = eachConcept ].
-			CNBSuffixViewModel new
+				select: [ :eachClassmodel | eachClassmodel suffix = aToken ].
+			CNBTokenViewModel new
 				package: aPackageModel name;
-				name: eachConcept;
+				name: aToken;
 				classViewModels: (self doClassViewModelsOf: classmodels using: rootModels);
 				root: itsRoot;
 				originalColor: itsRoot color copy;
 				color: itsRoot color ]
-]
-
-{ #category : #doing }
-CNBBuilder >> doSuffixesDictionaryFrom: aCollectionOfClassModels [
-	| suffixes concepts |
-	suffixes := Dictionary new.
-	concepts := (aCollectionOfClassModels collect: #suffix).
-	concepts do: [ :aConcept | suffixes at: aConcept put: (concepts occurrencesOf: aConcept) ].
-	^suffixes 
 ]
 
 { #category : #extracting }
@@ -265,17 +256,17 @@ CNBBuilder >> sortRootModels: aSetOfRootModels [
 CNBBuilder >> startFightOverConceptsBetween: aCollectionOfRootModels [
 	| concepts |
 	concepts := (aCollectionOfRootModels
-		flatCollect: [ :each | each suffixes keys ]) asSet.
+		flatCollect: [ :each | each tokens keys ]) asSet.
 	concepts
 		do: [ :aConcept | 
 			| fighters winner |
 			fighters := (aCollectionOfRootModels
-				select: [ :aRoot | aRoot suffixes includesKey: aConcept ]) copy
+				select: [ :aRoot | aRoot tokens includesKey: aConcept ]) copy
 				asOrderedCollection.
 			(fighters anySatisfy: [ :aRootModel | aRootModel isMultiSuffix ])
 				ifTrue: [ fighters removeAllSuchThat: [ :aRootM | aRootM isMonoClass ] ].
 			winner := fighters
-				detectMax: [ :aRM | (aRM suffixes at: aConcept) value ].
-			winner dominantSuffixes: (winner suffixes associationAt: aConcept) ].
+				detectMax: [ :aRM | (aRM tokens at: aConcept) value ].
+			winner dominantTokens: (winner tokens associationAt: aConcept) ].
 	^ aCollectionOfRootModels
 ]
