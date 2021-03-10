@@ -85,6 +85,11 @@ CNBClassModel >> rootAccordingTo: aRootClass [
 ]
 
 { #category : #accessing }
+CNBClassModel >> setting [
+	^ setting
+]
+
+{ #category : #accessing }
 CNBClassModel >> superclass [
 	^ superclass
 ]

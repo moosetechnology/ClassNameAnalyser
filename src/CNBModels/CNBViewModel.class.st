@@ -23,7 +23,7 @@ CNBViewModel >> attributeTokenModelsToRoots [
 	
 	rootModels 
 		do: [ :aRoot | 
-			aRoot tokenModels: (self tokenModels select: [ :each | each root == aRoot ]) ]
+			aRoot tokenModels: (self tokenModels select: [ :each | each root == aRoot ]) ].
 ]
 
 { #category : #accessing }

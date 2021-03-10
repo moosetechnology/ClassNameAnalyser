@@ -43,43 +43,49 @@ CNBClassType class >> with: aCollectionOfSubClassModels [
 ]
 
 { #category : #checking }
-CNBClassType >> checkIfMonoClassWith: aCollectionOfClassModels [
+CNBClassType >> checkIfMonoClassWith: classModels [
 
-	(aCollectionOfClassModels size = 1
- 		and: [(aCollectionOfClassModels first root 
+	(classModels size = 1
+ 		and: [(classModels atRandom root name
 					= 
-				aCollectionOfClassModels first model)])
+				classModels atRandom model name)])
 	ifTrue: [ ^ self monoClass ].
-						
+				
 		^nil
 ]
 
 { #category : #checking }
-CNBClassType >> checkIfMonoTokenWith: aCollectionOfClassModels [
+CNBClassType >> checkIfMonoTokenWith: classModels [
 
-	(aCollectionOfClassModels allSatisfy: [ :each | each hasRootToken ])
+	(classModels size > 1 and: [ 
+		classModels allSatisfy: [ :each | each hasRootToken ]])
 		ifTrue: [ ^ self monoToken ].
+		
 		^ nil
 ]
 
 { #category : #checking }
-CNBClassType >> checkIfMultiToken: aCollectionOfClassModels [
+CNBClassType >> checkIfMultiToken: classModels [
 
-		(self checkIfMonoClassWith: aCollectionOfClassModels)
-		ifNil: [ (self checkIfTraitWith: aCollectionOfClassModels) 
-				ifNil: [ (self checkIfMonoTokenWith: aCollectionOfClassModels)  
-					ifNil: [ ^ self multiToken  ] ] ].
-			^ nil
+		| root rootToken tokens |
+	root := classModels first root.
+	rootToken := CNBFeatureSelector new extract: classModels first setting from: root name. 
+	tokens := (classModels collect: #token).
+	tokens
+		add: rootToken.
+	(tokens) size > 1
+	ifTrue: [ ^ self multiToken  ].
+	^ nil 
 ]
 
 { #category : #checking }
-CNBClassType >> checkIfTraitWith: 	aCollectionOfClassModels [ 
+CNBClassType >> checkIfTraitWith: 	classModels [ 
 	
-		(aCollectionOfClassModels 
+		(classModels 
 			size = 1 
-				and: 
-					[ aCollectionOfClassModels first model isTrait ])
-		ifTrue: [ ^ self trait ] .
+				and: [ 
+					(Smalltalk image classNamed: classModels first name) 
+					isTrait ]) ifTrue: [ ^ self trait ] .
 		^nil
 ]
 

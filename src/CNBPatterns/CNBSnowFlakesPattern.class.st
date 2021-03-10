@@ -9,7 +9,7 @@ CNBSnowFlakesPattern >> check: aSuffixModel [
 
 	^ (aSuffixModel innerRoots size >= CNBPatternSelector snowFlakesSize) 
 			and: [ 
-		aSuffixModel innerRoots allSatisfy: [ :each | each isMonoClass ] 
+		aSuffixModel innerRoots allSatisfy: [ :each | each isMonoClass or: [ each isTrait ] ] 
 					].
 ]
 

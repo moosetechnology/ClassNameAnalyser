@@ -184,7 +184,7 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 
 { #category : #queries }
 CNBPresenter >> lookFor: aPattern [
-	" returns suffix models to be highlighted"
+	" returns token models to be highlighted"
 
 	^ (CNBPatternSelector of: projectCNB) 
 				selectPatternOf: aPattern
@@ -206,15 +206,15 @@ CNBPresenter >> nodesToBeHighlighted [
 { #category : #highlighting }
 CNBPresenter >> nodesToHighlightFor: aPattern [
 
-	| suffixModelsToBeHighlighted classModelsToBeHighlighted highlightedModels |
+	| tokenModelsToBeHighlighted classModelsToBeHighlighted highlightedModels |
 
-	suffixModelsToBeHighlighted := self lookFor: aPattern.
-	suffixModelsToBeHighlighted do: [ :each | each showPatternDescription ].
+	tokenModelsToBeHighlighted := self lookFor: aPattern.
+	tokenModelsToBeHighlighted do: [ :each | each showPatternDescription ].
 
-	classModelsToBeHighlighted := suffixModelsToBeHighlighted 
+	classModelsToBeHighlighted := tokenModelsToBeHighlighted 
 		                              flatCollect: [ :each | each classViewModels ].
 	
-	highlightedModels := (suffixModelsToBeHighlighted
+	highlightedModels := (tokenModelsToBeHighlighted
 			union: classModelsToBeHighlighted).
 	
 	^ self allNodes select: [ :each | highlightedModels includes: each model ]

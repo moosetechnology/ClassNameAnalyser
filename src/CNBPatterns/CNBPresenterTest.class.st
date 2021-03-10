@@ -6,19 +6,24 @@ Class {
 		'cnbCanvas',
 		'presenter',
 		'roots',
-		'suffixModels',
-		'allNodes'
+		'allTokensModels',
+		'allNodes',
+		'tokenModels'
 	],
 	#category : #CNBPatterns
 }
 
 { #category : #tests }
 CNBPresenterTest >> changeToCalypso [ 
+	presenter := CNBPresenter new.
 	projectCNB := CNBRoassal3Builder projectNameMatches: 'calypso-*'.
+	roots := projectCNB viewModel rootModels collect: [ :each | each ].
+	cnbCanvas := projectCNB on: RSCanvas new.
 	presenter projectSelector text: 'calypso-*'. 
 	presenter onLoadProjectClicked.
 	presenter cnbSpecView openWithSpec.
-	suffixModels := projectCNB viewModel tokenModels reject: [ :each | each pattern isNil ]
+	allTokensModels := projectCNB viewModel tokenModels reject: [ :each | each pattern isNil ].
+	allNodes := cnbCanvas deepNodes.
 ]
 
 { #category : #running }
@@ -32,7 +37,7 @@ CNBPresenterTest >> setUp [
 	presenter projectSelector text: 'moose-*'. 
 	presenter onLoadProjectClicked.
 	presenter cnbSpecView openWithSpec.
-	suffixModels := projectCNB viewModel tokenModels reject: [ :each | each pattern isNil ].
+	allTokensModels := projectCNB viewModel tokenModels reject: [ :each | each pattern isNil ].
 	allNodes := cnbCanvas deepNodes.
 ]
 
@@ -46,7 +51,7 @@ CNBPresenterTest >> testCanvasNotNil [
 { #category : #checkPatternsInCNB }
 CNBPresenterTest >> testCheckAllHomogeneous [
 	| homogeneous |
-	homogeneous := suffixModels 
+	homogeneous := allTokensModels 
 							select: [ :each | each pattern isHomogeneous ].
 	
 	self 
@@ -56,7 +61,7 @@ CNBPresenterTest >> testCheckAllHomogeneous [
 { #category : #checkPatternsInCNB }
 CNBPresenterTest >> testCheckAllHomogeneousColorSize [
 	| homogeneous |
-	homogeneous := suffixModels 
+	homogeneous := allTokensModels 
 							select: [ :each | each pattern isHomogeneous ].
 	
 	self 
@@ -67,7 +72,7 @@ CNBPresenterTest >> testCheckAllHomogeneousColorSize [
 CNBPresenterTest >> testCheckAllScatteredVocabularyInsidePackageSize [
 
 	| scatteredVocabulary packageSuffixesDictionary packages |
-	scatteredVocabulary := suffixModels 
+	scatteredVocabulary := allTokensModels 
 							select: [ :each | each pattern isScatteredVocabulary ].
 	
 	packages := (scatteredVocabulary 
@@ -81,7 +86,7 @@ CNBPresenterTest >> testCheckAllScatteredVocabularyInsidePackageSize [
 				each value addAll: (scatteredVocabulary 
 				select: [ :suffix | suffix package = each ])  ].
 	self 
-		assert: (packageSuffixesDictionary values allSatisfy: [ :each | each size >= CNBPatternSelector svMinSuffixSize ])  
+		assert: (packageSuffixesDictionary values allSatisfy: [ :each | each size >= CNBPatternSelector svMinTokenSize ])  
 		equals: true
 ]
 
@@ -89,7 +94,7 @@ CNBPresenterTest >> testCheckAllScatteredVocabularyInsidePackageSize [
 CNBPresenterTest >> testCheckAllScatteredVocabularySuffixHasNoOutsiders [
 
 	| scatteredVocabulary |
-	scatteredVocabulary := suffixModels 
+	scatteredVocabulary := allTokensModels 
 							select: [ :each | each pattern isScatteredVocabulary ].
 							
 	
@@ -102,7 +107,7 @@ CNBPresenterTest >> testCheckAllScatteredVocabularySuffixHasNoOutsiders [
 CNBPresenterTest >> testCheckAllScatteredVocabularySuffixSize [
 
 	| scatteredVocabulary |
-	scatteredVocabulary := suffixModels 
+	scatteredVocabulary := allTokensModels 
 							select: [ :each | each pattern isScatteredVocabulary ].
 							
 	
@@ -115,7 +120,7 @@ CNBPresenterTest >> testCheckAllScatteredVocabularySuffixSize [
 CNBPresenterTest >> testCheckAllSnowFlakesColorSize [
 
 	| snowFlakes |
-	snowFlakes := suffixModels 
+	snowFlakes := allTokensModels 
 							select: [ :each | each pattern isSnowFlakes  ].
 							
 	
@@ -128,7 +133,7 @@ CNBPresenterTest >> testCheckAllSnowFlakesColorSize [
 CNBPresenterTest >> testCheckAllSnowFlakesMaxSize [
 
 	| snowFlakes |
-	snowFlakes := suffixModels 
+	snowFlakes := allTokensModels 
 							select: [ :each | each pattern isSnowFlakes  ].
 							
 	
@@ -142,7 +147,7 @@ CNBPresenterTest >> testCheckConfetti [
 	| aSuffixModel |
 	self changeToCalypso.
 	
-	aSuffixModel := suffixModels 
+	aSuffixModel := allTokensModels 
 		detect: [ :each | each name = 'Example' 
 			and: [ each package = 'Calypso-NavigationModel-Tests' ] ].
 		
@@ -158,7 +163,7 @@ CNBPresenterTest >> testCheckConfetti [
 CNBPresenterTest >> testCheckConfettiNumberInCNB [
 
 	| confetti |
-	confetti := suffixModels select: [ :each | each pattern isConfetti  ].
+	confetti := allTokensModels select: [ :each | each pattern isConfetti  ].
 	
 	self 
 		assert: confetti size 
@@ -169,7 +174,7 @@ CNBPresenterTest >> testCheckConfettiNumberInCNB [
 CNBPresenterTest >> testCheckFatBlob [
 	| aSuffixModel |
 
-	aSuffixModel := suffixModels detect: [ :each | each package = 'Moose-Algos-Graph-Tests'].
+	aSuffixModel := allTokensModels detect: [ :each | each package = 'Moose-Algos-Graph-Tests'].
 		
 	aSuffixModel checkPatterns.
 	
@@ -180,17 +185,17 @@ CNBPresenterTest >> testCheckFatBlob [
 
 { #category : #HomogeneityBreakerTests }
 CNBPresenterTest >> testCheckHomogeneityBreaker [
-	| aSuffixModel  |
+	| aTokenModel  |
 	self changeToCalypso.
 	
-	aSuffixModel := suffixModels 
+	aTokenModel := allTokensModels 
 		detect: [ :each | each name = 'Strategy' 
 			and: [ each package = 'Calypso-SystemTools-QueryBrowser' ] ].
 			
-	aSuffixModel checkPatterns.
+	aTokenModel checkPatterns.
 	
 	self
-		assert: aSuffixModel pattern isHomogeneityBreaker	
+		assert: aTokenModel pattern isHomogeneityBreaker	
 		equals: true
 ]
 
@@ -566,7 +571,7 @@ CNBPresenterTest >> testHomogeneityBreakerExists [
 
 	| homogeneityBreakers |
 	self changeToCalypso.
-	homogeneityBreakers := suffixModels 
+	homogeneityBreakers := allTokensModels  
 			select: [ :each | each pattern isHomogeneityBreaker ].
 	
 	self 

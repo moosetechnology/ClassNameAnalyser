@@ -52,12 +52,12 @@ CNBRootModel >> color: aColor [
 { #category : #creation }
 CNBRootModel >> create [
 
-	| rootType |
-	rootType := (CNBClassType with: self subclasses) type.
+	| aType |
+	aType := (CNBClassType with: self subclasses) type.
 
 	self 
 		name: model name;
-		type: rootType;
+		type: aType;
 		size: subclasses size;
 		tokensDictionary: (CNBBuilder doTokenDictionaryFrom: subclasses).
 		
@@ -82,17 +82,17 @@ CNBRootModel >> hasScatteredVocabularyInside: aPackageString [
 								select: [ :each | each package = aPackageString 
 										and: [ each size >= CNBPatternSelector svMinClassSize ] ].
 
-	^ (electedSuffixes size >= CNBPatternSelector svMinSuffixSize)
+	^ (electedSuffixes size >= CNBPatternSelector svMinTokenSize)
 	
 ]
 
 { #category : #testing }
 CNBRootModel >> hasVeryScatteredVocabularyInside: aPackageModel [
 
-	| suffixesInPackage selfClassModels |
+	| tokenInPackage selfClassModels |
 	selfClassModels := aPackageModel classModels select: [ :each | each root = self ].
-	suffixesInPackage := (selfClassModels collect: #token) asSet.
-	^ (suffixesInPackage size >= CNBPatternSelector scatteredThreshold)
+	tokenInPackage := (selfClassModels collect: #token) asSet.
+	^ (tokenInPackage size >= CNBPatternSelector scatteredThreshold)
 	
 ]
 
@@ -184,6 +184,11 @@ CNBRootModel >> token [
 CNBRootModel >> token: aToken [
   token := aToken
 	
+]
+
+{ #category : #accessing }
+CNBRootModel >> tokenModels [
+	^ tokenModels
 ]
 
 { #category : #accessing }

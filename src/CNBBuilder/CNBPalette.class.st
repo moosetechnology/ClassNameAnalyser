@@ -2,9 +2,9 @@ Class {
 	#name : #CNBPalette,
 	#superclass : #Object,
 	#instVars : [
-		'multiSuffixColors',
+		'multiTokenColors',
 		'defaultColor',
-		'monoSuffixColor',
+		'monoTokenColor',
 		'monoClassColor',
 		'traitColor',
 		'index'
@@ -15,23 +15,23 @@ Class {
 { #category : #'instance creation' }
 CNBPalette class >> with: aCollectionOfColors [
 	^self new
-		multiSuffixColors:  aCollectionOfColors
+		multiTokenColors:  aCollectionOfColors
 ]
 
 { #category : #selecting }
-CNBPalette >> aColorForMultiSuffix [
+CNBPalette >> aColorForMultiToken [
 
 	"we have 24 important colors"
-	index := index +1.
-	(index <=  multiSuffixColors size)
-	ifTrue: [ ^ multiSuffixColors at: index ].
+	index := index + 1.
+	(index <=  multiTokenColors size)
+	ifTrue: [ ^ multiTokenColors at: index ].
 	
 	^ defaultColor
 ]
 
 { #category : #accessing }
 CNBPalette >> defaultColor [ 
-	^Color black
+	^ Color black
 ]
 
 { #category : #accessing }
@@ -42,7 +42,7 @@ CNBPalette >> initialize [
 
 { #category : #accessing }
 CNBPalette >> monoClassColor [
-	^Color white
+	^ Color white
 ]
 
 { #category : #accessing }
@@ -51,21 +51,21 @@ CNBPalette >> monoClassColor: aColor [
 ]
 
 { #category : #accessing }
-CNBPalette >> monoSuffixColor [
-	^Color gray
+CNBPalette >> monoTokenColor [
+	^ Color gray
 ]
 
 { #category : #accessing }
-CNBPalette >> multiSuffixColors [
-	^multiSuffixColors
+CNBPalette >> multiTokenColors [
+	^ multiTokenColors
 ]
 
 { #category : #accessing }
-CNBPalette >> multiSuffixColors: aCollectionOfColors [ 
-	multiSuffixColors := aCollectionOfColors collect: [ :aColorName | Color value: aColorName ]
+CNBPalette >> multiTokenColors: colorsCollection [ 
+	multiTokenColors := colorsCollection collect: [ :aColorName | Color value: aColorName ]
 ]
 
 { #category : #accessing }
 CNBPalette >> traitColor [
-	^Color white
+	^ Color white
 ]

@@ -19,8 +19,8 @@ Class {
 CNBTokenViewModel >> appearsInSeveralPackages [
 	
 	| siblings homogeneityBreakerSiblingsCheck |
-	siblings := self root concepts 
-		select: [ :each | each name = name ].
+	siblings := self root tokenModels  
+		select: [ :each | each = name ].
 	
 	homogeneityBreakerSiblingsCheck := (siblings asOrderedCollection 
 		collect: [ :each | CNBHomogeneityBreakerPattern check: each ]).

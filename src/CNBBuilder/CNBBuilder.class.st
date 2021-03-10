@@ -98,10 +98,10 @@ CNBBuilder >> assignColorByType: aType [
 	ifTrue: [ ^ palette monoClassColor ].
 	
 	(aType = CNBClassType monoToken)
-	ifTrue: [  ^ palette monoSuffixColor ].
+	ifTrue: [  ^ palette monoTokenColor ].
 	
 	(aType = CNBClassType multiToken)
-	ifTrue: [ ^ palette aColorForMultiSuffix ].
+	ifTrue: [ ^ palette aColorForMultiToken ].
 ]
 
 { #category : #accessing }
@@ -187,7 +187,7 @@ CNBBuilder >> doRootsOf: classModels Accordingto: aSetting [
 				subclasses := classModels select: [ :aClass | aClass root = aRootClass ].
 			CNBRootModel model: aRootClass with: subclasses.
 			 ].
-								
+							
 	coloredRootModels := self color: initialeRootModels.
 	
 	rootModels := self startFightOverTokensBetween: coloredRootModels.
@@ -247,27 +247,41 @@ CNBBuilder >> initialize [
 ]
 
 { #category : #sorting }
+CNBBuilder >> sortAccordingToPalette: aCollection [
+	| newPalette |
+	newPalette := palette multiTokenColors asOrderedCollection.
+	newPalette
+		addAll:
+			{palette monoTokenColor.
+			palette monoClassColor.
+			palette defaultColor}.
+	^ ((1 to: newPalette size)
+		collect: [ :cursor | 
+			aCollection
+				select: [ :aConceptVM | aConceptVM color = (newPalette at: cursor) ] ])
+		flattened
+]
+
+{ #category : #sorting }
 CNBBuilder >> sortRootModels: aSetOfRootModels [
 	^(aSetOfRootModels sorted: #size descending)
 ]
 
 { #category : #internal }
 CNBBuilder >> startFightOverTokensBetween: rootModels [
-	| multiTokenRoots allTokens |
-	
-	multiTokenRoots := rootModels select: [ :each | each isMultiToken or: [each isMonoToken ]].
-	allTokens := (multiTokenRoots
+		| tokens |
+	tokens := (rootModels
 		flatCollect: [ :each | each tokensDictionary keys ]) asSet.
-
-	allTokens
+	tokens
 		do: [ :aToken | 
 			| fighters winner |
-			fighters := (multiTokenRoots
-				select: [ :aRoot | aRoot tokensDictionary includesKey: aToken ]) copy asOrderedCollection.
-		
+			fighters := (rootModels
+				select: [ :aRoot | aRoot tokensDictionary includesKey: aToken ]) copy
+				asOrderedCollection.
+			(fighters anySatisfy: [ :aRootModel | aRootModel isMultiToken ])
+				ifTrue: [ fighters removeAllSuchThat: [ :aRootM | aRootM isMonoClass ] ].
 			winner := fighters
 				detectMax: [ :aRM | (aRM tokensDictionary at: aToken) value ].
-	
 			winner dominantTokens: (winner tokensDictionary associationAt: aToken) ].
 	^ rootModels
 ]

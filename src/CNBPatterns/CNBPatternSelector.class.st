@@ -9,13 +9,13 @@ Class {
 		'snowFlakesSize',
 		'confettiSize',
 		'svMinClassSize',
-		'svMinSuffixSize',
+		'svMinTokenSize',
 		'patternsDictionary',
 		'confettiPourcentage',
-		'hbMonoMinSuffixSize',
-		'hbMonoMaxSuffixSize',
+		'hbMonoMinTokenSize',
+		'hbMonoMaxTokenSize',
 		'hbMultiPourcentage',
-		'hbMultiMinSuffixSize',
+		'hbMultiMinTokenSize',
 		'occurrences',
 		'scatteredThreshold'
 	],
@@ -41,33 +41,33 @@ CNBPatternSelector class >> fatBlobSize [
 ]
 
 { #category : #accessing }
-CNBPatternSelector class >> hbMaxSuffixSize [
+CNBPatternSelector class >> hbMaxTokenSize [
 	^ self new
-		hbMonoMaxSuffixSize
+		hbMonoMaxTokenSize
 ]
 
 { #category : #accessing }
-CNBPatternSelector class >> hbMinSuffixSize [
+CNBPatternSelector class >> hbMinTokenSize [
 	^ self new
-		hbMinSuffixSize
+		hbMinTokenSize
 ]
 
 { #category : #accessing }
-CNBPatternSelector class >> hbMonoMaxSuffixSize [
+CNBPatternSelector class >> hbMonoMaxTokenSize [
 	^ self new
-		hbMonoMaxSuffixSize
+		hbMonoMaxTokenSize
 ]
 
 { #category : #accessing }
-CNBPatternSelector class >> hbMonoMinSuffixSize [
+CNBPatternSelector class >> hbMonoMinTokenSize [
 	^ self new
-		hbMonoMinSuffixSize
+		hbMonoMinTokenSize
 ]
 
 { #category : #accessing }
-CNBPatternSelector class >> hbMultiMinSuffixSize [ 
+CNBPatternSelector class >> hbMultiMinTokenSize [ 
 	^ self new
-		hbMultiMinSuffixSize
+		hbMultiMinTokenSize
 ]
 
 { #category : #accessing }
@@ -113,9 +113,9 @@ CNBPatternSelector class >> svMinClassSize [
 ]
 
 { #category : #'as yet unclassified' }
-CNBPatternSelector class >> svMinSuffixSize [
+CNBPatternSelector class >> svMinTokenSize [
 	^self new
-		svMinSuffixSize
+		svMinTokenSize
 ]
 
 { #category : #accessing }
@@ -134,18 +134,18 @@ CNBPatternSelector >> fatBlobSize [
 ]
 
 { #category : #accessing }
-CNBPatternSelector >> hbMonoMaxSuffixSize [
-	^ hbMonoMaxSuffixSize
+CNBPatternSelector >> hbMonoMaxTokenSize [
+	^ hbMonoMaxTokenSize
 ]
 
 { #category : #accessing }
-CNBPatternSelector >> hbMonoMinSuffixSize [
-	^ hbMonoMinSuffixSize
+CNBPatternSelector >> hbMonoMinTokenSize [
+	^ hbMonoMinTokenSize
 ]
 
 { #category : #accessing }
-CNBPatternSelector >> hbMultiMinSuffixSize [
-	^ hbMultiMinSuffixSize
+CNBPatternSelector >> hbMultiMinTokenSize [
+	^ hbMultiMinTokenSize
 ]
 
 { #category : #accessing }
@@ -162,11 +162,11 @@ CNBPatternSelector >> initialize [
 	confettiSize := 3.
 	confettiPourcentage := 30. 
 	svMinClassSize := 3.
-	svMinSuffixSize := 3.
-	hbMonoMinSuffixSize := 1. 
-	hbMonoMaxSuffixSize := 6 .
+	svMinTokenSize := 3.
+	hbMonoMinTokenSize := 1. 
+	hbMonoMaxTokenSize := 6 .
 	hbMultiPourcentage := 50.
-	hbMultiMinSuffixSize := 3.
+	hbMultiMinTokenSize := 3.
 	occurrences := 2.
 	scatteredThreshold := 10
 ]
@@ -289,6 +289,6 @@ CNBPatternSelector >> svMinClassSize [
 ]
 
 { #category : #accessing }
-CNBPatternSelector >> svMinSuffixSize [
-	^ svMinSuffixSize
+CNBPatternSelector >> svMinTokenSize [
+	^ svMinTokenSize
 ]

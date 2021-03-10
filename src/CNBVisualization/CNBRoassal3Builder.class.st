@@ -137,7 +137,7 @@ CNBRoassal3Builder >> createPackageBoxesOf: cnbModel [
 				label := RSLabel new text: namedAbbreviated;fontSize: 30;bold.
 				composite := RSComposite new.
 				packageComposite := self createBoxOf: package.
-				packageComposite addAll: (self createSuffixBoxesOf: package).
+				packageComposite addAll: (self createTokenBoxesOf: package).
 				RSGridLayout new on: packageComposite children;gapSize: 20.
 				packageComposite border: package border.
 				packageComposite adjustToChildren.
@@ -153,30 +153,30 @@ CNBRoassal3Builder >> createPackageBoxesOf: cnbModel [
 ]
 
 { #category : #creating }
-CNBRoassal3Builder >> createSuffixBoxesOf: aPackage [ 
-	| suffixBoxes |
+CNBRoassal3Builder >> createTokenBoxesOf: aPackage [ 
+	| tokenBoxes |
 	aPackage tokenViewModels: aPackage modelsOrderedDescending. 
 	aPackage tokenViewModels: aPackage modelsOrderedByColor.
 		
-	suffixBoxes := (aPackage tokenViewModels 
-			collect: [ :suffix | | suffixComposite label composite |
+	tokenBoxes := (aPackage tokenViewModels 
+			collect: [ :aToken | | tokenComposite label composite |
 				composite := RSComposite new.
-					label := RSLabel new text: suffix name;bold; fontSize:20.
-					suffixComposite := self createBoxOf: suffix.
-					suffixComposite addAll: (self createClassBoxesOf: suffix).
-					suffixComposite border: suffix border.
-					suffixComposite adjustToChildren.
-					RSGridLayout new on: suffixComposite children.
-					suffixComposite padding: 12.
+					label := RSLabel new text: aToken name;bold; fontSize:20.
+					tokenComposite := self createBoxOf: aToken.
+					tokenComposite addAll: (self createClassBoxesOf: aToken).
+					tokenComposite border: aToken border.
+					tokenComposite adjustToChildren.
+					RSGridLayout new on: tokenComposite children.
+					tokenComposite padding: 12.
 					
 					composite color: Color white darker.
-					composite add: label; add: suffixComposite.
+					composite add: label; add: tokenComposite.
 					RSVerticalLineLayout new alignCenter on: composite children.
 					composite adjustToChildren.
 					composite.
 						]).
 					
-	^suffixBoxes 
+	^ tokenBoxes 
 					
 		
 ]

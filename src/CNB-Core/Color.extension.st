@@ -6,6 +6,6 @@ Color >> isMonoClassColor [
 ]
 
 { #category : #'*CNB-Core' }
-Color >> isMonoSuffixColor [ 
+Color >> isMonoTokenColor [ 
 	^ self = self class gray
 ]

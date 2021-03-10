@@ -16,10 +16,10 @@ CNBTColorAttributor >> assignColorByType: aType [
 	ifTrue: [ ^palette monoClassColor ].
 	
 	(aType = CNBClassType monoToken)
-	ifTrue: [  ^palette monoSuffixColor ].
+	ifTrue: [  ^palette monoTokenColor ].
 	
 	(aType = CNBClassType multiToken)
-	ifTrue: [ ^palette aColorForMultiSuffix ].
+	ifTrue: [ ^palette aColorForMultiToken ].
 ]
 
 { #category : #accessing }
@@ -47,10 +47,10 @@ CNBTColorAttributor >> initialize [
 { #category : #sorting }
 CNBTColorAttributor >> sortAccordingToPalette: aCollection [
 	| newPalette |
-	newPalette := palette multiSuffixColors asOrderedCollection.
+	newPalette := palette multiTokenColors asOrderedCollection.
 	newPalette
 		addAll:
-			{palette monoSuffixColor.
+			{palette monoTokenColor.
 			palette monoClassColor.
 			palette defaultColor}.
 	^ ((1 to: newPalette size)
