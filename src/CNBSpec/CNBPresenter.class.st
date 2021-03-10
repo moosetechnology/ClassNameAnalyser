@@ -123,8 +123,8 @@ CNBPresenter >> connectPresenters [
 	reset action: [ self reset ].
 	packageSearch whenSubmitDo: [ :aRub | self changePackageBorderWidth: aRub text asString ].
 	packageSearch whenResetDo: [ self resetPackageBoder ].
-	suffix activationAction: [ self onSuffixActivated ].
-	prefix activationAction: [ self onPrefixActivated ]	
+	suffix whenActivatedDo: [ self onSuffixActivated ].
+	prefix whenActivatedDo: [ self onPrefixActivated ]	
 ]
 
 { #category : #highlighting }
@@ -167,10 +167,11 @@ CNBPresenter >> initializePresenters [
 	pathSelector := self newTextInput.
 	rootSelector := self newTextInput. 
 	reset := self newButton label: 'Reset'. 
-	prefix := self newCheckBox.
-	suffix := self newCheckBox.	
+	prefix := self newRadioButton.
+	suffix := self newRadioButton.	
 	prefix label: 'Prefix'.
 	suffix label: 'Suffix'.
+	suffix associatedRadioButtons: { prefix }.
 	
 	loadProjectButton := self newButton label: 'Load project'.
 	patternsDropList := CNBSpecElementDropList new.
@@ -247,13 +248,14 @@ CNBPresenter >> onLoadProjectClicked [
 { #category : #actions }
 CNBPresenter >> onPrefixActivated [
 
-	projectCNB viewModel setting token: #prefix
+	projectCNB viewModel setting token: #prefix.
+
 ]
 
 { #category : #actions }
 CNBPresenter >> onSuffixActivated [
 
-	projectCNB viewModel setting token: #suffix
+	projectCNB viewModel setting token: #suffix.
 ]
 
 { #category : #initialization }
