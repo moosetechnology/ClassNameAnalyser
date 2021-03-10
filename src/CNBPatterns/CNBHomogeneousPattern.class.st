@@ -7,10 +7,10 @@ Class {
 { #category : #validation }
 CNBHomogeneousPattern >> check: aSuffixModel [
 
-	(aSuffixModel root isMonoSuffix)
+	(aSuffixModel root isMonoToken)
 	ifFalse: [ ^ false ].
 	
-	^ (aSuffixModel innerRoots allSatisfy: [ :aRoot | aRoot isMonoSuffix ])
+	^ (aSuffixModel innerRoots allSatisfy: [ :aRoot | aRoot isMonoToken ])
 
 
 ]

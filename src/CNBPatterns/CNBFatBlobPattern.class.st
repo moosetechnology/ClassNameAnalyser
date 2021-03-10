@@ -12,7 +12,7 @@ CNBFatBlobPattern >> check: aSuffixModel [
 		ifFalse: [ ^ false ]
 		
 		ifTrue: [ 
-			^ (aSuffixModel root isMonoSuffix not and: [ aSuffixModel root isMonoClass not 
+			^ (aSuffixModel root isMonoToken not and: [ aSuffixModel root isMonoClass not 
 				]) ]. 
 ]
 

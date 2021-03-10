@@ -109,13 +109,13 @@ CNBRootModel >> isMonoClass [
 ]
 
 { #category : #testing }
-CNBRootModel >> isMonoSuffix [
-	^ type = 'monoSuffix'
+CNBRootModel >> isMonoToken [
+	^ type = 'monoToken'
 ]
 
 { #category : #testing }
-CNBRootModel >> isMultiSuffix [
-	^ type = 'multiSuffix'
+CNBRootModel >> isMultiToken [
+	^ type = 'multiToken'
 ]
 
 { #category : #testing }

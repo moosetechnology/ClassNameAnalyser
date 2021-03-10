@@ -44,7 +44,7 @@ CNBClassModel >> create [
 { #category : #testing }
 CNBClassModel >> hasRootToken [
 	| rootToken |
-	rootToken := CNBFeatureSelector new extract: setting token from: root.
+	rootToken := CNBFeatureSelector new extract: setting token from: root name.
 	^ token = rootToken 
 ]
 

@@ -89,9 +89,9 @@ CNBBuilderTest >> testClassType [
 	monoSuffixType := CNBClassType monoToken.
 	multiSuffixType := CNBClassType multiToken.
 	aMonoSuffixHierarchy := cnbMoose viewModel rootModels
-		detect: [ :each | each isMonoSuffix ].
+		detect: [ :each | each isMonoToken ].
 	aMultiSuffixHierarchy := cnbMoose viewModel rootModels
-		detect: [ :each | each isMultiSuffix ].
+		detect: [ :each | each isMultiToken ].
 	aMonoClass := cnbMoose viewModel rootModels
 		detect: [ :each | each isMonoClass ].
 	self

@@ -6,10 +6,38 @@ Class {
 	#superclass : #CNBAbstractViewModel,
 	#instVars : [
 		'size',
-		'tokenViewModels'
+		'tokenViewModels',
+		'model'
 	],
 	#category : #CNBModels
 }
+
+{ #category : #'as yet unclassified' }
+CNBPackageViewModel class >> of: aModel with: tokenModels [
+	^ (self new
+		model: aModel;
+		tokenViewModels: tokenModels) create
+
+]
+
+{ #category : #operations }
+CNBPackageViewModel >> create [
+
+	self 
+		name: model name;
+		color: self defaultColor;
+		originalColor: self defaultColor.
+]
+
+{ #category : #accessing }
+CNBPackageViewModel >> model [
+	^ model
+]
+
+{ #category : #accessing }
+CNBPackageViewModel >> model: aModel [
+	model := aModel
+]
 
 { #category : #accessing }
 CNBPackageViewModel >> models [

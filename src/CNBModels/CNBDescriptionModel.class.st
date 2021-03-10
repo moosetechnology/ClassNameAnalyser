@@ -52,11 +52,11 @@ CNBDescriptionModel >> countHomogeneous [
 	conceptViewModelsDominatedByMonoHierarchy := self
 		                                             allConceptViewModels 
 		                                             select: [ :each | 
-		                                             each root isMonoSuffix ].
+		                                             each root isMonoToken ].
 	homogeneous := (conceptViewModelsDominatedByMonoHierarchy select: [ 
 		                :each | 
 		                each classViewModels allSatisfy: [ :aCVM | 
-			                aCVM root isMonoSuffix ] ]) size
+			                aCVM root isMonoToken ] ]) size
 ]
 
 { #category : #queries }
@@ -72,7 +72,7 @@ CNBDescriptionModel >> countMonoClasses [
 
 { #category : #queries }
 CNBDescriptionModel >> countMonoSuffixHierarchies [
-	nbrMonoSuffix := (self rootModels select: [ :each | each isMonoSuffix ] ) size
+	nbrMonoSuffix := (self rootModels select: [ :each | each isMonoToken ] ) size
 ]
 
 { #category : #queries }
@@ -95,7 +95,7 @@ CNBDescriptionModel >> countSnowFlakes [
 
 { #category : #queries }
 CNBDescriptionModel >> countnMultiSuffixHierarchies [
-	nbrMultiSuffix := (self rootModels select: [ :each | each isMultiSuffix ] ) size
+	nbrMultiSuffix := (self rootModels select: [ :each | each isMultiToken ] ) size
 ]
 
 { #category : #operations }

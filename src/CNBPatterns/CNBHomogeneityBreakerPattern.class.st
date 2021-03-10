@@ -15,7 +15,7 @@ CNBHomogeneityBreakerPattern >> check: aSuffixModel [
 	
 	((aSuffixModel innerRoots 
 		anySatisfy: [ :each | each isMonoClass ]) 
-			or: [ aSuffixModel root isMonoSuffix ]) ifTrue: [ ^ false ].
+			or: [ aSuffixModel root isMonoToken ]) ifTrue: [ ^ false ].
 			
 	^ ((self checkMonoSuffix: aSuffixModel) 
 		or: [ self checkMultiSuffix: aSuffixModel ]).
@@ -25,7 +25,7 @@ CNBHomogeneityBreakerPattern >> check: aSuffixModel [
 { #category : #'as yet unclassified' }
 CNBHomogeneityBreakerPattern >> checkMonoSuffix: aSuffixModel [
 	
-	^ ((aSuffixModel root isMonoSuffix) 
+	^ ((aSuffixModel root isMonoToken) 
 			and: [ (aSuffixModel outsiders collect: #root) asSet size = 1 "are not monoclasses"
 				and: [ aSuffixModel outsiders size
 					between: CNBPatternSelector hbMonoMinSuffixSize 
@@ -35,8 +35,8 @@ CNBHomogeneityBreakerPattern >> checkMonoSuffix: aSuffixModel [
 { #category : #'as yet unclassified' }
 CNBHomogeneityBreakerPattern >> checkMultiSuffix: aSuffixModel [
 
-	^ (aSuffixModel root isMultiSuffix)
-		and: [ ((aSuffixModel outsiders collect: #root) allSatisfy: [ :each | each isMonoSuffix ])
+	^ (aSuffixModel root isMultiToken)
+		and: [ ((aSuffixModel outsiders collect: #root) allSatisfy: [ :each | each isMonoToken ])
 			and: [ aSuffixModel outsiders size 
 				between:  CNBPatternSelector hbMultiMinSuffixSize
 				and: CNBPatternSelector hbMonoMaxSuffixSize ] ].
@@ -62,8 +62,8 @@ CNBHomogeneityBreakerPattern >> checkSuffixOutsiders: aSuffixModel [
 { #category : #'as yet unclassified' }
 CNBHomogeneityBreakerPattern >> checkSuffixType: aSuffixModel [
 
-	^ (aSuffixModel root isMonoSuffix or: [ 
-		 aSuffixModel root isMultiSuffix ])
+	^ (aSuffixModel root isMonoToken or: [ 
+		 aSuffixModel root isMultiToken ])
 ]
 
 { #category : #accessing }

@@ -325,7 +325,7 @@ CNBPresenterTest >> testFatBlobsBelongToMultiSuffix [
 	fatBlobs := suffixModels select: [ :each | each pattern isFatBlob  ].
 	
 	self 
-		assert: (fatBlobs allSatisfy: [ :each | each root isMultiSuffix ])
+		assert: (fatBlobs allSatisfy: [ :each | each root isMultiToken ])
 		equals: true
 ]
 

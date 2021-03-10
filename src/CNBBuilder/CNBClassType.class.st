@@ -57,8 +57,7 @@ CNBClassType >> checkIfMonoClassWith: aCollectionOfClassModels [
 { #category : #checking }
 CNBClassType >> checkIfMonoTokenWith: aCollectionOfClassModels [
 
-	(aCollectionOfClassModels 
-		allSatisfy: [ :each | each hasRootToken ])
+	(aCollectionOfClassModels allSatisfy: [ :each | each hasRootToken ])
 		ifTrue: [ ^ self monoToken ].
 		^ nil
 ]

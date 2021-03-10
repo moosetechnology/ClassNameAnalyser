@@ -17,12 +17,12 @@ CNBTDataExtractor >> extractClassViewModelsFrom: aViewModel [
 ]
 
 { #category : #extracting }
-CNBTDataExtractor >> extractConceptsFrom: aPackageModel [
+CNBTDataExtractor >> extractTokensFrom: aPackageModel [
 
 	^aPackageModel classModels collect: [ :aClassModel | aClassModel suffix ]
 ]
 
 { #category : #selecting }
-CNBTDataExtractor >> selectBiggestHierarchyOf: aToken using: aCollectioOfRootModels [
-	^ (aCollectioOfRootModels detect: [ :aRoot | aRoot concepts includes: aToken ]).
+CNBTDataExtractor >> selectBiggestHierarchyOf: aToken using: rootModels [
+	^ (rootModels detect: [ :aRoot | aRoot dominantTokens keys includes: aToken ]).
 ]

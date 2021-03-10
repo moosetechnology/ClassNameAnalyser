@@ -168,16 +168,14 @@ CNBBuilder >> doPackageModelsOf: aViewModel [
 { #category : #doing }
 CNBBuilder >> doPackageViewModelsOf: aViewModel [ 
 
-	^(aViewModel packageModels 
-		collect: [ :eachPackageModel | 
-				CNBPackageViewModel new
-					name: eachPackageModel name;
-					color: CNBPackageViewModel new defaultColor;
-					originalColor: CNBPackageViewModel new defaultColor;
-					tokenViewModels:
-						(self
+	^(aViewModel packageModels collect: [ :eachPackageModel | 
+			
+				CNBPackageViewModel 
+				of: eachPackageModel 
+				with: (self
 							doTokenViewModelsOf: eachPackageModel 
-											using: aViewModel rootModels) ])
+							using: aViewModel rootModels) ]). 
+					
 ]
 
 { #category : #doing }
@@ -187,13 +185,13 @@ CNBBuilder >> doRootsOf: classModels Accordingto: aSetting [
 	initialeRootModels := (classModels collect: #root) asSet
 		collect: [ :aRootClass | | subclasses |
 				subclasses := classModels select: [ :aClass | aClass root = aRootClass ].
-				self halt.
 			CNBRootModel model: aRootClass with: subclasses.
 			 ].
-							
+								
 	coloredRootModels := self color: initialeRootModels.
-
-	rootModels := self startFightOverConceptsBetween: coloredRootModels.
+	
+	rootModels := self startFightOverTokensBetween: coloredRootModels.
+	
 	^ rootModels asSet
 ]
 
@@ -212,6 +210,7 @@ CNBBuilder >> doTokenViewModelsOf: aPackageModel using: rootModels [
 	"On enveloppe chaque class du package dans son concept box "
 
 	| tokens |
+	
 	tokens := (aPackageModel classModels collect: #token) asSet.
 	^ tokens
 		collect: [ :aToken | 
@@ -220,7 +219,7 @@ CNBBuilder >> doTokenViewModelsOf: aPackageModel using: rootModels [
 				selectBiggestHierarchyOf: aToken
 				using: rootModels.
 			classmodels := aPackageModel classModels
-				select: [ :eachClassmodel | eachClassmodel suffix = aToken ].
+				select: [ :eachClassmodel | eachClassmodel token = aToken ].
 			CNBTokenViewModel new
 				package: aPackageModel name;
 				name: aToken;
@@ -231,9 +230,9 @@ CNBBuilder >> doTokenViewModelsOf: aPackageModel using: rootModels [
 ]
 
 { #category : #extracting }
-CNBBuilder >> extractConceptsFrom: aPackageModel [
+CNBBuilder >> extractTokensFrom: aPackageModel [
 
-	^aPackageModel classModels collect: [ :aClassModel | aClassModel suffix ]
+	^aPackageModel classModels collect: [ :aClassModel | aClassModel token ]
 ]
 
 { #category : #initialize }
@@ -253,20 +252,22 @@ CNBBuilder >> sortRootModels: aSetOfRootModels [
 ]
 
 { #category : #internal }
-CNBBuilder >> startFightOverConceptsBetween: aCollectionOfRootModels [
-	| tokens |
-	tokens := (aCollectionOfRootModels
+CNBBuilder >> startFightOverTokensBetween: rootModels [
+	| multiTokenRoots allTokens |
+	
+	multiTokenRoots := rootModels select: [ :each | each isMultiToken or: [each isMonoToken ]].
+	allTokens := (multiTokenRoots
 		flatCollect: [ :each | each tokensDictionary keys ]) asSet.
-	tokens
+
+	allTokens
 		do: [ :aToken | 
 			| fighters winner |
-			fighters := (aCollectionOfRootModels
-				select: [ :aRoot | aRoot tokensDictionary includesKey: aToken ]) copy
-				asOrderedCollection.
-			(fighters anySatisfy: [ :aRootModel | aRootModel isMultiSuffix ])
-				ifTrue: [ fighters removeAllSuchThat: [ :aRootM | aRootM isMonoClass ] ].
+			fighters := (multiTokenRoots
+				select: [ :aRoot | aRoot tokensDictionary includesKey: aToken ]) copy asOrderedCollection.
+		
 			winner := fighters
 				detectMax: [ :aRM | (aRM tokensDictionary at: aToken) value ].
+	
 			winner dominantTokens: (winner tokensDictionary associationAt: aToken) ].
-	^ aCollectionOfRootModels
+	^ rootModels
 ]
