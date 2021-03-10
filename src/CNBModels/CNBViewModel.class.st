@@ -8,13 +8,14 @@ Class {
 		'packageViewModels',
 		'border',
 		'defaultColor',
-		'settings'
+		'setting'
 	],
 	#category : #CNBModels
 }
 
 { #category : #attribution }
 CNBViewModel >> attributePatterns [
+
 	self tokenModels do: [ :each | each attributePattern ]
 ]
 
@@ -28,63 +29,76 @@ CNBViewModel >> attributeTokenModelsToRoots [
 
 { #category : #accessing }
 CNBViewModel >> border [
-	^ border color: Color black;yourself
+
+	^ border 
+		color: Color black;
+		yourself
 ]
 
 { #category : #'building actions' }
 CNBViewModel >> buildRoassal3View [ 
+
 	^ CNBRoassal3Builder build: self 
 ]
 
 { #category : #accessing }
 CNBViewModel >> classViewModels [ 
-	^ ((packageViewModels 
-		flatCollect: 
-			#tokenViewModels) flatCollect: 
-				[ :each | each classViewModels ])
+
+	^ (
+			(packageViewModels 
+				flatCollect: #tokenViewModels) 
+					flatCollect: [ :each | each classViewModels ]
+		)
 ]
 
 { #category : #accessing }
 CNBViewModel >> color [
+
 	^ defaultColor
 ]
 
 { #category : #accessing }
 CNBViewModel >> defaultColor [ 
+
 	^ Color white darker
 ]
 
 { #category : #initialization }
 CNBViewModel >> initialize [
 	super initialize.
+	
 	border := RSBorder new.
-	settings := CNBSettings new
+	setting := CNBSettings new
 ]
 
 { #category : #accessing }
 CNBViewModel >> modelsOrderedAscending [
+
 	^ packageViewModels sorted: #size ascending
 ]
 
 { #category : #accessing }
 CNBViewModel >> modelsOrderedDescending [
+
 	^ packageViewModels sorted: #size descending
 ]
 
 { #category : #accessing }
 CNBViewModel >> packageViewModels [
+
 	^ packageViewModels 
 ]
 
 { #category : #accessing }
-CNBViewModel >> packageViewModels: collectionOfPackageViewModels [
+CNBViewModel >> packageViewModels: collection [
  
-	packageViewModels := collectionOfPackageViewModels 
+	packageViewModels := collection 
 ]
 
 { #category : #accessing }
-CNBViewModel >> settings [
-	^ settings
+CNBViewModel >> setting [
+
+	^ setting
 ]
 
 { #category : #operations }

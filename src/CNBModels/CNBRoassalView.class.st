@@ -10,20 +10,24 @@ Class {
 
 { #category : #building }
 CNBRoassalView >> build [
+
 	self contain: model buildRoassal3View
 ]
 
 { #category : #accessing }
 CNBRoassalView >> canvas [
-	^canvas
+
+	^ canvas
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #setting }
 CNBRoassalView >> contain: aBuiltModel [
+
 	canvas := aBuiltModel
 ]
 
 { #category : #accessing }
 CNBRoassalView >> model: aModel [
+
 	model := aModel
 ]

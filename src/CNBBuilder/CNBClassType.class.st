@@ -71,20 +71,18 @@ CNBClassType >> checkIfMonoTokenWith: classModels [
 { #category : #checking }
 CNBClassType >> checkIfMultiToken: classModels [
 
-		| root rootToken tokens |
-	root := classModels atRandom root.
+	|  rootToken tokens |
 	
 	rootToken := 
 		CNBFeatureSelector new
 		 	extract: classModels atRandom setting 
-		 	from: root name. 
+		 	from: classModels atRandom root name. 
 		
 	tokens := (classModels collect: #token).
 	tokens
 		add: rootToken.
 		
-	(tokens hasMoreThanOneElement)
-	ifTrue: [ ^ self multiToken  ].
+	(tokens hasMoreThanOneElement) ifTrue: [ ^ self multiToken  ].
 	
 	^ nil 
 ]
@@ -96,7 +94,7 @@ CNBClassType >> checkIfTraitWith: 	classModels [
 			hasOneElement 
 				and: [ 
 					(Smalltalk image classNamed: classModels first name) isTrait ]) 
-					ifTrue: [ ^ self trait ] .
+						ifTrue: [ ^ self trait ] .
 		^ nil
 ]
 

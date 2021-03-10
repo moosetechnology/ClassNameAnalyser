@@ -104,7 +104,7 @@ CNBBuilder >> assignColorByType: aType [
 	ifTrue: [ ^ palette aColorForMultiToken ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 CNBBuilder >> buildRootsFrom: classModels [
 
 		^ (classModels collect: #root) 
@@ -116,7 +116,7 @@ CNBBuilder >> buildRootsFrom: classModels [
 			 				].
 ]
 
-{ #category : #accessing }
+{ #category : #coloring }
 CNBBuilder >> color: rootModels [
 
 	|  coloredRootModels |
@@ -125,8 +125,7 @@ CNBBuilder >> color: rootModels [
 		collect: 
 			[ :each | each 
 							color: (self 
-											assignColorByType: each type) ].
-					
+											assignColorByType: each type) ].					
 	^ coloredRootModels 
 	
 ]
@@ -150,13 +149,13 @@ CNBBuilder >> countIntrudersIn: aCnbDescription [
 	
 ]
 
-{ #category : #enumerating }
+{ #category : #building }
 CNBBuilder >> do: anObject [
 
 	^ anObject startBuilding 
 ]
 
-{ #category : #accessing }
+{ #category : #building }
 CNBBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 
 	^ classmodels 
@@ -168,17 +167,17 @@ CNBBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 				 ]
 ]
 
-{ #category : #doing }
+{ #category : #building }
 CNBBuilder >> doPackageModelsOf: aViewModel [
 
 	^ aViewModel 
 			model packages collect: [ :eachPackage | 
 												CNBPackageModel 
 													of: eachPackage 
-													withSettings: aViewModel settings  ]
+													withSettings: aViewModel setting  ]
 ]
 
-{ #category : #doing }
+{ #category : #building }
 CNBBuilder >> doPackageViewModelsOf: aViewModel [ 
 
 	^ (aViewModel 
@@ -192,7 +191,7 @@ CNBBuilder >> doPackageViewModelsOf: aViewModel [
 					
 ]
 
-{ #category : #doing }
+{ #category : #building }
 CNBBuilder >> doRootsOf: classModels [
 
 	| coloredRootModels rootModels |
@@ -206,7 +205,7 @@ CNBBuilder >> doRootsOf: classModels [
 	^ rootModels asSet
 ]
 
-{ #category : #doing }
+{ #category : #building }
 CNBBuilder >> doTokenDictionaryFrom: classModels [
 
 	| tokensDictionary tokens |
@@ -222,7 +221,7 @@ CNBBuilder >> doTokenDictionaryFrom: classModels [
 	^ tokensDictionary 
 ]
 
-{ #category : #accessing }
+{ #category : #building }
 CNBBuilder >> doTokenViewModelsOf: aPackageModel using: rootModels [
 	"On enveloppe chaque class du package dans son concept box "
 
@@ -237,14 +236,6 @@ CNBBuilder >> doTokenViewModelsOf: aPackageModel using: rootModels [
 								doClassViewModelsOf: (aPackageModel extractClassModelsWithToken: aToken)
 								using: rootModels)
 				in: aPackageModel ]
-]
-
-{ #category : #extracting }
-CNBBuilder >> extractTokensFrom: aPackageModel [
-
-	^ aPackageModel 
-			classModels 
-				collect: [ :aClassModel | aClassModel token ]
 ]
 
 { #category : #initialize }

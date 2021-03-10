@@ -38,6 +38,7 @@ CNBPalette >> defaultColor [
 { #category : #accessing }
 CNBPalette >> initialize [
 	super initialize.
+	
 	index := 0
 ]
 

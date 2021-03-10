@@ -93,43 +93,50 @@ CNBPresenter class >> open [
 
 { #category : #accessing }
 CNBPresenter >> allNodes [
+
 	^ cnbSpecView canvas deepNodes
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 CNBPresenter >> changePackageBorderWidth: aPackageName [
 
-	| shapes|
-	shapes := self allNodes select: [ :each | each hasModel  ].
-	selectedPackageBox := shapes detect: [ :each | each model name = aPackageName  ].
-	selectedPackageBox border width: 5
+	(
+		(self 
+			allNodes 
+				select: [ :each | each hasModel ]
+		)
+				 	detect: [ :each | each model name = aPackageName  ]) border width: 5
 ]
 
 { #category : #accessing }
 CNBPresenter >> cnbSpecView [
+
 	^ cnbSpecView
 ]
 
 { #category : #initialization }
 CNBPresenter >> connectPresenters [
 	super connectPresenters.
+	
 	loadProjectButton action: [ self onLoadProjectClicked  ]. 
 	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self show: aPattern ].
 	reset action: [ self reset ].
 	packageSearch whenSubmitDo: [ :aRub | self changePackageBorderWidth: aRub text asString ].
-	packageSearch whenResetDo: [ self resetPackageBoder ]
-	
+	packageSearch whenResetDo: [ self resetPackageBoder ].
+	suffix activationAction: [ self onSuffixActivated ].
+	prefix activationAction: [ self onPrefixActivated ]	
 ]
 
 { #category : #highlighting }
 CNBPresenter >> goDarkerFor: aPattern [
-	
 	| nodesWithHighlightedBorders |
-	 nodesToBeDarker isNotEmpty
-	ifTrue: [ self reset ]. 
+	
+	nodesToBeDarker isNotEmpty ifTrue: [ self reset ]. 	
 	projectCNB isNotNil ifFalse: [ ^ self ].
+	
 	nodesToBeHighlighted := self nodesToHighlightFor: aPattern.
 	nodesToBeHighlighted ifEmpty: [ ^ self ].
+	
 	nodesWithHighlightedBorders := nodesToBeHighlighted select: [ :each | 
 		                               each hasChildren ].
 	nodesToBeDarker := self allNodes difference: nodesToBeHighlighted.
@@ -146,7 +153,9 @@ CNBPresenter >> goDarkerFor: aPattern [
 { #category : #initialization }
 CNBPresenter >> initialize [
 	super initialize.
+	
 	nodesToBeDarker := OrderedCollection new.
+	projectCNB := ClassNamesBlueprint new
 ]
 
 { #category : #initialization }
@@ -186,8 +195,8 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 CNBPresenter >> lookFor: aPattern [
 	" returns token models to be highlighted"
 
-	^ (CNBPatternSelector of: projectCNB) 
-				selectPatternOf: aPattern
+	^ (CNBPatternSelector 
+			of: projectCNB) selectPatternOf: aPattern
 	
 ]
 
@@ -205,17 +214,16 @@ CNBPresenter >> nodesToBeHighlighted [
 
 { #category : #highlighting }
 CNBPresenter >> nodesToHighlightFor: aPattern [
+	| tokenModels classModels highlightedModels |
 
-	| tokenModelsToBeHighlighted classModelsToBeHighlighted highlightedModels |
+	tokenModels 
+		:= (self lookFor: aPattern) do: [ :each | each showPatternDescription ]. 
 
-	tokenModelsToBeHighlighted := self lookFor: aPattern.
-	tokenModelsToBeHighlighted do: [ :each | each showPatternDescription ].
-
-	classModelsToBeHighlighted := tokenModelsToBeHighlighted 
-		                              flatCollect: [ :each | each classViewModels ].
+	classModels 
+		:= tokenModels flatCollect: [ :each | each classViewModels ].
 	
-	highlightedModels := (tokenModelsToBeHighlighted
-			union: classModelsToBeHighlighted).
+	highlightedModels 
+		:= (tokenModels union: classModels).
 	
 	^ self allNodes select: [ :each | highlightedModels includes: each model ]
 	
@@ -224,23 +232,39 @@ CNBPresenter >> nodesToHighlightFor: aPattern [
 { #category : #actions }
 CNBPresenter >> onLoadProjectClicked [
 
-	projectCNB := projectSelector text ~= ''
-		              ifTrue: [ 
-		              CNBRoassal3Builder projectNameMatches:
-			              projectSelector text ]
-		              ifFalse: [ 
-							
-		              CNBRoassal3Builder importProject: pathSelector text asString ].
+	| mooseModel |
+	mooseModel 
+		:= projectSelector 
+				text isNotEmpty 
+					ifTrue: [ CNBMooseModelGenerator projectNameMatches: projectSelector text asString  ]
+					ifFalse: [ CNBMooseModelGenerator importProject: pathSelector text asString  ].
+					
+	(projectCNB model: mooseModel) startBuilding.  
+					
 	cnbSpecView script: [ :canvas | projectCNB on: canvas ]
+]
+
+{ #category : #actions }
+CNBPresenter >> onPrefixActivated [
+
+	projectCNB viewModel setting token: #prefix
+]
+
+{ #category : #actions }
+CNBPresenter >> onSuffixActivated [
+
+	projectCNB viewModel setting token: #suffix
 ]
 
 { #category : #initialization }
 CNBPresenter >> patternsDropList [
+
 	^ patternsDropList
 ]
 
 { #category : #accessing }
 CNBPresenter >> projectSelector [ 
+
 	^ projectSelector 
 ]
 
@@ -258,33 +282,27 @@ CNBPresenter >> reset [
 
 { #category : #initialization }
 CNBPresenter >> resetDarkerNodes [
-	| nodesToReset |
 	
-	nodesToReset := nodesToBeDarker copy.
-	
-	nodesToReset do: [ :each | 
-		each model isNotNil
-			ifTrue: [ each color: each model originalColor ]
-			ifFalse: [ each color: each class new color darker ] 
-							].
-						
-	nodesToBeHighlighted reset.
+	 nodesToBeDarker 
+		 do: [ :each | each 
+					hasModel
+						ifTrue: [ each color: each model originalColor ]
+						ifFalse: [ each color: each class new color darker ] 
+				]
 	
 ]
 
 { #category : #initialization }
 CNBPresenter >> resetHighlightedNodes [
 
-	| nodesWithHighlightedBorders |
-		nodesWithHighlightedBorders := nodesToBeHighlighted select: [ :each | 
-		                               each hasChildren ].
-	nodesWithHighlightedBorders do: [ :each | 
-		each border 
-			color: each model class new defaultBorderColor; 
-			width: each model class new defaultBorderWidth ].
+	nodesToBeHighlighted 
+				select: [ :each | each hasChildren ] 
+				thenDo: [ :each | each 
+								border 
+									color: each model class new defaultBorderColor; 
+									width: each model class new defaultBorderWidth.
+								each model hidePatternDescription ].
 	
-	nodesWithHighlightedBorders do: [ :each | each model hidePatternDescription ].
-	nodesToBeHighlighted reset
 ]
 
 { #category : #initialization }

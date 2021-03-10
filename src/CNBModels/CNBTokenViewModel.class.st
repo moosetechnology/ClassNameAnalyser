@@ -49,6 +49,7 @@ CNBTokenViewModel >> attributePattern [
 
 { #category : #accessing }
 CNBTokenViewModel >> belongers [
+
 	^ self classViewModels select: [ :each | each root = root ].
 ]
 
@@ -107,6 +108,7 @@ CNBTokenViewModel >> checkIntruder [
 
 { #category : #checking }
 CNBTokenViewModel >> checkPatterns [ 
+
 	self 
 		checkFatBlob;
 		checkHomogeneous;
@@ -143,13 +145,13 @@ CNBTokenViewModel >> checkSnowFlakes [
 
 { #category : #accessing }
 CNBTokenViewModel >> classViewModels [
+
 	^ classViewModels  
 ]
 
 { #category : #accessing }
-CNBTokenViewModel >> classViewModels: aCollectionOfClassViewModels [
-	classViewModels := aCollectionOfClassViewModels.
-	size := aCollectionOfClassViewModels size
+CNBTokenViewModel >> classViewModels: classVModels [
+	classViewModels := classVModels.
 ]
 
 { #category : #operations }
@@ -157,7 +159,8 @@ CNBTokenViewModel >> create [
 	
 	self 
 		originalColor: root color copy;
-		color: root color 
+		color: root color;
+		size: 	classViewModels size.
 ]
 
 { #category : #testing }
@@ -168,16 +171,9 @@ CNBTokenViewModel >> hasNoOutsiders [
 
 { #category : #interactions }
 CNBTokenViewModel >> hidePatternDescription [
+
 	self box popupText: name.
 	self box children do: [ :each | each model showBoxName  ]
-]
-
-{ #category : #initialization }
-CNBTokenViewModel >> initialize [ 
-	super initialize.
-	
-	
- 
 ]
 
 { #category : #accessing }
@@ -187,17 +183,12 @@ CNBTokenViewModel >> innerRoots [
 ]
 
 { #category : #accessing }
-CNBTokenViewModel >> models [
-	^ classViewModels 
-]
-
-{ #category : #accessing }
 CNBTokenViewModel >> outsiders [
 
 	^ self classViewModels select: [ :each | each root ~= root ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CNBTokenViewModel >> outsidersRoots [
 	
 	^ self outsiders collect: #root
@@ -205,42 +196,56 @@ CNBTokenViewModel >> outsidersRoots [
 
 { #category : #accessing }
 CNBTokenViewModel >> package [
+
 	^ package 
 ]
 
 { #category : #accessing }
 CNBTokenViewModel >> package: aPackage [
+
 	package := aPackage
 ]
 
 { #category : #accessing }
 CNBTokenViewModel >> pattern [ 
+
 	^ pattern
 ]
 
 { #category : #accessing }
 CNBTokenViewModel >> pattern: aPattern [
+
 	pattern := aPattern 
 ]
 
 { #category : #accessing }
 CNBTokenViewModel >> root [
+
 	^ root
 ]
 
 { #category : #accessing }
 CNBTokenViewModel >> root: biggestHierarchy [
+
 	root := biggestHierarchy.
 
 ]
 
 { #category : #interactions }
 CNBTokenViewModel >> showPatternDescription [
+
 	self box popupText: pattern description.
 	self box children do: [ :each | each model hideBoxName ]
 ]
 
 { #category : #accessing }
 CNBTokenViewModel >> size [
+
 	^ size 
+]
+
+{ #category : #accessing }
+CNBTokenViewModel >> size: aNumber [
+
+	size := aNumber 
 ]

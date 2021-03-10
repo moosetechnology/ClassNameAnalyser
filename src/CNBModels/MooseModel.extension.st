@@ -23,7 +23,7 @@ MooseModel >> classNamesBlueprintAccordingTo: aClass [
 
 	| cnb |
 	cnb := ClassNamesBlueprint new model: self.
-	cnb settings rootClass: aClass;
+	cnb viewModel setting rootClass: aClass;
 	startBuilding.
 	
 	

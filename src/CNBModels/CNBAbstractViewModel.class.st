@@ -17,20 +17,26 @@ CNBAbstractViewModel class >> defaultColor [
 
 { #category : #accessing }
 CNBAbstractViewModel >> border [ 
-	border color: self defaultBorderColor.
-	border width: self defaultBorderWidth.
-	^ border
+
+	^ border 
+			color: self defaultBorderColor;
+			width: self defaultBorderWidth;
+			yourself
 ]
 
 { #category : #accessing }
 CNBAbstractViewModel >> border: aBorder [
+
 	border := aBorder
 ]
 
 { #category : #accessing }
 CNBAbstractViewModel >> borderColor [ 
-	^ border color isNotNil
-		ifTrue: [ border color ] ifFalse: [ self defaultBorderColor ]
+
+	^ border 
+			color isNotNil 
+				ifTrue: [ border color ] 
+				ifFalse: [ self defaultBorderColor ]
 	
 	
 
@@ -38,23 +44,27 @@ CNBAbstractViewModel >> borderColor [
 
 { #category : #accessing }
 CNBAbstractViewModel >> borderColor: aColor [ 	
+	
 	border color: aColor
 ]
 
 { #category : #accessing }
 CNBAbstractViewModel >> box [
+
 	^ box
 ]
 
 { #category : #accessing }
 CNBAbstractViewModel >> color [ 
+
 	^ color isNotNil
-	ifTrue: [ color ]
-	ifFalse: [ self defaultColor ]
+				ifTrue: [ color ]
+				ifFalse: [ self defaultColor ]
 ]
 
 { #category : #accessing }
 CNBAbstractViewModel >> color: aColor [ 
+
 	color := aColor
 ]
 
@@ -72,11 +82,13 @@ CNBAbstractViewModel >> createBox [
 
 { #category : #initialization }
 CNBAbstractViewModel >> defaultBorderColor [
+
 	^ Color black
 ]
 
 { #category : #initialization }
 CNBAbstractViewModel >> defaultBorderWidth [
+
 	^ 1
 	
 
@@ -84,13 +96,14 @@ CNBAbstractViewModel >> defaultBorderWidth [
 
 { #category : #initialization }
 CNBAbstractViewModel >> defaultColor [ 
+
 	^ Color white darker
 ]
 
 { #category : #initialization }
 CNBAbstractViewModel >> initialize [ 
-
 	super initialize.
+	
 	border := RSBorder new.
 	box := RSComposite new.
 	box when: RSMouseLeftClick do: [ :evt | self processEvent: evt ].
@@ -98,11 +111,13 @@ CNBAbstractViewModel >> initialize [
 
 { #category : #accessing }
 CNBAbstractViewModel >> originalColor [
+
 	 ^ originalColor 
 ]
 
 { #category : #accessing }
 CNBAbstractViewModel >> originalColor: aColor [
+
 	 originalColor := aColor
 ]
 

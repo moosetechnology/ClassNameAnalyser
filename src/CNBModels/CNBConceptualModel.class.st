@@ -14,42 +14,43 @@ Class {
 
 { #category : #accessing }
 CNBConceptualModel >> allClassModels [ 
+
 	 ^ CNBBuilder extractClassModelsFrom: self packageModels.
 	
 ]
 
-{ #category : #initialization }
-CNBConceptualModel >> initialize [ 
-	super initialize.
-	rootModels := Set new.
-]
-
 { #category : #accessing }
 CNBConceptualModel >> model [ 
+
 	^ model
 ]
 
 { #category : #accessing }
 CNBConceptualModel >> model: aModel [
+
 	model := aModel
 ]
 
 { #category : #accessing }
 CNBConceptualModel >> packageModels [
+
 	^ packageModels
 ]
 
 { #category : #accessing }
-CNBConceptualModel >> packageModels: aCollectionOfPackageModels [
-	packageModels := aCollectionOfPackageModels.
+CNBConceptualModel >> packageModels: packages [
+
+	packageModels := packages.
 ]
 
 { #category : #accessing }
 CNBConceptualModel >> rootModels [
+
 	^ rootModels
 ]
 
 { #category : #accessing }
-CNBConceptualModel >> rootModels: aCollectionOfRootmodels [
-	rootModels := aCollectionOfRootmodels 
+CNBConceptualModel >> rootModels: roots [
+
+	rootModels := roots 
 ]

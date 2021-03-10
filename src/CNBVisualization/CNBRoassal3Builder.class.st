@@ -91,7 +91,7 @@ CNBRoassal3Builder >> build: cnbModel [
 { #category : #'as yet unclassified' }
 CNBRoassal3Builder >> buildShapesOf: cnbModel [
 
-		^self createPackageBoxesOf: cnbModel.
+	^ self createPackageBoxesOf: cnbModel.
 	
 ]
 
@@ -189,5 +189,6 @@ CNBRoassal3Builder >> initialize [
 
 { #category : #accessing }
 CNBRoassal3Builder >> model: aModel [
-	^self build: aModel
+
+	^ self build: aModel
 ]

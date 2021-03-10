@@ -22,16 +22,21 @@ CNBClassModel class >> of: aClass accordingTo: setting [
 			accordingTo: setting) create.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #setting }
 CNBClassModel >> accordingTo: aSetting [ 
+
 	setting := aSetting
 ]
 
-{ #category : #operations }
+{ #category : #initialization }
 CNBClassModel >> create [
 	| aToken aRoot |
+	
 	aToken := CNBFeatureSelector new extract: setting token from: self model name.
-	aRoot := (Smalltalk image classNamed: model name) rootAccordingTo: setting rootClass.
+	aRoot 
+		:= (Smalltalk image classNamed: model name) 
+				ifNil: [ self model rootAccordingTo: setting rootClass ] 
+				ifNotNil: [ (Smalltalk image classNamed: model name) rootAccordingTo: setting rootClass ].
 	
 		self 
 			name: model name;
@@ -44,12 +49,14 @@ CNBClassModel >> create [
 { #category : #testing }
 CNBClassModel >> hasRootToken [
 	| rootToken |
+	
 	rootToken := CNBFeatureSelector new extract: setting token from: root name.
 	^ token = rootToken 
 ]
 
 { #category : #accessing }
 CNBClassModel >> model [
+
 	^ model
 ]
 
@@ -61,6 +68,7 @@ CNBClassModel >> model: aModel [
 
 { #category : #printing }
 CNBClassModel >> printOn: aStream [
+
 	super printOn: aStream. 
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.
@@ -69,42 +77,49 @@ CNBClassModel >> printOn: aStream [
 
 { #category : #accessing }
 CNBClassModel >> root [
+
 	^ root
 	
 ]
 
 { #category : #accessing }
 CNBClassModel >> root: aRoot [
+
 	root := aRoot.
 ]
 
 { #category : #accessing }
 CNBClassModel >> rootAccordingTo: aRootClass [
-	self root: (model rootAccordingTo: aRootClass).
-	^ self root
+
+	^ self root: (model rootAccordingTo: aRootClass)
 ]
 
 { #category : #accessing }
 CNBClassModel >> setting [
+
 	^ setting
 ]
 
 { #category : #accessing }
 CNBClassModel >> superclass [
+
 	^ superclass
 ]
 
 { #category : #accessing }
 CNBClassModel >> superclass: aClass [
+
 	superclass := aClass 
 ]
 
 { #category : #accessing }
 CNBClassModel >> token [
+
 	^ token
 ]
 
 { #category : #accessing }
 CNBClassModel >> token: aToken [
+
 	token := aToken
 ]

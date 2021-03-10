@@ -19,10 +19,12 @@ CNBAbstractModel class >> name: aName with: something and: else [
 
 { #category : #accessing }
 CNBAbstractModel >> name [ 
+
 	^ name
 ]
 
 { #category : #accessing }
 CNBAbstractModel >> name: aName [
+
 	name := aName asString
 ]

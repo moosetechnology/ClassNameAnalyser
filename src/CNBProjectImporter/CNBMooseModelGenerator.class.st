@@ -7,7 +7,7 @@ Class {
 { #category : #'as yet unclassified' }
 CNBMooseModelGenerator class >> importProject: aPath [ 
 
-	^aPath asFileReference 
+	^ aPath asFileReference 
 		readStreamDo: [ :stream | MooseModel importFromMSEStream: stream ].
 
 	
@@ -31,7 +31,7 @@ CNBMooseModelGenerator class >> projectNameMatches: aString [
 		model: model;
 		addFromPackagesMatching: [:p | aString match: p name];
 		run.
-		^model
+		^ model
 
 	
 ]

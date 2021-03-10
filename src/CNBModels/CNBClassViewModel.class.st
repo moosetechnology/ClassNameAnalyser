@@ -29,7 +29,7 @@ CNBClassViewModel >> border [
 	super border.
 		
 	^ border 
-			width: (self isRoot 
+		width: (self isRoot 
 							ifTrue: [ self rootBorderWidth ]  
 							ifFalse: [ self defaultBorderWidth ] ).
 		
@@ -48,9 +48,11 @@ CNBClassViewModel >> create [
 
 { #category : #initialization }
 CNBClassViewModel >> createBox [ 
-	^ super createBox
-						width: self width;
-						height: self height.
+
+	^ super 
+			createBox
+				width: self width;
+				height: self height.
 
 
 ]
@@ -63,12 +65,14 @@ CNBClassViewModel >> height [
 
 { #category : #interaction }
 CNBClassViewModel >> hideBoxName [ 
+
 	self box removeInteractionIfPresent: RSPopup 
 ]
 
 { #category : #initialization }
 CNBClassViewModel >> initialize [ 
 	super initialize.
+	
 	box := RSBox new.
 	rootBorderWidth := 4.
 	height := 35.
@@ -79,6 +83,7 @@ CNBClassViewModel >> initialize [
 
 { #category : #testing }
 CNBClassViewModel >> isRoot [ 
+
 	^ self name = self root name 
 ]
 
@@ -98,6 +103,7 @@ CNBClassViewModel >> model: aModel [
 CNBClassViewModel >> processEvent: evt [
 
 	| class |
+	
 	class := (Smalltalk image classNamed: name).
 	^ class ifNil: [ self inspect ] ifNotNil:  [ class browse ]
 ]
@@ -123,6 +129,7 @@ CNBClassViewModel >> rootBorderWidth [
 
 { #category : #interaction }
 CNBClassViewModel >> showBoxName [
+
 	self box popupText: name
 ]
 

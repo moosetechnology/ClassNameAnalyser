@@ -19,16 +19,17 @@ CNBPackageModel class >> of: aPackage withSettings: settings [
 
 { #category : #accessing }
 CNBPackageModel >> classModels [
+
 	^ classModels
 ]
 
 { #category : #accessing }
-CNBPackageModel >> classModels: aCollectionOfClassModels [
+CNBPackageModel >> classModels: collection [
 
-	classModels := aCollectionOfClassModels
+	classModels := collection
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #extracting }
 CNBPackageModel >> extractClassModelsWithToken: aToken [
 
 	^ classModels select: [ :eachClassmodel | eachClassmodel token = aToken ]
@@ -36,15 +37,13 @@ CNBPackageModel >> extractClassModelsWithToken: aToken [
 
 { #category : #testing }
 CNBPackageModel >> includesToken: aToken [
-
-
-	| tokens |
-	tokens := self classModels collect: #token.
-	^ (tokens includes: aToken)
+	
+	^ (self classModels collect: #token) includes: aToken
 ]
 
 { #category : #printing }
 CNBPackageModel >> printOn: aStream [
+
 	super printOn: aStream. 
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.
@@ -53,5 +52,6 @@ CNBPackageModel >> printOn: aStream [
 
 { #category : #accessing }
 CNBPackageModel >> tokensDictionary [ 
+
 	^ classModels collect: [ :each | each token ]
 ]

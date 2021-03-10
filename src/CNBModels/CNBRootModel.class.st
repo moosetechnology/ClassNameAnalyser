@@ -31,33 +31,38 @@ CNBRootModel class >> model: aClass with: aCollectionOfSubClassModels [
 
 { #category : #accessing }
 CNBRootModel >> biggestTokenAssociation [
-	^ biggestTokenAssociation
+
+	^ tokensDictionary associations detectMax: [ :each | each ]
 ]
 
 { #category : #accessing }
 CNBRootModel >> biggestTokenName [
+
 	^ biggestTokenAssociation key
 ]
 
 { #category : #accessing }
 CNBRootModel >> color [ 
-	^color
+
+	^ color
 ]
 
 { #category : #accessing }
 CNBRootModel >> color: aColor [
+
 	color := aColor
 ]
 
 { #category : #creation }
 CNBRootModel >> create [
 
-	| aType |
-	aType := (CNBClassType with: self subclasses) type.
-
 	self 
 		name: model name;
-		type: aType;
+		type: (CNBClassType 
+					with: self subclasses) type;
+		token: (CNBFeatureSelector new 
+					extract: subclasses atRandom setting 
+					from: model name);
 		size: subclasses size;
 		tokensDictionary: (CNBBuilder doTokenDictionaryFrom: subclasses).
 		
@@ -66,12 +71,14 @@ CNBRootModel >> create [
 
 { #category : #accessing }
 CNBRootModel >> dominantTokens [
+
 	^ dominantTokens
 ]
 
 { #category : #accessing }
-CNBRootModel >> dominantTokens: aConceptAssociation [
-	dominantTokens add: aConceptAssociation
+CNBRootModel >> dominantTokens: association [
+
+	dominantTokens add: association
 ]
 
 { #category : #testing }
@@ -99,53 +106,63 @@ CNBRootModel >> hasVeryScatteredVocabularyInside: aPackageModel [
 { #category : #initialization }
 CNBRootModel >> initialize [ 	
 	super initialize.
+	
 	tokensDictionary := Dictionary new.
 	dominantTokens := Dictionary new.
 ]
 
 { #category : #testing }
 CNBRootModel >> isMonoClass [
+
 	 ^ type = 'monoClass'
 ]
 
 { #category : #testing }
 CNBRootModel >> isMonoToken [
+
 	^ type = 'monoToken'
 ]
 
 { #category : #testing }
 CNBRootModel >> isMultiToken [
+
 	^ type = 'multiToken'
 ]
 
 { #category : #testing }
 CNBRootModel >> isTrait [ 
+
 	^ type = 'Trait'
 ]
 
 { #category : #accessing }
 CNBRootModel >> model [ 
+
 	^ model
 ]
 
 { #category : #accessing }
 CNBRootModel >> model: aClass [
+
 	model := aClass
 ]
 
 { #category : #accessing }
 CNBRootModel >> name: aName [
 	super name: aName.
+	
 	token := CNBFeatureSelector new extractSuffixFrom: aName
 ]
 
 { #category : #accessing }
 CNBRootModel >> packages [ 
+
 	^ tokenModels collect: #package
 ]
 
 { #category : #printing }
 CNBRootModel >> printOn: aStream [
+
 	super printOn: aStream. 
 	aStream nextPutAll: ' ('.
 	self name asString printOn: aStream.
@@ -154,7 +171,8 @@ CNBRootModel >> printOn: aStream [
 
 { #category : #accessing }
 CNBRootModel >> size [
-	^ subclasses size
+
+	^ size
 	
 ]
 
@@ -165,57 +183,66 @@ CNBRootModel >> size: aSize [
 
 { #category : #accessing }
 CNBRootModel >> subclasses [ 
+
 	^ subclasses
 ]
 
 { #category : #accessing }
-CNBRootModel >> subclasses: aCollectionOfSubClassModels [
-	subclasses := aCollectionOfSubClassModels.
+CNBRootModel >> subclasses: collection [
+
+	subclasses := collection.
 	
 ]
 
 { #category : #accessing }
 CNBRootModel >> token [
- ^ token
+
+	 ^ token
 	
 ]
 
 { #category : #accessing }
 CNBRootModel >> token: aToken [
+
   token := aToken
 	
 ]
 
 { #category : #accessing }
 CNBRootModel >> tokenModels [
+
 	^ tokenModels
 ]
 
 { #category : #accessing }
 CNBRootModel >> tokenModels: aCollection [
+
 	tokenModels := aCollection 
 ]
 
 { #category : #accessing }
 CNBRootModel >> tokensDictionary [ 
+
 	^ tokensDictionary
 	
 ]
 
 { #category : #accessing }
 CNBRootModel >> tokensDictionary: tokenDictionary [
+
 	tokensDictionary := tokenDictionary.
-	biggestTokenAssociation := (tokenDictionary associations detectMax: [ :each | each ]) .
 	
 	
 ]
 
 { #category : #accessing }
 CNBRootModel >> type [ 
+
 	^ type
 ]
 
 { #category : #accessing }
 CNBRootModel >> type: aType [
+
 	type := aType.
 ]
