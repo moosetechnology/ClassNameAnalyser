@@ -28,6 +28,12 @@ CNBPackageModel >> classModels: aCollectionOfClassModels [
 	classModels := aCollectionOfClassModels
 ]
 
+{ #category : #'as yet unclassified' }
+CNBPackageModel >> extractClassModelsWithToken: aToken [
+
+	^ classModels select: [ :eachClassmodel | eachClassmodel token = aToken ]
+]
+
 { #category : #testing }
 CNBPackageModel >> includesToken: aToken [
 

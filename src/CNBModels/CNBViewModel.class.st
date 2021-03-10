@@ -96,12 +96,9 @@ CNBViewModel >> startBuilding [
 	self 
 		name: model name;
 		packageModels: thePackageModels;
-		rootModels: (CNBBuilder
-				 doRootsOf: (thePackageModels flatCollect: #classModels)
-				 Accordingto: settings).
+		rootModels: (CNBBuilder doRootsOf: (thePackageModels flatCollect: #classModels)).
 	
 		self packageViewModels: (CNBBuilder doPackageViewModelsOf: self).
-
 		self attributeTokenModelsToRoots.
 		self attributePatterns.
 ]

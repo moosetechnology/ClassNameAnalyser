@@ -15,12 +15,23 @@ Class {
 	#category : #CNBModels
 }
 
+{ #category : #'as yet unclassified' }
+CNBTokenViewModel class >> of: aToken root: aRoot with: classes in: aPackage [
+
+	^ (self new
+		name: aToken;
+		root: aRoot;
+		classViewModels: classes;
+		package: aPackage) create.
+			
+]
+
 { #category : #checking }
 CNBTokenViewModel >> appearsInSeveralPackages [
 	
 	| siblings homogeneityBreakerSiblingsCheck |
 	siblings := self root tokenModels  
-		select: [ :each | each = name ].
+		select: [ :each | each name = name ].
 	
 	homogeneityBreakerSiblingsCheck := (siblings asOrderedCollection 
 		collect: [ :each | CNBHomogeneityBreakerPattern check: each ]).
@@ -139,6 +150,14 @@ CNBTokenViewModel >> classViewModels [
 CNBTokenViewModel >> classViewModels: aCollectionOfClassViewModels [
 	classViewModels := aCollectionOfClassViewModels.
 	size := aCollectionOfClassViewModels size
+]
+
+{ #category : #operations }
+CNBTokenViewModel >> create [
+	
+	self 
+		originalColor: root color copy;
+		color: root color 
 ]
 
 { #category : #testing }

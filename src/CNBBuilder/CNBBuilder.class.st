@@ -43,9 +43,9 @@ CNBBuilder class >> doPrefixesDictionaryFrom: aCollectionOfClassModels [
 ]
 
 { #category : #doing }
-CNBBuilder class >> doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass [
+CNBBuilder class >> doRootsOf: aCollectionOfClassModels [ 
 	^self new
-		doRootsOf: aCollectionOfClassModels Accordingto: aMotherClass  
+		doRootsOf: aCollectionOfClassModels  
 ]
 
 { #category : #doing }
@@ -104,14 +104,30 @@ CNBBuilder >> assignColorByType: aType [
 	ifTrue: [ ^ palette aColorForMultiToken ].
 ]
 
+{ #category : #'as yet unclassified' }
+CNBBuilder >> buildRootsFrom: classModels [
+
+		^ (classModels collect: #root) 
+			asSet
+				collect: [ :aRootClass |
+									CNBRootModel 
+										model: aRootClass 
+										with: (classModels select: [ :aClass | aClass root = aRootClass ]).
+			 				].
+]
+
 { #category : #accessing }
 CNBBuilder >> color: rootModels [
-	| sortedRootModels coloredRootModels |
-	sortedRootModels := self sortRootModels: rootModels.
-	coloredRootModels := (sortedRootModels 
+
+	|  coloredRootModels |
+	
+	coloredRootModels := (self sortRootModels: rootModels)
 		collect: 
-			[ :eachRootModel | eachRootModel color: (self assignColorByType: eachRootModel type) ]).
-	^coloredRootModels 
+			[ :each | each 
+							color: (self 
+											assignColorByType: each type) ].
+					
+	^ coloredRootModels 
 	
 ]
 
@@ -136,72 +152,73 @@ CNBBuilder >> countIntrudersIn: aCnbDescription [
 
 { #category : #enumerating }
 CNBBuilder >> do: anObject [
+
 	^ anObject startBuilding 
 ]
 
 { #category : #accessing }
 CNBBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 
-	^ classmodels collect: [ :eachClassModel | 
-				| itsRoot |
+	^ classmodels 
+			collect: [ :eachClassModel | | itsRoot | 
 				itsRoot := rootModels 
 					detect: [ :eachRootModel | eachClassModel root name = eachRootModel name ].
 				
-			CNBClassViewModel new 
-				create: eachClassModel;
-				root: itsRoot;
-				originalColor: itsRoot color copy;
-				color: itsRoot color
+			CNBClassViewModel of: eachClassModel with: itsRoot. 
 				 ]
 ]
 
 { #category : #doing }
 CNBBuilder >> doPackageModelsOf: aViewModel [
 
-	^ aViewModel model packages 
-			collect: [ :eachPackage | 
-				CNBPackageModel 
-					of: eachPackage 
-					withSettings: aViewModel settings  ]
+	^ aViewModel 
+			model packages collect: [ :eachPackage | 
+												CNBPackageModel 
+													of: eachPackage 
+													withSettings: aViewModel settings  ]
 ]
 
 { #category : #doing }
 CNBBuilder >> doPackageViewModelsOf: aViewModel [ 
 
-	^(aViewModel packageModels collect: [ :eachPackageModel | 
-			
-				CNBPackageViewModel 
-				of: eachPackageModel 
-				with: (self
-							doTokenViewModelsOf: eachPackageModel 
-							using: aViewModel rootModels) ]). 
+	^ (aViewModel 
+			packageModels 
+				collect: [ :eachPackageModel | 
+									CNBPackageViewModel 
+										of: eachPackageModel 
+										with: (self 
+													doTokenViewModelsOf: eachPackageModel 
+													using: aViewModel rootModels) ]). 
 					
 ]
 
 { #category : #doing }
-CNBBuilder >> doRootsOf: classModels Accordingto: aSetting [
-	| initialeRootModels coloredRootModels rootModels |
+CNBBuilder >> doRootsOf: classModels [
+
+	| coloredRootModels rootModels |
+						
+	coloredRootModels := self 
+			color: (self buildRootsFrom: classModels).
 	
-	initialeRootModels := (classModels collect: #root) asSet
-		collect: [ :aRootClass | | subclasses |
-				subclasses := classModels select: [ :aClass | aClass root = aRootClass ].
-			CNBRootModel model: aRootClass with: subclasses.
-			 ].
-							
-	coloredRootModels := self color: initialeRootModels.
-	
-	rootModels := self startFightOverTokensBetween: coloredRootModels.
+	rootModels := self 
+			startFightOverTokensBetween: coloredRootModels.
 	
 	^ rootModels asSet
 ]
 
 { #category : #doing }
-CNBBuilder >> doTokenDictionaryFrom: aCollectionOfClassModels [
+CNBBuilder >> doTokenDictionaryFrom: classModels [
+
 	| tokensDictionary tokens |
 	tokensDictionary := Dictionary new.
 	
-	tokens := (aCollectionOfClassModels collect: #token).
-	tokens do: [ :aToken | tokensDictionary at: aToken put: (tokens occurrencesOf: aToken) ].
+	tokens := (classModels collect: #token).
+	(classModels collect: #token) 
+		do: [ :aToken | 
+			tokensDictionary 
+				at: aToken 
+				put: (tokens occurrencesOf: aToken) ].
+			
 	^ tokensDictionary 
 ]
 
@@ -209,30 +226,25 @@ CNBBuilder >> doTokenDictionaryFrom: aCollectionOfClassModels [
 CNBBuilder >> doTokenViewModelsOf: aPackageModel using: rootModels [
 	"On enveloppe chaque class du package dans son concept box "
 
-	| tokens |
-	
-	tokens := (aPackageModel classModels collect: #token) asSet.
-	^ tokens
+	^ (self extractTokensFrom: aPackageModel) asSet 
 		collect: [ :aToken | 
-			| classmodels itsRoot |
-			itsRoot := self
-				selectBiggestHierarchyOf: aToken
-				using: rootModels.
-			classmodels := aPackageModel classModels
-				select: [ :eachClassmodel | eachClassmodel token = aToken ].
-			CNBTokenViewModel new
-				package: aPackageModel name;
-				name: aToken;
-				classViewModels: (self doClassViewModelsOf: classmodels using: rootModels);
-				root: itsRoot;
-				originalColor: itsRoot color copy;
-				color: itsRoot color ]
+			CNBTokenViewModel 
+				of: aToken
+				root: (self 
+							selectBiggestHierarchyOf: aToken
+							using: rootModels) 
+				with: (self 
+								doClassViewModelsOf: (aPackageModel extractClassModelsWithToken: aToken)
+								using: rootModels)
+				in: aPackageModel ]
 ]
 
 { #category : #extracting }
 CNBBuilder >> extractTokensFrom: aPackageModel [
 
-	^aPackageModel classModels collect: [ :aClassModel | aClassModel token ]
+	^ aPackageModel 
+			classModels 
+				collect: [ :aClassModel | aClassModel token ]
 ]
 
 { #category : #initialize }
@@ -250,26 +262,29 @@ CNBBuilder >> initialize [
 CNBBuilder >> sortAccordingToPalette: aCollection [
 	| newPalette |
 	newPalette := palette multiTokenColors asOrderedCollection.
+	
 	newPalette
 		addAll:
 			{palette monoTokenColor.
 			palette monoClassColor.
 			palette defaultColor}.
+			
 	^ ((1 to: newPalette size)
 		collect: [ :cursor | 
 			aCollection
-				select: [ :aConceptVM | aConceptVM color = (newPalette at: cursor) ] ])
-		flattened
+				select: [ :aConceptVM | aConceptVM color = (newPalette at: cursor) ] ]) flattened
 ]
 
 { #category : #sorting }
 CNBBuilder >> sortRootModels: aSetOfRootModels [
-	^(aSetOfRootModels sorted: #size descending)
+
+	^ (aSetOfRootModels 
+			sorted: #size descending)
 ]
 
 { #category : #internal }
 CNBBuilder >> startFightOverTokensBetween: rootModels [
-		| tokens |
+	| tokens |
 	tokens := (rootModels
 		flatCollect: [ :each | each tokensDictionary keys ]) asSet.
 	tokens

@@ -15,6 +15,15 @@ Class {
 	#category : #CNBModels
 }
 
+{ #category : #'as yet unclassified' }
+CNBClassViewModel class >> of: aClassModel with: aRootModel [
+
+	^ (self new
+			model: aClassModel;
+			root: aRootModel) create.
+	
+]
+
 { #category : #accessing }
 CNBClassViewModel >> border [ 
 	| borderWidth |
@@ -26,14 +35,15 @@ CNBClassViewModel >> border [
 	^border
 ]
 
-{ #category : #creation }
-CNBClassViewModel >> create: aClassModel [
+{ #category : #operations }
+CNBClassViewModel >> create [
 
-	self 
-		name: aClassModel name;
-		model: aClassModel model;
-		token: aClassModel token
-	
+	self
+			name: model name;
+			originalColor: root color copy;
+			color: root color;
+			token: model token
+		
 ]
 
 { #category : #initialization }

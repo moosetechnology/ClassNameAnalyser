@@ -24,8 +24,7 @@ ClassNamesBlueprint >> description [
 		packageModels: thePackageModels;
 		rootClass: self rootClass;
 		model: self model;
-		rootModels: (CNBBuilder doRootsOf: (thePackageModels flatCollect: #classModels) Accordingto: 		self rootClass);
-		packageViewModels: (CNBBuilder doPackageViewModelsOf: self viewModel).
+		rootModels: (CNBBuilder doRootsOf: (thePackageModels flatCollect: #classModels)).
 		cnbDescription create.
 		^cnbDescription 
 ]
