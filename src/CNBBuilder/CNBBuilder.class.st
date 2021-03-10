@@ -285,16 +285,16 @@ CNBBuilder >> sortRootModels: aSetOfRootModels [
 { #category : #internal }
 CNBBuilder >> startFightOverTokensBetween: rootModels [
 	| tokens |
-	tokens := (rootModels
-		flatCollect: [ :each | each tokensDictionary keys ]) asSet.
+	tokens := (rootModels flatCollect: [ :each | each tokensDictionary keys ]) asSet.
 	tokens
 		do: [ :aToken | 
 			| fighters winner |
 			fighters := (rootModels
-				select: [ :aRoot | aRoot tokensDictionary includesKey: aToken ]) copy
-				asOrderedCollection.
+								select: [ :aRoot | aRoot tokensDictionary includesKey: aToken ]) copy asOrderedCollection.
+								
 			(fighters anySatisfy: [ :aRootModel | aRootModel isMultiToken ])
-				ifTrue: [ fighters removeAllSuchThat: [ :aRootM | aRootM isMonoClass ] ].
+				ifTrue: [ fighters removeAllSuchThat: [ :aRootM | aRootM isMonoClass or: [ aRootM isTrait ] ] ].
+				
 			winner := fighters
 				detectMax: [ :aRM | (aRM tokensDictionary at: aToken) value ].
 			winner dominantTokens: (winner tokensDictionary associationAt: aToken) ].

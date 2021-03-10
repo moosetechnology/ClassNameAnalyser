@@ -20,8 +20,8 @@ CNBPalette class >> with: aCollectionOfColors [
 
 { #category : #selecting }
 CNBPalette >> aColorForMultiToken [
-
 	"we have 24 important colors"
+	
 	index := index + 1.
 	(index <=  multiTokenColors size)
 	ifTrue: [ ^ multiTokenColors at: index ].
@@ -31,6 +31,7 @@ CNBPalette >> aColorForMultiToken [
 
 { #category : #accessing }
 CNBPalette >> defaultColor [ 
+
 	^ Color black
 ]
 
@@ -42,30 +43,36 @@ CNBPalette >> initialize [
 
 { #category : #accessing }
 CNBPalette >> monoClassColor [
+
 	^ Color white
 ]
 
 { #category : #accessing }
 CNBPalette >> monoClassColor: aColor [ 
+
 	monoClassColor := aColor
 ]
 
 { #category : #accessing }
 CNBPalette >> monoTokenColor [
+
 	^ Color gray
 ]
 
 { #category : #accessing }
 CNBPalette >> multiTokenColors [
+
 	^ multiTokenColors
 ]
 
 { #category : #accessing }
 CNBPalette >> multiTokenColors: colorsCollection [ 
+
 	multiTokenColors := colorsCollection collect: [ :aColorName | Color value: aColorName ]
 ]
 
 { #category : #accessing }
 CNBPalette >> traitColor [
+
 	^ Color white
 ]

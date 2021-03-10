@@ -80,9 +80,9 @@ CNBRootModel >> hasScatteredVocabularyInside: aPackageString [
 	 | electedSuffixes |
 	electedSuffixes := tokenModels 
 								select: [ :each | each package = aPackageString 
-										and: [ each size >= CNBPatternSelector svMinClassSize ] ].
+										and: [ each size >= CNBScatteredVocabularyPattern new  minClassSize ] ].
 
-	^ (electedSuffixes size >= CNBPatternSelector svMinTokenSize)
+	^ (electedSuffixes size >= CNBScatteredVocabularyPattern new  minTokenSize)
 	
 ]
 
@@ -92,7 +92,7 @@ CNBRootModel >> hasVeryScatteredVocabularyInside: aPackageModel [
 	| tokenInPackage selfClassModels |
 	selfClassModels := aPackageModel classModels select: [ :each | each root = self ].
 	tokenInPackage := (selfClassModels collect: #token) asSet.
-	^ (tokenInPackage size >= CNBPatternSelector scatteredThreshold)
+	^ (tokenInPackage size >= CNBScatteredVocabularyPattern new  scatteredThreshold)
 	
 ]
 

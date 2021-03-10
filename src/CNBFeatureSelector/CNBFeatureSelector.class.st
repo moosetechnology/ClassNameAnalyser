@@ -22,26 +22,26 @@ CNBFeatureSelector class >> extractSuffixFrom: aString [
 		extractSuffixFrom: aString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #extraction }
 CNBFeatureSelector >> extract: tokenPosition from: aName [
 	^ (tokenPosition = #prefix)
 		ifTrue: [ self extractPrefixFrom: aName ]
 		ifFalse: [ self extractSuffixFrom: aName ]
 ]
 
-{ #category : #actions }
+{ #category : #extraction }
 CNBFeatureSelector >> extractClassNamesFrom: aPackageName [
 	^ ((RPackageOrganizer default packageNamed: aPackageName)  definedClasses collect: [ :each | each instanceSide name ]).
 ]
 
-{ #category : #actions }
+{ #category : #extraction }
 CNBFeatureSelector >> extractClassesFrom: aPackageName [
 
 	^ ((RPackageOrganizer default packageNamed: aPackageName)  
 			definedClasses collect: [ :each | each  ]) asOrderedCollection
 ]
 
-{ #category : #actions }
+{ #category : #extraction }
 CNBFeatureSelector >> extractPrefixFrom: aName [
 
 	| aConcept tokens|
@@ -52,7 +52,7 @@ CNBFeatureSelector >> extractPrefixFrom: aName [
 	^ aConcept
 ]
 
-{ #category : #actions }
+{ #category : #extraction }
 CNBFeatureSelector >> extractRootClassFrom: aClass [
 
 	({ Object . ProtoObject } includes: aClass)
@@ -67,7 +67,7 @@ CNBFeatureSelector >> extractRootClassFrom: aClass [
 	^ self extractRootClassFrom: (aClass superclass).
 ]
 
-{ #category : #actions }
+{ #category : #extraction }
 CNBFeatureSelector >> extractSuffixFrom: aName [
 
 	| aConcept tokens|
@@ -78,7 +78,7 @@ CNBFeatureSelector >> extractSuffixFrom: aName [
 	^ aConcept
 ]
 
-{ #category : #actions }
+{ #category : #filtering }
 CNBFeatureSelector >> filter: aConcept [
 
 	| symbol |
@@ -91,19 +91,19 @@ CNBFeatureSelector >> filter: aConcept [
 
 ]
 
-{ #category : #setter }
+{ #category : #filtering }
 CNBFeatureSelector >> filterAllDigits: aBoolean [
 	 filtererAllDigits := aBoolean
 ]
 
-{ #category : #setter }
+{ #category : #filtering }
 CNBFeatureSelector >> filterAllDigitsAndSpecialChars: aBoolean [
 
 	self filterAllDigits: aBoolean.
 	self filterSpecialChars: aBoolean
 ]
 
-{ #category : #setter }
+{ #category : #filtering }
 CNBFeatureSelector >> filterSpecialChars: aBoolean [
 	 filterSpecialChars := aBoolean 
 ]
@@ -121,13 +121,13 @@ CNBFeatureSelector >> initialize [
 	filterSpecialChars := false.
 ]
 
-{ #category : #actions }
+{ #category : #selection }
 CNBFeatureSelector >> selectPrefixFrom: tokens [
 
  ^ conceptualSymbolSelector selectFirstSymbolFrom: tokens 
 ]
 
-{ #category : #actions }
+{ #category : #selection }
 CNBFeatureSelector >> selectSuffixFrom: tokens [
 
  ^ conceptualSymbolSelector selectLastSymbolFrom: tokens 
@@ -150,5 +150,6 @@ CNBFeatureSelector >> stemming: aBoolean [
 
 { #category : #actions }
 CNBFeatureSelector >> tokenize: aName [
+
 	^ nameTokenizer tokenize: aName
 ]

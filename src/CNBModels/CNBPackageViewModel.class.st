@@ -25,39 +25,48 @@ CNBPackageViewModel >> create [
 
 	self 
 		name: model name;
+		size: (tokenViewModels flatCollect: #classViewModels) size;
 		color: self defaultColor;
 		originalColor: self defaultColor.
+
 ]
 
 { #category : #accessing }
 CNBPackageViewModel >> model [
+
 	^ model
 ]
 
 { #category : #accessing }
 CNBPackageViewModel >> model: aModel [
+
 	model := aModel
 ]
 
 { #category : #accessing }
 CNBPackageViewModel >> models [
-	^tokenViewModels 
+
+	^ tokenViewModels 
 ]
 
 { #category : #accessing }
 CNBPackageViewModel >> modelsOrderedAscending [
-	^ tokenViewModels sorted: #size ascending
+
+	^ tokenViewModels 
+			sorted: #size ascending
 ]
 
 { #category : #accessing }
 CNBPackageViewModel >> modelsOrderedByColor [
+
 	 ^ CNBBuilder sort: tokenViewModels
 ]
 
 { #category : #accessing }
 CNBPackageViewModel >> modelsOrderedDescending [
 
-	^ tokenViewModels sorted: #size descending
+	^ tokenViewModels 
+				sorted: #size descending
 ]
 
 { #category : #'events-processing' }
@@ -68,16 +77,24 @@ CNBPackageViewModel >> processEvent: evt [
 
 { #category : #accessing }
 CNBPackageViewModel >> size [
+
 	^ size
 ]
 
 { #category : #accessing }
+CNBPackageViewModel >> size: aNumber [
+
+	size := aNumber 
+]
+
+{ #category : #accessing }
 CNBPackageViewModel >> tokenViewModels [
+
 	^ tokenViewModels
 ]
 
 { #category : #accessing }
-CNBPackageViewModel >> tokenViewModels: collectionOfTokenModels [
-	tokenViewModels := collectionOfTokenModels.
-	size := (collectionOfTokenModels flatCollect: #classViewModels) size
+CNBPackageViewModel >> tokenViewModels: tokenModels [
+
+	tokenViewModels := tokenModels
 ]

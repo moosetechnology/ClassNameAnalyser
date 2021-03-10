@@ -36,7 +36,7 @@ CNBTokenViewModel >> appearsInSeveralPackages [
 	homogeneityBreakerSiblingsCheck := (siblings asOrderedCollection 
 		collect: [ :each | CNBHomogeneityBreakerPattern check: each ]).
 	
-	^ ((homogeneityBreakerSiblingsCheck occurrencesOf: true) >= CNBPatternSelector occurrences) 
+	^ ((homogeneityBreakerSiblingsCheck occurrencesOf: true) >= CNBHomogeneityBreakerPattern new occurrences) 
 	
 ]
 
@@ -125,7 +125,7 @@ CNBTokenViewModel >> checkScatteredVocabulary [
 	
 	scatteredVocabularyPattern := CNBScatteredVocabularyPattern new.
 	
-	(self hasNoOutsiders and: [ size >= CNBPatternSelector svMinClassSize ])
+	(self hasNoOutsiders and: [ size >= scatteredVocabularyPattern minClassSize ])
 		ifFalse: [ ^ false ].
 		
 	(scatteredVocabularyPattern check: self) 
@@ -193,7 +193,14 @@ CNBTokenViewModel >> models [
 
 { #category : #accessing }
 CNBTokenViewModel >> outsiders [
+
 	^ self classViewModels select: [ :each | each root ~= root ].
+]
+
+{ #category : #'as yet unclassified' }
+CNBTokenViewModel >> outsidersRoots [
+	
+	^ self outsiders collect: #root
 ]
 
 { #category : #accessing }

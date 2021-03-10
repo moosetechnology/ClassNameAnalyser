@@ -11,17 +11,14 @@ Class {
 }
 
 { #category : #accessing }
-CNBAbstractPattern >> condition [
-	self subclassResponsibility 
-]
-
-{ #category : #accessing }
 CNBAbstractPattern >> description [
+
 	^ description 
 ]
 
 { #category : #accessing }
 CNBAbstractPattern >> elements [
+
 	^ elements
 ]
 
@@ -63,10 +60,12 @@ CNBAbstractPattern >> isScatteredVocabulary [
 
 { #category : #testing }
 CNBAbstractPattern >> isSnowFlakes [ 
+
 	^ self name = #'Snow Flakes'
 ]
 
 { #category : #accessing }
 CNBAbstractPattern >> name [
+
 	self subclassResponsibility 
 ]

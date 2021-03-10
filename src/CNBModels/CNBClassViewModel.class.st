@@ -26,13 +26,13 @@ CNBClassViewModel class >> of: aClassModel with: aRootModel [
 
 { #category : #accessing }
 CNBClassViewModel >> border [ 
-	| borderWidth |
 	super border.
-	borderWidth := (self isRoot 
-		ifTrue: [ self rootBorderWidth ]  
-		ifFalse: [ self defaultBorderWidth ] ).
-	border width: borderWidth.
-	^border
+		
+	^ border 
+			width: (self isRoot 
+							ifTrue: [ self rootBorderWidth ]  
+							ifFalse: [ self defaultBorderWidth ] ).
+		
 ]
 
 { #category : #operations }
@@ -57,6 +57,7 @@ CNBClassViewModel >> createBox [
 
 { #category : #accessing }
 CNBClassViewModel >> height [
+
 	^ height
 ]
 
@@ -83,6 +84,7 @@ CNBClassViewModel >> isRoot [
 
 { #category : #accessing }
 CNBClassViewModel >> model [ 
+
 	^ model
 ]
 
@@ -102,6 +104,7 @@ CNBClassViewModel >> processEvent: evt [
 
 { #category : #accessing }
 CNBClassViewModel >> root [
+
 	^ root
 ]
 
@@ -114,6 +117,7 @@ CNBClassViewModel >> root: aRoot [
 
 { #category : #accessing }
 CNBClassViewModel >> rootBorderWidth [
+
 	^ rootBorderWidth
 ]
 
@@ -124,15 +128,18 @@ CNBClassViewModel >> showBoxName [
 
 { #category : #accessing }
 CNBClassViewModel >> token [
+
 	^ token
 ]
 
 { #category : #accessing }
 CNBClassViewModel >> token: aToken [
+
 	token := aToken
 ]
 
 { #category : #accessing }
 CNBClassViewModel >> width [ 
+
 	^ width
 ]

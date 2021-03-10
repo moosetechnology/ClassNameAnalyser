@@ -21,7 +21,9 @@ CNBTDataExtractor >> extractClassViewModelsFrom: aViewModel [
 { #category : #extracting }
 CNBTDataExtractor >> extractTokensFrom: aPackageModel [
 
-	^ aPackageModel classModels collect: [ :aClassModel | aClassModel token ]
+	^ aPackageModel 
+			classModels 
+				collect: [ :aClassModel | aClassModel token ]
 ]
 
 { #category : #selecting }

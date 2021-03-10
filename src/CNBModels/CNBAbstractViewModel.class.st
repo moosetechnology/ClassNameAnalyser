@@ -61,13 +61,13 @@ CNBAbstractViewModel >> color: aColor [
 { #category : #initialization }
 CNBAbstractViewModel >> createBox [ 
 
-	box
-		model: self;
-		color: self color;
-		popupText: name;  
-		withBorder; 
-		border: self border.	
-	^box 
+	^ box
+			model: self;
+			color: self color;
+			popupText: name;  
+			withBorder; 
+			border: self border;
+			yourself
 ]
 
 { #category : #initialization }

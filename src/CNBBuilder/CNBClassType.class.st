@@ -45,10 +45,12 @@ CNBClassType class >> with: aCollectionOfSubClassModels [
 { #category : #checking }
 CNBClassType >> checkIfMonoClassWith: classModels [
 
-	(classModels size = 1
- 		and: [(classModels atRandom root name
+	(classModels 
+		hasOneElement and: [
+			(classModels atRandom root name
 					= 
-				classModels atRandom model name)])
+			classModels atRandom model name)])
+		
 	ifTrue: [ ^ self monoClass ].
 				
 		^nil
@@ -57,9 +59,11 @@ CNBClassType >> checkIfMonoClassWith: classModels [
 { #category : #checking }
 CNBClassType >> checkIfMonoTokenWith: classModels [
 
-	(classModels size > 1 and: [ 
-		classModels allSatisfy: [ :each | each hasRootToken ]])
-		ifTrue: [ ^ self monoToken ].
+	(classModels 
+		hasMoreThanOneElement and: [ 
+			classModels 
+				allSatisfy: [ :each | each hasRootToken ]])
+				ifTrue: [ ^ self monoToken ].
 		
 		^ nil
 ]
@@ -68,13 +72,20 @@ CNBClassType >> checkIfMonoTokenWith: classModels [
 CNBClassType >> checkIfMultiToken: classModels [
 
 		| root rootToken tokens |
-	root := classModels first root.
-	rootToken := CNBFeatureSelector new extract: classModels first setting from: root name. 
+	root := classModels atRandom root.
+	
+	rootToken := 
+		CNBFeatureSelector new
+		 	extract: classModels atRandom setting 
+		 	from: root name. 
+		
 	tokens := (classModels collect: #token).
 	tokens
 		add: rootToken.
-	(tokens) size > 1
+		
+	(tokens hasMoreThanOneElement)
 	ifTrue: [ ^ self multiToken  ].
+	
 	^ nil 
 ]
 
@@ -82,36 +93,41 @@ CNBClassType >> checkIfMultiToken: classModels [
 CNBClassType >> checkIfTraitWith: 	classModels [ 
 	
 		(classModels 
-			size = 1 
+			hasOneElement 
 				and: [ 
-					(Smalltalk image classNamed: classModels first name) 
-					isTrait ]) ifTrue: [ ^ self trait ] .
-		^nil
+					(Smalltalk image classNamed: classModels first name) isTrait ]) 
+					ifTrue: [ ^ self trait ] .
+		^ nil
 ]
 
 { #category : #accessing }
 CNBClassType >> monoClass [
+
 	type := #monoClass
 	
 ]
 
 { #category : #accessing }
 CNBClassType >> monoToken [
+
 	type := #monoToken
 ]
 
 { #category : #accessing }
 CNBClassType >> multiToken [
+
 	type := #multiToken
 ]
 
 { #category : #accessing }
 CNBClassType >> trait [ 	
+	
 	type := #Trait
 ]
 
 { #category : #accessing }
 CNBClassType >> type [ 	
+	
 	^ type
 ]
 

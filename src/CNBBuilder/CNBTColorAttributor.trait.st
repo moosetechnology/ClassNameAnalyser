@@ -24,18 +24,19 @@ CNBTColorAttributor >> assignColorByType: aType [
 
 { #category : #accessing }
 CNBTColorAttributor >> color: rootModels [
-	| sortedRootModels coloredRootModels |
-	sortedRootModels := self sortRootModels: rootModels.
-	coloredRootModels := (sortedRootModels 
-		collect: 
-			[ :eachRootModel | eachRootModel color: (self assignColorByType: eachRootModel type) ]).
-	^coloredRootModels 
+
+	^ (self 
+			sortRootModels: rootModels)
+					collect: [ :each | each 
+									color: (self assignColorByType: each type) ].
+
 	
 ]
 
 { #category : #initialize }
 CNBTColorAttributor >> initialize [
 	super initialize.
+	
 	palette := CNBPalette
 		with:
 			{#red . #yellow . #blue .#purple . #brown . #magenta . #orange . #green.
@@ -48,11 +49,13 @@ CNBTColorAttributor >> initialize [
 CNBTColorAttributor >> sortAccordingToPalette: aCollection [
 	| newPalette |
 	newPalette := palette multiTokenColors asOrderedCollection.
+	
 	newPalette
 		addAll:
 			{palette monoTokenColor.
 			palette monoClassColor.
 			palette defaultColor}.
+			
 	^ ((1 to: newPalette size)
 		collect: [ :cursor | 
 			aCollection

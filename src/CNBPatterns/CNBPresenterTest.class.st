@@ -86,7 +86,7 @@ CNBPresenterTest >> testCheckAllScatteredVocabularyInsidePackageSize [
 				each value addAll: (scatteredVocabulary 
 				select: [ :suffix | suffix package = each ])  ].
 	self 
-		assert: (packageSuffixesDictionary values allSatisfy: [ :each | each size >= CNBPatternSelector svMinTokenSize ])  
+		assert: (packageSuffixesDictionary values allSatisfy: [ :each | each size >= CNBScatteredVocabularyPattern new  minTokenSize ])  
 		equals: true
 ]
 
@@ -112,7 +112,7 @@ CNBPresenterTest >> testCheckAllScatteredVocabularySuffixSize [
 							
 	
 	self 
-		assert: (scatteredVocabulary allSatisfy: [ :each | each size >= CNBPatternSelector svMinClassSize ])  
+		assert: (scatteredVocabulary allSatisfy: [ :each | each size >= CNBScatteredVocabularyPattern new  minClassSize ])  
 		equals: true
 ]
 
@@ -138,7 +138,7 @@ CNBPresenterTest >> testCheckAllSnowFlakesMaxSize [
 							
 	
 	self 
-		assert: (snowFlakes allSatisfy: [ :each | each size >= CNBPatternSelector snowFlakesSize ])  
+		assert: (snowFlakes allSatisfy: [ :each | each size >= CNBSnowFlakesPattern new snowFlakesSize ])  
 		equals: true
 ]
 
@@ -190,7 +190,7 @@ CNBPresenterTest >> testCheckHomogeneityBreaker [
 	
 	aTokenModel := allTokensModels 
 		detect: [ :each | each name = 'Strategy' 
-			and: [ each package = 'Calypso-SystemTools-QueryBrowser' ] ].
+			and: [ each package name = 'Calypso-SystemTools-QueryBrowser' ] ].
 			
 	aTokenModel checkPatterns.
 	
@@ -292,7 +292,7 @@ CNBPresenterTest >> testConfettiOutsiders [
 	
 	self 
 		assert: (confetti allSatisfy: [ :each | 
-						(each outsiders size <= CNBPatternSelector confettiPourcentage ) ])
+						(each outsiders size <= CNBConfettiPattern new confettiPourcentage ) ])
 		equals: true
 
 	
@@ -306,7 +306,7 @@ CNBPresenterTest >> testConfettiSize [
 	
 	self 
 		assert: (confetti allSatisfy: [ :each | 
-						(each belongers size >= CNBPatternSelector confettiSize ) ])
+						(each belongers size >= CNBConfettiPattern new confettiSize ) ])
 		equals: true
 
 	
@@ -352,7 +352,7 @@ CNBPresenterTest >> testFatBlobsSize [
 	fatBlobs := allTokensModels select: [ :each | each pattern isFatBlob ].
 
 	self 
-		assert: (fatBlobs allSatisfy: [ :each | each size >= CNBPatternSelector fatBlobSize ])
+		assert: (fatBlobs allSatisfy: [ :each | each size >= CNBFatBlobPattern new fatBlobSize ])
 		equals: true
 ]
 
@@ -661,7 +661,7 @@ CNBPresenterTest >> testIntrudersPourcentage [
 	intruders := allTokensModels select: [ :each | each pattern isIntruder ].
 																
 	self 
-		assert: (intruders allSatisfy: [ :each | each outsiders size <=  (each size * CNBPatternSelector intrudersPercentage) percent ])
+		assert: (intruders allSatisfy: [ :each | each outsiders size <=  (each size * CNBIntruderPattern new intrudersPercentage) percent ])
 		equals: true
 ]
 
