@@ -8,12 +8,12 @@ Class {
 	#category : #'CNB-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CNBSettings >> defaultRootClass [ 
-	^ 'Object'
+	^ Object
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CNBSettings >> defaultToken [ 
 	^ #suffix
 ]
@@ -24,8 +24,8 @@ CNBSettings >> rootClass [
 ]
 
 { #category : #accessing }
-CNBSettings >> rootClass: aClassName [
-	rootClass := aClassName 
+CNBSettings >> rootClass: aClass [
+	rootClass := aClass
 ]
 
 { #category : #accessing }

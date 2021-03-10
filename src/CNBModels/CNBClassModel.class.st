@@ -31,13 +31,14 @@ CNBClassModel >> accordingTo: aSetting [
 CNBClassModel >> create [
 	| aToken aRoot |
 	aToken := CNBFeatureSelector new extract: setting token from: self model name.
-	aRoot := self rootAccordingTo: setting rootClass.
-		
+	aRoot := (Smalltalk image classNamed: model name) rootAccordingTo: setting rootClass.
+	
 		self 
 			name: model name;
 			root: aRoot;
 			superclass: self superclass;
 			token: aToken.
+			
 ]
 
 { #category : #testing }

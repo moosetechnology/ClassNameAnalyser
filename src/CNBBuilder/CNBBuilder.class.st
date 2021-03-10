@@ -187,9 +187,10 @@ CNBBuilder >> doRootsOf: classModels Accordingto: aSetting [
 	initialeRootModels := (classModels collect: #root) asSet
 		collect: [ :aRootClass | | subclasses |
 				subclasses := classModels select: [ :aClass | aClass root = aRootClass ].
-			CNBRootModel model: aRootClass with: subclasses
+				self halt.
+			CNBRootModel model: aRootClass with: subclasses.
 			 ].
-							self halt.
+							
 	coloredRootModels := self color: initialeRootModels.
 
 	rootModels := self startFightOverConceptsBetween: coloredRootModels.

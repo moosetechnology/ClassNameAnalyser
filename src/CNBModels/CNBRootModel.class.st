@@ -60,6 +60,8 @@ CNBRootModel >> create [
 		type: rootType;
 		size: subclasses size;
 		tokensDictionary: (CNBBuilder doTokenDictionaryFrom: subclasses).
+		
+		
 ]
 
 { #category : #accessing }

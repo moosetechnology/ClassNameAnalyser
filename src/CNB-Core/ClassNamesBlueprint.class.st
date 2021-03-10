@@ -83,7 +83,7 @@ ClassNamesBlueprint >> token: aSymbol [
 
 { #category : #accessing }
 ClassNamesBlueprint >> viewModel [
-	^viewModel 
+	^ viewModel 
 ]
 
 { #category : #accessing }

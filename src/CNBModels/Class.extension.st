@@ -8,16 +8,17 @@ Class >> classModelAccordingTo: setting [
 ]
 
 { #category : #'*CNBModels' }
-Class >> rootAccordingTo: aRootClassName [
+Class >> rootAccordingTo: aRootClass [
 
-	self isTrait
+	(self isTrait or: [ aRootClass = self ])
 		ifTrue: [ ^ self ].
-	(aRootClassName = self name)
-		ifTrue: [ ^ self ].
+		
 	self superclass isNotNil
 		ifFalse: [ ^ self ].
-	self superclass name = aRootClassName
+		
+	self superclass = aRootClass
 		ifTrue: [ ^ self ].
-	^ self superclass rootAccordingTo: aRootClassName 
+
+	^ self superclass rootAccordingTo: aRootClass
 	
 ]
