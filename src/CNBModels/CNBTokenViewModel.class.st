@@ -106,7 +106,7 @@ CNBTokenViewModel >> checkIntruder [
 	
 ]
 
-{ #category : #checking }
+{ #category : #testing }
 CNBTokenViewModel >> checkPatterns [ 
 
 	self 
@@ -127,7 +127,7 @@ CNBTokenViewModel >> checkScatteredVocabulary [
 	
 	scatteredVocabularyPattern := CNBScatteredVocabularyPattern new.
 	
-	(self hasNoOutsiders and: [ size >= scatteredVocabularyPattern minClassSize ])
+	(size >= scatteredVocabularyPattern minClassSize)
 		ifFalse: [ ^ false ].
 		
 	(scatteredVocabularyPattern check: self) 

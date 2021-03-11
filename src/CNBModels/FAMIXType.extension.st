@@ -1,15 +1,20 @@
 Extension { #name : #FAMIXType }
 
 { #category : #'*CNBModels' }
+FAMIXType >> isMono [ 
+	^ self superclass = Object 
+]
+
+{ #category : #'*CNBModels' }
 FAMIXType >> rootAccordingTo: aRootClass [
 
-	(self isTrait or: [ aRootClass = self ])
+	(self isTrait or: [ self name = aRootClass name  ])
 		ifTrue: [ ^ self ].
 		
 	self superclass isNotNil
 		ifFalse: [ ^ self ].
 		
-	self superclass = aRootClass
+	self superclass name = aRootClass name
 		ifTrue: [ ^ self ].
 
 	^ self superclass rootAccordingTo: aRootClass

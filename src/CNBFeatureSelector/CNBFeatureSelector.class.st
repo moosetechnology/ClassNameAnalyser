@@ -24,6 +24,7 @@ CNBFeatureSelector class >> extractSuffixFrom: aString [
 
 { #category : #extraction }
 CNBFeatureSelector >> extract: tokenPosition from: aName [
+
 	^ (tokenPosition = #prefix)
 		ifTrue: [ self extractPrefixFrom: aName ]
 		ifFalse: [ self extractSuffixFrom: aName ]

@@ -15,7 +15,8 @@ Class {
 		'tokensDictionary',
 		'scatteredSuffixes',
 		'biggestTokenAssociation',
-		'tokenModels'
+		'tokenModels',
+		'tokenPosition'
 	],
 	#category : #CNBModels
 }
@@ -41,6 +42,29 @@ CNBRootModel >> biggestTokenName [
 	^ biggestTokenAssociation key
 ]
 
+{ #category : #'as yet unclassified' }
+CNBRootModel >> changeTokenPosition: electedTokens [ 
+	| newTokens newTokenPosition |
+	
+	newTokenPosition 
+		:= (tokenPosition = #prefix) ifTrue: [ #suffix ] ifFalse: [ #prefix ].
+		
+	newTokens
+			:= (electedTokens 
+					flatCollect: #classViewModels) 
+						collect: [ :each | CNBFeatureSelector new extract: newTokenPosition from: each name].
+	^ newTokens asSet 
+				collect: [ :aToken | 
+					CNBTokenViewModel 
+						of: aToken 
+						root: self
+						with: ((electedTokens flatCollect: #classViewModels)
+								select: [ :aClass | 
+									(CNBFeatureSelector new extract: newTokenPosition from: aClass name) = aToken ])
+						in: (electedTokens first package).
+			 ]
+]
+
 { #category : #accessing }
 CNBRootModel >> color [ 
 
@@ -64,6 +88,7 @@ CNBRootModel >> create [
 					extract: subclasses atRandom setting 
 					from: model name);
 		size: subclasses size;
+		tokenPosition: subclasses atRandom setting token;
 		tokensDictionary: (CNBBuilder doTokenDictionaryFrom: subclasses).
 		
 		
@@ -82,14 +107,19 @@ CNBRootModel >> dominantTokens: association [
 ]
 
 { #category : #testing }
-CNBRootModel >> hasScatteredVocabularyInside: aPackageString [
+CNBRootModel >> hasScatteredVocabularyInside: aPackage [
 
-	 | electedSuffixes |
-	electedSuffixes := tokenModels 
-								select: [ :each | each package = aPackageString 
-										and: [ each size >= CNBScatteredVocabularyPattern new  minClassSize ] ].
+	 | electedTokens newTokens |
+	
+	electedTokens := tokenModels 
+								select: [ :each | each package = aPackage
+										and: [ each size >= CNBScatteredVocabularyPattern new  minClassSize ]].
+	newTokens := self changeTokenPosition: electedTokens.
 
-	^ (electedSuffixes size >= CNBScatteredVocabularyPattern new  minTokenSize)
+		(newTokens size < electedTokens size)
+		ifTrue: [ electedTokens := newTokens ].
+	
+	^ (electedTokens size >= CNBScatteredVocabularyPattern new minTokenSize)
 	
 ]
 
@@ -99,6 +129,7 @@ CNBRootModel >> hasVeryScatteredVocabularyInside: aPackageModel [
 	| tokenInPackage selfClassModels |
 	selfClassModels := aPackageModel classModels select: [ :each | each root = self ].
 	tokenInPackage := (selfClassModels collect: #token) asSet.
+
 	^ (tokenInPackage size >= CNBScatteredVocabularyPattern new  scatteredThreshold)
 	
 ]
@@ -218,6 +249,16 @@ CNBRootModel >> tokenModels [
 CNBRootModel >> tokenModels: aCollection [
 
 	tokenModels := aCollection 
+]
+
+{ #category : #accessing }
+CNBRootModel >> tokenPosition [
+	^ tokenPosition
+]
+
+{ #category : #accessing }
+CNBRootModel >> tokenPosition: suffixOrPrefix [
+	 tokenPosition := suffixOrPrefix
 ]
 
 { #category : #accessing }

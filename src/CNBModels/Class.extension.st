@@ -8,9 +8,14 @@ Class >> classModelAccordingTo: setting [
 ]
 
 { #category : #'*CNBModels' }
+Class >> isMono [ 
+	^ superclass = Object and: [ self subclasses isEmpty ]
+]
+
+{ #category : #'*CNBModels' }
 Class >> rootAccordingTo: aRootClass [
 
-	(self isTrait or: [ aRootClass = self ])
+	(self isTrait or: [ self isMono ])
 		ifTrue: [ ^ self ].
 		
 	self superclass isNotNil
