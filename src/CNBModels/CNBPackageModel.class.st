@@ -5,7 +5,8 @@ Class {
 	#name : #CNBPackageModel,
 	#superclass : #CNBAbstractModel,
 	#instVars : [
-		'classModels'
+		'classModels',
+		'packageViewModel'
 	],
 	#category : #CNBModels
 }
@@ -39,6 +40,17 @@ CNBPackageModel >> extractClassModelsWithToken: aToken [
 CNBPackageModel >> includesToken: aToken [
 	
 	^ (self classModels collect: #token) includes: aToken
+]
+
+{ #category : #accessing }
+CNBPackageModel >> packageViewModel [
+	^ packageViewModel
+]
+
+{ #category : #accessing }
+CNBPackageModel >> packageViewModel: aPackageViewModel [
+
+	packageViewModel := aPackageViewModel 
 ]
 
 { #category : #printing }

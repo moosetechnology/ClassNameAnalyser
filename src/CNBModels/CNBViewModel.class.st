@@ -68,7 +68,8 @@ CNBViewModel >> initialize [
 	super initialize.
 	
 	border := RSBorder new.
-	setting := CNBSettings new
+	setting := CNBSettings new.
+
 ]
 
 { #category : #accessing }
@@ -95,6 +96,15 @@ CNBViewModel >> packageViewModels: collection [
 	packageViewModels := collection 
 ]
 
+{ #category : #'as yet unclassified' }
+CNBViewModel >> scatteredPackages [ 
+
+	| scattered |
+	scattered := packageViewModels select: [ :each | each hasScatteredVocabularyInside ].
+	
+	^ scattered
+]
+
 { #category : #accessing }
 CNBViewModel >> setting [
 
@@ -103,22 +113,25 @@ CNBViewModel >> setting [
 
 { #category : #operations }
 CNBViewModel >> startBuilding [ 
-
-	| thePackageModels |
-	thePackageModels := CNBBuilder doPackageModelsOf: self.
 	
-	self 
-		name: model name;
-		packageModels: thePackageModels;
-		rootModels: (CNBBuilder doRootsOf: (thePackageModels flatCollect: #classModels)).
+	^ (self setting token = #both)
+			ifTrue: [ CNBBothTokensStrategy build: self ]
+			ifFalse: [ CNBTokenStrategy build: self ]. 
 	
-		self packageViewModels: (CNBBuilder doPackageViewModelsOf: self).
-		self attributeTokenModelsToRoots.
-		self attributePatterns.
 ]
 
 { #category : #'accessing - attributes' }
 CNBViewModel >> tokenModels [	
 
 	^ packageViewModels flatCollect: #tokenViewModels.
+]
+
+{ #category : #'as yet unclassified' }
+CNBViewModel >> withPrefix [
+	setting token: #prefix
+]
+
+{ #category : #'as yet unclassified' }
+CNBViewModel >> withSuffix [
+	setting token: #suffix
 ]

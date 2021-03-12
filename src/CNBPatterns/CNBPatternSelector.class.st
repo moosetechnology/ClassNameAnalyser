@@ -38,7 +38,7 @@ CNBPatternSelector >> models [
 	 ^ (cnb 
 			viewModel 
 				packageViewModels 
-					flatCollect: #models)
+					flatCollect: #tokenViewModels)
 	 					reject: [ :each | each pattern isNil ]
 ]
 

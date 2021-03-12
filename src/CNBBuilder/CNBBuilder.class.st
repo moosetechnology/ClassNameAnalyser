@@ -180,15 +180,16 @@ CNBBuilder >> doPackageModelsOf: aViewModel [
 { #category : #building }
 CNBBuilder >> doPackageViewModelsOf: aViewModel [ 
 
-	^ (aViewModel 
+		(aViewModel 
 			packageModels 
-				collect: [ :eachPackageModel | 
-									CNBPackageViewModel 
+				collect: [ :eachPackageModel |
+						eachPackageModel packageViewModel:  
+									(CNBPackageViewModel 
 										of: eachPackageModel 
 										with: (self 
 													doTokenViewModelsOf: eachPackageModel 
-													using: aViewModel rootModels) ]). 
-					
+													using: aViewModel rootModels)) ]).
+		^ aViewModel packageModels collect: #packageViewModel
 ]
 
 { #category : #building }
@@ -276,6 +277,7 @@ CNBBuilder >> sortRootModels: aSetOfRootModels [
 { #category : #internal }
 CNBBuilder >> startFightOverTokensBetween: rootModels [
 	| tokens |
+	
 	tokens := (rootModels flatCollect: [ :each | each tokensDictionary keys ]) asSet.
 	tokens
 		do: [ :aToken | 

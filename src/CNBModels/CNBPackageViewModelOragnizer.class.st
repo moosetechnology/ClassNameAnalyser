@@ -13,32 +13,25 @@ CNBPackageViewModelOragnizer class >> of: aPackageModel [
 		package: aPackageModel 
 ]
 
-{ #category : #accessing }
-CNBPackageViewModelOragnizer >> classes [
-	^ package classModels
-]
-
-{ #category : #accessing }
-CNBPackageViewModelOragnizer >> package [
-	^ package
-]
-
-{ #category : #accessing }
-CNBPackageViewModelOragnizer >> package: aPackageModel [
-	package := aPackageModel 
-]
-
 { #category : #'as yet unclassified' }
-CNBPackageViewModelOragnizer >> rootNames [
-	^ self classes collect: #root
-]
+CNBPackageViewModelOragnizer >> organize: aPackage accordingTo: anOtherPackage [ 
 
-{ #category : #'as yet unclassified' }
-CNBPackageViewModelOragnizer >> selectRootsInside: aCollectionOfRoots [
-	^ self classes collect: [ :each | aCollectionOfRoots includes: each root ]
-]
-
-{ #category : #accessing }
-CNBPackageViewModelOragnizer >> tokensDictionary [ 
-	^ self classes collect: #token
+	| scatteredRoots |
+	scatteredRoots := aPackage scatteredRoots.
+	
+	scatteredRoots do: [ :each | | otherPAckageTokens |
+		otherPAckageTokens := (anOtherPackage tokensOf: each name).
+		(((aPackage tokensOf: each name) size > otherPAckageTokens size)
+			and: [ (otherPAckageTokens anySatisfy: [ :aToken | aToken hasNoOutsiders ])
+				  
+				and: [  each dominantTokens keys
+							includes: (otherPAckageTokens detectMax: [ :any | any hasNoOutsiders ]) name].
+						 ]) ifFalse: [ 
+				
+				aPackage replaceTokensOf: each with: otherPAckageTokens. 				
+				
+				 ] 
+		
+		 ].
+	
 ]

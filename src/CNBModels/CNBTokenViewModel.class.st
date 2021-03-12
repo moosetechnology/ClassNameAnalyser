@@ -163,6 +163,12 @@ CNBTokenViewModel >> create [
 		size: 	classViewModels size.
 ]
 
+{ #category : #'as yet unclassified' }
+CNBTokenViewModel >> dominatedBy: aRoot [
+	
+	^ root = aRoot
+]
+
 { #category : #testing }
 CNBTokenViewModel >> hasNoOutsiders [
 

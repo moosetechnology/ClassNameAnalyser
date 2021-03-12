@@ -107,17 +107,13 @@ CNBRootModel >> dominantTokens: association [
 ]
 
 { #category : #testing }
-CNBRootModel >> hasScatteredVocabularyInside: aPackage [
+CNBRootModel >> hasScatteredVocabularyInside: aPackageViewModel [
 
-	 | electedTokens newTokens |
+	 | electedTokens |
 	
 	electedTokens := tokenModels 
-								select: [ :each | each package = aPackage
+								select: [ :each | each package name = aPackageViewModel name
 										and: [ each size >= CNBScatteredVocabularyPattern new  minClassSize ]].
-	newTokens := self changeTokenPosition: electedTokens.
-
-		(newTokens size < electedTokens size)
-		ifTrue: [ electedTokens := newTokens ].
 	
 	^ (electedTokens size >= CNBScatteredVocabularyPattern new minTokenSize)
 	
@@ -200,6 +196,18 @@ CNBRootModel >> printOn: aStream [
 	aStream nextPutAll: ')'
 ]
 
+{ #category : #removing }
+CNBRootModel >> removeAllSuchThat: aBlock [
+
+	tokenModels removeAllSuchThat: aBlock
+]
+
+{ #category : #'as yet unclassified' }
+CNBRootModel >> scatteredSubclassesInside: aPackageModel [ 
+
+	
+]
+
 { #category : #accessing }
 CNBRootModel >> size [
 
@@ -273,6 +281,13 @@ CNBRootModel >> tokensDictionary: tokenDictionary [
 
 	tokensDictionary := tokenDictionary.
 	
+	
+]
+
+{ #category : #'instance creation' }
+CNBRootModel >> tokensIn: aPackageViewModel [
+	
+		^ tokenModels select: [ :each | each package packageViewModel = aPackageViewModel ]
 	
 ]
 

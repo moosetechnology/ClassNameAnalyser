@@ -31,6 +31,12 @@ CNBPackageViewModel >> create [
 
 ]
 
+{ #category : #testing }
+CNBPackageViewModel >> hasScatteredVocabularyInside [ 
+
+	^ (tokenViewModels select: [ :each | each pattern isNotNil and: [ each pattern isScatteredVocabulary ] ]) isNotEmpty 
+]
+
 { #category : #accessing }
 CNBPackageViewModel >> model [
 
@@ -72,7 +78,39 @@ CNBPackageViewModel >> modelsOrderedDescending [
 { #category : #'events-processing' }
 CNBPackageViewModel >> processEvent: evt [
 
-	Smalltalk tools browser openOnPackage:(RPackageOrganizer default packageNamed: name) 
+	"Smalltalk tools browser openOnPackage:(RPackageOrganizer default packageNamed: name) "
+	self inspect
+]
+
+{ #category : #removing }
+CNBPackageViewModel >> removeAllSuchThat: aBlock [
+
+	tokenViewModels removeAllSuchThat: aBlock
+]
+
+{ #category : #'as yet unclassified' }
+CNBPackageViewModel >> replaceTokensOf: aRoot with: tokens [
+	
+	| rootTokens |
+	rootTokens := self tokensOf: aRoot.
+	
+	self removeAllSuchThat: [ :each | each dominatedBy: aRoot ].
+	aRoot removeAllSuchThat: [ :each | each dominatedBy: aRoot ].
+	self halt.
+	tokenViewModels addAll: tokens.
+	aRoot tokenModels addAll: tokens
+]
+
+{ #category : #accessing }
+CNBPackageViewModel >> roots [
+
+	^ (tokenViewModels collect: [ :each | each root ]) asSet
+]
+
+{ #category : #'as yet unclassified' }
+CNBPackageViewModel >> scatteredRoots [ 
+
+	^ (self roots select: [ :each | each hasScatteredVocabularyInside: self ])
 ]
 
 { #category : #accessing }
@@ -97,4 +135,10 @@ CNBPackageViewModel >> tokenViewModels [
 CNBPackageViewModel >> tokenViewModels: tokenModels [
 
 	tokenViewModels := tokenModels
+]
+
+{ #category : #'as yet unclassified' }
+CNBPackageViewModel >> tokensOf: aRootName [
+	
+	^ tokenViewModels select: [ :each | each root = aRootName ]
 ]

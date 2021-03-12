@@ -12,6 +12,7 @@ Class {
 		'loadProjectButton',
 		'prefix',
 		'suffix',
+		'both',
 		'rootSelector',
 		'goDarker',
 		'nodesToBeDarker',
@@ -47,7 +48,8 @@ CNBPresenter class >> defaultSpec [
 				yourself) height: self labelHeight + self buttonHeight;
 			add: (SpBoxLayout newVertical
 				add: #suffix height: self buttonHeight;
-				add: #prefix height: self buttonHeight;
+				"add: #prefix height: self buttonHeight;"
+				add: #both height: self buttonHeight;
 				yourself) height: self buttonHeight + self buttonHeight;
 			add: (SpBoxLayout newVertical 
 				add: #loadProjectButton width: self buttonWidth;
@@ -71,17 +73,17 @@ CNBPresenter class >> defaultSpec [
 
 { #category : #accessing }
 CNBPresenter class >> defaultTitle [
-	^ 'ClassNames Blueprint'
+	^ 'ClassNames Distribution'
 ]
 
 { #category : #'world menu' }
 CNBPresenter class >> menuCommandOn: aBuilder [
 	<worldMenu>
-	(aBuilder item: #ClassNamesBlueprint)
+	(aBuilder item: #ClassNamesDistribution)
 		parent: #Tools;
 		action: [ self open ];
 		order: 15;
-		help: 'A class names blueprint presenter';
+		help: 'A class names distribution presenter';
 		icon: (self iconNamed: #smallPaint).
 ]
 
@@ -124,7 +126,8 @@ CNBPresenter >> connectPresenters [
 	packageSearch whenSubmitDo: [ :aRub | self changePackageBorderWidth: aRub text asString ].
 	packageSearch whenResetDo: [ self resetPackageBoder ].
 	suffix whenActivatedDo: [ self onSuffixActivated ].
-	prefix whenActivatedDo: [ self onPrefixActivated ]	
+	prefix whenActivatedDo: [ self onPrefixActivated ].
+	both whenActivatedDo: [ self onBothActivated ].
 ]
 
 { #category : #highlighting }
@@ -169,9 +172,11 @@ CNBPresenter >> initializePresenters [
 	reset := self newButton label: 'Reset'. 
 	prefix := self newRadioButton.
 	suffix := self newRadioButton.	
+	both := self newRadioButton.
 	prefix label: 'Prefix'.
 	suffix label: 'Suffix'.
-	suffix associatedRadioButtons: { prefix }.
+	both label: 'Both'.
+	suffix associatedRadioButtons: { prefix . both }.
 	
 	loadProjectButton := self newButton label: 'Load project'.
 	patternsDropList := CNBSpecElementDropList new.
@@ -228,6 +233,12 @@ CNBPresenter >> nodesToHighlightFor: aPattern [
 	
 	^ self allNodes select: [ :each | highlightedModels includes: each model ]
 	
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> onBothActivated [
+
+	projectCNB viewModel setting token: #both.
 ]
 
 { #category : #actions }
