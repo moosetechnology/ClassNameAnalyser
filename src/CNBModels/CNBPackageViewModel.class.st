@@ -92,11 +92,12 @@ CNBPackageViewModel >> removeAllSuchThat: aBlock [
 CNBPackageViewModel >> replaceTokensOf: aRoot with: tokens [
 	
 	| rootTokens |
-	rootTokens := self tokensOf: aRoot.
+	rootTokens := self tokensOf: aRoot name.
 	
 	self removeAllSuchThat: [ :each | each dominatedBy: aRoot ].
-	aRoot removeAllSuchThat: [ :each | each dominatedBy: aRoot ].
-	self halt.
+	aRoot removeAllSuchThat: [ :each | each dominatedBy: aRoot inside: self  ].
+	
+	tokens do: [ :each | each name: each name , ' (P) ' ].
 	tokenViewModels addAll: tokens.
 	aRoot tokenModels addAll: tokens
 ]
@@ -140,5 +141,5 @@ CNBPackageViewModel >> tokenViewModels: tokenModels [
 { #category : #'as yet unclassified' }
 CNBPackageViewModel >> tokensOf: aRootName [
 	
-	^ tokenViewModels select: [ :each | each root = aRootName ]
+	^ tokenViewModels select: [ :each | each root name = aRootName ]
 ]

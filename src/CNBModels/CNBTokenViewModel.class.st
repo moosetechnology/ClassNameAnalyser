@@ -169,6 +169,12 @@ CNBTokenViewModel >> dominatedBy: aRoot [
 	^ root = aRoot
 ]
 
+{ #category : #'as yet unclassified' }
+CNBTokenViewModel >> dominatedBy: aRoot inside: aPackageViewModel [
+	
+	^ root = aRoot and: [ package name = aPackageViewModel name ]
+]
+
 { #category : #testing }
 CNBTokenViewModel >> hasNoOutsiders [
 
