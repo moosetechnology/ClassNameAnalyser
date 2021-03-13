@@ -34,7 +34,10 @@ CNBPackageViewModel >> create [
 { #category : #testing }
 CNBPackageViewModel >> hasScatteredVocabularyInside [ 
 
-	^ (tokenViewModels select: [ :each | each pattern isNotNil and: [ each pattern isScatteredVocabulary ] ]) isNotEmpty 
+	^ (tokenViewModels 
+			select: [ :each | 
+				each pattern isNotNil and: [ each pattern 
+					isScatteredVocabulary ] ]) isNotEmpty 
 ]
 
 { #category : #accessing }

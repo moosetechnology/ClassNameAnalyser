@@ -19,23 +19,21 @@ CNBPackageViewModelOragnizer >> organize: aPackage accordingTo: anOtherPackage [
 	| scatteredRoots |
 	scatteredRoots := aPackage scatteredRoots.
 	
-	scatteredRoots do: [ :each | | otherPAckageTokens commonToken |
-		otherPAckageTokens := (anOtherPackage tokensOf: each name).
-		(((aPackage tokensOf: each name) size > otherPAckageTokens size)
-			and: [ (otherPAckageTokens anySatisfy: [ :aToken | aToken hasNoOutsiders ])
+	scatteredRoots do: [ :aRoot | | otherPackageTokens commonToken |
+		otherPackageTokens := (anOtherPackage tokensOf: aRoot name).
+		(((aPackage tokensOf: aRoot name) size > otherPackageTokens size)
+			and: [ (otherPackageTokens anySatisfy: [ :aToken | aToken hasNoOutsiders ])
 				  
 				and: [ 
-						commonToken := otherPAckageTokens detectMax: [ :aToken | aToken size ].
-						(each dominantTokens keys
+						commonToken := otherPackageTokens detectMax: [ :aToken | aToken size ].
+						(aRoot dominantTokens keys
 							includes: commonToken name )
 								and: [	 commonToken hasNoOutsiders ]
 							].
 						 ]) ifTrue: [ 
 				
-				aPackage replaceTokensOf: each with: otherPAckageTokens. 				
-				
-				 ] 
-		
+				aPackage replaceTokensOf: aRoot with: otherPackageTokens. 							
+				 ] 	
 		 ].
 	
 ]

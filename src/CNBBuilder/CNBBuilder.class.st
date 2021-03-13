@@ -247,7 +247,7 @@ CNBBuilder >> initialize [
 			{#red . #yellow . #blue .#purple . #brown . #magenta . #orange . #green.
 			#pink . #tan . #cyan . #lightRed . #lightGreen . #lightMagenta.
 			#lightOrange . #lightYellow . #paleGreen . #paleMagenta . #paleOrange.
-			#palePeach . #paleRed . #lightBrown . #paleTan . #paleMagenta}
+			#palePeach . #paleRed . #lightBrown . #paleTan . #paleMagenta }
 ]
 
 { #category : #sorting }

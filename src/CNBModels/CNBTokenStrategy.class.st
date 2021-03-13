@@ -23,5 +23,6 @@ CNBTokenStrategy >> build: aViewModel [
 		aViewModel packageViewModels: (CNBBuilder doPackageViewModelsOf: aViewModel).
 		aViewModel attributeTokenModelsToRoots.
 		aViewModel attributePatterns.
+		^ aViewModel 
 
 ]

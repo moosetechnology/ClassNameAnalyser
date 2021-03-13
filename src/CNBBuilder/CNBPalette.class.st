@@ -24,7 +24,8 @@ CNBPalette >> aColorForMultiToken [
 	
 	index := index + 1.
 	(index <=  multiTokenColors size)
-	ifTrue: [ ^ multiTokenColors at: index ].
+	ifTrue: [ ^ multiTokenColors at: index ]
+	ifFalse: [ ^ self defaultColor ].
 	
 	^ defaultColor
 ]

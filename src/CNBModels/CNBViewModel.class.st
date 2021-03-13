@@ -111,6 +111,12 @@ CNBViewModel >> setting [
 	^ setting
 ]
 
+{ #category : #accessing }
+CNBViewModel >> setting: aSetting [
+
+	setting := aSetting 
+]
+
 { #category : #operations }
 CNBViewModel >> startBuilding [ 
 	
@@ -126,12 +132,20 @@ CNBViewModel >> tokenModels [
 	^ packageViewModels flatCollect: #tokenViewModels.
 ]
 
+{ #category : #accessing }
+CNBViewModel >> tokenViewModels [ 
+	
+	^ packageViewModels flatCollect: [ :each | each tokenViewModels ]
+]
+
 { #category : #'as yet unclassified' }
 CNBViewModel >> withPrefix [
+
 	setting token: #prefix
 ]
 
 { #category : #'as yet unclassified' }
 CNBViewModel >> withSuffix [
+
 	setting token: #suffix
 ]

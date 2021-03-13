@@ -18,12 +18,10 @@ CNBBothTokensStrategy class >> build: aViewModel [
 CNBBothTokensStrategy >> build: aViewModel [
 
 	| suffixViewModel prefixViewModel newModel |
-	(CNBTokenStrategy build: aViewModel withSuffix).
-	suffixViewModel := aViewModel.
-	 
+	
+	suffixViewModel := (CNBTokenStrategy build: aViewModel withSuffix).
 	newModel := (CNBViewModel new model: suffixViewModel model) withPrefix.
-	(CNBTokenStrategy build: newModel).
-	prefixViewModel := newModel.
+	prefixViewModel := (CNBTokenStrategy build: newModel).
 
 	^ self organize: suffixViewModel accordingTo: prefixViewModel 
 ]
@@ -31,6 +29,7 @@ CNBBothTokensStrategy >> build: aViewModel [
 { #category : #initialization }
 CNBBothTokensStrategy >> initialize [ 
 	super initialize.
+	
 	packageOrganizer := CNBPackageViewModelOragnizer new.
 ]
 

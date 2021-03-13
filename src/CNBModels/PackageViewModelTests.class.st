@@ -3,7 +3,8 @@ Class {
 	#superclass : #TestCase,
 	#instVars : [
 		'viewModel',
-		'mooseModel'
+		'mooseModel',
+		'scatteredPackage'
 	],
 	#category : #CNBModels
 }
@@ -14,17 +15,17 @@ PackageViewModelTests >> setUp [
 	viewModel := CNBViewModel new withSuffix.
 	mooseModel := CNBMooseModelGenerator projectNameMatches: 'moose-*'.
 	viewModel model: mooseModel.
-	viewModel startBuilding
+	viewModel startBuilding.
+	scatteredPackage := viewModel packageViewModels detect: [ :each | each name = 'Moose-SmalltalkImporter' ].
+	
 ]
 
 { #category : #tests }
 PackageViewModelTests >> testHasScatteredVocabularyInside [
 
-	| aPackage |
-	aPackage := viewModel packageViewModels detect: [ :each | each name = 'Moose-SmalltalkImporter' ].
 	
 	self 
-		assert: aPackage hasScatteredVocabularyInside
+		assert: scatteredPackage hasScatteredVocabularyInside
 		equals: true
 	
 
@@ -37,5 +38,13 @@ PackageViewModelTests >> testScatteredPackages [
 		
 	self
 		assert: viewModel scatteredPackages size 
+		equals: 1
+]
+
+{ #category : #tests }
+PackageViewModelTests >> testScatteredRoots [
+
+	self 
+		assert: scatteredPackage scatteredRoots size 
 		equals: 1
 ]
