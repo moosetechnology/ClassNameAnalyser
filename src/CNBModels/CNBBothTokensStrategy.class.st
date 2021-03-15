@@ -15,15 +15,14 @@ CNBBothTokensStrategy class >> build: aViewModel [
 ]
 
 { #category : #building }
-CNBBothTokensStrategy >> build: aViewModel [
+CNBBothTokensStrategy >> build: aClassNamesDistribution [
 
-	| suffixViewModel prefixViewModel newModel |
+	| suffixDistribution prefixDistribution |
 	
-	suffixViewModel := (CNBTokenStrategy build: aViewModel withSuffix).
-	newModel := (CNBViewModel new model: suffixViewModel model) withPrefix.
-	prefixViewModel := (CNBTokenStrategy build: newModel).
-
-	^ self organize: suffixViewModel accordingTo: prefixViewModel 
+	suffixDistribution := (CNBTokenStrategy build: aClassNamesDistribution withSuffix).
+	prefixDistribution := (CNBTokenStrategy build: (ClassNamesBlueprint new model: aClassNamesDistribution model; withPrefix)).
+	
+	^ self organize: suffixDistribution viewModel accordingTo: prefixDistribution viewModel 
 ]
 
 { #category : #initialization }

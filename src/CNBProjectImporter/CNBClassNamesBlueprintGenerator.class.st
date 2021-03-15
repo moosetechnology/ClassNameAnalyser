@@ -7,11 +7,13 @@ Class {
 { #category : #'as yet unclassified' }
 CNBClassNamesBlueprintGenerator class >> importProject: aPath [
 
-	^ (CNBMooseModelGenerator importProject: aPath) defaultClassNamesBlueprint 
+	^ ClassNamesBlueprint new
+		model: (CNBMooseModelGenerator importProject: aPath)
 ]
 
 { #category : #'as yet unclassified' }
 CNBClassNamesBlueprintGenerator class >> projectNameMatches: aString [ 
 
-	^ (CNBMooseModelGenerator projectNameMatches: aString) defaultClassNamesBlueprint 
+	^ ClassNamesBlueprint new
+		model: (CNBMooseModelGenerator projectNameMatches: aString) 
 ]

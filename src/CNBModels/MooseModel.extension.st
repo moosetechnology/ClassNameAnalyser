@@ -10,20 +10,11 @@ MooseModel >> ClassNamesBlueprint [
 ]
 
 { #category : #'*CNBModels' }
-MooseModel >> ClassNamesBlueprintViewModel [
-
-	<navigation: 'ClassNamesBlueprint ViewModel'>
-	<script: 'self ClassNamesBlueprintViewModel open'>
-	<tlFilter: #visuTemplate>
-	^ self defaultClassNamesBlueprint viewModel 
-]
-
-{ #category : #'*CNBModels' }
-MooseModel >> classNamesBlueprintAccordingTo: aClass [
+MooseModel >> classNamesBlueprintAccordingTo: setting [
 
 	| cnb |
 	cnb := ClassNamesBlueprint new model: self.
-	cnb viewModel setting rootClass: aClass;
+	cnb viewModel setting: setting;
 	startBuilding.
 	
 	
@@ -48,12 +39,8 @@ MooseModel >> defaultClassNamesBlueprint [
 ]
 
 { #category : #'*CNBModels' }
-MooseModel >> defaultCnbViewModelAccordingTo: aMotherClass [
-	^ self defaultClassNamesBlueprint viewModel
-]
-
-{ #category : #'*CNBModels' }
 MooseModel >> packages [ 
+
 	^	((self allModelPackages) ifNil: (self allModelNamespaces))
 	ifEmpty: self allModelNamespaces
 ]

@@ -168,19 +168,19 @@ CNBBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 ]
 
 { #category : #building }
-CNBBuilder >> doPackageModelsOf: aViewModel [
+CNBBuilder >> doPackageModelsOf: aCND [
 
-	^ aViewModel 
+	^ aCND 
 			model packages collect: [ :eachPackage | 
 												CNBPackageModel 
 													of: eachPackage 
-													withSettings: aViewModel setting  ]
+													withSettings: aCND setting  ]
 ]
 
 { #category : #building }
-CNBBuilder >> doPackageViewModelsOf: aViewModel [ 
+CNBBuilder >> doPackageViewModelsOf: aCND [ 
 
-		(aViewModel 
+		(aCND viewModel 
 			packageModels 
 				collect: [ :eachPackageModel |
 						eachPackageModel packageViewModel:  
@@ -188,8 +188,8 @@ CNBBuilder >> doPackageViewModelsOf: aViewModel [
 										of: eachPackageModel 
 										with: (self 
 													doTokenViewModelsOf: eachPackageModel 
-													using: aViewModel rootModels)) ]).
-		^ aViewModel packageModels collect: #packageViewModel
+													using: aCND viewModel rootModels)) ]).
+		^ aCND viewModel packageModels collect: #packageViewModel
 ]
 
 { #category : #building }

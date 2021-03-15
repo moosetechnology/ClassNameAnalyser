@@ -8,12 +8,6 @@ Class {
 	#category : #'CNB-Core'
 }
 
-{ #category : #building }
-ClassNamesBlueprint >> build: aViewModel [
-
-	aViewModel startBuilding.
-]
-
 { #category : #'as yet unclassified' }
 ClassNamesBlueprint >> buildViewWith: aVisualizerClass [
 
@@ -70,7 +64,7 @@ ClassNamesBlueprint >> rootModels [
 ]
 
 { #category : #accessing }
-ClassNamesBlueprint >> settings [
+ClassNamesBlueprint >> setting [
 
 	^ viewModel setting
 ]
@@ -85,7 +79,10 @@ ClassNamesBlueprint >> show [
 { #category : #operations }
 ClassNamesBlueprint >> startBuilding [
 	
-	self build: viewModel.
+	^ (self viewModel setting token = #both)
+			ifTrue: [ CNBBothTokensStrategy build: self ]
+			ifFalse: [ CNBTokenStrategy build: self ]. 
+	
 	
 ]
 
@@ -105,6 +102,21 @@ ClassNamesBlueprint >> viewModel [
 ClassNamesBlueprint >> viewModel: aViewModel [
 
 	viewModel := aViewModel 
+]
+
+{ #category : #'as yet unclassified' }
+ClassNamesBlueprint >> withBoth [
+	self setting token: #both
+]
+
+{ #category : #'as yet unclassified' }
+ClassNamesBlueprint >> withPrefix [ 
+	viewModel withPrefix 
+]
+
+{ #category : #'as yet unclassified' }
+ClassNamesBlueprint >> withSuffix [ 
+	viewModel withSuffix 
 ]
 
 { #category : #'adding/removing' }

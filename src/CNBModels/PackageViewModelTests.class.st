@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'viewModel',
 		'mooseModel',
-		'scatteredPackage'
+		'scatteredPackage',
+		'classNamesDistribution'
 	],
 	#category : #CNBModels
 }
@@ -13,10 +14,9 @@ Class {
 PackageViewModelTests >> setUp [ 
 
 	viewModel := CNBViewModel new withSuffix.
-	mooseModel := CNBMooseModelGenerator projectNameMatches: 'moose-*'.
-	viewModel model: mooseModel.
-	viewModel startBuilding.
-	scatteredPackage := viewModel packageViewModels detect: [ :each | each name = 'Moose-SmalltalkImporter' ].
+	classNamesDistribution := ((ClassNamesBlueprint new model: mooseModel) withSuffix) startBuilding.
+	mooseModel := CNBMooseModelGenerator projectNameMatches: 'moose-*'. 
+	scatteredPackage := classNamesDistribution viewModel packageViewModels detect: [ :each | each name = 'Moose-SmalltalkImporter' ].
 	
 ]
 

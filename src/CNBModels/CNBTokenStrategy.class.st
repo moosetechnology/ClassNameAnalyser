@@ -11,18 +11,18 @@ CNBTokenStrategy class >> build: aViewModel [
 ]
 
 { #category : #building }
-CNBTokenStrategy >> build: aViewModel [
+CNBTokenStrategy >> build: aCND [
 
 	| thePackageModels |
-	thePackageModels := CNBBuilder doPackageModelsOf: aViewModel.
-	aViewModel 
-		name: aViewModel model name;
+	thePackageModels := CNBBuilder doPackageModelsOf: aCND.
+	aCND viewModel
+		name: aCND model name;
 		packageModels: thePackageModels;
 		rootModels: (CNBBuilder doRootsOf: (thePackageModels flatCollect: #classModels)).
 	
-		aViewModel packageViewModels: (CNBBuilder doPackageViewModelsOf: aViewModel).
-		aViewModel attributeTokenModelsToRoots.
-		aViewModel attributePatterns.
-		^ aViewModel 
+		aCND viewModel packageViewModels: (CNBBuilder doPackageViewModelsOf: aCND).
+		aCND viewModel attributeTokenModelsToRoots.
+		aCND viewModel attributePatterns.
+		^ aCND 
 
 ]
