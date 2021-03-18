@@ -2,6 +2,7 @@ Extension { #name : #FAMIXType }
 
 { #category : #'*CNBModels' }
 FAMIXType >> isMono [ 
+
 	^ self superclass = Object 
 ]
 
@@ -16,7 +17,10 @@ FAMIXType >> rootAccordingTo: aRootClass [
 		
 	self superclass name = aRootClass name
 		ifTrue: [ ^ self ].
-
+		
+	(self superclass isInterface)
+		ifTrue: [ ^ self ].
+		
 	^ self superclass rootAccordingTo: aRootClass
 	
 ]

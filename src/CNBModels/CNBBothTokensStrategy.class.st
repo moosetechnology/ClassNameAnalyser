@@ -35,10 +35,8 @@ CNBBothTokensStrategy >> build: aCND [
 		rootModels: (self buildRootsFrom: (thePackageModels flatCollect: #classModels)).
 		
 		aCND viewModel packageViewModels: (self doPackageViewModelsOf: aCND).
-	
+		"aCND resetRoots."
 		aCND viewModel attributeTokenModelsToRoots.
-		
-	"	aCND viewModel refactorTokenModels."
 		
 		aCND viewModel attributePatterns.
 		^ aCND 
