@@ -17,11 +17,11 @@ CNBClusterer >> organize: aPackage property: aSelector [
 		 
 		classTokens	
 			hasMoreThanOneElement ifTrue: [ 
-		winner :=	 self selectWinnerOf: aClass outOf: classTokens.			
+		winner :=	 self selectWinnerOf: aClass outOf: classTokens.		 
 		self remove: aClass from: (classTokens difference: { winner }).		
 						 ]
 				 ].
-	^ aPackage removeEmptyTokens.
+	^ aPackage reset.
 ]
 
 { #category : #initialization }

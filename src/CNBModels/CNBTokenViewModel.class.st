@@ -47,6 +47,12 @@ CNBTokenViewModel >> attributePattern [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+CNBTokenViewModel >> attributeTokenToClasses [
+
+	classViewModels do: [ :each | each changeTokenTo: self name ]
+]
+
 { #category : #accessing }
 CNBTokenViewModel >> belongers [
 

@@ -112,12 +112,6 @@ CNBPackageViewModel >> processEvent: evt [
 	self inspect
 ]
 
-{ #category : #removing }
-CNBPackageViewModel >> removeEmptyTokens [ 
-
-	self tokenViewModels: (tokenViewModels removeAllSuchThat: [ :each | each size isZero ])
-]
-
 { #category : #'as yet unclassified' }
 CNBPackageViewModel >> replaceTokensOf: aRoot with: tokens [
 	
@@ -136,6 +130,12 @@ CNBPackageViewModel >> replaceTokensOf: aRoot with: tokens [
 	self classViewModels removeAllSuchThat: [ :each | (each hasPrefix: commonToken name)].
 	tokenViewModels addAll: tokens.
 	aRoot tokenModels addAll: tokens.
+]
+
+{ #category : #initialization }
+CNBPackageViewModel >> reset [ 
+
+	^ packageOrganizer reset: self
 ]
 
 { #category : #accessing }

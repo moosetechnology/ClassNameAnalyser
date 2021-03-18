@@ -35,6 +35,13 @@ CNBClassViewModel >> border [
 		
 ]
 
+{ #category : #accessing }
+CNBClassViewModel >> changeTokenTo: aToken [
+
+	self token: aToken.
+	self model token: aToken
+]
+
 { #category : #operations }
 CNBClassViewModel >> create [
 
