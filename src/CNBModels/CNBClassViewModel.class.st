@@ -105,6 +105,27 @@ CNBClassViewModel >> model: aModel [
 	model := aModel
 ]
 
+{ #category : #'as yet unclassified' }
+CNBClassViewModel >> monoMultiSiblingsIn: aTokenViewModel [ 
+
+	^ aTokenViewModel 
+		classViewModels
+	 		select: [ :each | each rootName = self rootName ] 
+]
+
+{ #category : #'as yet unclassified' }
+CNBClassViewModel >> monoTraitSiblingsIn: aTokenViewModel [ 
+
+	| monoTraitClasses |
+	
+	monoTraitClasses 
+		:= aTokenViewModel classViewModels select: [ :each | each root isMonoClass or: [ each root isTrait ] ].
+		
+		^ monoTraitClasses 
+				select: [ :aClass | (aClass tokens anySatisfy: [ :aToken | self tokens includes: aToken ] ) ].
+						
+]
+
 { #category : #'events-processing' }
 CNBClassViewModel >> processEvent: evt [
 
@@ -147,17 +168,10 @@ CNBClassViewModel >> showBoxName [
 { #category : #'as yet unclassified' }
 CNBClassViewModel >> siblingsIn: aTokenViewModel [ 
 	
-	| classes monoTraitClasses |
-	classes := aTokenViewModel classViewModels.
-	monoTraitClasses 
-		:= classes select: [ :each | each root isMonoClass or: [ each root isTrait ] ].
-		
-	^ (root isMonoClass or: [ root isTrait ]) 
-	ifTrue: [ 
-		monoTraitClasses 
-				select: [ :each | (each tokens anySatisfy: [ :aToken | self tokens includes: aToken ] ) ].
-						]
-	ifFalse: [ classes select: [ :each | each rootName = self rootName ] ]
+	^ (self root isTrait or: [ self root isMonoClass ])
+	ifTrue: [ self monoTraitSiblingsIn: aTokenViewModel ]
+	ifFalse: [ self monoMultiSiblingsIn: aTokenViewModel  ]. 
+	
 ]
 
 { #category : #accessing }

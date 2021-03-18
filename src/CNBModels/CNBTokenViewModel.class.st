@@ -151,6 +151,12 @@ CNBTokenViewModel >> checkSnowFlakes [
 	(snowFlakesPattern check: self) ifTrue: [ self pattern: snowFlakesPattern. ]
 ]
 
+{ #category : #'accessing-classes' }
+CNBTokenViewModel >> classNames [ 
+
+	^ classViewModels collect: [ :each | each name ]
+]
+
 { #category : #accessing }
 CNBTokenViewModel >> classViewModels [
 

@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'size',
 		'tokenViewModels',
-		'model'
+		'model',
+		'packageOrganizer'
 	],
 	#category : #CNBModels
 }
@@ -26,31 +27,17 @@ CNBPackageViewModel >> classViewModels [
 	^ tokenViewModels flatCollect: [ :each | each classViewModels ]
 ]
 
+{ #category : #accessing }
+CNBPackageViewModel >> classes [ 
+
+	^ self classViewModels 
+]
+
 { #category : #'public layout' }
-CNBPackageViewModel >> cluster [ 	
-	| emptyTokens |
-	self 
-		classViewModels do: [ :aClass | | tokensAClassBelongsTo winningToken |
-			tokensAClassBelongsTo 
-					:= tokenViewModels 
-						select: [ :aToken | (aToken classViewModels collect: #name) includes: aClass name ]. 
-				tokensAClassBelongsTo hasMoreThanOneElement 
-				ifTrue: [ 
-					tokenViewModels asOrderedCollection removeAll: tokensAClassBelongsTo.
-					winningToken 
-						:= tokensAClassBelongsTo detectMax: [ :each | (aClass siblingsIn: each) size ].
-				
-					(tokensAClassBelongsTo difference: { winningToken }) 
-						asOrderedCollection
-					 		do: [ :each | each 
-								classViewModels removeAllSuchThat: [ :class | class name = aClass name ] 	].
-						tokenViewModels asOrderedCollection addAll: tokensAClassBelongsTo.							
-					 ] 		
-		 ].	
-		emptyTokens := self tokenViewModels select: [ :each | each classViewModels isEmpty ].	
-		self tokenViewModels: (tokenViewModels asOrderedCollection difference: emptyTokens).
-		
-	^ self
+CNBPackageViewModel >> cluster [ 
+
+	^ packageOrganizer cluster: self	
+	
 ]
 
 { #category : #operations }
@@ -71,6 +58,13 @@ CNBPackageViewModel >> hasScatteredVocabularyInside [
 			select: [ :each | 
 				each pattern isNotNil and: [ each pattern 
 					isScatteredVocabulary ] ]) isNotEmpty 
+]
+
+{ #category : #initialization }
+CNBPackageViewModel >> initialize [ 
+	super initialize.
+	
+	packageOrganizer := CNBPackageViewModelOragnizer new
 ]
 
 { #category : #accessing }
@@ -119,9 +113,9 @@ CNBPackageViewModel >> processEvent: evt [
 ]
 
 { #category : #removing }
-CNBPackageViewModel >> removeAllSuchThat: aBlock [
+CNBPackageViewModel >> removeEmptyTokens [ 
 
-	tokenViewModels asOrderedCollection removeAllSuchThat: aBlock
+	self tokenViewModels: (tokenViewModels removeAllSuchThat: [ :each | each size isZero ])
 ]
 
 { #category : #'as yet unclassified' }
@@ -178,6 +172,12 @@ CNBPackageViewModel >> tokenViewModels [
 CNBPackageViewModel >> tokenViewModels: tokenModels [
 
 	tokenViewModels := tokenModels
+]
+
+{ #category : #accessing }
+CNBPackageViewModel >> tokens [ 
+	
+	^ self tokenViewModels 
 ]
 
 { #category : #'as yet unclassified' }

@@ -38,7 +38,7 @@ CNBBothTokensStrategy >> build: aCND [
 	
 		aCND viewModel attributeTokenModelsToRoots.
 		
-		aCND viewModel refactorTokenModels.
+	"	aCND viewModel refactorTokenModels."
 		
 		aCND viewModel attributePatterns.
 		^ aCND 
@@ -166,28 +166,4 @@ CNBBothTokensStrategy >> newRootModel [
 CNBBothTokensStrategy >> organize: aCollectionOfPackages [
 
 	aCollectionOfPackages do: [ :each | packageOrganizer do: each ]
-]
-
-{ #category : #'as yet unclassified' }
-CNBBothTokensStrategy >> organize: aSuffixDistribution accordingTo: aPrefixDistribution [
-	| scatteredSuffixPackages siblingPackages scatteredPackagesNames |
-	
-	scatteredSuffixPackages := aSuffixDistribution viewModel scatteredPackages.
-	scatteredPackagesNames := (scatteredSuffixPackages collect: #name).
-	
-	siblingPackages 
-		:= aPrefixDistribution viewModel 
-				packageViewModels 
-					select: [ :each | (scatteredPackagesNames includes: each name) ].
-		
-	scatteredSuffixPackages 
-		do: [ :aPackage | | itsSibling |
-					itsSibling 
-						:= siblingPackages detect: [ :each | each name = aPackage name].
-					
-		packageOrganizer organize: aPackage accordingTo: itsSibling
-		 ].
-	^ aSuffixDistribution 
-
-	
 ]

@@ -156,6 +156,12 @@ CNBRootModel >> printOn: aStream [
 	aStream nextPutAll: ')'
 ]
 
+{ #category : #'as yet unclassified' }
+CNBRootModel >> reduceToken: aTokenName [
+	
+	tokensDictionary at: aTokenName update: [ :value | value - 1 ].
+]
+
 { #category : #removing }
 CNBRootModel >> removeAllSuchThat: aBlock [
 
