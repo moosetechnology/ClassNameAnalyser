@@ -4,6 +4,12 @@ Class {
 	#category : #CNBFeatureSelector
 }
 
+{ #category : #removing }
+CNBFilterer class >> removeAllDigitsAndSpecialCharsFrom: aName [
+	^ self new
+		removeAllDigitsAndSpecialCharsFrom: aName
+]
+
 { #category : #filtering }
 CNBFilterer >> removeAllDigitsAndSpecialCharsFrom: aName [
 

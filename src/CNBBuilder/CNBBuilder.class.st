@@ -48,13 +48,6 @@ CNBBuilder class >> doRootsOf: aCollectionOfClassModels [
 		doRootsOf: aCollectionOfClassModels  
 ]
 
-{ #category : #doing }
-CNBBuilder class >> doTokenDictionaryFrom: aCollectionOfClassModels [
-	^self new 
-	doTokenDictionaryFrom: aCollectionOfClassModels
-
-]
-
 { #category : #extraction }
 CNBBuilder class >> extractBiggestClassDepthFrom: aConceptualModel [ 
 	| classModels |
@@ -104,18 +97,6 @@ CNBBuilder >> assignColorByType: aType [
 	ifTrue: [ ^ palette aColorForMultiToken ].
 ]
 
-{ #category : #building }
-CNBBuilder >> buildRootsFrom: classModels [
-
-		^ (classModels collect: #root) 
-			asSet
-				collect: [ :aRootClass |
-									CNBRootModel 
-										model: aRootClass 
-										with: (classModels select: [ :aClass | aClass root = aRootClass ]).
-			 				].
-]
-
 { #category : #coloring }
 CNBBuilder >> color: rootModels [
 
@@ -161,7 +142,7 @@ CNBBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 	^ classmodels 
 			collect: [ :eachClassModel | | itsRoot | 
 				itsRoot := rootModels 
-					detect: [ :eachRootModel | eachClassModel root name = eachRootModel name ].
+					detect: [ :eachRootModel | eachClassModel rootName = eachRootModel name ].
 				
 			CNBClassViewModel of: eachClassModel with: itsRoot. 
 				 ]
@@ -193,36 +174,6 @@ CNBBuilder >> doPackageViewModelsOf: aCND [
 ]
 
 { #category : #building }
-CNBBuilder >> doRootsOf: classModels [
-
-	| coloredRootModels rootModels |
-						
-	coloredRootModels := self 
-			color: (self buildRootsFrom: classModels).
-	
-	rootModels := self 
-			startFightOverTokensBetween: coloredRootModels.
-	
-	^ rootModels asSet
-]
-
-{ #category : #building }
-CNBBuilder >> doTokenDictionaryFrom: classModels [
-
-	| tokensDictionary tokens |
-	tokensDictionary := Dictionary new.
-	
-	tokens := (classModels collect: #token).
-	(classModels collect: #token) 
-		do: [ :aToken | 
-			tokensDictionary 
-				at: aToken 
-				put: (tokens occurrencesOf: aToken) ].
-			
-	^ tokensDictionary 
-]
-
-{ #category : #building }
 CNBBuilder >> doTokenViewModelsOf: aPackageModel using: rootModels [
 	"On enveloppe chaque class du package dans son concept box "
 
@@ -248,6 +199,13 @@ CNBBuilder >> initialize [
 			#pink . #tan . #cyan . #lightRed . #lightGreen . #lightMagenta.
 			#lightOrange . #lightYellow . #paleGreen . #paleMagenta . #paleOrange.
 			#palePeach . #paleRed . #lightBrown . #paleTan . #paleMagenta }
+]
+
+{ #category : #'as yet unclassified' }
+CNBBuilder >> reselectBiggestHierarchy: aTokenName using: rootModels [
+
+	| rootsUsingToken |
+	rootModels select: [ :each | each tokensDictionary keys includes: aTokenName ].
 ]
 
 { #category : #sorting }

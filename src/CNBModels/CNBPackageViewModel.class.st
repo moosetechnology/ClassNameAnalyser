@@ -20,6 +20,39 @@ CNBPackageViewModel class >> of: aModel with: tokenModels [
 
 ]
 
+{ #category : #accessing }
+CNBPackageViewModel >> classViewModels [ 
+
+	^ tokenViewModels flatCollect: [ :each | each classViewModels ]
+]
+
+{ #category : #'public layout' }
+CNBPackageViewModel >> cluster [ 	
+	| emptyTokens |
+	self 
+		classViewModels do: [ :aClass | | tokensAClassBelongsTo winningToken |
+			tokensAClassBelongsTo 
+					:= tokenViewModels 
+						select: [ :aToken | (aToken classViewModels collect: #name) includes: aClass name ]. 
+				tokensAClassBelongsTo hasMoreThanOneElement 
+				ifTrue: [ 
+					tokenViewModels asOrderedCollection removeAll: tokensAClassBelongsTo.
+					winningToken 
+						:= tokensAClassBelongsTo detectMax: [ :each | (aClass siblingsIn: each) size ].
+				
+					(tokensAClassBelongsTo difference: { winningToken }) 
+						asOrderedCollection
+					 		do: [ :each | each 
+								classViewModels removeAllSuchThat: [ :class | class name = aClass name ] 	].
+						tokenViewModels asOrderedCollection addAll: tokensAClassBelongsTo.							
+					 ] 		
+		 ].	
+		emptyTokens := self tokenViewModels select: [ :each | each classViewModels isEmpty ].	
+		self tokenViewModels: (tokenViewModels asOrderedCollection difference: emptyTokens).
+		
+	^ self
+]
+
 { #category : #operations }
 CNBPackageViewModel >> create [
 
@@ -88,21 +121,27 @@ CNBPackageViewModel >> processEvent: evt [
 { #category : #removing }
 CNBPackageViewModel >> removeAllSuchThat: aBlock [
 
-	tokenViewModels removeAllSuchThat: aBlock
+	tokenViewModels asOrderedCollection removeAllSuchThat: aBlock
 ]
 
 { #category : #'as yet unclassified' }
 CNBPackageViewModel >> replaceTokensOf: aRoot with: tokens [
 	
-	| rootTokens |
+	| rootTokens commonToken commonTokenClasses |
 	rootTokens := self tokensOf: aRoot name.
 	
 	self removeAllSuchThat: [ :each | each dominatedBy: aRoot ].
 	aRoot removeAllSuchThat: [ :each | each dominatedBy: aRoot inside: self  ].
-	
 	tokens do: [ :each | each name: each name , ' (P) ' ].
+	
+	commonToken := (tokens detectMax: [ :each | each size ]).
+	commonTokenClasses 
+		:= self classViewModels
+								select: [ :each | (each hasPrefix: commonToken name) ].
+	commonToken classViewModels addAll: commonTokenClasses.
+	self classViewModels removeAllSuchThat: [ :each | (each hasPrefix: commonToken name)].
 	tokenViewModels addAll: tokens.
-	aRoot tokenModels addAll: tokens
+	aRoot tokenModels addAll: tokens.
 ]
 
 { #category : #accessing }

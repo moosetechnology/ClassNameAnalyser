@@ -11,11 +11,13 @@ Class {
 	#category : #CNBModels
 }
 
-{ #category : #'as yet unclassified' }
-CNBPackageModel class >> of: aPackage withSettings: settings [ 
+{ #category : #accessing }
+CNBPackageModel class >> of: aPackage withSettings: settings [
+
 	^ self new
-		name: aPackage name;
-		classModels: (aPackage classes collect: [ :each | each classModelAccordingTo: settings ])
+		  name: aPackage name;
+		  classModels:
+			  (aPackage classes collect: [ :each | each classModelAccordingTo: settings ])
 ]
 
 { #category : #accessing }

@@ -57,6 +57,12 @@ CNBClassViewModel >> createBox [
 
 ]
 
+{ #category : #testing }
+CNBClassViewModel >> hasPrefix: aPrefix [
+
+	^ ((CNBFeatureSelector extractPrefixFrom: name) = aPrefix ) 
+]
+
 { #category : #accessing }
 CNBClassViewModel >> height [
 
@@ -75,8 +81,8 @@ CNBClassViewModel >> initialize [
 	
 	box := RSBox new.
 	rootBorderWidth := 4.
-	height := 35.
-	width := 35.
+	height := 45.
+	width := 45.
 	box when: RSMouseLeftClick do: [ :evt | self processEvent: evt ].
 	
 ]
@@ -127,10 +133,31 @@ CNBClassViewModel >> rootBorderWidth [
 	^ rootBorderWidth
 ]
 
+{ #category : #'as yet unclassified' }
+CNBClassViewModel >> rootName [
+	^ CNBFilterer removeAllDigitsAndSpecialCharsFrom: root name.
+]
+
 { #category : #interaction }
 CNBClassViewModel >> showBoxName [
 
 	self box popupText: name
+]
+
+{ #category : #'as yet unclassified' }
+CNBClassViewModel >> siblingsIn: aTokenViewModel [ 
+	
+	| classes monoTraitClasses |
+	classes := aTokenViewModel classViewModels.
+	monoTraitClasses 
+		:= classes select: [ :each | each root isMonoClass or: [ each root isTrait ] ].
+		
+	^ (root isMonoClass or: [ root isTrait ]) 
+	ifTrue: [ 
+		monoTraitClasses 
+				select: [ :each | (each tokens anySatisfy: [ :aToken | self tokens includes: aToken ] ) ].
+						]
+	ifFalse: [ classes select: [ :each | each rootName = self rootName ] ]
 ]
 
 { #category : #accessing }
@@ -143,6 +170,17 @@ CNBClassViewModel >> token [
 CNBClassViewModel >> token: aToken [
 
 	token := aToken
+]
+
+{ #category : #accessing }
+CNBClassViewModel >> tokens [ 
+	
+	| featureSelector prefix suffix |
+	featureSelector := CNBFeatureSelector new.
+	prefix := featureSelector extractPrefixFrom: name.
+	suffix := featureSelector extractSuffixFrom: name.
+	
+	^ {  prefix . suffix }
 ]
 
 { #category : #accessing }

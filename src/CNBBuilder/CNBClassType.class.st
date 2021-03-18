@@ -76,7 +76,7 @@ CNBClassType >> checkIfMultiToken: classModels [
 	rootToken := 
 		CNBFeatureSelector new
 		 	extract: classModels atRandom setting 
-		 	from: classModels atRandom root name. 
+		 	from: classModels atRandom rootName. 
 		
 	tokens := (classModels collect: #token).
 	tokens

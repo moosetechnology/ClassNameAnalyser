@@ -50,7 +50,7 @@ CNBClassModel >> create [
 CNBClassModel >> hasRootToken [
 	| rootToken |
 	
-	rootToken := CNBFeatureSelector new extract: setting token from: root name.
+	rootToken := CNBFeatureSelector new extract: setting token from: self rootName.
 	^ token = rootToken 
 ]
 
@@ -64,6 +64,12 @@ CNBClassModel >> model [
 CNBClassModel >> model: aModel [
 
 	model := aModel
+]
+
+{ #category : #'as yet unclassified' }
+CNBClassModel >> otherToken [
+
+	^ CNBFeatureSelector new extract: setting otherToken from: name
 ]
 
 { #category : #printing }
@@ -85,13 +91,18 @@ CNBClassModel >> root [
 { #category : #accessing }
 CNBClassModel >> root: aRoot [
 
-	root := aRoot.
+	root := aRoot
 ]
 
 { #category : #accessing }
 CNBClassModel >> rootAccordingTo: aRootClass [
 
 	^ self root: (model rootAccordingTo: aRootClass)
+]
+
+{ #category : #'as yet unclassified' }
+CNBClassModel >> rootName [
+	^ CNBFilterer removeAllDigitsAndSpecialCharsFrom: root name.
 ]
 
 { #category : #accessing }
@@ -122,4 +133,15 @@ CNBClassModel >> token [
 CNBClassModel >> token: aToken [
 
 	token := aToken
+]
+
+{ #category : #accessing }
+CNBClassModel >> tokens [ 
+	
+	| featureSelector prefix suffix |
+	featureSelector := CNBFeatureSelector new.
+	prefix := featureSelector extractPrefixFrom: name.
+	suffix := featureSelector extractSuffixFrom: name.
+	
+	^ {  prefix . suffix }
 ]

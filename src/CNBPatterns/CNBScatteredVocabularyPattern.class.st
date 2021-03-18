@@ -30,7 +30,7 @@ CNBScatteredVocabularyPattern >> initialize [
 	
 	description := 'I am a Scattered Vocabulary'.
 	name := #'Scattered Vocabulary'.
-	minClassSize := 3.
+	minClassSize := 1.
 	minTokenSize := 3.
 	threshold := 10
 ]

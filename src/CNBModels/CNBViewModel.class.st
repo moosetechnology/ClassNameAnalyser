@@ -97,6 +97,38 @@ CNBViewModel >> packageViewModels: collection [
 ]
 
 { #category : #'as yet unclassified' }
+CNBViewModel >> reattributeTokenModelsToRoots [
+
+	
+]
+
+{ #category : #accessing }
+CNBViewModel >> refactorToken: aToken [
+
+	| builder root |
+	builder := CNBBuilder new.
+	root := builder
+		        selectBiggestHierarchyOf: aToken name
+		        using: rootModels.
+	root
+		ifNil: [ aToken changeRootTo: aToken classViewModels atRandom root ]
+		ifNotNil: [ 
+			(aToken containsHierarchy: root)
+				ifFalse: [ 
+					root removeToken: aToken name.
+					builder startFightOverTokensBetween: rootModels.
+
+					self refactorToken: aToken ]
+				ifTrue: [ aToken changeRootTo: root ] ]
+]
+
+{ #category : #'as yet unclassified' }
+CNBViewModel >> refactorTokenModels [
+
+	self tokenModels do: [ :each | self refactorToken: each ]
+]
+
+{ #category : #'as yet unclassified' }
 CNBViewModel >> scatteredPackages [ 
 
 	| scattered |
@@ -115,15 +147,6 @@ CNBViewModel >> setting [
 CNBViewModel >> setting: aSetting [
 
 	setting := aSetting 
-]
-
-{ #category : #operations }
-CNBViewModel >> startBuilding [ 
-	
-	^ (self setting token = #both)
-			ifTrue: [ CNBBothTokensStrategy build: self ]
-			ifFalse: [ CNBTokenStrategy build: self ]. 
-	
 ]
 
 { #category : #'accessing - attributes' }

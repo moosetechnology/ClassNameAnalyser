@@ -53,6 +53,14 @@ CNBTokenViewModel >> belongers [
 	^ self classViewModels select: [ :each | each root = root ].
 ]
 
+{ #category : #'as yet unclassified' }
+CNBTokenViewModel >> changeRootTo: aRoot [ 
+	self 
+		root: aRoot;
+		color: aRoot color;
+		originalColor: aRoot color
+]
+
 { #category : #testing }
 CNBTokenViewModel >> checkConfetti [
 	
@@ -152,6 +160,26 @@ CNBTokenViewModel >> classViewModels [
 { #category : #accessing }
 CNBTokenViewModel >> classViewModels: classVModels [
 	classViewModels := classVModels.
+]
+
+{ #category : #testing }
+CNBTokenViewModel >> containsHierarchy: aRoot [
+
+	| siblingTokens |
+	siblingTokens := (aRoot tokenModels select: [ :each | each name = self name ]).
+	
+	^ (siblingTokens flatCollect: #classViewModels)
+					anySatisfy: [ :each | each root name = self root name ]
+]
+
+{ #category : #testing }
+CNBTokenViewModel >> containsItsHierarchy [ 
+
+	| siblingTokens |
+	siblingTokens := (root tokenModels select: [ :each | each name = self name ]).
+	
+	^ (siblingTokens flatCollect: #classViewModels)
+					anySatisfy: [ :each | each root name = self root name ]
 ]
 
 { #category : #operations }

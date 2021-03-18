@@ -16,6 +16,13 @@ Class {
 	#category : #CNBFeatureSelector
 }
 
+{ #category : #extraction }
+CNBFeatureSelector class >> extractPrefixFrom: aName [
+
+	^ self new
+			extractPrefixFrom: aName
+]
+
 { #category : #actions }
 CNBFeatureSelector class >> extractSuffixFrom: aString [
 	^self new
@@ -51,7 +58,7 @@ CNBFeatureSelector >> extractPrefixFrom: aName [
 	aConcept := self selectPrefixFrom: tokens.
 	aConcept := filterer removeAllDigitsFrom: aConcept.
 	aConcept := self stem: aConcept.
-	^ aConcept
+	^ filterer removeAllSpecialCharsFrom: aConcept.
 ]
 
 { #category : #extraction }
@@ -77,7 +84,7 @@ CNBFeatureSelector >> extractSuffixFrom: aName [
 	aConcept := self selectSuffixFrom: tokens.
 	aConcept := filterer removeAllDigitsFrom: aConcept.
 	aConcept := self stem: aConcept.
-	^ aConcept
+	^ filterer removeAllDigitsAndSpecialCharsFrom: aConcept.
 ]
 
 { #category : #filtering }

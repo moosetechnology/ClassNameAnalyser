@@ -31,5 +31,5 @@ CNBTDataExtractor >> selectBiggestHierarchyOf: aToken using: rootModels [
 
 	^ (rootModels 
 			detect: [ :aRoot | aRoot 
-							dominantTokens keys includes: aToken ]).
+							dominantTokens keys includes: aToken ] ifNone: [ nil ] ).
 ]

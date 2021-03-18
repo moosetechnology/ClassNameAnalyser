@@ -26,7 +26,7 @@ CNBRootModel class >> model: aClass with: aCollectionOfSubClassModels [
 	
 	^ (self new
 			model: aClass;
-			subclasses: aCollectionOfSubClassModels) create.
+			subclasses: aCollectionOfSubClassModels).
 		
 ]
 
@@ -42,29 +42,6 @@ CNBRootModel >> biggestTokenName [
 	^ biggestTokenAssociation key
 ]
 
-{ #category : #'as yet unclassified' }
-CNBRootModel >> changeTokenPosition: electedTokens [ 
-	| newTokens newTokenPosition |
-	
-	newTokenPosition 
-		:= (tokenPosition = #prefix) ifTrue: [ #suffix ] ifFalse: [ #prefix ].
-		
-	newTokens
-			:= (electedTokens 
-					flatCollect: #classViewModels) 
-						collect: [ :each | CNBFeatureSelector new extract: newTokenPosition from: each name].
-	^ newTokens asSet 
-				collect: [ :aToken | 
-					CNBTokenViewModel 
-						of: aToken 
-						root: self
-						with: ((electedTokens flatCollect: #classViewModels)
-								select: [ :aClass | 
-									(CNBFeatureSelector new extract: newTokenPosition from: aClass name) = aToken ])
-						in: (electedTokens first package).
-			 ]
-]
-
 { #category : #accessing }
 CNBRootModel >> color [ 
 
@@ -75,23 +52,6 @@ CNBRootModel >> color [
 CNBRootModel >> color: aColor [
 
 	color := aColor
-]
-
-{ #category : #creation }
-CNBRootModel >> create [
-
-	self 
-		name: model name;
-		type: (CNBClassType 
-					with: self subclasses) type;
-		token: (CNBFeatureSelector new 
-					extract: subclasses atRandom setting 
-					from: model name);
-		size: subclasses size;
-		tokenPosition: subclasses atRandom setting token;
-		tokensDictionary: (CNBBuilder doTokenDictionaryFrom: subclasses).
-		
-		
 ]
 
 { #category : #accessing }
@@ -202,6 +162,14 @@ CNBRootModel >> removeAllSuchThat: aBlock [
 	tokenModels removeAllSuchThat: aBlock
 ]
 
+{ #category : #removing }
+CNBRootModel >> removeToken: aTokenName [
+
+	 dominantTokens removeKey: aTokenName.
+	 tokensDictionary removeKey: aTokenName.
+	self tokenModels removeAllSuchThat: [ :each | each name = aTokenName ].
+]
+
 { #category : #'as yet unclassified' }
 CNBRootModel >> scatteredSubclassesInside: aPackageModel [ 
 
@@ -267,6 +235,17 @@ CNBRootModel >> tokenPosition [
 { #category : #accessing }
 CNBRootModel >> tokenPosition: suffixOrPrefix [
 	 tokenPosition := suffixOrPrefix
+]
+
+{ #category : #accessing }
+CNBRootModel >> tokens [ 
+	
+		| featureSelector prefix suffix |
+	featureSelector := CNBFeatureSelector new.
+	prefix := featureSelector extractPrefixFrom: name.
+	suffix := featureSelector extractSuffixFrom: name.
+	
+	^ {  prefix . suffix }
 ]
 
 { #category : #accessing }
