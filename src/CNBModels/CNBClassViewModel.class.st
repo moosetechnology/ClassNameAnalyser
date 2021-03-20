@@ -35,6 +35,14 @@ CNBClassViewModel >> border [
 		
 ]
 
+{ #category : #'as yet unclassified' }
+CNBClassViewModel >> changeColorTo: aColor [
+
+	self
+		color: aColor;
+		originalColor: aColor
+]
+
 { #category : #accessing }
 CNBClassViewModel >> changeTokenTo: aToken [
 
@@ -44,11 +52,15 @@ CNBClassViewModel >> changeTokenTo: aToken [
 
 { #category : #operations }
 CNBClassViewModel >> create [
-
-	self
-			name: model name;
+	
+	root 
+		ifNotNil: [  
+		self	
 			originalColor: root color copy;
-			color: root color;
+			color: root color ].
+		
+		self
+			name: model name;
 			token: model token
 		
 ]
@@ -126,7 +138,7 @@ CNBClassViewModel >> monoTraitSiblingsIn: aTokenViewModel [
 	| monoTraitClasses |
 	
 	monoTraitClasses 
-		:= aTokenViewModel classViewModels select: [ :each | each root isMonoClass or: [ each root isTrait ] ].
+		:= aTokenViewModel classViewModels select: [ :each | each root subclasses hasOneElement ].
 		
 		^ monoTraitClasses 
 				select: [ :aClass | (aClass tokens anySatisfy: [ :aToken | self tokens includes: aToken ] ) ].
@@ -175,7 +187,7 @@ CNBClassViewModel >> showBoxName [
 { #category : #'as yet unclassified' }
 CNBClassViewModel >> siblingsIn: aTokenViewModel [ 
 	
-	^ (self root isTrait or: [ self root isMonoClass ])
+	^ (self root subclasses hasOneElement)
 	ifTrue: [ self monoTraitSiblingsIn: aTokenViewModel ]
 	ifFalse: [ self monoMultiSiblingsIn: aTokenViewModel  ]. 
 	

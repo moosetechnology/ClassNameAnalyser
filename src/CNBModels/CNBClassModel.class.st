@@ -35,11 +35,10 @@ CNBClassModel >> create [
 	aToken := CNBFeatureSelector new extract: setting token from: self model name.
 	aRoot 
 		:= (Smalltalk image classNamed: model name) 
-				ifNil: [ self model rootAccordingTo: setting rootClass ] 
-				ifNotNil: [ (Smalltalk image classNamed: model name) rootAccordingTo: setting rootClass ].
-	
+			ifNil: [ self model rootAccordingTo: setting rootClass ] 
+			ifNotNil: [ (Smalltalk image classNamed: model name) rootAccordingTo: setting rootClass ].
 		self 
-			name: model name;
+			name:  (CNBFilterer removeAllDigitsAndSpecialCharsFrom: model name);
 			root: aRoot;
 			superclass: self superclass;
 			token: aToken.
@@ -143,5 +142,5 @@ CNBClassModel >> tokens [
 	prefix := featureSelector extractPrefixFrom: name.
 	suffix := featureSelector extractSuffixFrom: name.
 	
-	^ {  prefix . suffix }
+	^ { prefix . suffix }
 ]

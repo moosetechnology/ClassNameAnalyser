@@ -9,6 +9,20 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+ClassNamesBlueprint >> attributeRoots [ 
+
+
+	self viewModel 
+		tokenModels
+			 do: [ :each | 
+				each root: (CNBBuilder new selectBiggestHierarchyOf: each name using: self rootModels).
+				each create ].
+	self viewModel 
+		classViewModels do: [ :each | each create  ].
+	self viewModel attributeTokenModelsToRoots.
+]
+
+{ #category : #'as yet unclassified' }
 ClassNamesBlueprint >> buildViewWith: aVisualizerClass [
 
 	^ aVisualizerClass new 	

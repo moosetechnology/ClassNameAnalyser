@@ -23,7 +23,7 @@ CNBPackageViewModelOragnizer >> attributeTokensToClassesInside: aPackage [
 { #category : #'as yet unclassified' }
 CNBPackageViewModelOragnizer >> cluster: aPackageViewModel [ 
 	
-	^ clusterer organize: aPackageViewModel property: #siblings 
+	^ clusterer organize: aPackageViewModel
 	
 ]
 
@@ -37,7 +37,9 @@ CNBPackageViewModelOragnizer >> initialize [
 { #category : #initialization }
 CNBPackageViewModelOragnizer >> removeEmptyTokens: aPackage [
 
-	aPackage tokenViewModels: (aPackage tokenViewModels removeAllSuchThat: [ :each | each size isZero ])
+	aPackage tokenViewModels removeAllSuchThat: [ :each | each size isZero ].
+
+		
 ]
 
 { #category : #initialization }

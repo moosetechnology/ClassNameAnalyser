@@ -60,6 +60,17 @@ CNBTokenViewModel >> belongers [
 ]
 
 { #category : #'as yet unclassified' }
+CNBTokenViewModel >> changeColorTo: aColor [
+
+	self 
+		originalColor: root color copy;
+		color: root color.
+		
+	self belongers do: [ :each | each changeColorTo: aColor ]
+		
+]
+
+{ #category : #'as yet unclassified' }
 CNBTokenViewModel >> changeRootTo: aRoot [ 
 	self 
 		root: aRoot;
@@ -174,6 +185,11 @@ CNBTokenViewModel >> classViewModels: classVModels [
 	classViewModels := classVModels.
 ]
 
+{ #category : #accessing }
+CNBTokenViewModel >> classes [ 
+	^ self classViewModels 
+]
+
 { #category : #testing }
 CNBTokenViewModel >> containsHierarchy: aRoot [
 
@@ -197,9 +213,11 @@ CNBTokenViewModel >> containsItsHierarchy [
 { #category : #operations }
 CNBTokenViewModel >> create [
 	
+	root ifNotNil: [  
 	self 
 		originalColor: root color copy;
-		color: root color;
+		color: root color ].
+	self
 		size: 	classViewModels size.
 ]
 
@@ -270,6 +288,14 @@ CNBTokenViewModel >> pattern: aPattern [
 	pattern := aPattern 
 ]
 
+{ #category : #initialization }
+CNBTokenViewModel >> resetToken [
+
+
+	self size: size - 1.
+
+]
+
 { #category : #accessing }
 CNBTokenViewModel >> root [
 
@@ -293,7 +319,7 @@ CNBTokenViewModel >> showPatternDescription [
 { #category : #accessing }
 CNBTokenViewModel >> size [
 
-	^ size 
+	^ classViewModels size 
 ]
 
 { #category : #accessing }

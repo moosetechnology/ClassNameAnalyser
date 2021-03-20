@@ -24,7 +24,7 @@ CNBPackageViewModel class >> of: aModel with: tokenModels [
 { #category : #accessing }
 CNBPackageViewModel >> classViewModels [ 
 
-	^ tokenViewModels flatCollect: [ :each | each classViewModels ]
+	^ (tokenViewModels flatCollect: [ :each | each classViewModels ]) asSet
 ]
 
 { #category : #accessing }
@@ -48,6 +48,7 @@ CNBPackageViewModel >> create [
 		size: (tokenViewModels flatCollect: #classViewModels) size;
 		color: self defaultColor;
 		originalColor: self defaultColor.
+		
 
 ]
 
@@ -86,23 +87,9 @@ CNBPackageViewModel >> models [
 ]
 
 { #category : #accessing }
-CNBPackageViewModel >> modelsOrderedAscending [
-
-	^ tokenViewModels 
-			sorted: #size ascending
-]
-
-{ #category : #accessing }
 CNBPackageViewModel >> modelsOrderedByColor [
 
-	 ^ CNBBuilder sort: tokenViewModels
-]
-
-{ #category : #accessing }
-CNBPackageViewModel >> modelsOrderedDescending [
-
-	^ tokenViewModels 
-				sorted: #size descending
+  ^ (CNBBuilder sort: self tokenViewModels ).
 ]
 
 { #category : #'events-processing' }
@@ -110,26 +97,6 @@ CNBPackageViewModel >> processEvent: evt [
 
 	"Smalltalk tools browser openOnPackage:(RPackageOrganizer default packageNamed: name) "
 	self inspect
-]
-
-{ #category : #'as yet unclassified' }
-CNBPackageViewModel >> replaceTokensOf: aRoot with: tokens [
-	
-	| rootTokens commonToken commonTokenClasses |
-	rootTokens := self tokensOf: aRoot name.
-	
-	self removeAllSuchThat: [ :each | each dominatedBy: aRoot ].
-	aRoot removeAllSuchThat: [ :each | each dominatedBy: aRoot inside: self  ].
-	tokens do: [ :each | each name: each name , ' (P) ' ].
-	
-	commonToken := (tokens detectMax: [ :each | each size ]).
-	commonTokenClasses 
-		:= self classViewModels
-								select: [ :each | (each hasPrefix: commonToken name) ].
-	commonToken classViewModels addAll: commonTokenClasses.
-	self classViewModels removeAllSuchThat: [ :each | (each hasPrefix: commonToken name)].
-	tokenViewModels addAll: tokens.
-	aRoot tokenModels addAll: tokens.
 ]
 
 { #category : #initialization }
@@ -171,7 +138,9 @@ CNBPackageViewModel >> tokenViewModels [
 { #category : #accessing }
 CNBPackageViewModel >> tokenViewModels: tokenModels [
 
-	tokenViewModels := tokenModels
+	self tokenViewModels: (tokenModels asSet sorted: #size descending).
+	self tokenViewModels: self modelsOrderedByColor
+	
 ]
 
 { #category : #accessing }
@@ -183,5 +152,5 @@ CNBPackageViewModel >> tokens [
 { #category : #'as yet unclassified' }
 CNBPackageViewModel >> tokensOf: aRootName [
 	
-	^ tokenViewModels select: [ :each | each root name = aRootName ]
+	^ (tokenViewModels select: [ :each | each root name = aRootName ])
 ]

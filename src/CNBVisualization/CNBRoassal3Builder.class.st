@@ -81,8 +81,11 @@ CNBRoassal3Builder class >> projectNameMatches: aString on: aCanvas [
 
 { #category : #building }
 CNBRoassal3Builder >> build: cnbModel [
-	canvas addAll: (self createPackageBoxesOf: cnbModel).
+	| packages |
+	packages := (self createPackageBoxesOf: cnbModel).
 	
+	canvas addAll: packages.
+
 	RSFlowLayout on: canvas nodes.
 	canvas @ RSCanvasController.
 	^canvas
@@ -126,17 +129,18 @@ CNBRoassal3Builder >> createClassBoxesOf: aSuffix [
 CNBRoassal3Builder >> createPackageBoxesOf: cnbModel [
 
 	| packages packageBoxes  |
-	cnbModel viewModel packageViewModels: cnbModel viewModel modelsOrderedDescending.
-	cnbModel viewModel packageViewModels: cnbModel viewModel packageViewModels.
+	cnbModel viewModel modelsOrderedDescending.
 	packages := cnbModel viewModel packageViewModels.	
+	
 	packageBoxes :=
 	(packages
 		collect: 
 			[ :package | | packageComposite label composite namedAbbreviated |
-			namedAbbreviated := CNBNameAbbreviationCreator abbreviate: package name until: 4.
+			namedAbbreviated := CNBNameAbbreviationCreator abbreviate: package name until: 10.
 				label := RSLabel new text: namedAbbreviated;fontSize: 30;bold.
 				composite := RSComposite new.
 				packageComposite := self createBoxOf: package.
+				
 				packageComposite addAll: (self createTokenBoxesOf: package).
 				RSGridLayout new on: packageComposite children;gapSize: 20.
 				packageComposite border: package border.
@@ -147,23 +151,23 @@ CNBRoassal3Builder >> createPackageBoxesOf: cnbModel [
 				composite add: label; add: packageComposite.
 				RSVerticalLineLayout new alignCenter; on:  { label . packageComposite }.
 				composite adjustToChildren.
-				
 				 ]).
+				
 		^packageBoxes 
 ]
 
 { #category : #creating }
 CNBRoassal3Builder >> createTokenBoxesOf: aPackage [ 
-	| tokenBoxes |
-	aPackage tokenViewModels: aPackage modelsOrderedDescending. 
-	aPackage tokenViewModels: aPackage modelsOrderedByColor.
-		
-	tokenBoxes := (aPackage tokenViewModels 
+	| tokenBoxes | 
+	
+	tokenBoxes := (aPackage modelsOrderedByColor	
 			collect: [ :aToken | | tokenComposite label composite |
+				
 				composite := RSComposite new.
 					label := RSLabel new text: aToken name;bold; fontSize:20.
 					tokenComposite := self createBoxOf: aToken.
 					tokenComposite addAll: (self createClassBoxesOf: aToken).
+				
 					tokenComposite border: aToken border.
 					tokenComposite adjustToChildren.
 					RSGridLayout new on: tokenComposite children.
@@ -175,7 +179,7 @@ CNBRoassal3Builder >> createTokenBoxesOf: aPackage [
 					composite adjustToChildren.
 					composite.
 						]).
-					
+				
 	^ tokenBoxes 
 					
 		

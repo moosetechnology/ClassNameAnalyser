@@ -5,22 +5,24 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-CNBClusterer >> organize: aPackage property: aSelector [ 
+CNBClusterer >> organize: aPackage [
 
 	| classes tokens |
-	classes := aPackage classes.
-	tokens := aPackage tokens.
-	
+	tokens := aPackage tokens sorted: #size descending. 
+	classes := (tokens flatCollect: #classViewModels).
+
 	classes do: [ :aClass | | classTokens winner |
 		classTokens 
-			:= tokens select: [ :aToken | aToken classNames includes: aClass name ].
-		 
+			:= tokens select: [ :token | token classNames includes: aClass name ].
+
 		classTokens	
 			hasMoreThanOneElement ifTrue: [ 
-		winner :=	 self selectWinnerOf: aClass outOf: classTokens.		 
+		winner :=	 self selectWinnerOf: aClass outOf: classTokens.	
+		
 		self remove: aClass from: (classTokens difference: { winner }).		
 						 ]
 				 ].
+			
 	^ aPackage reset.
 ]
 
@@ -28,36 +30,32 @@ CNBClusterer >> organize: aPackage property: aSelector [
 CNBClusterer >> remove: aClass from: tokens [
 
 	tokens 
-		do: [ :aToken | aToken 
-			classViewModels removeAllSuchThat: [ :each | each name = aClass name ].
-			aClass root reduceToken: aToken name ].
+		do: [ :aToken | 
+			
+			aToken classViewModels removeAllSuchThat: [ :each | each model model = aClass model model ].
+			
+			aClass root reduceToken: aToken name.
+
+			 ].
 		
-	self resetTokens: tokens
-]
-
-{ #category : #initialization }
-CNBClusterer >> resetTokens: tokens [
-
-	tokens 
-		do: [ :each | 
-				each size: each size - 1 ].	
-	
-	
 ]
 
 { #category : #'as yet unclassified' }
 CNBClusterer >> selectWinnerOf: aClass outOf: classTokens [
 
-	| potentialWinner otherPotentialWinners potentialWinnersNames classRoot winningTokenName |
+	| potentialWinner otherPotentialWinners potentialWinnersNames classRoot winningTokenName one two |
 	potentialWinner 
 		:= classTokens detectMax: [ :each | (aClass siblingsIn: each) size ].
 		
 		" siblings"
 	otherPotentialWinners 
-		:= (classTokens difference: { potentialWinner }) select: [ :each | 
-			(aClass siblingsIn: each) size = (aClass siblingsIn: potentialWinner) size ].
+		:= (classTokens difference: { potentialWinner }) asSet select: [ :each | 
+			one := (aClass siblingsIn: each) .
+			two := (aClass siblingsIn: potentialWinner).
+			one size = two size  ].
 		
 		"same size of siblings"
+	
 	otherPotentialWinners 
 		ifNotEmpty: 
 		[ 	
@@ -74,8 +72,4 @@ CNBClusterer >> selectWinnerOf: aClass outOf: classTokens [
 			^ classTokens detect: [ :each | each name = winningTokenName ] 
 		].
 	^ potentialWinner
-]
-
-{ #category : #'private - backend access' }
-CNBClusterer >> sibling [ 
 ]

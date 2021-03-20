@@ -81,7 +81,7 @@ CNBViewModel >> modelsOrderedAscending [
 { #category : #accessing }
 CNBViewModel >> modelsOrderedDescending [
 
-	^ packageViewModels sorted: #size descending
+	self packageViewModels: (packageViewModels sorted: #size descending)
 ]
 
 { #category : #accessing }
@@ -100,32 +100,6 @@ CNBViewModel >> packageViewModels: collection [
 CNBViewModel >> reattributeTokenModelsToRoots [
 
 	
-]
-
-{ #category : #accessing }
-CNBViewModel >> refactorToken: aToken [
-
-	| builder root |
-	builder := CNBBuilder new.
-	root := builder
-		        selectBiggestHierarchyOf: aToken name
-		        using: rootModels.
-	root
-		ifNil: [ aToken changeRootTo: aToken classViewModels atRandom root ]
-		ifNotNil: [ 
-			(aToken containsHierarchy: root)
-				ifFalse: [ 
-					root removeToken: aToken name.
-					builder startFightOverTokensBetween: rootModels.
-
-					self refactorToken: aToken ]
-				ifTrue: [ aToken changeRootTo: root ] ]
-]
-
-{ #category : #'as yet unclassified' }
-CNBViewModel >> refactorTokenModels [
-
-	self tokenModels do: [ :each | self refactorToken: each ]
 ]
 
 { #category : #'as yet unclassified' }

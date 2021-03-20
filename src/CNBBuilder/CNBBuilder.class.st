@@ -145,7 +145,7 @@ CNBBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 					detect: [ :eachRootModel | eachClassModel rootName = eachRootModel name ].
 				
 			CNBClassViewModel of: eachClassModel with: itsRoot. 
-				 ]
+				 ].
 ]
 
 { #category : #building }

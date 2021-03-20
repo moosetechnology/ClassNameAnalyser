@@ -42,6 +42,13 @@ CNBRootModel >> biggestTokenName [
 	^ biggestTokenAssociation key
 ]
 
+{ #category : #'as yet unclassified' }
+CNBRootModel >> changeColorTo: aColor [
+
+	self color: aColor.
+	self tokenModels do: [ :each | each changeColorTo: aColor ]
+]
+
 { #category : #accessing }
 CNBRootModel >> color [ 
 
@@ -159,7 +166,11 @@ CNBRootModel >> printOn: aStream [
 { #category : #'as yet unclassified' }
 CNBRootModel >> reduceToken: aTokenName [
 	
+
 	tokensDictionary at: aTokenName update: [ :value | value - 1 ].
+
+	
+
 ]
 
 { #category : #removing }
@@ -174,6 +185,14 @@ CNBRootModel >> removeToken: aTokenName [
 	 dominantTokens removeKey: aTokenName.
 	 tokensDictionary removeKey: aTokenName.
 	self tokenModels removeAllSuchThat: [ :each | each name = aTokenName ].
+]
+
+{ #category : #removing }
+CNBRootModel >> removeUnnecessaryTokens [
+
+	tokensDictionary 
+		:= (tokensDictionary associations reject: [ :each | each value isZero ]) asDictionary 
+	
 ]
 
 { #category : #'as yet unclassified' }

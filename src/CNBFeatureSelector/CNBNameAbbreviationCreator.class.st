@@ -14,25 +14,27 @@ CNBNameAbbreviationCreator class >> abbreviate: aName until: aNumber [
 
 { #category : #splitjoin }
 CNBNameAbbreviationCreator >> abbreviate: aName until: aNumber [
-	| tokens collections abbreviations |
+
+	| tokens nameParts abbreviations |
 	tokens := CNBNameTokenizer tokenize: aName.
-	tokens size > aNumber
-		ifTrue: [ collections := self devide: tokens until: aNumber .
-	abbreviations := collections first
-		collect: [ :token1 | token1 first asUppercase ].
+	nameParts := tokens size > aNumber
+		             ifTrue: [ self devide: tokens until: aNumber ]
+		             ifFalse: [ self devide: tokens until: tokens size - 1 ].
+	abbreviations := nameParts first collect: [ :aCaracter | 
+		                 aCaracter first asUppercase ].
+
 	^ abbreviations concatenatesStrings
-		, collections last concatenatesStrings].	
-	^aName
+	  , nameParts second concatenatesStrings
 ]
 
 { #category : #splitjoin }
 CNBNameAbbreviationCreator >> devide: aCollection until: aNumber [
-	| collection1 collection2 |
+	| firstPartTokens secondPartTokens |
 	aCollection size > aNumber
-		ifTrue: [ collection1 := aCollection copyFrom: 1 to: aNumber.
-			collection2 := aCollection asOrderedCollection
-				removeAllFoundIn: collection1;
+		ifTrue: [ firstPartTokens := aCollection copyFrom: 1 to: aNumber.
+			secondPartTokens := aCollection asOrderedCollection
+				removeAllFoundIn: firstPartTokens;
 				yourself.
-			^ Array with: collection1 with: collection2 asArray ].
+			^ Array with: firstPartTokens with: secondPartTokens asArray ].
 	^ aCollection
 ]

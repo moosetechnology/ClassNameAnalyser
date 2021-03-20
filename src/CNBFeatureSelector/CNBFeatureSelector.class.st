@@ -55,10 +55,11 @@ CNBFeatureSelector >> extractPrefixFrom: aName [
 
 	| aConcept tokens|
 	tokens := self tokenize: aName.
+	aConcept := filterer removeAllDigitsAndSpecialCharsFrom: aName.
 	aConcept := self selectPrefixFrom: tokens.
-	aConcept := filterer removeAllDigitsFrom: aConcept.
+	aConcept := filterer removeAllDigitsAndSpecialCharsFrom: aConcept.
 	aConcept := self stem: aConcept.
-	^ filterer removeAllSpecialCharsFrom: aConcept.
+	^ aConcept 
 ]
 
 { #category : #extraction }
@@ -81,10 +82,11 @@ CNBFeatureSelector >> extractSuffixFrom: aName [
 
 	| aConcept tokens|
 	tokens := self tokenize: aName.
+	aConcept := filterer removeAllDigitsAndSpecialCharsFrom: aName.
 	aConcept := self selectSuffixFrom: tokens.
-	aConcept := filterer removeAllDigitsFrom: aConcept.
+	aConcept := filterer removeAllDigitsAndSpecialCharsFrom: aConcept.
 	aConcept := self stem: aConcept.
-	^ filterer removeAllDigitsAndSpecialCharsFrom: aConcept.
+	^ aConcept 
 ]
 
 { #category : #filtering }
@@ -126,8 +128,8 @@ CNBFeatureSelector >> initialize [
 	conceptualSymbolSelector := CNBConceptualSymbolSelector new.
 	filterer := CNBFilterer new.
 	stemming := false.
-	filtererAllDigits := false.
-	filterSpecialChars := false.
+	filtererAllDigits := true.
+	filterSpecialChars := true.
 ]
 
 { #category : #selection }

@@ -18,7 +18,11 @@ Class {
 		'nodesToBeDarker',
 		'nodesToBeHighlighted',
 		'reset',
-		'selectedPackageBox'
+		'selectedPackageBox',
+		'prefixCnb',
+		'suffixCnb',
+		'bothCnb',
+		'radioButtionsActions'
 	],
 	#category : #CNBSpec
 }
@@ -48,9 +52,9 @@ CNBPresenter class >> defaultSpec [
 				yourself) height: self labelHeight + self buttonHeight;
 			add: (SpBoxLayout newVertical
 				add: #suffix height: self buttonHeight;
-				"add: #prefix height: self buttonHeight;"
+				add: #prefix height: self buttonHeight;
 				add: #both height: self buttonHeight;
-				yourself) height: self buttonHeight + self buttonHeight;
+				yourself) height: self buttonHeight + self buttonHeight + self buttonHeight;
 			add: (SpBoxLayout newVertical 
 				add: #loadProjectButton width: self buttonWidth;
 				yourself) height: self buttonHeight + self buttonHeight;
@@ -125,17 +129,35 @@ CNBPresenter >> connectPresenters [
 	reset action: [ self reset ].
 	packageSearch whenSubmitDo: [ :aRub | self changePackageBorderWidth: aRub text asString ].
 	packageSearch whenResetDo: [ self resetPackageBoder ].
-	suffix whenActivatedDo: [ self onSuffixActivated ].
-	prefix whenActivatedDo: [ self onPrefixActivated ].
-	both whenActivatedDo: [ self onBothActivated ].
+	suffix whenActivatedDo: [ self showSuffixActivated  ].
+	prefix whenActivatedDo: [ self showPrefixActivated  ].
+	both whenActivatedDo: [ self showBothActivated  ].
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> fixColors [
+
+	| suffixRootModels prefixRootModels bothRootModels |
+	
+	suffixRootModels := suffixCnb rootModels select: [ :each | each isMultiToken ].
+	prefixRootModels := prefixCnb rootModels select: [ :each | each isMultiToken ].
+	bothRootModels := bothCnb rootModels select: [ :each | each isMultiToken ].
+	suffixRootModels 
+		do: [ :aRoot |
+			prefixRootModels 
+				detect: [ :each | each name = aRoot name ] ifFound: [ :prefixRoot | prefixRoot changeColorTo: aRoot color ].			
+			bothRootModels detect: [ :each | each name = aRoot name ] ifFound: [ :bothRootModel | bothRootModel changeColorTo: aRoot color. ]
+			 ]
 ]
 
 { #category : #highlighting }
 CNBPresenter >> goDarkerFor: aPattern [
-	| nodesWithHighlightedBorders |
+	| nodesWithHighlightedBorders activatedRadioButton |
 	
-	nodesToBeDarker isNotEmpty ifTrue: [ self reset ]. 	
-	projectCNB isNotNil ifFalse: [ ^ self ].
+	nodesToBeDarker isNotNil ifTrue: [ self reset ]. 
+	activatedRadioButton := self radioButtons detect: [ :each | each state ].	
+	
+	(radioButtionsActions asDictionary at: activatedRadioButton) isNotNil ifFalse: [ ^ self ].
 	
 	nodesToBeHighlighted := self nodesToHighlightFor: aPattern.
 	nodesToBeHighlighted ifEmpty: [ ^ self ].
@@ -154,28 +176,32 @@ CNBPresenter >> goDarkerFor: aPattern [
 ]
 
 { #category : #initialization }
-CNBPresenter >> initialize [
-	super initialize.
-	
-	nodesToBeDarker := OrderedCollection new.
-	projectCNB := ClassNamesBlueprint new
-]
-
-{ #category : #initialization }
 CNBPresenter >> initializePresenters [
 	super initializePresenters.
 	
-	projectSelector := self newTextInput
-		placeholder: 'projectNameMatches:''....-*'''.
+	suffixCnb := ClassNamesBlueprint new withSuffix.
+	prefixCnb := ClassNamesBlueprint new withPrefix.
+	bothCnb := ClassNamesBlueprint new withBoth.
+
+	projectSelector 
+		:= self newTextInput placeholder: 'projectNameMatches:''....-*'''.
+	reset 
+		:= self newButton label: 'Reset'. 
+	prefix 
+		:= self newRadioButton label: 'Prefix'.
+	suffix 
+		:= self newRadioButton label: 'Suffix'.
+	both 
+		:= self newRadioButton label: 'Both'.
+	radioButtionsActions := Dictionary new.
+	radioButtionsActions 
+		:= { prefix ->  prefixCnb .
+			  suffix -> suffixCnb .
+			  both -> bothCnb }.
+	
 	pathSelector := self newTextInput.
 	rootSelector := self newTextInput. 
-	reset := self newButton label: 'Reset'. 
-	prefix := self newRadioButton.
-	suffix := self newRadioButton.	
-	both := self newRadioButton.
-	prefix label: 'Prefix'.
-	suffix label: 'Suffix'.
-	both label: 'Both'.
+	
 	suffix associatedRadioButtons: { prefix . both }.
 	
 	loadProjectButton := self newButton label: 'Load project'.
@@ -185,7 +211,6 @@ CNBPresenter >> initializePresenters [
 		placeholder: 'Search...';
 		yourself.	
 	cnbSpecView := SpRoassalPresenter new.
-	"hierarchies := CNBSpecHierarchies new."
 ]
 
 { #category : #initialization }
@@ -200,9 +225,10 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 { #category : #queries }
 CNBPresenter >> lookFor: aPattern [
 	" returns token models to be highlighted"
-
+	| activatedRadioButton |
+	activatedRadioButton := self radioButtons detect: [ :each | each state ].
 	^ (CNBPatternSelector 
-			of: projectCNB) selectPatternOf: aPattern
+			of: (radioButtionsActions asDictionary at: activatedRadioButton)) selectPatternOf: aPattern
 	
 ]
 
@@ -235,38 +261,21 @@ CNBPresenter >> nodesToHighlightFor: aPattern [
 	
 ]
 
-{ #category : #'as yet unclassified' }
-CNBPresenter >> onBothActivated [
-
-	projectCNB viewModel setting token: #both.
-]
-
 { #category : #actions }
 CNBPresenter >> onLoadProjectClicked [
 
-	| mooseModel |
+	| mooseModel activatedRadioButtion |
 	mooseModel 
 		:= projectSelector 
 				text isNotEmpty 
 					ifTrue: [ CNBMooseModelGenerator projectNameMatches: projectSelector text asString  ]
 					ifFalse: [ CNBMooseModelGenerator importProject: pathSelector text asString  ].
 					
-	(projectCNB model: mooseModel) startBuilding.  
-					
-	cnbSpecView script: [ :canvas | projectCNB on: canvas ]
-]
-
-{ #category : #actions }
-CNBPresenter >> onPrefixActivated [
-
-	projectCNB viewModel setting token: #prefix.
-
-]
-
-{ #category : #actions }
-CNBPresenter >> onSuffixActivated [
-
-	projectCNB viewModel setting token: #suffix.
+	self projectModel: mooseModel.
+			
+	activatedRadioButtion := self radioButtons detect: [ :each | each state ].
+	
+	 cnbSpecView script: [ :canvas | (self showRadioButtionsAt: activatedRadioButtion) on: canvas ] 
 ]
 
 { #category : #initialization }
@@ -275,10 +284,34 @@ CNBPresenter >> patternsDropList [
 	^ patternsDropList
 ]
 
+{ #category : #'as yet unclassified' }
+CNBPresenter >> projectModel: aMooseModel [
+
+	(suffixCnb model: aMooseModel) startBuilding.
+	(prefixCnb model: aMooseModel) startBuilding.
+	(bothCnb model: aMooseModel) startBuilding.
+	self fixColors.
+	
+	
+	
+]
+
 { #category : #accessing }
 CNBPresenter >> projectSelector [ 
 
 	^ projectSelector 
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> radioButtionActions [
+
+	^ radioButtionsActions asDictionary 
+]
+
+{ #category : #'accessing - morph' }
+CNBPresenter >> radioButtons [ 
+
+	^ (suffix associatedRadioButtons union: { suffix }) 
 ]
 
 { #category : #initialization }
@@ -329,4 +362,41 @@ CNBPresenter >> resetPackageBoder [
 CNBPresenter >> show: aPattern [
 
 	self goDarkerFor: aPattern.
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> showBothActivated [
+
+	^ bothCnb 
+		 model 
+			ifNotNil: [ 
+			cnbSpecView script: [ :canvas | (radioButtionsActions asDictionary at: both) on: canvas ] ]
+ 	
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> showPrefixActivated [
+
+	^ prefixCnb
+		 model 
+			ifNotNil: [ 
+			cnbSpecView script: [ :canvas | (radioButtionsActions asDictionary at: prefix) on: canvas ] ]
+ 	
+]
+
+{ #category : #accessing }
+CNBPresenter >> showRadioButtionsAt: aRadioButtion [
+
+	^ radioButtionsActions asDictionary at: aRadioButtion.
+	
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> showSuffixActivated [
+	
+	^ suffixCnb 
+		 model 
+			ifNotNil: [ 
+			cnbSpecView script: [ :canvas | (radioButtionsActions asDictionary at: suffix) on: canvas ] ]
+ 	
 ]

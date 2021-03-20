@@ -34,10 +34,9 @@ CNBBothTokensStrategy >> build: aCND [
 		packageModels: thePackageModels;
 		rootModels: (self buildRootsFrom: (thePackageModels flatCollect: #classModels)).
 		
-		aCND viewModel packageViewModels: (self doPackageViewModelsOf: aCND).
-		"aCND resetRoots."
-		aCND viewModel attributeTokenModelsToRoots.
-		
+		aCND viewModel packageViewModels: (self doPackageViewModelsOf: aCND).		
+		self resetRoots: aCND rootModels.
+		aCND attributeRoots.	
 		aCND viewModel attributePatterns.
 		^ aCND 
 	
@@ -50,7 +49,6 @@ CNBBothTokensStrategy >> buildRoot: aRootModel [
 	subclasses := aRootModel subclasses.
 	^ aRootModel 
 		name: (CNBFilterer removeAllDigitsAndSpecialCharsFrom: aRootModel model name);  
-		type: (CNBClassType with: subclasses) type;
 		token: { (CNBFeatureSelector new 
 					extract: #suffix
 					from: aRootModel model name) . 
@@ -62,12 +60,14 @@ CNBBothTokensStrategy >> buildRoot: aRootModel [
 		tokensDictionary: (self doTokenDictionaryFrom: subclasses).
 		
 		
+		
+		
 ]
 
 { #category : #building }
 CNBBothTokensStrategy >> buildRootsFrom: classModels [
 
-	| initializedRoots coloredRootModels rootModels |
+	| initializedRoots |
 	initializedRoots := (classModels collect: #root) 
 			asSet
 				collect: [ :aRootClass |
@@ -75,27 +75,27 @@ CNBBothTokensStrategy >> buildRootsFrom: classModels [
 										model: aRootClass 
 										with: (classModels select: [ :aClass | aClass root = aRootClass ])).
 			 				].
-						
-	coloredRootModels := builder color: initializedRoots.
-	rootModels := builder 
-			startFightOverTokensBetween: coloredRootModels.
 	
-	^ rootModels asSet
+	^ initializedRoots asSet
 ]
 
 { #category : #building }
 CNBBothTokensStrategy >> doPackageViewModelsOf: aCND [ 
 
+
 		(aCND viewModel 
 			packageModels 
-				collect: [ :eachPackageModel |
-						eachPackageModel packageViewModel:  
-									(CNBPackageViewModel 
-										of: eachPackageModel 
-										with: (self 
-													doTokenViewModelsOf: eachPackageModel 
-													using: aCND viewModel rootModels)
-									) cluster ]).
+				collect: [ :eachPackageModel | | tokens |
+					tokens := self 
+									doTokenViewModelsOf: eachPackageModel 
+									using: aCND viewModel rootModels.
+			self halt.
+					eachPackageModel 
+						packageViewModel:  
+							(CNBPackageViewModel 
+								of: eachPackageModel 
+								with: tokens asSet) cluster ]).
+	
 		^ aCND viewModel packageModels collect: #packageViewModel
 ]
 
@@ -118,18 +118,22 @@ CNBBothTokensStrategy >> doTokenDictionaryFrom: classModels [
 { #category : #building }
 CNBBothTokensStrategy >> doTokenViewModelsOf: aPackageModel using: rootModels [
 	"On enveloppe chaque class du package dans son concept box "
+	| tokenNames tokens |
+	
+	tokenNames := self extractTokensFrom: aPackageModel.
 
-	^ (self extractTokensFrom: aPackageModel) asSet 
-		collect: [ :aToken | 
+	tokens := tokenNames asSet collect: [ :aToken | 
 			CNBTokenViewModel 
 				of: aToken
-				root: (builder 
-							selectBiggestHierarchyOf: aToken
-							using: rootModels) 
+				root: nil
 				with: (builder 
 								doClassViewModelsOf: (self extractClassModelsOf: aPackageModel WithToken: aToken)
 								using: rootModels)
-				in: aPackageModel ]
+				in: aPackageModel ].
+
+			^ tokens asSet
+
+			
 ]
 
 { #category : #'as yet unclassified' }
@@ -141,9 +145,10 @@ CNBBothTokensStrategy >> extractClassModelsOf: aPackageModel WithToken: aToken [
 { #category : #extracting }
 CNBBothTokensStrategy >> extractTokensFrom: aPackageModel [
 
-	^ aPackageModel 
+	^ aPackageModel
 			classModels 
-				flatCollect: [ :aClassModel | aClassModel tokens ]
+				flatCollect: [ :aClassModel | aClassModel tokens ].
+				 
 ]
 
 { #category : #initialization }
@@ -164,4 +169,21 @@ CNBBothTokensStrategy >> newRootModel [
 CNBBothTokensStrategy >> organize: aCollectionOfPackages [
 
 	aCollectionOfPackages do: [ :each | packageOrganizer do: each ]
+]
+
+{ #category : #initialization }
+CNBBothTokensStrategy >> resetRoots: rootModels [ 
+
+	| coloredRootModels |
+
+	rootModels do: [ :each | 
+		each type: (CNBClassType with: each subclasses) type.
+		each removeUnnecessaryTokens ].
+		
+		
+	coloredRootModels := builder color: rootModels.
+	coloredRootModels := builder 
+			startFightOverTokensBetween: coloredRootModels.
+	
+	
 ]
