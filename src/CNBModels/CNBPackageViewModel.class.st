@@ -15,6 +15,7 @@ Class {
 
 { #category : #'as yet unclassified' }
 CNBPackageViewModel class >> of: aModel with: tokenModels [
+
 	^ (self new
 		model: aModel;
 		tokenViewModels: tokenModels) create
@@ -89,7 +90,10 @@ CNBPackageViewModel >> models [
 { #category : #accessing }
 CNBPackageViewModel >> modelsOrderedByColor [
 
-  ^ (CNBBuilder sort: self tokenViewModels ).
+	
+	^ CNBBuilder sort: self tokenViewModels
+
+
 ]
 
 { #category : #'events-processing' }
@@ -138,9 +142,7 @@ CNBPackageViewModel >> tokenViewModels [
 { #category : #accessing }
 CNBPackageViewModel >> tokenViewModels: tokenModels [
 
-	self tokenViewModels: (tokenModels asSet sorted: #size descending).
-	self tokenViewModels: self modelsOrderedByColor
-	
+	 tokenViewModels := tokenModels
 ]
 
 { #category : #accessing }

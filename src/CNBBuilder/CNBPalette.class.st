@@ -23,17 +23,20 @@ CNBPalette >> aColorForMultiToken [
 	"we have 24 important colors"
 	
 	index := index + 1.
-	(index <=  multiTokenColors size)
-	ifTrue: [ ^ multiTokenColors at: index ]
-	ifFalse: [ ^ self defaultColor ].
-	
-	^ defaultColor
+	^ (index <=  multiTokenColors size)
+		ifTrue: [ multiTokenColors at: index ]
+		ifFalse: [ self defaultColor ].
 ]
 
 { #category : #accessing }
 CNBPalette >> defaultColor [ 
 
 	^ Color black
+]
+
+{ #category : #accessing }
+CNBPalette >> index [
+	^ index
 ]
 
 { #category : #accessing }

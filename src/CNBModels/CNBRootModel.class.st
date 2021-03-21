@@ -16,7 +16,8 @@ Class {
 		'scatteredSuffixes',
 		'biggestTokenAssociation',
 		'tokenModels',
-		'tokenPosition'
+		'tokenPosition',
+		'number'
 	],
 	#category : #CNBModels
 }
@@ -202,10 +203,8 @@ CNBRootModel >> scatteredSubclassesInside: aPackageModel [
 ]
 
 { #category : #accessing }
-CNBRootModel >> size [
-
-	^ size
-	
+CNBRootModel >> size [ 
+	^ subclasses size
 ]
 
 { #category : #accessing }

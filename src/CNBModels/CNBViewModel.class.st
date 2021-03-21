@@ -21,10 +21,11 @@ CNBViewModel >> attributePatterns [
 
 { #category : #'accessing - attributes' }
 CNBViewModel >> attributeTokenModelsToRoots [
-	
+
 	rootModels 
 		do: [ :aRoot | 
 			aRoot tokenModels: (self tokenModels select: [ :each | each root == aRoot ]) ].
+			
 ]
 
 { #category : #accessing }
@@ -126,7 +127,7 @@ CNBViewModel >> setting: aSetting [
 { #category : #'accessing - attributes' }
 CNBViewModel >> tokenModels [	
 
-	^ packageViewModels flatCollect: #tokenViewModels.
+	^ self tokenViewModels 
 ]
 
 { #category : #accessing }

@@ -38,7 +38,7 @@ CNBClassModel >> create [
 			ifNil: [ self model rootAccordingTo: setting rootClass ] 
 			ifNotNil: [ (Smalltalk image classNamed: model name) rootAccordingTo: setting rootClass ].
 		self 
-			name:  (CNBFilterer removeAllDigitsAndSpecialCharsFrom: model name);
+			name: (CNBFilterer removeAllDigitsAndSpecialCharsFrom: model name);
 			root: aRoot;
 			superclass: self superclass;
 			token: aToken.

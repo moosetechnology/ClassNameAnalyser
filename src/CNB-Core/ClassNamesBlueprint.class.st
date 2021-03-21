@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'viewModel',
-		'visualizer'
+		'visualizer',
+		'shapes'
 	],
 	#category : #'CNB-Core'
 }
@@ -20,6 +21,12 @@ ClassNamesBlueprint >> attributeRoots [
 	self viewModel 
 		classViewModels do: [ :each | each create  ].
 	self viewModel attributeTokenModelsToRoots.
+]
+
+{ #category : #'as yet unclassified' }
+ClassNamesBlueprint >> buildShapes [ 
+
+	shapes := (visualizer buildShapesOf: self) 
 ]
 
 { #category : #'as yet unclassified' }
@@ -49,7 +56,7 @@ ClassNamesBlueprint >> initialize [
 	super initialize.
 	
 	viewModel := CNBViewModel new.
-	visualizer := CNBVisualizer new.
+	visualizer := CNBRoassal3Builder new.
 
 ]
 
@@ -68,7 +75,20 @@ ClassNamesBlueprint >> model: aModel [
 { #category : #'instance creation' }
 ClassNamesBlueprint >> on: aCanvas [
 
-	^ CNBRoassal3Builder model: self on: aCanvas 
+	shapes ifNil: [ self buildShapes ].
+	
+	^ self putElementsOn: aCanvas
+	
+]
+
+{ #category : #'as yet unclassified' }
+ClassNamesBlueprint >> putElementsOn: aCanvas [ 
+
+	aCanvas addAll: (shapes).
+	RSFlowLayout on: aCanvas nodes.
+	aCanvas @ RSCanvasController.
+	aCanvas color: aCanvas color darker.
+	^ aCanvas
 ]
 
 { #category : #accessing }
@@ -81,6 +101,12 @@ ClassNamesBlueprint >> rootModels [
 ClassNamesBlueprint >> setting [
 
 	^ viewModel setting
+]
+
+{ #category : #accessing }
+ClassNamesBlueprint >> shapes [
+
+	^ shapes
 ]
 
 { #category : #accessing }

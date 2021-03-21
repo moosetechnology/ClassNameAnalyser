@@ -90,10 +90,13 @@ CNBClassType >> checkIfMultiToken: classModels [
 { #category : #checking }
 CNBClassType >> checkIfTraitWith: 	classModels [ 
 	
+	| onlyClass |
+	onlyClass := (Smalltalk image classNamed: classModels first name).
+	
 		(classModels 
 			hasOneElement 
 				and: [ 
-					(Smalltalk image classNamed: classModels first name) isTrait ]) 
+					onlyClass ifNotNil: [ onlyClass isTrait ] ifNil:  [ classModels first model isTrait ] ]) 
 						ifTrue: [ ^ self trait ] .
 		^ nil
 ]

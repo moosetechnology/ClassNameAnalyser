@@ -55,7 +55,6 @@ CNBBothTokensStrategy >> buildRoot: aRootModel [
 					(CNBFeatureSelector new 
 					extract: #prefix
 					from: aRootModel model name) };
-		size: subclasses size; 
 		tokenPosition: #both;
 		tokensDictionary: (self doTokenDictionaryFrom: subclasses).
 		
@@ -86,15 +85,15 @@ CNBBothTokensStrategy >> doPackageViewModelsOf: aCND [
 		(aCND viewModel 
 			packageModels 
 				collect: [ :eachPackageModel | | tokens |
-					tokens := self 
+					tokens := Set new addAll: (self 
 									doTokenViewModelsOf: eachPackageModel 
-									using: aCND viewModel rootModels.
-			self halt.
+									using: aCND viewModel rootModels).
+			
 					eachPackageModel 
 						packageViewModel:  
 							(CNBPackageViewModel 
 								of: eachPackageModel 
-								with: tokens asSet) cluster ]).
+								with: tokens) cluster ]).
 	
 		^ aCND viewModel packageModels collect: #packageViewModel
 ]

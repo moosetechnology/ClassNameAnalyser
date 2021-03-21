@@ -129,9 +129,9 @@ CNBPresenter >> connectPresenters [
 	reset action: [ self reset ].
 	packageSearch whenSubmitDo: [ :aRub | self changePackageBorderWidth: aRub text asString ].
 	packageSearch whenResetDo: [ self resetPackageBoder ].
-	suffix whenActivatedDo: [ self showSuffixActivated  ].
-	prefix whenActivatedDo: [ self showPrefixActivated  ].
-	both whenActivatedDo: [ self showBothActivated  ].
+	suffix whenActivatedDo: [ self onSuffixActivated  ].
+	prefix whenActivatedDo: [ self onPrefixActivated  ].
+	both whenActivatedDo: [ self onBothActivated  ].
 ]
 
 { #category : #'as yet unclassified' }
@@ -195,9 +195,10 @@ CNBPresenter >> initializePresenters [
 		:= self newRadioButton label: 'Both'.
 	radioButtionsActions := Dictionary new.
 	radioButtionsActions 
-		:= { prefix ->  prefixCnb .
+		:= { prefix -> prefixCnb .
 			  suffix -> suffixCnb .
-			  both -> bothCnb }.
+			  both -> bothCnb 
+			}.
 	
 	pathSelector := self newTextInput.
 	rootSelector := self newTextInput. 
@@ -261,6 +262,16 @@ CNBPresenter >> nodesToHighlightFor: aPattern [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+CNBPresenter >> onBothActivated [
+
+	^ bothCnb 
+		 model 
+			ifNotNil: [ 
+			cnbSpecView script: [ :canvas | bothCnb on: canvas ] ]
+ 	
+]
+
 { #category : #actions }
 CNBPresenter >> onLoadProjectClicked [
 
@@ -272,10 +283,30 @@ CNBPresenter >> onLoadProjectClicked [
 					ifFalse: [ CNBMooseModelGenerator importProject: pathSelector text asString  ].
 					
 	self projectModel: mooseModel.
-			
+	
 	activatedRadioButtion := self radioButtons detect: [ :each | each state ].
 	
-	 cnbSpecView script: [ :canvas | (self showRadioButtionsAt: activatedRadioButtion) on: canvas ] 
+	 cnbSpecView script: [ :canvas | (self projectAtRadioButton: activatedRadioButtion) on: canvas ] 
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> onPrefixActivated [
+
+	^ prefixCnb
+		 model 
+			ifNotNil: [ 
+			cnbSpecView script: [ :canvas | prefixCnb on: canvas ] ]
+ 	
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> onSuffixActivated [
+	
+	^ suffixCnb 
+		 model 
+			ifNotNil: [ 
+			cnbSpecView script: [ :canvas | suffixCnb on: canvas ] ]
+ 	
 ]
 
 { #category : #initialization }
@@ -284,12 +315,20 @@ CNBPresenter >> patternsDropList [
 	^ patternsDropList
 ]
 
+{ #category : #accessing }
+CNBPresenter >> projectAtRadioButton: aRadioButtion [
+
+	^ radioButtionsActions asDictionary at: aRadioButtion.
+	
+]
+
 { #category : #'as yet unclassified' }
 CNBPresenter >> projectModel: aMooseModel [
 
 	(suffixCnb model: aMooseModel) startBuilding.
 	(prefixCnb model: aMooseModel) startBuilding.
 	(bothCnb model: aMooseModel) startBuilding.
+
 	self fixColors.
 	
 	
@@ -362,41 +401,4 @@ CNBPresenter >> resetPackageBoder [
 CNBPresenter >> show: aPattern [
 
 	self goDarkerFor: aPattern.
-]
-
-{ #category : #'as yet unclassified' }
-CNBPresenter >> showBothActivated [
-
-	^ bothCnb 
-		 model 
-			ifNotNil: [ 
-			cnbSpecView script: [ :canvas | (radioButtionsActions asDictionary at: both) on: canvas ] ]
- 	
-]
-
-{ #category : #'as yet unclassified' }
-CNBPresenter >> showPrefixActivated [
-
-	^ prefixCnb
-		 model 
-			ifNotNil: [ 
-			cnbSpecView script: [ :canvas | (radioButtionsActions asDictionary at: prefix) on: canvas ] ]
- 	
-]
-
-{ #category : #accessing }
-CNBPresenter >> showRadioButtionsAt: aRadioButtion [
-
-	^ radioButtionsActions asDictionary at: aRadioButtion.
-	
-]
-
-{ #category : #'as yet unclassified' }
-CNBPresenter >> showSuffixActivated [
-	
-	^ suffixCnb 
-		 model 
-			ifNotNil: [ 
-			cnbSpecView script: [ :canvas | (radioButtionsActions asDictionary at: suffix) on: canvas ] ]
- 	
 ]

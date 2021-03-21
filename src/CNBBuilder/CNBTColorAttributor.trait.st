@@ -28,7 +28,9 @@ CNBTColorAttributor >> color: rootModels [
 	^ (self 
 			sortRootModels: rootModels)
 					collect: [ :each | each 
-									color: (self assignColorByType: each type) ].
+									color: (self assignColorByType: each type).
+									"colorPriorityNumber: "
+									 ].
 
 	
 ]

@@ -104,9 +104,11 @@ CNBBuilder >> color: rootModels [
 	
 	coloredRootModels := (self sortRootModels: rootModels)
 		collect: 
-			[ :each | each 
+			[ :each | 
+			
+			each 
 							color: (self 
-											assignColorByType: each type) ].					
+											assignColorByType: each type) ].			
 	^ coloredRootModels 
 	
 ]
@@ -192,13 +194,29 @@ CNBBuilder >> doTokenViewModelsOf: aPackageModel using: rootModels [
 
 { #category : #initialize }
 CNBBuilder >> initialize [
+	
 	super initialize.
 	palette := CNBPalette
 		with:
 			{#red . #yellow . #blue .#purple . #brown . #magenta . #orange . #green.
 			#pink . #tan . #cyan . #lightRed . #lightGreen . #lightMagenta.
 			#lightOrange . #lightYellow . #paleGreen . #paleMagenta . #paleOrange.
-			#palePeach . #paleRed . #lightBrown . #paleTan . #paleMagenta }
+			#palePeach . #paleRed . #lightBrown . #paleTan . #paleMagenta }.
+	
+]
+
+{ #category : #'instance creation' }
+CNBBuilder >> newPalette [
+	
+	| newPalette |
+	newPalette := palette multiTokenColors asOrderedCollection.
+	newPalette
+		addAll:
+			{palette monoTokenColor.
+			palette monoClassColor.
+			palette defaultColor}.
+		
+	^ newPalette  
 ]
 
 { #category : #'as yet unclassified' }
@@ -210,19 +228,17 @@ CNBBuilder >> reselectBiggestHierarchy: aTokenName using: rootModels [
 
 { #category : #sorting }
 CNBBuilder >> sortAccordingToPalette: aCollection [
-	| newPalette |
-	newPalette := palette multiTokenColors asOrderedCollection.
-	
-	newPalette
-		addAll:
-			{palette monoTokenColor.
-			palette monoClassColor.
-			palette defaultColor}.
-			
-	^ ((1 to: newPalette size)
-		collect: [ :cursor | 
-			aCollection
-				select: [ :aConceptVM | aConceptVM color = (newPalette at: cursor) ] ]) flattened
+	| modelsOrderedByColor newPalette |
+	modelsOrderedByColor := OrderedCollection new.	
+	newPalette := self newPalette.
+		
+		 newPalette do: [ :aColor |
+			modelsOrderedByColor 
+				addIfNotPresent: (aCollection select: [ :aToken | aColor = aToken color ]).
+							  ]. 
+		
+	^ modelsOrderedByColor flattened.
+		
 ]
 
 { #category : #sorting }
