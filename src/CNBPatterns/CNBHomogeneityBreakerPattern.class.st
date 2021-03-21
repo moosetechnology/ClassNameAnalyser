@@ -87,7 +87,12 @@ CNBHomogeneityBreakerPattern >> description [
 CNBHomogeneityBreakerPattern >> initialize [
 	super initialize.
 	
-	description := 'I am a Homogeneity-Breaker'.
+	description := 
+	'I am a Homogeneity-Breaker, 
+	do not confuse me with the intruder anti-pattern.
+	The same told I hold can be found elsewhere in other packages, 
+	therefore I may mark common words in the project
+	 '.
 	name := #'Homogeneity Breaker'.
 	minMonoTokenSize := 1. 
 	maxMonoTokenSize := 6 .

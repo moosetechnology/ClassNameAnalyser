@@ -119,7 +119,7 @@ ClassNamesBlueprint >> show [
 { #category : #operations }
 ClassNamesBlueprint >> startBuilding [
 	
-	^ (self viewModel setting token = #both)
+	 ^ (self viewModel setting token = #both)
 			ifTrue: [ CNBBothTokensStrategy build: self ]
 			ifFalse: [ CNBTokenStrategy build: self ]. 
 	

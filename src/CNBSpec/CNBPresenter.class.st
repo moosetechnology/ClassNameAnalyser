@@ -47,8 +47,8 @@ CNBPresenter class >> defaultSpec [
 				add: #pathSelector height: self buttonHeight;
 				yourself) height: self labelHeight + self buttonHeight;
 			add: (SpBoxLayout newVertical 
-				add: 'Root class' height: self labelHeight;
-				add: #rootSelector height: self buttonHeight;
+				"add: 'Root class' height: self labelHeight;
+				add: #rootSelector height: self buttonHeight;"
 				yourself) height: self labelHeight + self buttonHeight;
 			add: (SpBoxLayout newVertical
 				add: #suffix height: self buttonHeight;
@@ -66,10 +66,10 @@ CNBPresenter class >> defaultSpec [
 			add: '';
 			yourself) width: 180;
 		add: (SpBoxLayout newVertical
-			add: (SpBoxLayout newHorizontal
+			"add: (SpBoxLayout newHorizontal
 				add: '';
 				add: #packageSearch width: 200;
-				yourself) height: self buttonHeight;
+				yourself) height: self buttonHeight;"
 			add: #cnbSpecView;
 			yourself);
 		yourself.
@@ -101,6 +101,12 @@ CNBPresenter class >> open [
 CNBPresenter >> allNodes [
 
 	^ cnbSpecView canvas deepNodes
+]
+
+{ #category : #accessing }
+CNBPresenter >> bothCnb [
+
+	^ bothCnb 
 ]
 
 { #category : #actions }
@@ -145,8 +151,11 @@ CNBPresenter >> fixColors [
 	suffixRootModels 
 		do: [ :aRoot |
 			prefixRootModels 
-				detect: [ :each | each name = aRoot name ] ifFound: [ :prefixRoot | prefixRoot changeColorTo: aRoot color ].			
-			bothRootModels detect: [ :each | each name = aRoot name ] ifFound: [ :bothRootModel | bothRootModel changeColorTo: aRoot color. ]
+				detect: [ :each | each name = aRoot name ] 
+				ifFound: [ :prefixRoot | prefixRoot changeColorTo: aRoot color ].			
+			bothRootModels 
+				detect: [ :each | each name = aRoot name ] 
+				ifFound: [ :bothRootModel | bothRootModel changeColorTo: aRoot color. ]
 			 ]
 ]
 
@@ -176,12 +185,18 @@ CNBPresenter >> goDarkerFor: aPattern [
 ]
 
 { #category : #initialization }
-CNBPresenter >> initializePresenters [
-	super initializePresenters.
-	
+CNBPresenter >> initializeCnbs [ 
+
 	suffixCnb := ClassNamesBlueprint new withSuffix.
 	prefixCnb := ClassNamesBlueprint new withPrefix.
 	bothCnb := ClassNamesBlueprint new withBoth.
+]
+
+{ #category : #initialization }
+CNBPresenter >> initializePresenters [
+	super initializePresenters.
+	
+	self initializeCnbs. 
 
 	projectSelector 
 		:= self newTextInput placeholder: 'projectNameMatches:''....-*'''.
@@ -275,7 +290,7 @@ CNBPresenter >> onBothActivated [
 { #category : #actions }
 CNBPresenter >> onLoadProjectClicked [
 
-	| mooseModel activatedRadioButtion |
+	| mooseModel activatedRadioButton |
 	mooseModel 
 		:= projectSelector 
 				text isNotEmpty 
@@ -283,10 +298,11 @@ CNBPresenter >> onLoadProjectClicked [
 					ifFalse: [ CNBMooseModelGenerator importProject: pathSelector text asString  ].
 					
 	self projectModel: mooseModel.
+
+	activatedRadioButton := self radioButtons detect: [ :each | each state ].
+
+	 cnbSpecView script: [ :canvas | (self projectAtRadioButton: activatedRadioButton) on: canvas ].
 	
-	activatedRadioButtion := self radioButtons detect: [ :each | each state ].
-	
-	 cnbSpecView script: [ :canvas | (self projectAtRadioButton: activatedRadioButtion) on: canvas ] 
 ]
 
 { #category : #'as yet unclassified' }
@@ -316,6 +332,11 @@ CNBPresenter >> patternsDropList [
 ]
 
 { #category : #accessing }
+CNBPresenter >> prefixCnb [ 
+	^ prefixCnb
+]
+
+{ #category : #accessing }
 CNBPresenter >> projectAtRadioButton: aRadioButtion [
 
 	^ radioButtionsActions asDictionary at: aRadioButtion.
@@ -324,10 +345,19 @@ CNBPresenter >> projectAtRadioButton: aRadioButtion [
 
 { #category : #'as yet unclassified' }
 CNBPresenter >> projectModel: aMooseModel [
-
-	(suffixCnb model: aMooseModel) startBuilding.
-	(prefixCnb model: aMooseModel) startBuilding.
-	(bothCnb model: aMooseModel) startBuilding.
+	
+	(suffixCnb 
+		model: aMooseModel) 
+		startBuilding;
+		buildShapes.
+	(prefixCnb model: aMooseModel)
+		 startBuilding;
+		 buildShapes.
+	(bothCnb 
+		model: aMooseModel) 
+		startBuilding;
+		buildShapes.
+	
 
 	self fixColors.
 	
@@ -401,4 +431,9 @@ CNBPresenter >> resetPackageBoder [
 CNBPresenter >> show: aPattern [
 
 	self goDarkerFor: aPattern.
+]
+
+{ #category : #accessing }
+CNBPresenter >> suffixCnb [ 
+	^ suffixCnb 
 ]

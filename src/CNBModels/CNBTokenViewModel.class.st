@@ -135,12 +135,12 @@ CNBTokenViewModel >> checkIntruder [
 CNBTokenViewModel >> checkPatterns [ 
 
 	self 
-		checkFatBlob;
 		checkHomogeneous;
 		checkConfetti;
 		checkSnowFlakes;
 		checkIntruder;
 		checkScatteredVocabulary;
+		checkFatBlob;
 		checkHomogeneityBreaker.
 		
 ]

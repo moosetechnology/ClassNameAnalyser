@@ -28,7 +28,9 @@ CNBScatteredVocabularyPattern >> description [
 CNBScatteredVocabularyPattern >> initialize [
 	super initialize.
 	
-	description := 'I am a Scattered Vocabulary'.
+	description := 
+	'I am a Scattered Vocabulary, my hierarchy dominates several tokens, 
+	therefore it is unfortunatly not consistently named/ does not follow a particular naming pattern.'.
 	name := #'Scattered Vocabulary'.
 	minClassSize := 1.
 	minTokenSize := 3.

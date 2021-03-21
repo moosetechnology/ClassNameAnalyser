@@ -50,7 +50,12 @@ CNBConfettiPattern >> description [
 CNBConfettiPattern >> initialize [ 
 	super initialize.
 	
-	description := 'I am a Confetti'.
+	description 
+	:= 
+	'I am a Confetti, as my name indicates, 
+	many hierarchies use this suffix, 
+	therefore I represent an anti-pattern'.
+	
 	name := #'Confetti'.
 	confettiSize := 3.
 	confettiPourcentage := 30. 

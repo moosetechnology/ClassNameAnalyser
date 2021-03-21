@@ -36,7 +36,10 @@ CNBIntruderPattern >> description [
 CNBIntruderPattern >> initialize [
 	super initialize.
 	
-	description := 'I am a Intruder'.
+	description 
+	:= 'an Intruder is what I am, 
+	I represent intruder classes that share the same token with other hierarchies.
+	I may point to a bad conception bad naming '.
 	name := #'Intruder'.
 	intrudersPercentage := 60.
 ]
