@@ -43,12 +43,13 @@ CNBHomogeneityBreakerPattern >> checkMonoToken: aTokenModel [
 CNBHomogeneityBreakerPattern >> checkMultiToken: aTokenModel [
 
 	^ (aTokenModel 
-			root isMultiToken) and: [ (aTokenModel 
-			outsiders size 
-				between:  self minMultiTokenSize
-				and: self maxMonoTokenSize) and: [ aTokenModel 
+			root isMultiToken) and: [ 
+				(aTokenModel 
+			outsiders collect: #color) asSet size 
+			between: self minMonoTokenSize 
+			and: self maxMonoTokenSize "and: [ aTokenModel 
 			outsidersRoots asSet allSatisfy: [ :each | each isMonoToken ]
-			 ] ].
+			 ]" ].
 		"hbMultiPourcentage * aSuffixModel outsiders size) percent "
 ]
 
@@ -96,7 +97,8 @@ CNBHomogeneityBreakerPattern >> initialize [
 	name := #'Homogeneity Breaker'.
 	minMonoTokenSize := 1. 
 	maxMonoTokenSize := 6 .
-	minMultiTokenSize := 3. 
+	
+	minMultiTokenSize := 2. 
 	occurrences := 2. 
 ]
 

@@ -219,6 +219,11 @@ CNBBuilder >> newPalette [
 	^ newPalette  
 ]
 
+{ #category : #accessing }
+CNBBuilder >> palette [ 
+	^ palette
+]
+
 { #category : #'as yet unclassified' }
 CNBBuilder >> reselectBiggestHierarchy: aTokenName using: rootModels [
 

@@ -3,7 +3,8 @@ Class {
 	#superclass : #CNBAbstractPattern,
 	#instVars : [
 		'confettiSize',
-		'confettiPourcentage'
+		'confettiPourcentage',
+		'minColorful'
 	],
 	#category : #CNBPatterns
 }
@@ -11,18 +12,15 @@ Class {
 { #category : #initialization }
 CNBConfettiPattern >> check: aTokenModel [
 
-	| outsidersPourcentage |
-	
+	| insideColors |
+	insideColors := (aTokenModel innerRoots collect: #color) asSet.
 	(
-		(aTokenModel innerRoots collect: #color)
-			asSet size >= self confettiSize
+		insideColors asSet size >= self confettiSize
 	)
 	ifFalse: [ ^ false ].
 	
-	
-	outsidersPourcentage := ((aTokenModel outsiders size * 100) / aTokenModel size) asFloat.
-	
-	^ (outsidersPourcentage >= self confettiPourcentage)
+	^ ((self outsidersPourcentageIn: aTokenModel) >= self confettiPourcentage) and: [ 
+		(CNBBuilder new palette multiTokenColors intersection: insideColors) size >= minColorful ]
 	
 	
 	
@@ -59,10 +57,17 @@ CNBConfettiPattern >> initialize [
 	name := #'Confetti'.
 	confettiSize := 3.
 	confettiPourcentage := 30. 
+	minColorful := 2
 ]
 
 { #category : #accessing }
 CNBConfettiPattern >> name [
 
 	^ name
+]
+
+{ #category : #'as yet unclassified' }
+CNBConfettiPattern >> outsidersPourcentageIn: aTokenModel [
+
+ ^ ((aTokenModel outsiders size * 100) / aTokenModel size) asFloat.
 ]
