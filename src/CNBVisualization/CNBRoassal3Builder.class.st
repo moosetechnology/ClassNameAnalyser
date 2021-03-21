@@ -160,9 +160,7 @@ CNBRoassal3Builder >> createPackageBoxesOf: cnbModel [
 CNBRoassal3Builder >> createTokenBoxesOf: aPackage [ 
 	| tokenBoxes | 
 	aPackage tokenViewModels: (aPackage tokenViewModels asSet sorted: #size descending).
-	
 	aPackage tokenViewModels: aPackage modelsOrderedByColor.
-	aPackage	tokenViewModels size ~= aPackage tokenViewModels asSet size ifTrue: [ self halt ].
 	tokenBoxes := (aPackage	tokenViewModels 
 			collect: [ :aToken | | tokenComposite label composite |
 				
