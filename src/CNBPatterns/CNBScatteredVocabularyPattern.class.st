@@ -29,8 +29,8 @@ CNBScatteredVocabularyPattern >> initialize [
 	super initialize.
 	
 	description := 
-	'Anti-Pattern: Scattered Vocabulary, my hierarchy dominates several tokens, 
-	therefore it is unfortunatly not consistently named/ does not follow a particular naming pattern.'.
+	'Anti-Pattern: Scattered Vocabulary, my hierarchy uses and dominated several tokens, 
+	it is not consistently named/does not follow a particular naming pattern.'.
 	name := #'Scattered Vocabulary'.
 	minClassSize := 1.
 	minTokenSize := 3.
