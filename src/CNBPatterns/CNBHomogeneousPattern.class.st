@@ -30,8 +30,8 @@ CNBHomogeneousPattern >> initialize [
 	name := #'Homogeneous'.
 	description 
 	:= 
-	'I am a Homogeneous suffix, 
-	I am the only suffix my dominant hierarchy uses, 
+	'Pattern: I am a Homogeneous , 
+	I am the only token my dominant hierarchy uses, 
 	therefore my hierarchy is consistenty named.
 	However, you may want to consider that other hierarchies might also be using me'
 	

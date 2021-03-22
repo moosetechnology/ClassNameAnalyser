@@ -50,9 +50,7 @@ CNBConfettiPattern >> initialize [
 	
 	description 
 	:= 
-	'I am a Confetti, as my name indicates, 
-	many hierarchies use this suffix, 
-	therefore I represent an anti-pattern'.
+	'Anti-Pattern: Confetti; multiple hierarchies use this Token, usually my tokens are not used much in other projects'.
 	
 	name := #'Confetti'.
 	confettiSize := 3.

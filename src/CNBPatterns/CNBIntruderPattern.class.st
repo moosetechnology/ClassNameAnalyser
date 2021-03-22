@@ -16,7 +16,9 @@ CNBIntruderPattern >> check: aTokenModel [
 	(aTokenModel root isMonoClass or: [ aTokenModel isTrait ])
 		ifTrue: [ ^ false ]. "aTokenModel must belong to a monoSuffix/MultiSuffix"
 	
-	(aTokenModel outsiders allSatisfy: [ :each | each root isMonoClass or: [ each root isTrait ] ])
+	(aTokenModel outsiders 
+		allSatisfy: [ :each | each root isMonoClass or: [ 
+				each root isTrait or: [ each root isMonoToken ] ] ])
 		ifTrue: [ ^ false ]. "not all outsiders are mono/traits"
 	
 	maxIntruders := ((self intrudersPercentage) * aTokenModel size) percent asFloat.
@@ -37,8 +39,8 @@ CNBIntruderPattern >> initialize [
 	super initialize.
 	
 	description 
-	:= 'an Intruder is what I am, 
-	I represent intruder classes that share the same token with other hierarchies.
+	:= 'Anti-Pattern: Intruder; 
+	I represent classes that share the same token with other hierarchies.
 	I may point to a bad conception bad naming '.
 	name := #'Intruder'.
 	intrudersPercentage := 60.

@@ -27,7 +27,7 @@ CNBSnowFlakesPattern >> initialize [
 	super initialize.
 	
 	description := 
-	'I am called Snow flakes, my classes fall independently from hierarchies. 
+	'Anti-Pattern: Snow flakes; my classes fall independently from hierarchies. 
 	I represent  traits and solo classes that belong to no hierarchy. 
 	However, you may want to check my mono classes in case of a missed oppurtunity to group them into a single hierarchy'.
 	name := #'Snow Flakes'.

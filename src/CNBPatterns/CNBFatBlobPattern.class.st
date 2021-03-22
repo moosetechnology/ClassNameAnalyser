@@ -38,7 +38,7 @@ CNBFatBlobPattern >> initialize [
 	super initialize.
 	fatBlobSize := 7.
 	description := 
-	'I am Fat Blob, usually I am the only one of my kind per package. 
+	'Pattern: Fat Blob; usually I am the only one of my kind per package. 
 	I hold several classes of my hierarchy which use the same token. 
 	Thus, my hierarchy follows a naming pattern'.
 	name := #'Fat Blob'.
