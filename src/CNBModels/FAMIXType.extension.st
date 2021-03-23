@@ -21,6 +21,9 @@ FAMIXType >> rootAccordingTo: aRootClass [
 	(self superclass isInterface)
 		ifTrue: [ ^ self ].
 		
+	self superclass = Object 
+		ifTrue: [ ^ self ].
+		
 	^ self superclass rootAccordingTo: aRootClass
 	
 ]

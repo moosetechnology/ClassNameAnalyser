@@ -125,7 +125,7 @@ CNBAbstractViewModel >> originalColor: aColor [
 CNBAbstractViewModel >> printOn: aStream [
 
 	super printOn: aStream.
-	aStream nextPutAll: '('.
+	aStream nextPutAll: '('. 
 	self name asString printOn: aStream.
 	aStream nextPutAll: ')'.
 ]

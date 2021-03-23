@@ -103,6 +103,13 @@ CNBFeatureSelector >> filter: aConcept [
 ]
 
 { #category : #filtering }
+CNBFeatureSelector >> filterAll: aCollectionOfTokens [
+
+	^ aCollectionOfTokens collect: [ :each | filterer removeAllDigitsAndSpecialCharsFrom: each ]
+
+]
+
+{ #category : #filtering }
 CNBFeatureSelector >> filterAllDigits: aBoolean [
 	 filtererAllDigits := aBoolean
 ]

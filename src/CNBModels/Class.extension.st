@@ -23,6 +23,9 @@ Class >> rootAccordingTo: aRootClass [
 		
 	self superclass = aRootClass
 		ifTrue: [ ^ self ].
+		
+	self superclass = Object 
+		ifTrue: [ ^ self ].
 
 	^ self superclass rootAccordingTo: aRootClass
 	

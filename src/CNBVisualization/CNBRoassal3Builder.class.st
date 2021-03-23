@@ -116,9 +116,9 @@ CNBRoassal3Builder >> createBoxOf: aCNBObject [
 ]
 
 { #category : #creating }
-CNBRoassal3Builder >> createClassBoxesOf: aSuffix [
+CNBRoassal3Builder >> createClassBoxesOf: aToken [
 	| classBoxes |
-	classBoxes := aSuffix classViewModels 
+	classBoxes := aToken classViewModels 
 						collect: [ :class |  | classBox |
 							classBox := self createBoxOf: class.
 							classBox model: class ].

@@ -6,8 +6,22 @@ Class {
 		'visualizer',
 		'shapes'
 	],
+	#classInstVars : [
+		'modelGenerator'
+	],
 	#category : #'CNB-Core'
 }
+
+{ #category : #accessing }
+ClassNamesBlueprint class >> modelGenerator [ 
+	^ CNBClassNamesBlueprintGenerator  
+]
+
+{ #category : #'as yet unclassified' }
+ClassNamesBlueprint class >> projectNameMatches: aString [
+
+	^ self modelGenerator projectNameMatches: aString 
+]
 
 { #category : #'as yet unclassified' }
 ClassNamesBlueprint >> attributeRoots [ 
@@ -103,6 +117,11 @@ ClassNamesBlueprint >> setting [
 	^ viewModel setting
 ]
 
+{ #category : #'public tree building' }
+ClassNamesBlueprint >> setting: aSetting [
+	viewModel setting: aSetting 
+]
+
 { #category : #accessing }
 ClassNamesBlueprint >> shapes [
 
@@ -112,8 +131,7 @@ ClassNamesBlueprint >> shapes [
 { #category : #accessing }
 ClassNamesBlueprint >> show [
 
-	^ visualizer 
-			roassal3VisualizerShow: (CNBRoassal3Builder new model: self ) 
+	^ CNBRoassal3Builder new model: self  
 ]
 
 { #category : #operations }
@@ -152,6 +170,12 @@ ClassNamesBlueprint >> withBoth [
 { #category : #'as yet unclassified' }
 ClassNamesBlueprint >> withPrefix [ 
 	viewModel withPrefix 
+]
+
+{ #category : #'as yet unclassified' }
+ClassNamesBlueprint >> withRoot: aRoot [
+
+	self setting rootClass: aRoot
 ]
 
 { #category : #'as yet unclassified' }

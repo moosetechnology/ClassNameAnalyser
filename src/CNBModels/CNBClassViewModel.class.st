@@ -145,12 +145,21 @@ CNBClassViewModel >> monoTraitSiblingsIn: aTokenViewModel [
 						
 ]
 
+{ #category : #printing }
+CNBClassViewModel >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream nextPutAll: '('.
+	self model model name asString printOn: aStream.
+	aStream nextPutAll: ')'.
+]
+
 { #category : #'events-processing' }
 CNBClassViewModel >> processEvent: evt [
 
 	| class |
 	
-	class := (Smalltalk image classNamed: name).
+	class := (Smalltalk image classNamed: self model model name).
 	^ class ifNil: [ self inspect ] ifNotNil:  [ class browse ]
 ]
 

@@ -74,6 +74,13 @@ CNBBuilder class >> extractSmallestClassDepthFrom: aConceptualModel [
 	
 ]
 
+{ #category : #removing }
+CNBBuilder class >> removePackageNameFromClass: aClass [
+	
+	^ self new
+		removePackageNameFromClass: aClass
+]
+
 { #category : #sorting }
 CNBBuilder class >> sort: aCollection [ 
 
@@ -144,7 +151,7 @@ CNBBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 	^ classmodels 
 			collect: [ :eachClassModel | | itsRoot | 
 				itsRoot := rootModels 
-					detect: [ :eachRootModel | eachClassModel rootName = eachRootModel name ].
+					detect: [ :eachRootModel | eachClassModel root = eachRootModel model ].
 				
 			CNBClassViewModel of: eachClassModel with: itsRoot. 
 				 ].
@@ -222,6 +229,27 @@ CNBBuilder >> newPalette [
 { #category : #accessing }
 CNBBuilder >> palette [ 
 	^ palette
+]
+
+{ #category : #removing }
+CNBBuilder >> removePackageNameFromClass: aClass [
+
+	| packageName featureSelector 
+		packageTokens packageTokensFiltered classTokens classTokensFiltered class |
+	class := Smalltalk image classNamed: aClass name.	
+	packageName := (RPackageOrganizer default packageOf: class) packageName.
+	
+	featureSelector := CNBFeatureSelector new.
+	packageTokens := featureSelector tokenize: packageName.
+	packageTokensFiltered := featureSelector filterAll: packageTokens.
+
+	classTokens := featureSelector tokenize: class name.
+	classTokensFiltered := featureSelector filterAll: classTokens.
+	
+	^ ((classTokensFiltered reject: [ :each | 
+		               packageTokensFiltered includes: each ]) concatenatesStrings) ifEmpty: [ classTokensFiltered last ]
+
+
 ]
 
 { #category : #'as yet unclassified' }

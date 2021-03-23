@@ -143,13 +143,6 @@ CNBRootModel >> model: aClass [
 ]
 
 { #category : #accessing }
-CNBRootModel >> name: aName [
-	super name: aName.
-	
-	token := CNBFeatureSelector new extractSuffixFrom: aName
-]
-
-{ #category : #accessing }
 CNBRootModel >> packages [ 
 
 	^ tokenModels collect: #package

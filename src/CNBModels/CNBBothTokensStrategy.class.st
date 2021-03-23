@@ -45,16 +45,20 @@ CNBBothTokensStrategy >> build: aCND [
 { #category : #'as yet unclassified' }
 CNBBothTokensStrategy >> buildRoot: aRootModel [
 
-	| subclasses |
+	| subclasses class name |
 	subclasses := aRootModel subclasses.
+	class := (Smalltalk image classNamed: aRootModel model name).
+	name := class notNil 
+	ifFalse: [ (CNBFilterer removeAllDigitsAndSpecialCharsFrom: aRootModel model name)]
+	ifTrue: [ (CNBBuilder removePackageNameFromClass: aRootModel model) ].
 	^ aRootModel 
-		name: (CNBFilterer removeAllDigitsAndSpecialCharsFrom: aRootModel model name);  
+		name: name;  
 		token: { (CNBFeatureSelector new 
 					extract: #suffix
-					from: aRootModel model name) . 
+					from: name) . 
 					(CNBFeatureSelector new 
 					extract: #prefix
-					from: aRootModel model name) };
+					from: name) };
 		tokenPosition: #both;
 		tokensDictionary: (self doTokenDictionaryFrom: subclasses).
 		
@@ -70,9 +74,10 @@ CNBBothTokensStrategy >> buildRootsFrom: classModels [
 	initializedRoots := (classModels collect: #root) 
 			asSet
 				collect: [ :aRootClass |
-									self buildRoot: (self newRootModel
-										model: aRootClass 
-										with: (classModels select: [ :aClass | aClass root = aRootClass ])).
+									self 
+										buildRoot: (self newRootModel
+											model: aRootClass 
+											with: (classModels select: [ :aClass | aClass root = aRootClass ])).
 			 				].
 	
 	^ initializedRoots asSet

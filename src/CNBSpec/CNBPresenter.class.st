@@ -47,8 +47,8 @@ CNBPresenter class >> defaultSpec [
 				add: #pathSelector height: self buttonHeight;
 				yourself) height: self labelHeight + self buttonHeight;
 			add: (SpBoxLayout newVertical 
-				"add: 'Root class' height: self labelHeight;
-				add: #rootSelector height: self buttonHeight;"
+				add: 'Root class' height: self labelHeight;
+				add: #rootSelector height: self buttonHeight;
 				yourself) height: self labelHeight + self buttonHeight;
 			add: (SpBoxLayout newVertical
 				add: #suffix height: self buttonHeight;
@@ -151,10 +151,10 @@ CNBPresenter >> fixColors [
 	suffixRootModels 
 		do: [ :aRoot |
 			prefixRootModels 
-				detect: [ :each | each name = aRoot name ] 
+				detect: [ :each | each model = aRoot model ] 
 				ifFound: [ :prefixRoot | prefixRoot changeColorTo: aRoot color ].			
 			bothRootModels 
-				detect: [ :each | each name = aRoot name ] 
+				detect: [ :each | each model = aRoot model ] 
 				ifFound: [ :bothRootModel | bothRootModel changeColorTo: aRoot color. ]
 			 ]
 ]
@@ -290,19 +290,23 @@ CNBPresenter >> onBothActivated [
 { #category : #actions }
 CNBPresenter >> onLoadProjectClicked [
 
-	| mooseModel activatedRadioButton |
-	mooseModel 
-		:= projectSelector 
-				text isNotEmpty 
-					ifTrue: [ CNBMooseModelGenerator projectNameMatches: projectSelector text asString  ]
-					ifFalse: [ CNBMooseModelGenerator importProject: pathSelector text asString  ].
-					
-	self projectModel: mooseModel.
+	| mooseModel activatedRadioButton root |
+	mooseModel := projectSelector text isNotEmpty
+		              ifTrue: [ 
+			              CNBMooseModelGenerator projectNameMatches:
+				              projectSelector text asString ]
+		              ifFalse: [ 
+		              CNBMooseModelGenerator importProject:
+			              pathSelector text asString ].
+	rootSelector text ifNotEmpty: [ 
+		root := rootSelector text asClass ].
+	self projectModel: mooseModel with: root.
 
-	activatedRadioButton := self radioButtons detect: [ :each | each state ].
+	activatedRadioButton := self radioButtons detect: [ :each | 
+		                        each state ].
 
-	 cnbSpecView script: [ :canvas | (self projectAtRadioButton: activatedRadioButton) on: canvas ].
-	
+	cnbSpecView script: [ :canvas | 
+		(self projectAtRadioButton: activatedRadioButton) on: canvas ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -357,8 +361,28 @@ CNBPresenter >> projectModel: aMooseModel [
 		model: aMooseModel) 
 		startBuilding;
 		buildShapes.
+		
+	self fixColors.
 	
+	
+	
+]
 
+{ #category : #'as yet unclassified' }
+CNBPresenter >> projectModel: aMooseModel with: aRootClass [
+	
+	(suffixCnb 
+		model: aMooseModel; withRoot: aRootClass)  
+		startBuilding;
+		buildShapes.
+	(prefixCnb model: aMooseModel;withRoot: aRootClass)
+		 startBuilding;
+		 buildShapes.
+	(bothCnb 
+		model: aMooseModel; withRoot: aRootClass) 
+		startBuilding;
+		buildShapes.
+		
 	self fixColors.
 	
 	
