@@ -106,7 +106,6 @@ CNBAbstractViewModel >> initialize [
 	
 	border := RSBorder new.
 	box := RSComposite new.
-	box when: RSMouseLeftClick do: [ :evt | self processEvent: evt ].
 ]
 
 { #category : #accessing }
@@ -128,10 +127,4 @@ CNBAbstractViewModel >> printOn: aStream [
 	aStream nextPutAll: '('. 
 	self name asString printOn: aStream.
 	aStream nextPutAll: ')'.
-]
-
-{ #category : #'events-processing' }
-CNBAbstractViewModel >> processEvent: evt [
-
-	^ self inspect 
 ]

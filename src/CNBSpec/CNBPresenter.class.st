@@ -8,7 +8,7 @@ Class {
 		'packageSearch',
 		'cnbSpecView',
 		'hierarchies',
-		'loadProjectButton',
+		'analyseButton',
 		'prefix',
 		'suffix',
 		'both',
@@ -64,7 +64,7 @@ CNBPresenter class >> defaultSpec [
 				add: #both "height: self buttonHeight";
 				yourself) "height: self buttonHeight + self buttonHeight + self buttonHeight";
 			add: (SpBoxLayout newVertical 
-				add: #loadProjectButton width: self buttonWidth;
+				add: #analyseButton width: self buttonWidth;
 				yourself) "height: self buttonHeight + self buttonHeight";
 			add: (SpBoxLayout newVertical 
 				add: 'Pattern' height: self labelHeight;
@@ -137,7 +137,7 @@ CNBPresenter >> cnbSpecView [
 CNBPresenter >> connectPresenters [
 	super connectPresenters.
 	
-	loadProjectButton action: [ self onLoadProjectClicked  ]. 
+	analyseButton action: [ self onLoadProjectClicked  ]. 
 	addButton action: [ self onAddClicked ].
 	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self show: aPattern ].
 	reset action: [ self reset ].
@@ -243,7 +243,7 @@ CNBPresenter >> initializePresenters [
 	
 	suffix associatedRadioButtons: { prefix . both }.
 	
-	loadProjectButton := self newButton label: 'Load project'.
+	analyseButton := self newButton label: 'Analyse'.
 	patternsDropList := CNBSpecElementDropList new.
 	
 	packageSearch := self newSearchInput

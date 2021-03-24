@@ -160,7 +160,7 @@ CNBClassViewModel >> processEvent: evt [
 	| class |
 	
 	class := (Smalltalk image classNamed: self model model name).
-	^ class ifNil: [ self inspect ] ifNotNil:  [ class browse ]
+	^ class ifNil: [ self model model inspect ] ifNotNil:  [ class browse ]
 ]
 
 { #category : #accessing }
