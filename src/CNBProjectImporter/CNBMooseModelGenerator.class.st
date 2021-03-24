@@ -14,6 +14,29 @@ CNBMooseModelGenerator class >> importProject: aPath [
 ]
 
 { #category : #'as yet unclassified' }
+CNBMooseModelGenerator class >> packagesNamed: aCollection [
+	| model  |
+
+	model := FamixStModel new.
+	MoosePharoImporterTask new
+		importerClass: SmalltalkImporter;
+		doNotRunCandidateOperator;
+		importingContext:
+			(MooseImportingContext new
+			   mergeClassAndMetaclass;
+				importClass;
+				importInheritance ; 
+				importPackage;
+				yourself);
+		model: model;
+		addFromPackagesNamed: aCollection;
+		run.
+		^ model
+
+	
+]
+
+{ #category : #'as yet unclassified' }
 CNBMooseModelGenerator class >> projectNameMatches: aString [ 
 	| model  |
 
@@ -29,7 +52,7 @@ CNBMooseModelGenerator class >> projectNameMatches: aString [
 				importPackage;
 				yourself);
 		model: model;
-		addFromPackagesMatching: [:p | aString match: p name];
+		addFromPackagesNamed: [:p | aString match: p name];
 		run.
 		^ model
 

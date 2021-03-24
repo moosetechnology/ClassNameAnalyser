@@ -19,7 +19,7 @@ CNBPresenterTest >> changeToCalypso [
 	projectCNB := CNBRoassal3Builder projectNameMatches: 'calypso-*'.
 	roots := projectCNB viewModel rootModels collect: [ :each | each ].
 	cnbCanvas := projectCNB on: RSCanvas new.
-	presenter projectSelector text: 'calypso-*'. 
+	presenter packagesList text: 'calypso-*'. 
 	presenter onLoadProjectClicked.
 	presenter cnbSpecView openWithSpec.
 	allTokensModels := projectCNB viewModel tokenModels reject: [ :each | each pattern isNil ].
@@ -34,7 +34,7 @@ CNBPresenterTest >> setUp [
 	projectCNB := CNBRoassal3Builder projectNameMatches: 'moose-*'.
 	roots := projectCNB viewModel rootModels collect: [ :each | each ].
 	cnbCanvas := projectCNB on: RSCanvas new.
-	presenter projectSelector text: 'moose-*'. 
+	presenter packagesList text: 'moose-*'. 
 	presenter onLoadProjectClicked.
 	presenter cnbSpecView openWithSpec.
 	allTokensModels := projectCNB viewModel tokenModels reject: [ :each | each pattern isNil ].

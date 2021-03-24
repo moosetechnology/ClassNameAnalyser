@@ -12,6 +12,13 @@ CNBClassNamesBlueprintGenerator class >> importProject: aPath [
 ]
 
 { #category : #'as yet unclassified' }
+CNBClassNamesBlueprintGenerator class >> packagesNamed: aCollection [ 
+
+	^ ClassNamesBlueprint new
+		model: (CNBMooseModelGenerator packagesNamed: aCollection) 
+]
+
+{ #category : #'as yet unclassified' }
 CNBClassNamesBlueprintGenerator class >> projectNameMatches: aString [ 
 
 	^ ClassNamesBlueprint new

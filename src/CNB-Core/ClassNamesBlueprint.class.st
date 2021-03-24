@@ -18,6 +18,12 @@ ClassNamesBlueprint class >> modelGenerator [
 ]
 
 { #category : #'as yet unclassified' }
+ClassNamesBlueprint class >> packagesNamed: aCollection [
+
+	^ self modelGenerator packagesNamed: aCollection
+]
+
+{ #category : #'as yet unclassified' }
 ClassNamesBlueprint class >> projectNameMatches: aString [
 
 	^ self modelGenerator projectNameMatches: aString 

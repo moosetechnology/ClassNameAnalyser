@@ -3,7 +3,6 @@ Class {
 	#superclass : #SpPresenter,
 	#instVars : [
 		'projectCNB',
-		'projectSelector',
 		'pathSelector',
 		'patternsDropList',
 		'packageSearch',
@@ -22,7 +21,12 @@ Class {
 		'prefixCnb',
 		'suffixCnb',
 		'bothCnb',
-		'radioButtionsActions'
+		'radioButtionsActions',
+		'packagesList',
+		'addButton',
+		'showPackagesButton',
+		'packages',
+		'packagesListPresenter'
 	],
 	#category : #CNBSpec
 }
@@ -34,42 +38,45 @@ CNBPresenter class >> defaultExtent [
 
 { #category : #specs }
 CNBPresenter class >> defaultSpec [ 
-	^ SpBoxLayout newHorizontal
+	^
+	SpBoxLayout newHorizontal
 		spacing: 7;
 		add: (SpBoxLayout newVertical
-			spacing: 4;
+			spacing: 2;
 			add: (SpBoxLayout newVertical
-				add: 'Package name' height: self labelHeight;
-				add: #projectSelector height: self buttonHeight;
-				yourself) height: self labelHeight + self buttonHeight;
+				add: #packagesList;
+				yourself) height: 250;
+			add: (SpBoxLayout newHorizontal 
+				add: #showPackagesButton height: self buttonHeight;
+				add: #addButton height: self buttonHeight;
+				yourself) height: self buttonHeight;
 			add: (SpBoxLayout newVertical 
 				add: 'Project path' height: self labelHeight;
 				add: #pathSelector height: self buttonHeight;
-				yourself) height: self labelHeight + self buttonHeight;
+				yourself) "height: self labelHeight + self buttonHeight";
 			add: (SpBoxLayout newVertical 
 				add: 'Root class' height: self labelHeight;
 				add: #rootSelector height: self buttonHeight;
-				yourself) height: self labelHeight + self buttonHeight;
+				yourself) "height: self labelHeight + self buttonHeight";
 			add: (SpBoxLayout newVertical
-				add: #suffix height: self buttonHeight;
-				add: #prefix height: self buttonHeight;
-				add: #both height: self buttonHeight;
-				yourself) height: self buttonHeight + self buttonHeight + self buttonHeight;
+				add: #suffix "height: self buttonHeight";
+				add: #prefix "height: self buttonHeight";
+				add: #both "height: self buttonHeight";
+				yourself) "height: self buttonHeight + self buttonHeight + self buttonHeight";
 			add: (SpBoxLayout newVertical 
 				add: #loadProjectButton width: self buttonWidth;
-				yourself) height: self buttonHeight + self buttonHeight;
+				yourself) "height: self buttonHeight + self buttonHeight";
 			add: (SpBoxLayout newVertical 
 				add: 'Pattern' height: self labelHeight;
 				add: #patternsDropList height: self buttonHeight;
 				yourself) height: self labelHeight + self buttonHeight;
 			add: #reset height: self buttonHeight;
-			add: '';
 			yourself) width: 180;
 		add: (SpBoxLayout newVertical
-			"add: (SpBoxLayout newHorizontal
+			add: (SpBoxLayout newHorizontal
 				add: '';
 				add: #packageSearch width: 200;
-				yourself) height: self buttonHeight;"
+				yourself) height: self buttonHeight;
 			add: #cnbSpecView;
 			yourself);
 		yourself.
@@ -131,6 +138,7 @@ CNBPresenter >> connectPresenters [
 	super connectPresenters.
 	
 	loadProjectButton action: [ self onLoadProjectClicked  ]. 
+	addButton action: [ self onAddClicked ].
 	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self show: aPattern ].
 	reset action: [ self reset ].
 	packageSearch whenSubmitDo: [ :aRub | self changePackageBorderWidth: aRub text asString ].
@@ -138,6 +146,8 @@ CNBPresenter >> connectPresenters [
 	suffix whenActivatedDo: [ self onSuffixActivated  ].
 	prefix whenActivatedDo: [ self onPrefixActivated  ].
 	both whenActivatedDo: [ self onBothActivated  ].
+	showPackagesButton action: [ self onShowClicked ].
+	packagesListPresenter updateButton action: [ self onUpdateClicked  ].
 ]
 
 { #category : #'as yet unclassified' }
@@ -197,9 +207,22 @@ CNBPresenter >> initializePresenters [
 	super initializePresenters.
 	
 	self initializeCnbs. 
-
-	projectSelector 
-		:= self newTextInput placeholder: 'projectNameMatches:''....-*'''.
+	packages := OrderedCollection new.
+	packagesListPresenter := CNBPackagesListPresenter new owner: self.
+	packagesList  
+		:= SpFilteringListPresenter new owner: self;
+			items: RBBrowserEnvironment default packages asArray;
+			displayIcon: [ :e | self iconNamed: #package ];
+			display: [ :package | package name ];
+			filterInputPresenter;
+			yourself.
+		packagesList 
+			listPresenter 
+				bindKeyCombination: $a meta 
+				toAction: [ packagesList listPresenter selectItems: packagesList items ].
+				
+	addButton := self newButton label: 'Add'.
+	showPackagesButton := self newButton label: 'Show Packages'.
 	reset 
 		:= self newButton label: 'Reset'. 
 	prefix 
@@ -277,6 +300,18 @@ CNBPresenter >> nodesToHighlightFor: aPattern [
 	
 ]
 
+{ #category : #adding }
+CNBPresenter >> onAddClicked [
+
+	packages add: (packagesList selectedItem).
+	packagesList items: (packagesList items difference: {packagesList selectedItem}).
+	packagesList listPresenter refresh.
+	packagesListPresenter items: packages.
+	packagesListPresenter packagesList listPresenter refresh.
+	
+	
+]
+
 { #category : #'as yet unclassified' }
 CNBPresenter >> onBothActivated [
 
@@ -291,10 +326,10 @@ CNBPresenter >> onBothActivated [
 CNBPresenter >> onLoadProjectClicked [
 
 	| mooseModel activatedRadioButton root |
-	mooseModel := projectSelector text isNotEmpty
-		              ifTrue: [ 
-			              CNBMooseModelGenerator projectNameMatches:
-				              projectSelector text asString ]
+	mooseModel := packages isNotEmpty
+		              ifTrue: [  
+			              CNBMooseModelGenerator packagesNamed: 
+				              (packages collect: #name) ]
 		              ifFalse: [ 
 		              CNBMooseModelGenerator importProject:
 			              pathSelector text asString ].
@@ -320,6 +355,12 @@ CNBPresenter >> onPrefixActivated [
 ]
 
 { #category : #'as yet unclassified' }
+CNBPresenter >> onShowClicked [ 
+
+	^ packagesListPresenter openWithSpec
+]
+
+{ #category : #'as yet unclassified' }
 CNBPresenter >> onSuffixActivated [
 	
 	^ suffixCnb 
@@ -327,6 +368,28 @@ CNBPresenter >> onSuffixActivated [
 			ifNotNil: [ 
 			cnbSpecView script: [ :canvas | suffixCnb on: canvas ] ]
  	
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> onUpdateClicked [ 
+
+	| removedItems |
+	removedItems := packages difference: packagesListPresenter packagesList selectedItems.
+	
+	packages removeAll.
+	packages addAll: (packagesListPresenter packagesList selectedItems).
+	
+	packagesListPresenter packagesList items: packages.
+	packagesListPresenter packagesList listPresenter refresh.
+	
+	packagesList items: (packagesList items join: removedItems).
+	packagesList listPresenter refresh.
+]
+
+{ #category : #accessing }
+CNBPresenter >> packagesList [ 
+
+	^ packagesList 
 ]
 
 { #category : #initialization }
@@ -389,12 +452,6 @@ CNBPresenter >> projectModel: aMooseModel with: aRootClass [
 	
 ]
 
-{ #category : #accessing }
-CNBPresenter >> projectSelector [ 
-
-	^ projectSelector 
-]
-
 { #category : #'as yet unclassified' }
 CNBPresenter >> radioButtionActions [
 
@@ -449,6 +506,11 @@ CNBPresenter >> resetPackageBoder [
 
 	self halt.
 	selectedPackageBox border width: selectedPackageBox model class new defaultBorderWidth 
+]
+
+{ #category : #selection }
+CNBPresenter >> selectAll [
+	packagesList listPresenter items selectAll
 ]
 
 { #category : #showing }
