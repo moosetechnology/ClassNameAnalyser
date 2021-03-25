@@ -4,7 +4,7 @@ Class {
 	#category : #CNBSpec
 }
 
-{ #category : #default }
+"{ #category : #default }
 CNBOpenCommand class >> defaultDescription [
 	^ ''
 ]
@@ -35,3 +35,4 @@ CNBOpenCommand >> execute [
 
 	openFileDialog openWithSpec
 ]
+"
