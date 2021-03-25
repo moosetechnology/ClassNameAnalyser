@@ -26,7 +26,8 @@ Class {
 		'addButton',
 		'showPackagesButton',
 		'packages',
-		'packagesListPresenter'
+		'packagesListPresenter',
+		'allListItems'
 	],
 	#category : #CNBSpec
 }
@@ -208,10 +209,11 @@ CNBPresenter >> initializePresenters [
 	
 	self initializeCnbs. 
 	packages := OrderedCollection new.
+	allListItems := RBBrowserEnvironment default packages asArray.
 	packagesListPresenter := CNBPackagesListPresenter new owner: self.
 	packagesList  
 		:= SpFilteringListPresenter new owner: self;
-			items: RBBrowserEnvironment default packages asArray;
+			items: allListItems;
 			displayIcon: [ :e | self iconNamed: #package ];
 			display: [ :package | package name ];
 			filterInputPresenter;
@@ -304,12 +306,14 @@ CNBPresenter >> nodesToHighlightFor: aPattern [
 CNBPresenter >> onAddClicked [
 
 	packages add: (packagesList selectedItem).
+	
 	packagesList items: (packagesList items difference: {packagesList selectedItem}).
-	packagesList listPresenter refresh.
+	packagesList listPresenter updateList.
+	
 	packagesListPresenter items: packages.
 	packagesListPresenter packagesList listPresenter refresh.
 	
-	
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -357,7 +361,7 @@ CNBPresenter >> onPrefixActivated [
 { #category : #'as yet unclassified' }
 CNBPresenter >> onShowClicked [ 
 
-	^ packagesListPresenter openWithSpec
+	^ (packagesListPresenter items: packages) openWithSpec
 ]
 
 { #category : #'as yet unclassified' }
@@ -373,17 +377,27 @@ CNBPresenter >> onSuffixActivated [
 { #category : #'as yet unclassified' }
 CNBPresenter >> onUpdateClicked [ 
 
-	| removedItems |
-	removedItems := packages difference: packagesListPresenter packagesList selectedItems.
+	| removedItems items|
 	
+	removedItems := packages difference: packagesListPresenter packagesList selectedItems.
+	items := (allListItems difference: packagesListPresenter packagesList selectedItems).
+
 	packages removeAll.
 	packages addAll: (packagesListPresenter packagesList selectedItems).
 	
 	packagesListPresenter packagesList items: packages.
 	packagesListPresenter packagesList listPresenter refresh.
 	
-	packagesList items: (packagesList items join: removedItems).
+	packagesList items: items.
 	packagesList listPresenter refresh.
+	
+	
+	
+]
+
+{ #category : #accessing }
+CNBPresenter >> packages [ 
+	^ packages
 ]
 
 { #category : #accessing }
