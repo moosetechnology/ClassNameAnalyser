@@ -7,11 +7,15 @@ Class {
 { #category : #baselines }
 BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
-	spec for: #common do: [	
-		"dependencies"
-		"self loadRoassal3: spec."
+	spec for: #common do: [
+		"External dependencies"
+
+		spec
+			baseline: 'FileDialog'
+			with: [ spec repository: 'github://Ducasse/file-dialog/repository' ].
+
 		"Packages"
-		spec 
+		spec
 			package: 'CNBFeatureSelector';
 			package: 'CNBFeatureSelector-Tests' with: [ spec requires: #('CNBFeatureSelector') ];
 			package: 'CNBModels' with: [ spec requires: #('CNBFeatureSelector') ];
@@ -29,8 +33,8 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 { #category : #'as yet unclassified' }
 BaselineOfClassNameAnalyser >> loadRoassal3: spec [
 
-	spec 
-		baseline: 'Roassal3' 
+	spec
+		baseline: 'Roassal3'
 		with: [ spec repository: 'github://ObjectProfile/Roassal3/src' ].
 ]
 
