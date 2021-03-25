@@ -20,7 +20,7 @@ CNBPresenterTest >> changeToCalypso [
 	roots := projectCNB viewModel rootModels collect: [ :each | each ].
 	cnbCanvas := projectCNB on: RSCanvas new.
 	presenter packagesList text: 'calypso-*'. 
-	presenter onLoadProjectClicked.
+	presenter onAnalyseClicked.
 	presenter cnbSpecView openWithSpec.
 	allTokensModels := projectCNB viewModel tokenModels reject: [ :each | each pattern isNil ].
 	allNodes := cnbCanvas deepNodes.
@@ -35,7 +35,7 @@ CNBPresenterTest >> setUp [
 	roots := projectCNB viewModel rootModels collect: [ :each | each ].
 	cnbCanvas := projectCNB on: RSCanvas new.
 	presenter packagesList text: 'moose-*'. 
-	presenter onLoadProjectClicked.
+	presenter onAnalyseClicked.
 	presenter cnbSpecView openWithSpec.
 	allTokensModels := projectCNB viewModel tokenModels reject: [ :each | each pattern isNil ].
 	allNodes := cnbCanvas deepNodes.
