@@ -10,9 +10,9 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	spec for: #common do: [
 		"External dependencies"
 
-		spec
+		"spec
 			baseline: 'FileDialog'
-			with: [ spec repository: 'github://Ducasse/file-dialog/repository' ].
+			with: [ spec repository: 'github://Ducasse/file-dialog/repository' ]."
 
 		"Packages"
 		spec
