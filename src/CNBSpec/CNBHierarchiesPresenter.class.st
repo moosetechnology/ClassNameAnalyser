@@ -21,7 +21,7 @@ CNBHierarchiesPresenter >> initialize [
 	self
 		help: 'Choose a hierarchy';
 		items: self hierarchies;
-		display: [ :aHierarchy name | aHierarchy name ]
+		display: [ :aHierarchy | aHierarchy name ]
 ]
 
 { #category : #initialization }
