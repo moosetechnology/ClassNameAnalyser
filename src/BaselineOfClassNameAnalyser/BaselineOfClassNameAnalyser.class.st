@@ -9,10 +9,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
 	spec for: #common do: [
 		"External dependencies"
-
-		"spec
-			baseline: 'FileDialog'
-			with: [ spec repository: 'github://Ducasse/file-dialog/repository' ]."
+		self loadFileDialog: spec.
 
 		"Packages"
 		spec
@@ -28,6 +25,14 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 			package: 'CNBSpec' with: [ spec requires: #('CNB-Core') ];
 			package: 'CNBVisualization' with: [ spec requires: #('CNBProjectImporter') ].
 				 ].
+]
+
+{ #category : #'as yet unclassified' }
+BaselineOfClassNameAnalyser >> loadFileDialog: spec [
+
+		spec
+			baseline: 'FileDialog'
+			with: [ spec repository: 'github://Ducasse/file-dialog/repository' ].
 ]
 
 { #category : #'as yet unclassified' }
