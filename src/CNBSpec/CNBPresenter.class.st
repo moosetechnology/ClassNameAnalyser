@@ -23,7 +23,8 @@ Class {
 		'packages',
 		'packagesListPresenter',
 		'allListItems',
-		'highlighter'
+		'highlighter',
+		'mooseModel'
 	],
 	#category : #CNBSpec
 }
@@ -111,6 +112,16 @@ CNBPresenter >> allNodes [
 CNBPresenter >> bothCnb [
 
 	^ bothCnb 
+]
+
+{ #category : #initialization }
+CNBPresenter >> buildToolbar [ 
+
+	^ self toolbarActions 
+		asToolbarPresenterWith: [ :presenter | 
+			presenter 
+				displayMode: SpToolbarDisplayMode modeIconAndLabel;
+				addStyle: 'stToolbar' ]
 ]
 
 { #category : #actions }
@@ -234,7 +245,20 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 	
 	aWindowPresenter
 		title: self class defaultTitle;
-		initialExtent: self class defaultExtent
+		initialExtent: self class defaultExtent;
+		toolbar: self buildToolbar 
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> loadProject: aMooseModel [
+
+	
+]
+
+{ #category : #accessing }
+CNBPresenter >> model: aMooseModel [
+
+	mooseModel := aMooseModel 
 ]
 
 { #category : #adding }
@@ -255,17 +279,16 @@ CNBPresenter >> onAddClicked [
 { #category : #actions }
 CNBPresenter >> onAnalyseClicked [
 
-	| mooseModel activatedRadioButton root selectedCnb |
-	mooseModel := packages isNotEmpty
-		              ifTrue: [  
-			              CNBMooseModelGenerator packagesNamed: 
-				              (packages collect: #name) ]
-		              ifFalse: [ 
+	| model activatedRadioButton root selectedCnb |
+	
+	model := packages isNotEmpty ifTrue: [  CNBMooseModelGenerator packagesNamed: (packages collect: #name) ].
+"		              ifFalse: [ 
 		              CNBMooseModelGenerator importProject:
-			              pathSelector text asString ].
-	rootSelector text ifNotEmpty: [ 
-		root := rootSelector text asClass ].
-	self projectModel: mooseModel with: root.
+			              pathSelector text asString ]."
+		
+	rootSelector text ifNotEmpty: [ root := rootSelector text asClass ].
+	mooseModel ifNil: [ self projectModel: model with: root ]
+		ifNotNil: [ self projectModel: mooseModel with: root ].
 
 	activatedRadioButton := self radioButtons detect: [ :each | 
 		                        each state ].
@@ -453,4 +476,16 @@ CNBPresenter >> showNodesAttributedTo: anObject [
 { #category : #accessing }
 CNBPresenter >> suffixCnb [ 
 	^ suffixCnb 
+]
+
+{ #category : #building }
+CNBPresenter >> toolbarActions [ 
+
+	^ CmCommandGroup forSpec
+		register: (CmCommandGroup forSpec
+			register: (CNBOpenCommand forSpecContext: self);
+			register: (CNBSaveCommand forSpecContext: self);
+			yourself);
+		yourself
+
 ]

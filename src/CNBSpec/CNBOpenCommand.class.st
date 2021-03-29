@@ -19,16 +19,13 @@ CNBOpenCommand class >> defaultName [
 
 { #category : #executing }
 CNBOpenCommand >> execute [ 
-	| openFileDialog modelDictionary |
+	| openFileDialog mseFile |
 	
 	openFileDialog := FDOpenFileDialog new whenSelected: [ :selectedFile |
-		modelDictionary := selectedFile readStreamDo: [ :readStream |
+		mseFile := selectedFile readStreamDo: [ :readStream |
 			MooseModel importFromMSEStream: readStream ].
-
-		"context
-			loadWithSettings: (modelDictionary at: 'settings')
-			projectHistory: (modelDictionary at: 'projectHistory')
-			recommendations: (modelDictionary at: 'recommendations') "
+		
+			context model: mseFile
 			].
 	
 	openFileDialog openWithSpec  
