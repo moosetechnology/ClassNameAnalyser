@@ -9,7 +9,7 @@ CNBTRootOrganizer >> selectAttributedNodes: nodesCollection [
 	^ nodesCollection 
 		select: [ :each | each 
 						model root isNotNil and: [ each 
-						model root model = self model 
+						model root model = self model and: [ each children isNil ]
 						] 
 					]
 ]

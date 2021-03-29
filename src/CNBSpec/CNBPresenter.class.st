@@ -6,7 +6,6 @@ Class {
 		'patternsDropList',
 		'packageSearch',
 		'cnbSpecView',
-		'hierarchiesPresenter',
 		'analyseButton',
 		'prefix',
 		'suffix',
@@ -72,7 +71,7 @@ CNBPresenter class >> defaultSpec [
 			yourself) width: 180;
 		add: (SpBoxLayout newVertical
 			add: (SpBoxLayout newHorizontal
-				add: #hierarchiesPresenter;
+				add: '';
 				add: #packageSearch width: 200;
 				yourself) height: self buttonHeight;
 			add: #cnbSpecView;
@@ -146,7 +145,6 @@ CNBPresenter >> connectPresenters [
 	both whenActivatedDo: [ self onBothActivated  ].
 	showPackagesButton action: [ self onShowClicked ].
 	packagesListPresenter updateButton action: [ self onUpdateClicked  ].
-	hierarchiesPresenter whenSelectedItemChangedDo: [ :aRoot | self showNodesAttributedTo: aRoot ].
 ]
 
 { #category : #'as yet unclassified' }
@@ -168,12 +166,6 @@ CNBPresenter >> fixColors [
 			 ]
 ]
 
-{ #category : #accessing }
-CNBPresenter >> hierarchiesPresenter [
-	
-	^ hierarchiesPresenter
-]
-
 { #category : #initialization }
 CNBPresenter >> initializeCnbs [ 
 
@@ -189,7 +181,6 @@ CNBPresenter >> initializePresenters [
 	self initializeCnbs. 
 	packages := OrderedCollection new.
 	highlighter := CNBSingletonHighlighter instance.
-	hierarchiesPresenter := CNBHierarchiesPresenter new.
 	allListItems := RBBrowserEnvironment default packages asArray sorted: [ :a : b | a name < b name ].
 	packagesListPresenter := CNBPackagesListPresenter new owner: self.
 	packagesList  
@@ -249,6 +240,7 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 { #category : #adding }
 CNBPresenter >> onAddClicked [
 
+	packagesList selectedItem ifNil: [ ^ self ].
 	packages add: (packagesList selectedItem).
 	
 	packagesList items: (packagesList items difference: {packagesList selectedItem}).
@@ -278,7 +270,6 @@ CNBPresenter >> onAnalyseClicked [
 	activatedRadioButton := self radioButtons detect: [ :each | 
 		                        each state ].
 	selectedCnb := (self projectAtRadioButton: activatedRadioButton).
-	hierarchiesPresenter items: selectedCnb rootModels asArray.
 	cnbSpecView script: [ :canvas | selectedCnb on: canvas ].
 ]
 

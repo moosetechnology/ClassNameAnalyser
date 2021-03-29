@@ -190,12 +190,6 @@ CNBRootModel >> removeUnnecessaryTokens [
 	
 ]
 
-{ #category : #'as yet unclassified' }
-CNBRootModel >> scatteredSubclassesInside: aPackageModel [ 
-
-	
-]
-
 { #category : #accessing }
 CNBRootModel >> size [ 
 	^ subclasses size
