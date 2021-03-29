@@ -17,19 +17,19 @@ CNBSpecElementDropList class >> defaultSpec [
 CNBSpecElementDropList >> initialize [
 
 	super initialize.
-	patterns := { 	#'-------' .
-		            #'Fat Blob' .
-		            #'Snow Flakes'.
-		            #'Homogeneity Breaker'.
-		            #'Intruders'.
-		            #'Confetti'.
-		            #'Homogeneous'.
-		            #'Scattered Vocabulary' }.
+	patterns := { 	NoPattern new .
+		            CNBFatBlobPattern new .
+		            CNBSnowFlakesPattern new .
+		           	CNBHomogeneityBreakerPattern new .
+		            CNBIntruderPattern new .
+		            CNBConfettiPattern new .
+		            CNBHomogeneousPattern new .
+		            CNBScatteredVocabularyPattern new }.
 
 	self
 		help: 'Choose a pattern';
 		items: self patterns;
-		display: [ :aPattern | aPattern ]
+		display: [ :aPattern | aPattern name ]
 ]
 
 { #category : #initialization }

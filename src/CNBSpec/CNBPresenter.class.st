@@ -2,20 +2,16 @@ Class {
 	#name : #CNBPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'projectCNB',
 		'pathSelector',
 		'patternsDropList',
 		'packageSearch',
 		'cnbSpecView',
-		'hierarchies',
+		'hierarchiesPresenter',
 		'analyseButton',
 		'prefix',
 		'suffix',
 		'both',
 		'rootSelector',
-		'goDarker',
-		'nodesToBeDarker',
-		'nodesToBeHighlighted',
 		'reset',
 		'selectedPackageBox',
 		'prefixCnb',
@@ -27,7 +23,8 @@ Class {
 		'showPackagesButton',
 		'packages',
 		'packagesListPresenter',
-		'allListItems'
+		'allListItems',
+		'highlighter'
 	],
 	#category : #CNBSpec
 }
@@ -75,7 +72,7 @@ CNBPresenter class >> defaultSpec [
 			yourself) width: 180;
 		add: (SpBoxLayout newVertical
 			add: (SpBoxLayout newHorizontal
-				add: '';
+				add: #hierarchiesPresenter;
 				add: #packageSearch width: 200;
 				yourself) height: self buttonHeight;
 			add: #cnbSpecView;
@@ -138,9 +135,9 @@ CNBPresenter >> cnbSpecView [
 CNBPresenter >> connectPresenters [
 	super connectPresenters.
 	
-	analyseButton action: [ self onLoadProjectClicked  ]. 
+	analyseButton action: [ self onAnalyseClicked  ]. 
 	addButton action: [ self onAddClicked ].
-	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self show: aPattern ].
+	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self showNodesAttributedTo: aPattern ].
 	reset action: [ self reset ].
 	packageSearch whenSubmitDo: [ :aRub | self changePackageBorderWidth: aRub text asString ].
 	packageSearch whenResetDo: [ self resetPackageBoder ].
@@ -149,6 +146,7 @@ CNBPresenter >> connectPresenters [
 	both whenActivatedDo: [ self onBothActivated  ].
 	showPackagesButton action: [ self onShowClicked ].
 	packagesListPresenter updateButton action: [ self onUpdateClicked  ].
+	hierarchiesPresenter whenSelectedItemChangedDo: [ :aRoot | self showNodesAttributedTo: aRoot ].
 ]
 
 { #category : #'as yet unclassified' }
@@ -170,29 +168,10 @@ CNBPresenter >> fixColors [
 			 ]
 ]
 
-{ #category : #highlighting }
-CNBPresenter >> goDarkerFor: aPattern [
-	| nodesWithHighlightedBorders activatedRadioButton |
+{ #category : #accessing }
+CNBPresenter >> hierarchiesPresenter [
 	
-	nodesToBeDarker isNotNil ifTrue: [ self reset ]. 
-	activatedRadioButton := self radioButtons detect: [ :each | each state ].	
-	
-	(radioButtionsActions asDictionary at: activatedRadioButton) isNotNil ifFalse: [ ^ self ].
-	
-	nodesToBeHighlighted := self nodesToHighlightFor: aPattern.
-	nodesToBeHighlighted ifEmpty: [ ^ self ].
-	
-	nodesWithHighlightedBorders := nodesToBeHighlighted select: [ :each | 
-		                               each hasChildren ].
-	nodesToBeDarker := self allNodes difference: nodesToBeHighlighted.
-		
-	nodesToBeDarker do: [ :each |
-		each color: each color muchDarker duller ].
-	nodesWithHighlightedBorders do: [ :each |
-				each border color: Color white; width: 3 ].
-	cnbSpecView canvas 
-		color: Color black whiter.
-	
+	^ hierarchiesPresenter
 ]
 
 { #category : #initialization }
@@ -209,7 +188,9 @@ CNBPresenter >> initializePresenters [
 	
 	self initializeCnbs. 
 	packages := OrderedCollection new.
-	allListItems := RBBrowserEnvironment default packages asArray.
+	highlighter := CNBSingletonHighlighter instance.
+	hierarchiesPresenter := CNBHierarchiesPresenter new.
+	allListItems := RBBrowserEnvironment default packages asArray sorted: [ :a : b | a name < b name ].
 	packagesListPresenter := CNBPackagesListPresenter new owner: self.
 	packagesList  
 		:= SpFilteringListPresenter new owner: self;
@@ -252,6 +233,8 @@ CNBPresenter >> initializePresenters [
 		placeholder: 'Search...';
 		yourself.	
 	cnbSpecView := SpRoassalPresenter new.
+
+
 ]
 
 { #category : #initialization }
@@ -261,45 +244,6 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter
 		title: self class defaultTitle;
 		initialExtent: self class defaultExtent
-]
-
-{ #category : #queries }
-CNBPresenter >> lookFor: aPattern [
-	" returns token models to be highlighted"
-	| activatedRadioButton |
-	activatedRadioButton := self radioButtons detect: [ :each | each state ].
-	^ (CNBPatternSelector 
-			of: (radioButtionsActions asDictionary at: activatedRadioButton)) selectPatternOf: aPattern
-	
-]
-
-{ #category : #highlighting }
-CNBPresenter >> nodesToBeDarker [
-
-	^ nodesToBeDarker
-]
-
-{ #category : #accessing }
-CNBPresenter >> nodesToBeHighlighted [ 
-
-	^ nodesToBeHighlighted 
-]
-
-{ #category : #highlighting }
-CNBPresenter >> nodesToHighlightFor: aPattern [
-	| tokenModels classModels highlightedModels |
-
-	tokenModels 
-		:= (self lookFor: aPattern) do: [ :each | each showPatternDescription ]. 
-
-	classModels 
-		:= tokenModels flatCollect: [ :each | each classViewModels ].
-	
-	highlightedModels 
-		:= (tokenModels union: classModels).
-	
-	^ self allNodes select: [ :each | highlightedModels includes: each model ]
-	
 ]
 
 { #category : #adding }
@@ -316,20 +260,10 @@ CNBPresenter >> onAddClicked [
 
 ]
 
-{ #category : #'as yet unclassified' }
-CNBPresenter >> onBothActivated [
-
-	^ bothCnb 
-		 model 
-			ifNotNil: [ 
-			cnbSpecView script: [ :canvas | bothCnb on: canvas ] ]
- 	
-]
-
 { #category : #actions }
-CNBPresenter >> onLoadProjectClicked [
+CNBPresenter >> onAnalyseClicked [
 
-	| mooseModel activatedRadioButton root |
+	| mooseModel activatedRadioButton root selectedCnb |
 	mooseModel := packages isNotEmpty
 		              ifTrue: [  
 			              CNBMooseModelGenerator packagesNamed: 
@@ -343,9 +277,19 @@ CNBPresenter >> onLoadProjectClicked [
 
 	activatedRadioButton := self radioButtons detect: [ :each | 
 		                        each state ].
+	selectedCnb := (self projectAtRadioButton: activatedRadioButton).
+	hierarchiesPresenter items: selectedCnb rootModels asArray.
+	cnbSpecView script: [ :canvas | selectedCnb on: canvas ].
+]
 
-	cnbSpecView script: [ :canvas | 
-		(self projectAtRadioButton: activatedRadioButton) on: canvas ]
+{ #category : #'as yet unclassified' }
+CNBPresenter >> onBothActivated [
+
+	^ bothCnb 
+		 model 
+			ifNotNil: [ 
+			cnbSpecView script: [ :canvas | bothCnb on: canvas ] ]
+ 	
 ]
 
 { #category : #'as yet unclassified' }
@@ -481,37 +425,10 @@ CNBPresenter >> radioButtons [
 { #category : #initialization }
 CNBPresenter >> reset [
 
-	cnbSpecView canvas color: Color white darker.
-	
-	self resetHighlightedNodes.
-	self resetDarkerNodes.
+	cnbSpecView canvas color: Color white darker.	
+	highlighter reset.
 
 	
-	
-]
-
-{ #category : #initialization }
-CNBPresenter >> resetDarkerNodes [
-	
-	 nodesToBeDarker 
-		 do: [ :each | each 
-					hasModel
-						ifTrue: [ each color: each model originalColor ]
-						ifFalse: [ each color: each class new color darker ] 
-				]
-	
-]
-
-{ #category : #initialization }
-CNBPresenter >> resetHighlightedNodes [
-
-	nodesToBeHighlighted 
-				select: [ :each | each hasChildren ] 
-				thenDo: [ :each | each 
-								border 
-									color: each model class new defaultBorderColor; 
-									width: each model class new defaultBorderWidth.
-								each model hidePatternDescription ].
 	
 ]
 
@@ -531,6 +448,15 @@ CNBPresenter >> selectAll [
 CNBPresenter >> show: aPattern [
 
 	self goDarkerFor: aPattern.
+]
+
+{ #category : #initialization }
+CNBPresenter >> showNodesAttributedTo: anObject [
+
+	highlighter highlight: self allNodes accordingTo: anObject.
+	highlighter nodesToBeHighlighted ifEmpty: [ ^ self reset ].
+
+	cnbSpecView canvas color: Color black whiter.
 ]
 
 { #category : #accessing }

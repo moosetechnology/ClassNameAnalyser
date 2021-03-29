@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'viewModel',
 		'visualizer',
-		'shapes'
+		'shapes',
+		'modeledShapes',
+		'canvas'
 	],
 	#classInstVars : [
 		'modelGenerator'
@@ -46,7 +48,7 @@ ClassNamesBlueprint >> attributeRoots [
 { #category : #'as yet unclassified' }
 ClassNamesBlueprint >> buildShapes [ 
 
-	shapes := (visualizer buildShapesOf: self) 
+	shapes := (visualizer buildShapesOf: self).
 ]
 
 { #category : #'as yet unclassified' }
@@ -77,7 +79,11 @@ ClassNamesBlueprint >> initialize [
 	
 	viewModel := CNBViewModel new.
 	visualizer := CNBRoassal3Builder new.
+	modeledShapes := OrderedCollection new. 
+	canvas := RSCanvas new.
 
+
+	
 ]
 
 { #category : #accessing }
@@ -92,13 +98,26 @@ ClassNamesBlueprint >> model: aModel [
 	self viewModel model: aModel 
 ]
 
+{ #category : #'as yet unclassified' }
+ClassNamesBlueprint >> modeledShapes [
+
+	modeledShapes := shapes ifNotNil: [ shapes select: [ :each | each hasModel ] ]
+]
+
 { #category : #'instance creation' }
 ClassNamesBlueprint >> on: aCanvas [
 
 	shapes ifNil: [ self buildShapes ].
+	canvas := self putElementsOn: aCanvas.
+	^ canvas.
 	
-	^ self putElementsOn: aCanvas
 	
+]
+
+{ #category : #'events-processing' }
+ClassNamesBlueprint >> processEvent: evt [
+
+	self halt.
 ]
 
 { #category : #'as yet unclassified' }

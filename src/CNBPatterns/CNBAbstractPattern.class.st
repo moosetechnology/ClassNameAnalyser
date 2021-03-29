@@ -69,3 +69,17 @@ CNBAbstractPattern >> name [
 
 	self subclassResponsibility 
 ]
+
+{ #category : #'as yet unclassified' }
+CNBAbstractPattern >> selectAttributedNodes: nodesCollection [
+	
+	| tokens tokenWithPatterns tokensToBeHighlighted nodesToBeHighlighted |
+	tokens := nodesCollection select: [ :each | each model isToken ].
+	tokenWithPatterns := tokens reject: [ :each | each model pattern isNil ].
+	tokensToBeHighlighted := tokenWithPatterns select: [ :each | each model 
+			pattern description = self description ].
+	tokensToBeHighlighted do: [ :each | each model showPatternDescription ].
+	nodesToBeHighlighted := (tokensToBeHighlighted union: (tokensToBeHighlighted collect: #children)).
+	^ nodesToBeHighlighted flattened
+	 
+]

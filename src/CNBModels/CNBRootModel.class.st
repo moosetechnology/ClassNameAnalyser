@@ -4,6 +4,8 @@ I am a representation of a Root Model which is the highest class in the hierarch
 Class {
 	#name : #CNBRootModel,
 	#superclass : #CNBAbstractModel,
+	#traits : 'CNBTRootOrganizer',
+	#classTraits : 'CNBTRootOrganizer classTrait',
 	#instVars : [
 		'model',
 		'subclasses',
@@ -16,8 +18,7 @@ Class {
 		'scatteredSuffixes',
 		'biggestTokenAssociation',
 		'tokenModels',
-		'tokenPosition',
-		'number'
+		'tokenPosition'
 	],
 	#category : #CNBModels
 }

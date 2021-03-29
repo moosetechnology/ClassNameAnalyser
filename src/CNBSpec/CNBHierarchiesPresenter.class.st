@@ -20,26 +20,7 @@ CNBHierarchiesPresenter >> initialize [
 
 	self
 		help: 'Choose a hierarchy';
-		items: self hierarchies;
 		display: [ :aHierarchy | aHierarchy name ]
-]
-
-{ #category : #initialization }
-CNBHierarchiesPresenter >> items [
-
-	^ self hierarchies
-]
-
-{ #category : #initialization }
-CNBHierarchiesPresenter >> hierarchies [
-
-	^ hierarchies
-]
-
-{ #category : #initialization }
-CNBHierarchiesPresenter >> hierarchies: aCollection [
-
-	hierarchies := aCollection
 ]
 
 { #category : #initialization }

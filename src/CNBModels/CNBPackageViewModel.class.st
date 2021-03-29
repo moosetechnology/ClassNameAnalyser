@@ -110,6 +110,11 @@ CNBPackageViewModel >> reset [
 ]
 
 { #category : #accessing }
+CNBPackageViewModel >> root [ 
+	^ nil
+]
+
+{ #category : #accessing }
 CNBPackageViewModel >> roots [
 
 	^ (tokenViewModels collect: [ :each | each root ]) asSet

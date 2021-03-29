@@ -108,6 +108,12 @@ CNBAbstractViewModel >> initialize [
 	box := RSComposite new.
 ]
 
+{ #category : #testing }
+CNBAbstractViewModel >> isToken [ 
+
+	^ self className = 'CNBTokenViewModel' 
+]
+
 { #category : #accessing }
 CNBAbstractViewModel >> originalColor [
 

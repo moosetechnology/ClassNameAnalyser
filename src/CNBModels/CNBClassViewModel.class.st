@@ -68,10 +68,13 @@ CNBClassViewModel >> create [
 { #category : #initialization }
 CNBClassViewModel >> createBox [ 
 
+	| class |
+	class := Smalltalk image classNamed: self model model name.
 	^ super 
 			createBox
 				width: self width;
-				height: self height.
+				height: self height;
+				popupText: (ClassHierarchyPrinter new forClass: class) print
 
 
 ]
@@ -94,6 +97,21 @@ CNBClassViewModel >> hideBoxName [
 	self box removeInteractionIfPresent: RSPopup 
 ]
 
+{ #category : #interaction }
+CNBClassViewModel >> hideClassDescription [ 
+
+	self box removeInteractionIfPresent: RSPopup 
+]
+
+{ #category : #accessing }
+CNBClassViewModel >> highlight [
+
+	| canvas |
+	canvas := self box topParent.
+	CNBSingletonHighlighter instance highlight: canvas deepNodes accordingTo: self root.
+	canvas color: Color black whiter.
+]
+
 { #category : #initialization }
 CNBClassViewModel >> initialize [ 
 	super initialize.
@@ -103,7 +121,8 @@ CNBClassViewModel >> initialize [
 	height := 45.
 	width := 45.
 	box when: RSMouseLeftClick do: [ :evt | self processEvent: evt ].
-	
+	box when: RSMouseRightClick do: [ :evt |  self highlight ]
+
 ]
 
 { #category : #testing }
@@ -127,9 +146,11 @@ CNBClassViewModel >> model: aModel [
 { #category : #'as yet unclassified' }
 CNBClassViewModel >> monoMultiSiblingsIn: aTokenViewModel [ 
 
-	^ aTokenViewModel 
+	| siblings |
+	siblings := aTokenViewModel 
 		classViewModels
-	 		select: [ :each | each rootName = self rootName ] 
+	 		select: [ :each | each root model = self root model ].
+		^siblings 
 ]
 
 { #category : #'as yet unclassified' }
@@ -191,6 +212,14 @@ CNBClassViewModel >> rootName [
 CNBClassViewModel >> showBoxName [
 
 	self box popupText: name
+]
+
+{ #category : #'as yet unclassified' }
+CNBClassViewModel >> showClassDescription [
+
+	| class |
+	class := Smalltalk image classNamed: self model model name.
+	self box popupText: (ClassHierarchyPrinter new forClass: class) print
 ]
 
 { #category : #'as yet unclassified' }

@@ -243,7 +243,7 @@ CNBTokenViewModel >> hasNoOutsiders [
 CNBTokenViewModel >> hidePatternDescription [
 
 	self box popupText: name.
-	self box children do: [ :each | each model showBoxName  ]
+	self box children do: [ :each | each model showClassDescription  ]
 ]
 
 { #category : #accessing }
@@ -313,7 +313,7 @@ CNBTokenViewModel >> root: biggestHierarchy [
 CNBTokenViewModel >> showPatternDescription [
 
 	self box popupText: pattern description.
-	self box children do: [ :each | each model hideBoxName ]
+	self box children do: [ :each | each model hideClassDescription ]
 ]
 
 { #category : #accessing }
