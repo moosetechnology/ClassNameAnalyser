@@ -58,8 +58,8 @@ CNBPackageViewModel >> hasScatteredVocabularyInside [
 
 	^ (tokenViewModels 
 			select: [ :each | 
-				each pattern isNotNil and: [ each pattern 
-					isScatteredVocabulary ] ]) isNotEmpty 
+				each patterns anySatisfy: [ :aPattern | aPattern isScatteredVocabulary ]	 
+			] ) isNotEmpty
 ]
 
 { #category : #initialization }

@@ -9,7 +9,7 @@ Class {
 		'root',
 		'classViewModels',
 		'size',
-		'pattern',
+		'patterns',
 		'position'
 	],
 	#category : #CNBModels
@@ -72,6 +72,7 @@ CNBTokenViewModel >> changeColorTo: aColor [
 
 { #category : #'as yet unclassified' }
 CNBTokenViewModel >> changeRootTo: aRoot [ 
+
 	self 
 		root: aRoot;
 		color: aRoot color;
@@ -85,7 +86,7 @@ CNBTokenViewModel >> checkConfetti [
 	confetti := CNBConfettiPattern new.
 	
 	(confetti check: self)
-		ifTrue: [ self pattern: confetti ]
+		ifTrue: [ patterns add: confetti ]
 	
 ]
 
@@ -96,7 +97,7 @@ CNBTokenViewModel >> checkFatBlob [
 	fatBlobPattern := CNBFatBlobPattern new.
 	
 	(fatBlobPattern check: self)
-			ifTrue: [ self pattern: fatBlobPattern ]
+			ifTrue: [ patterns add: fatBlobPattern ]
 	
 ]
 
@@ -107,7 +108,7 @@ CNBTokenViewModel >> checkHomogeneityBreaker [
 	homogeneityBreakerPattern := CNBHomogeneityBreakerPattern new.
 	
 	((homogeneityBreakerPattern check: self) 
-		and: [ self appearsInSeveralPackages ]) ifTrue: [ self pattern: homogeneityBreakerPattern. ]
+		and: [ self appearsInSeveralPackages ]) ifTrue: [ patterns add: homogeneityBreakerPattern. ]
 ]
 
 { #category : #testing }
@@ -116,8 +117,7 @@ CNBTokenViewModel >> checkHomogeneous [
 	| homogeneousPattern |	
 	homogeneousPattern := CNBHomogeneousPattern new.
 	
-	(homogeneousPattern check: self)
-		ifTrue: [ self pattern: homogeneousPattern ]
+	(homogeneousPattern check: self) ifTrue: [ patterns add: homogeneousPattern ]
 ]
 
 { #category : #testing }
@@ -126,8 +126,7 @@ CNBTokenViewModel >> checkIntruder [
 	| intruderPattern |
 	intruderPattern := CNBIntruderPattern new.
 	
-	(intruderPattern check: self) 
-		ifTrue: [ self pattern: intruderPattern ]
+	(intruderPattern check: self) ifTrue: [ patterns add: intruderPattern ]
 	
 ]
 
@@ -155,8 +154,7 @@ CNBTokenViewModel >> checkScatteredVocabulary [
 	(size >= scatteredVocabularyPattern minClassSize)
 		ifFalse: [ ^ false ].
 		
-	(scatteredVocabularyPattern check: self) 
-		ifTrue: [ self pattern: scatteredVocabularyPattern. ]
+	(scatteredVocabularyPattern check: self) ifTrue: [ patterns add: scatteredVocabularyPattern. ]
 ]
 
 { #category : #testing }
@@ -165,7 +163,7 @@ CNBTokenViewModel >> checkSnowFlakes [
 	| snowFlakesPattern |
 	snowFlakesPattern := CNBSnowFlakesPattern new.
 	
-	(snowFlakesPattern check: self) ifTrue: [ self pattern: snowFlakesPattern. ]
+	(snowFlakesPattern check: self) ifTrue: [ patterns add: snowFlakesPattern. ]
 ]
 
 { #category : #'accessing-classes' }
@@ -182,11 +180,13 @@ CNBTokenViewModel >> classViewModels [
 
 { #category : #accessing }
 CNBTokenViewModel >> classViewModels: classVModels [
+
 	classViewModels := classVModels.
 ]
 
 { #category : #accessing }
 CNBTokenViewModel >> classes [ 
+
 	^ self classViewModels 
 ]
 
@@ -246,6 +246,13 @@ CNBTokenViewModel >> hidePatternDescription [
 	self box children do: [ :each | each model showClassDescription  ]
 ]
 
+{ #category : #initialization }
+CNBTokenViewModel >> initialize [ 
+	super initialize.
+	
+	patterns := OrderedCollection new
+]
+
 { #category : #accessing }
 CNBTokenViewModel >> innerRoots [
 	
@@ -277,23 +284,15 @@ CNBTokenViewModel >> package: aPackage [
 ]
 
 { #category : #accessing }
-CNBTokenViewModel >> pattern [ 
+CNBTokenViewModel >> patterns [ 
 
-	^ pattern
+	^ patterns
 ]
 
 { #category : #accessing }
-CNBTokenViewModel >> pattern: aPattern [
+CNBTokenViewModel >> patterns: aPattern [
 
-	pattern := aPattern 
-]
-
-{ #category : #initialization }
-CNBTokenViewModel >> resetToken [
-
-
-	self size: size - 1.
-
+	patterns add: aPattern
 ]
 
 { #category : #accessing }
@@ -310,9 +309,16 @@ CNBTokenViewModel >> root: biggestHierarchy [
 ]
 
 { #category : #interactions }
+CNBTokenViewModel >> showDescriptionOf: aPattern [
+
+	self box popupText: aPattern description.
+	self box children do: [ :each | each model hideClassDescription ]
+]
+
+{ #category : #interactions }
 CNBTokenViewModel >> showPatternDescription [
 
-	self box popupText: pattern description.
+	self box popupText: patterns description.
 	self box children do: [ :each | each model hideClassDescription ]
 ]
 
