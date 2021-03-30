@@ -5,7 +5,7 @@ Class {
 		'pathSelector',
 		'patternsDropList',
 		'packageSearch',
-		'cnbSpecView',
+		'projectView',
 		'analyseButton',
 		'prefix',
 		'suffix',
@@ -75,7 +75,7 @@ CNBPresenter class >> defaultSpec [
 				add: '';
 				add: #packageSearch width: 200;
 				yourself) height: self buttonHeight;
-			add: #cnbSpecView;
+			add: #projectView;
 			yourself);
 		yourself.
 ]
@@ -105,7 +105,7 @@ CNBPresenter class >> open [
 { #category : #accessing }
 CNBPresenter >> allNodes [
 
-	^ cnbSpecView canvas deepNodes
+	^ projectView canvas deepNodes
 ]
 
 { #category : #accessing }
@@ -131,14 +131,8 @@ CNBPresenter >> changePackageBorderWidth: aPackageName [
 		(self 
 			allNodes 
 				select: [ :each | each hasModel ]
-		)
+			)
 				 	detect: [ :each | each model name = aPackageName  ]) border width: 5
-]
-
-{ #category : #accessing }
-CNBPresenter >> cnbSpecView [
-
-	^ cnbSpecView
 ]
 
 { #category : #initialization }
@@ -195,7 +189,7 @@ CNBPresenter >> initializePresenters [
 	allListItems := RBBrowserEnvironment default packages asArray sorted: [ :a : b | a name < b name ].
 	packagesListPresenter := CNBPackagesListPresenter new owner: self.
 	packagesList  
-		:= SpFilteringListPresenter new owner: self;
+		:= SpFilteringSelectableListPresenter new owner: self;
 			items: allListItems;
 			displayIcon: [ :e | self iconNamed: #package ];
 			display: [ :package | package name ];
@@ -204,7 +198,7 @@ CNBPresenter >> initializePresenters [
 		packagesList 
 			listPresenter 
 				bindKeyCombination: $a meta 
-				toAction: [ packagesList listPresenter selectItems: packagesList items ].
+				toAction: [ packagesList selectItems: packagesList items ].
 				
 	addButton := self newButton label: 'Add'.
 	showPackagesButton := self newButton label: 'Show Packages'.
@@ -234,8 +228,8 @@ CNBPresenter >> initializePresenters [
 	packageSearch := self newSearchInput
 		placeholder: 'Search...';
 		yourself.	
-	cnbSpecView := SpRoassalPresenter new.
-
+	projectView := SpRoassalPresenter new.
+	
 
 ]
 
@@ -249,12 +243,6 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 		toolbar: self buildToolbar 
 ]
 
-{ #category : #'as yet unclassified' }
-CNBPresenter >> loadProject: aMooseModel [
-
-	
-]
-
 { #category : #accessing }
 CNBPresenter >> model: aMooseModel [
 
@@ -264,14 +252,19 @@ CNBPresenter >> model: aMooseModel [
 { #category : #adding }
 CNBPresenter >> onAddClicked [
 
-	packagesList selectedItem ifNil: [ ^ self ].
-	packages add: (packagesList selectedItem).
+	packagesList selectedItems ifEmpty: [ ^ self ].
+	packagesList selectedItems do: [ :anItem | packages addIfNotPresent: anItem ].
 	
-	packagesList items: (packagesList items difference: {packagesList selectedItem}).
-	packagesList listPresenter updateList.
+	packagesList items: (allListItems difference: packages).
+	packagesList listPresenter refresh.
 	
 	packagesListPresenter items: packages.
 	packagesListPresenter packagesList listPresenter refresh.
+	
+	mooseModel 
+		:= packages 
+			isNotEmpty 
+				ifTrue: [  CNBMooseModelGenerator packagesNamed: (packages collect: #name) ].
 	
 
 ]
@@ -279,21 +272,16 @@ CNBPresenter >> onAddClicked [
 { #category : #actions }
 CNBPresenter >> onAnalyseClicked [
 
-	| model activatedRadioButton root selectedCnb |
-	
-	model := packages isNotEmpty ifTrue: [  CNBMooseModelGenerator packagesNamed: (packages collect: #name) ].
-"		              ifFalse: [ 
-		              CNBMooseModelGenerator importProject:
-			              pathSelector text asString ]."
+	| activatedRadioButton root selectedCnb | 
+	mooseModel ifNil: [ ^ self ].			
 		
-	rootSelector text ifNotEmpty: [ root := rootSelector text asClass ].
-	mooseModel ifNil: [ self projectModel: model with: root ]
-		ifNotNil: [ self projectModel: mooseModel with: root ].
+	rootSelector text ifNotEmpty: [ root := rootSelector text asClass ]. 
 
-	activatedRadioButton := self radioButtons detect: [ :each | 
-		                        each state ].
+	activatedRadioButton := self radioButtons detect: [ :each | each state ].
+	self projectModel: mooseModel with: root.
 	selectedCnb := (self projectAtRadioButton: activatedRadioButton).
-	cnbSpecView script: [ :canvas | selectedCnb on: canvas ].
+	
+	projectView script: [ :canvas | selectedCnb on: canvas ].
 ]
 
 { #category : #'as yet unclassified' }
@@ -302,7 +290,7 @@ CNBPresenter >> onBothActivated [
 	^ bothCnb 
 		 model 
 			ifNotNil: [ 
-			cnbSpecView script: [ :canvas | bothCnb on: canvas ] ]
+			projectView script: [ :canvas | bothCnb on: canvas ] ]
  	
 ]
 
@@ -312,7 +300,7 @@ CNBPresenter >> onPrefixActivated [
 	^ prefixCnb
 		 model 
 			ifNotNil: [ 
-			cnbSpecView script: [ :canvas | prefixCnb on: canvas ] ]
+			projectView script: [ :canvas | prefixCnb on: canvas ] ]
  	
 ]
 
@@ -328,7 +316,7 @@ CNBPresenter >> onSuffixActivated [
 	^ suffixCnb 
 		 model 
 			ifNotNil: [ 
-			cnbSpecView script: [ :canvas | suffixCnb on: canvas ] ]
+			projectView script: [ :canvas | suffixCnb on: canvas ] ]
  	
 ]
 
@@ -355,6 +343,7 @@ CNBPresenter >> onUpdateClicked [
 
 { #category : #accessing }
 CNBPresenter >> packages [ 
+
 	^ packages
 ]
 
@@ -372,6 +361,7 @@ CNBPresenter >> patternsDropList [
 
 { #category : #accessing }
 CNBPresenter >> prefixCnb [ 
+
 	^ prefixCnb
 ]
 
@@ -383,19 +373,11 @@ CNBPresenter >> projectAtRadioButton: aRadioButtion [
 ]
 
 { #category : #'as yet unclassified' }
-CNBPresenter >> projectModel: aMooseModel [
+CNBPresenter >> projectModel: aMooseModel with: aRootClass [
 	
-	(suffixCnb 
-		model: aMooseModel) 
-		startBuilding;
-		buildShapes.
-	(prefixCnb model: aMooseModel)
-		 startBuilding;
-		 buildShapes.
-	(bothCnb 
-		model: aMooseModel) 
-		startBuilding;
-		buildShapes.
+	(suffixCnb model: aMooseModel; withRoot: aRootClass)  startBuilding; buildShapes.
+	(prefixCnb model: aMooseModel;withRoot: aRootClass) startBuilding; buildShapes.
+	(bothCnb model: aMooseModel; withRoot: aRootClass) startBuilding; buildShapes.
 		
 	self fixColors.
 	
@@ -403,25 +385,10 @@ CNBPresenter >> projectModel: aMooseModel [
 	
 ]
 
-{ #category : #'as yet unclassified' }
-CNBPresenter >> projectModel: aMooseModel with: aRootClass [
-	
-	(suffixCnb 
-		model: aMooseModel; withRoot: aRootClass)  
-		startBuilding;
-		buildShapes.
-	(prefixCnb model: aMooseModel;withRoot: aRootClass)
-		 startBuilding;
-		 buildShapes.
-	(bothCnb 
-		model: aMooseModel; withRoot: aRootClass) 
-		startBuilding;
-		buildShapes.
-		
-	self fixColors.
-	
-	
-	
+{ #category : #accessing }
+CNBPresenter >> projectView [
+
+	^ projectView
 ]
 
 { #category : #'as yet unclassified' }
@@ -439,7 +406,7 @@ CNBPresenter >> radioButtons [
 { #category : #initialization }
 CNBPresenter >> reset [
 
-	cnbSpecView canvas color: Color white darker.	
+	projectView canvas color: Color white darker.	
 	highlighter reset.
 
 	
@@ -455,13 +422,8 @@ CNBPresenter >> resetPackageBoder [
 
 { #category : #selection }
 CNBPresenter >> selectAll [
+
 	packagesList listPresenter items selectAll
-]
-
-{ #category : #showing }
-CNBPresenter >> show: aPattern [
-
-	self goDarkerFor: aPattern.
 ]
 
 { #category : #initialization }
@@ -470,11 +432,12 @@ CNBPresenter >> showNodesAttributedTo: anObject [
 	highlighter highlight: self allNodes accordingTo: anObject.
 	highlighter nodesToBeHighlighted ifEmpty: [ ^ self reset ].
 
-	cnbSpecView canvas color: Color black whiter.
+	projectView canvas color: Color black whiter.
 ]
 
 { #category : #accessing }
 CNBPresenter >> suffixCnb [ 
+
 	^ suffixCnb 
 ]
 

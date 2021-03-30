@@ -21,7 +21,7 @@ CNBPresenterTest >> changeToCalypso [
 	cnbCanvas := projectCNB on: RSCanvas new.
 	presenter packagesList text: 'calypso-*'. 
 	presenter onAnalyseClicked.
-	presenter cnbSpecView openWithSpec.
+	presenter projectView openWithSpec.
 	allTokensModels := projectCNB viewModel tokenModels reject: [ :each | each pattern isNil ].
 	allNodes := cnbCanvas deepNodes.
 ]
@@ -36,7 +36,7 @@ CNBPresenterTest >> setUp [
 	cnbCanvas := projectCNB on: RSCanvas new.
 	presenter packagesList text: 'moose-*'. 
 	presenter onAnalyseClicked.
-	presenter cnbSpecView openWithSpec.
+	presenter projectView openWithSpec.
 	allTokensModels := projectCNB viewModel tokenModels reject: [ :each | each pattern isNil ].
 	allNodes := cnbCanvas deepNodes.
 ]
@@ -45,7 +45,7 @@ CNBPresenterTest >> setUp [
 CNBPresenterTest >> testCanvasNotNil [
 
 
-	self assert: presenter cnbSpecView canvas isNotNil equals: true
+	self assert: presenter projectView canvas isNotNil equals: true
 ]
 
 { #category : #checkPatternsInCNB }
