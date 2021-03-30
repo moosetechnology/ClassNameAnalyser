@@ -52,7 +52,7 @@ CNBMooseModelGenerator class >> projectNameMatches: aString [
 				importPackage;
 				yourself);
 		model: model;
-		addFromPackagesNamed: [:p | aString match: p name];
+		addFromPackagesMatching: [:p | aString match: p name];
 		run.
 		^ model
 

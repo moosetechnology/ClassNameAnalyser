@@ -88,6 +88,19 @@ CNBBuilder class >> sort: aCollection [
 		sortAccordingToPalette: aCollection 
 ]
 
+{ #category : #adding }
+CNBBuilder >> addPatternsDescriptionsOf: aCnb to: analysisDescription [
+
+	analysisDescription 
+		confetti: (self confettiCasesIn: aCnb);
+		fatBlob: (self fatBlobCasesIn: aCnb);
+		homogeneityBreaker: (self homogeneityBreakerCasesIn: aCnb);
+		homogeneous: (self homogeneousCasesIn: aCnb);
+		intruder: (self intruderCasesIn: aCnb);
+		snowFlakes: (self snowFlakesCasesIn: aCnb);
+		scatteredVocabulary: (self scatteredVocabularyCasesIn: aCnb).
+]
+
 { #category : #assignments }
 CNBBuilder >> assignColorByType: aType [
 
@@ -104,6 +117,28 @@ CNBBuilder >> assignColorByType: aType [
 	ifTrue: [ ^ palette aColorForMultiToken ].
 ]
 
+{ #category : #'as yet unclassified' }
+CNBBuilder >> buildAnalysisDescriptionOf: aCnb [
+
+	| analysisDescription |
+	analysisDescription := CNBAnalysisDescription new.
+	self addPatternsDescriptionsOf: aCnb to: analysisDescription.
+	analysisDescription 
+		
+		tokens: aCnb viewModel tokenModels size;
+		classes: aCnb viewModel classViewModels size;
+		packages: aCnb viewModel packageViewModels size;
+		maxDepthRoot: (aCnb viewModel rootModels detectMax: [ :aRoot | aRoot maxDepth ]); 
+		maxDepth: (aCnb viewModel rootModels detectMax: [ :aRoot | aRoot maxDepth ]) maxDepth;
+		maxChildrenRoot: (aCnb viewModel rootModels detectMax: [ :root | root children ]);
+		maxChildren: (aCnb viewModel rootModels detectMax: [ :root | root children ]) children;
+		averageDepth: (aCnb viewModel rootModels collect: [ :each | each maxDepth ]) average asInteger;
+		averageChildren: (aCnb viewModel rootModels collect: [ :each | each children ]) average asInteger.
+		
+	aCnb analysisDescription: analysisDescription 
+		
+]
+
 { #category : #coloring }
 CNBBuilder >> color: rootModels [
 
@@ -117,25 +152,6 @@ CNBBuilder >> color: rootModels [
 							color: (self 
 											assignColorByType: each type) ].			
 	^ coloredRootModels 
-	
-]
-
-{ #category : #counting }
-CNBBuilder >> countIntrudersIn: aCnbDescription [
-
-	| conceptVModels intruders conceptIntruders |
-	
-	intruders := 0.
-	conceptVModels := aCnbDescription packageViewModels flatCollect: #tokenViewModels.
-	
-	conceptVModels do: [ :eachCVM |
-		conceptIntruders := eachCVM classViewModels select: [ :cvm |
-			cvm root isMonoClass not and: [ 
-				cvm root name ~= eachCVM root name ] ].
-		
-		intruders := intruders + conceptIntruders size ].	
-		
-	^intruders
 	
 ]
 

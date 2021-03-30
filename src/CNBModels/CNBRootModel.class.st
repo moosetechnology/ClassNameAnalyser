@@ -18,7 +18,8 @@ Class {
 		'scatteredSuffixes',
 		'biggestTokenAssociation',
 		'tokenModels',
-		'tokenPosition'
+		'tokenPosition',
+		'maxDepth'
 	],
 	#category : #CNBModels
 }
@@ -49,6 +50,15 @@ CNBRootModel >> changeColorTo: aColor [
 
 	self color: aColor.
 	self tokenModels do: [ :each | each changeColorTo: aColor ]
+]
+
+{ #category : #accessing }
+CNBRootModel >> children [ 
+
+	^ ((subclasses collect: #root) includes: self model )
+			ifTrue: [ subclasses size - 1 ]
+			ifFalse: [ subclasses size ]
+
 ]
 
 { #category : #accessing }
@@ -132,6 +142,12 @@ CNBRootModel >> isTrait [
 ]
 
 { #category : #accessing }
+CNBRootModel >> maxDepth [
+	
+	^ (subclasses detectMax: [ :each | each depth ]) depth
+]
+
+{ #category : #accessing }
 CNBRootModel >> model [ 
 
 	^ model
@@ -209,7 +225,7 @@ CNBRootModel >> subclasses [
 { #category : #accessing }
 CNBRootModel >> subclasses: collection [
 
-	subclasses := collection.
+	subclasses := collection "remove: [ :class | class model = self model ]."
 	
 ]
 

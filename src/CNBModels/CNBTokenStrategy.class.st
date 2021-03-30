@@ -34,6 +34,7 @@ CNBTokenStrategy >> build: aCND [
 		aCND viewModel packageViewModels: (builder doPackageViewModelsOf: aCND).
 		aCND viewModel attributeTokenModelsToRoots.
 		aCND viewModel attributePatterns.
+		builder buildAnalysisDescriptionOf: aCND.
 		^ aCND 
 
 ]

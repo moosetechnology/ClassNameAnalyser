@@ -1,6 +1,24 @@
 Extension { #name : #Class }
 
 { #category : #'*CNBModels' }
+Class >> classDepthAccordingTo: aRoot [
+
+	(self isMono or: [ self = aRoot ])
+		ifTrue: [ ^ 1 ].
+		
+	self superclass ifNil: [ ^ 1 ].
+		
+	self superclass = aRoot
+		ifTrue: [ ^ 1 ].
+		
+	self superclass = Object 
+		ifTrue: [ ^ 1 ].
+
+	^ (self superclass classDepthAccordingTo: aRoot) + 1
+	
+]
+
+{ #category : #'*CNBModels' }
 Class >> classModelAccordingTo: setting [
 
 	^ CNBClassModel of: self accordingTo: setting

@@ -9,7 +9,8 @@ Class {
 		'superclass',
 		'model',
 		'token',
-		'setting'
+		'setting',
+		'depth'
 	],
 	#category : #CNBModels
 }
@@ -28,6 +29,14 @@ CNBClassModel >> accordingTo: aSetting [
 	setting := aSetting
 ]
 
+{ #category : #accessing }
+CNBClassModel >> classDepth [
+
+	^ (Smalltalk image classNamed: model name)
+		 ifNotNil: [ (Smalltalk image classNamed: model name) classDepthAccordingTo: self root ]
+	 	ifNil: [ model classDepthAccordingTo: self root ]
+]
+
 { #category : #initialization }
 CNBClassModel >> create [
 	| aToken aRoot |
@@ -41,8 +50,21 @@ CNBClassModel >> create [
 			name: (CNBFilterer removeAllDigitsAndSpecialCharsFrom: model name);
 			root: aRoot;
 			superclass: self superclass;
-			token: aToken.
+			token: aToken;
+			depth: self classDepth.
 			
+]
+
+{ #category : #accessing }
+CNBClassModel >> depth [
+
+	^ depth
+]
+
+{ #category : #accessing }
+CNBClassModel >> depth: aDepth [
+
+	depth := aDepth
 ]
 
 { #category : #testing }

@@ -38,6 +38,7 @@ CNBBothTokensStrategy >> build: aCND [
 		self resetRoots: aCND rootModels.
 		aCND attributeRoots.	
 		aCND viewModel attributePatterns.
+		builder buildAnalysisDescriptionOf: aCND.
 		^ aCND 
 	
 ]

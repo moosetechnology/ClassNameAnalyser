@@ -6,7 +6,8 @@ Class {
 		'visualizer',
 		'shapes',
 		'modeledShapes',
-		'canvas'
+		'canvas',
+		'analysisDescription'
 	],
 	#classInstVars : [
 		'modelGenerator'
@@ -29,6 +30,18 @@ ClassNamesBlueprint class >> packagesNamed: aCollection [
 ClassNamesBlueprint class >> projectNameMatches: aString [
 
 	^ self modelGenerator projectNameMatches: aString 
+]
+
+{ #category : #accessing }
+ClassNamesBlueprint >> analysisDescription [
+
+	^ analysisDescription 
+]
+
+{ #category : #accessing }
+ClassNamesBlueprint >> analysisDescription: aDescription [
+
+	analysisDescription := aDescription 
 ]
 
 { #category : #'as yet unclassified' }
@@ -56,21 +69,6 @@ ClassNamesBlueprint >> buildViewWith: aVisualizerClass [
 
 	^ aVisualizerClass new 	
 				model: self
-]
-
-{ #category : #description }
-ClassNamesBlueprint >> description [
-| thePackageModels cnbDescription |
-	cnbDescription := CNBDescriptionModel new.
-	thePackageModels := (CNBBuilder doPackageModelsOf: self viewModel).
-	cnbDescription 
-		name: self model name;
-		packageModels: thePackageModels;
-		rootClass: self rootClass;
-		model: self model;
-		rootModels: (CNBBuilder doRootsOf: (thePackageModels flatCollect: #classModels)).
-		cnbDescription create.
-		^cnbDescription 
 ]
 
 { #category : #initialization }
