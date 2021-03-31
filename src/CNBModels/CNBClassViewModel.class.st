@@ -68,13 +68,16 @@ CNBClassViewModel >> create [
 { #category : #initialization }
 CNBClassViewModel >> createBox [ 
 
-	| class |
+	| class popUpResult |
 	class := Smalltalk image classNamed: self model model name.
+	popUpResult := class 
+		ifNil: [ self model model name ] 
+		ifNotNil: [ (ClassHierarchyPrinter new forClass: class) print ].
 	^ super 
 			createBox
 				width: self width;
 				height: self height;
-				popupText: (ClassHierarchyPrinter new forClass: class) print
+				popupText: popUpResult.
 
 
 ]
@@ -219,7 +222,9 @@ CNBClassViewModel >> showClassDescription [
 
 	| class |
 	class := Smalltalk image classNamed: self model model name.
-	self box popupText: (ClassHierarchyPrinter new forClass: class) print
+	class 
+		ifNil: [ self box popupText: self model model name ] 
+		ifNotNil: [ self box popupText: (ClassHierarchyPrinter new forClass: class) print ]
 ]
 
 { #category : #'as yet unclassified' }
