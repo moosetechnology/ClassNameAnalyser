@@ -73,7 +73,7 @@ CNBPalette >> multiTokenColors [
 { #category : #accessing }
 CNBPalette >> multiTokenColors: colorsCollection [ 
 
-	multiTokenColors := colorsCollection collect: [ :aColorName | Color value: aColorName ]
+	multiTokenColors := colorsCollection 
 ]
 
 { #category : #accessing }

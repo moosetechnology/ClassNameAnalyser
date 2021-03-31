@@ -221,10 +221,30 @@ CNBBuilder >> initialize [
 	super initialize.
 	palette := CNBPalette
 		with:
-			{#red . #yellow . #blue .#purple . #brown . #magenta . #orange . #green.
-			#pink . #tan . #cyan . #lightRed . #lightGreen . #lightMagenta.
-			#lightOrange . #lightYellow . #paleGreen . #paleMagenta . #paleOrange.
-			#palePeach . #paleRed . #lightBrown . #paleTan . #paleMagenta }.
+			{Color red . 
+			Color yellow . 
+			Color blue .
+			Color purple . 
+			Color brown . 
+			Color magenta . 
+			Color orange . 
+			Color green muchDarker .
+			Color pink . 
+			Color green darker . 
+			Color cyan . 
+			Color pink muchDarker . 
+			Color lightGreen . 
+			Color magenta lighter .
+			Color lightOrange . 
+			Color lightYellow . 
+			Color paleBlue .
+			Color paleMagenta . 
+			Color paleOrange .
+			Color palePeach . 
+			Color paleRed  . 
+			Color lightBrown . 
+			Color paleTan . 
+			Color paleMagenta }.
 	
 ]
 
