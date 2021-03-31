@@ -47,14 +47,17 @@ ClassNamesBlueprint >> analysisDescription: aDescription [
 { #category : #'as yet unclassified' }
 ClassNamesBlueprint >> attributeRoots [ 
 
-
 	self viewModel 
 		tokenModels
-			 do: [ :each | 
-				each root: (CNBBuilder new selectBiggestHierarchyOf: each name using: self rootModels).
+			 do: [ :each | 		
+				each root: 
+					(CNBBuilder new 
+						selectBiggestHierarchyOf: each name 
+						using: self rootModels).
 				each create ].
 	self viewModel 
-		classViewModels do: [ :each | each create  ].
+		classViewModels do: [ :each | each create ].
+	self viewModel tokenModels do: [ :each | each addPosition ]. 
 	self viewModel attributeTokenModelsToRoots.
 ]
 

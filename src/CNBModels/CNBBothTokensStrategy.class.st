@@ -34,7 +34,8 @@ CNBBothTokensStrategy >> build: aCND [
 		packageModels: thePackageModels;
 		rootModels: (self buildRootsFrom: (thePackageModels flatCollect: #classModels)).
 		
-		aCND viewModel packageViewModels: (self doPackageViewModelsOf: aCND).		
+		aCND viewModel packageViewModels: (self doPackageViewModelsOf: aCND).
+
 		self resetRoots: aCND rootModels.
 		aCND attributeRoots.	
 		aCND viewModel attributePatterns.
@@ -126,13 +127,13 @@ CNBBothTokensStrategy >> doTokenViewModelsOf: aPackageModel using: rootModels [
 	| tokenNames tokens |
 	
 	tokenNames := self extractTokensFrom: aPackageModel.
-
 	tokens := tokenNames asSet collect: [ :aToken | 
 			CNBTokenViewModel 
 				of: aToken
 				root: nil
 				with: (builder 
-								doClassViewModelsOf: (self extractClassModelsOf: aPackageModel WithToken: aToken)
+								doClassViewModelsOf: 
+									(self extractClassModelsOf: aPackageModel WithToken: aToken)
 								using: rootModels)
 				in: aPackageModel ].
 

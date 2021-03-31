@@ -26,6 +26,26 @@ CNBTokenViewModel class >> of: aToken root: aRoot with: classes in: aPackage [
 			
 ]
 
+{ #category : #adding }
+CNBTokenViewModel >> addPosition [ 
+
+	(self classViewModels 
+		allSatisfy: [ :aClass | 
+			(CNBFeatureSelector new extract: #prefix from: aClass name) = name ])
+			ifTrue: [ self name: (self name , ' (P)') ]
+			ifFalse: [ 
+				(self classViewModels 
+					allSatisfy: [ :aClass | 
+						(CNBFeatureSelector new extract: #suffix from: aClass name) = name ])
+			ifTrue: [ self name: (self name , ' (S)')  ]
+			ifFalse: [ self name: (self name , ' (P + S)') ]
+				  ]
+			
+		
+	
+		
+]
+
 { #category : #checking }
 CNBTokenViewModel >> appearsInSeveralPackages [
 	
