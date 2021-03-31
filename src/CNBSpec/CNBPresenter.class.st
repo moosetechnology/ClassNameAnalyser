@@ -2,7 +2,6 @@ Class {
 	#name : #CNBPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'pathSelector',
 		'patternsDropList',
 		'packageSearch',
 		'projectView',
@@ -48,10 +47,6 @@ CNBPresenter class >> defaultSpec [
 				add: #showPackagesButton height: self buttonHeight;
 				add: #addButton height: self buttonHeight;
 				yourself) height: self buttonHeight;
-			add: (SpBoxLayout newVertical 
-				add: 'Project path' height: self labelHeight;
-				add: #pathSelector height: self buttonHeight;
-				yourself) "height: self labelHeight + self buttonHeight";
 			add: (SpBoxLayout newVertical 
 				add: 'Root class' height: self labelHeight;
 				add: #rootSelector height: self buttonHeight;
@@ -216,8 +211,7 @@ CNBPresenter >> initializePresenters [
 			  suffix -> suffixCnb .
 			  both -> bothCnb 
 			}.
-	
-	pathSelector := self newTextInput.
+			
 	rootSelector := self newTextInput. 
 	
 	suffix associatedRadioButtons: { prefix . both }.
