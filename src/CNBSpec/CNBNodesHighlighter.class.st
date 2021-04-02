@@ -10,12 +10,12 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-CNBNodesHighlighter >> goDarkerFor: aRoot [
+CNBNodesHighlighter >> goDarkerFor: anObject [
 	
 	"Only tokenViewModels, last composite"
-		
+
 	nodesToBeDarker isNotNil ifTrue: [ self reset ].
-	nodesToBeHighlighted := self nodesToHighlightFor: aRoot. 
+	nodesToBeHighlighted := self nodesToHighlightFor: anObject. 
 	nodesToBeDarker := self nodesToBeDarker.
 	nodesToBeHighlighted ifEmpty: [ ^ self ].
 	
@@ -30,10 +30,10 @@ CNBNodesHighlighter >> goDarkerFor: aRoot [
 ]
 
 { #category : #highlighting }
-CNBNodesHighlighter >> highlight: nodesCollection accordingTo: aRoot [
+CNBNodesHighlighter >> highlight: nodesCollection accordingTo: anObject [
 
 	self nodes: nodesCollection.
-	self goDarkerFor: aRoot
+	self goDarkerFor: anObject 
 ]
 
 { #category : #initialization }

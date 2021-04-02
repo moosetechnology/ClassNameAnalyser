@@ -5,7 +5,7 @@ Trait {
 
 { #category : #'as yet unclassified' }
 CNBTRootOrganizer >> selectAttributedNodes: nodesCollection [ 
-
+	self highlighted: true.
 	^ nodesCollection 
 		select: [ :each | each 
 						model root isNotNil and: [ each 

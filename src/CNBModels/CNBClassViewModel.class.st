@@ -111,8 +111,12 @@ CNBClassViewModel >> highlight [
 
 	| canvas |
 	canvas := self box topParent.
+	self root highlighted 
+		ifTrue: [ CNBSingletonHighlighter instance reset. 
+					canvas color: Color white darker ]
+		ifFalse: [  
 	CNBSingletonHighlighter instance highlight: canvas deepNodes accordingTo: self root.
-	canvas color: Color black whiter.
+	canvas color: Color black whiter ]
 ]
 
 { #category : #initialization }

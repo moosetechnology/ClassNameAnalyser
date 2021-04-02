@@ -19,7 +19,8 @@ Class {
 		'biggestTokenAssociation',
 		'tokenModels',
 		'tokenPosition',
-		'maxDepth'
+		'maxDepth',
+		'highlighted'
 	],
 	#category : #CNBModels
 }
@@ -109,12 +110,25 @@ CNBRootModel >> hasVeryScatteredVocabularyInside: aPackageModel [
 	
 ]
 
+{ #category : #accessing }
+CNBRootModel >> highlighted [
+	
+	^ highlighted 
+]
+
+{ #category : #accessing }
+CNBRootModel >> highlighted: aBoolean [
+	
+	highlighted := aBoolean 
+]
+
 { #category : #initialization }
 CNBRootModel >> initialize [ 	
 	super initialize.
 	
 	tokensDictionary := Dictionary new.
 	dominantTokens := Dictionary new.
+	highlighted := false
 ]
 
 { #category : #testing }
