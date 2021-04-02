@@ -246,21 +246,19 @@ CNBPresenter >> model: aMooseModel [
 { #category : #adding }
 CNBPresenter >> onAddClicked [
 
-	packagesList selectedItems ifEmpty: [ ^ self ].
-	packagesList selectedItems do: [ :anItem | packages addIfNotPresent: anItem ].
-	
+	packagesList selectedItems
+		ifEmpty: [ ^ self ];
+		do: [ :arg1 | packages addIfNotPresent: arg1 ].
+		
 	packagesList items: (allListItems difference: packages).
 	packagesList listPresenter refresh.
-	
+
 	packagesListPresenter items: packages.
 	packagesListPresenter packagesList listPresenter refresh.
 	
-	mooseModel 
-		:= packages 
-			isNotEmpty 
-				ifTrue: [  CNBMooseModelGenerator packagesNamed: (packages collect: #name) ].
-	
-
+	mooseModel := packages isNotEmpty ifTrue: [ 
+		              CNBMooseModelGenerator packagesNamed:
+			              (packages collect: #name) ]
 ]
 
 { #category : #actions }
@@ -314,22 +312,24 @@ CNBPresenter >> onSuffixActivated [
  	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 CNBPresenter >> onUpdateClicked [ 
 
-	| removedItems items|
+	| removedItems listItems |	
+"	removedItems := packages difference: packagesListPresenter packagesList selectedItems."
 	
-	removedItems := packages difference: packagesListPresenter packagesList selectedItems.
-	items := (allListItems difference: packagesListPresenter packagesList selectedItems).
-
 	packages removeAll.
 	packages addAll: (packagesListPresenter packagesList selectedItems).
-	
 	packagesListPresenter packagesList items: packages.
 	packagesListPresenter packagesList listPresenter refresh.
 	
-	packagesList items: items.
-	packagesList listPresenter refresh.
+	listItems := (allListItems difference: packages).
+
+	packagesList items: listItems. 
+	packagesList selectItems: #().
+
+	packagesList listPresenter refresh.	
+
 	
 	
 	
