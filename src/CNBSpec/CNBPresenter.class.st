@@ -23,7 +23,8 @@ Class {
 		'packagesListPresenter',
 		'allListItems',
 		'highlighter',
-		'mooseModel'
+		'mooseModel',
+		'mooseImporterForm'
 	],
 	#category : #CNBSpec
 }
@@ -441,7 +442,7 @@ CNBPresenter >> toolbarActions [
 	^ CmCommandGroup forSpec
 		register: (CmCommandGroup forSpec
 			register: (CNBOpenCommand forSpecContext: self);
-			register: (CNBSaveCommand forSpecContext: self);
+			"register: (CNBSaveCommand forSpecContext: self);"
 			yourself);
 		yourself
 

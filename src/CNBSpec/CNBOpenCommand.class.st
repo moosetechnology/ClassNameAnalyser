@@ -23,7 +23,7 @@ CNBOpenCommand >> execute [
 	
 	openFileDialog := FDOpenFileDialog new whenSelected: [ :selectedFile |
 		mseFile := selectedFile readStreamDo: [ :readStream |
-			MooseModel importFromMSEStream: readStream ].
+			FamixJavaModel importFromMSEStream: readStream ].
 		
 			context model: mseFile
 			].

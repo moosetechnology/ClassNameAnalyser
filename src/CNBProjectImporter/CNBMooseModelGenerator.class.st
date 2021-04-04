@@ -8,7 +8,7 @@ Class {
 CNBMooseModelGenerator class >> importProject: aPath [ 
 
 	^ aPath asFileReference 
-		readStreamDo: [ :stream | MooseModel importFromMSEStream: stream ].
+		readStreamDo: [ :stream | FamixJavaModel importFromMSEStream: stream ].
 
 	
 ]

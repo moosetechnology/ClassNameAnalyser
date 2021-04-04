@@ -1,6 +1,9 @@
 Class {
 	#name : #CNBSingletonHighlighter,
 	#superclass : #CNBNodesHighlighter,
+	#instVars : [
+		'property'
+	],
 	#classVars : [
 		'Instance'
 	],
@@ -20,4 +23,15 @@ CNBSingletonHighlighter class >> new [
 { #category : #'instance creation' }
 CNBSingletonHighlighter class >> reset [
 	Instance := nil
+]
+
+{ #category : #accessing }
+CNBSingletonHighlighter >> property [
+	^ property 
+]
+
+{ #category : #accessing }
+CNBSingletonHighlighter >> property: aProperty [
+
+	property := aProperty 
 ]

@@ -111,10 +111,12 @@ CNBClassViewModel >> highlight [
 
 	| canvas |
 	canvas := self box topParent.
-	self root highlighted 
-		ifTrue: [ CNBSingletonHighlighter instance reset. 
+	(CNBSingletonHighlighter instance property = self root)
+		ifTrue: [ self root highlighted: false.
+			CNBSingletonHighlighter instance reset. 
 					canvas color: Color white darker ]
 		ifFalse: [  
+		CNBSingletonHighlighter instance property: self root.
 	CNBSingletonHighlighter instance highlight: canvas deepNodes accordingTo: self root.
 	canvas color: Color black whiter ]
 ]
@@ -127,8 +129,8 @@ CNBClassViewModel >> initialize [
 	rootBorderWidth := 4.
 	height := 45.
 	width := 45.
-	box when: RSMouseLeftClick do: [ :evt | self processEvent: evt ].
-	box when: RSMouseRightClick do: [ :evt |  self highlight ]
+	box when: RSMouseRightClick do: [ :evt | self processEvent: evt ].
+	box when: RSMouseLeftClick do: [ :evt |  self highlight ]
 
 ]
 
