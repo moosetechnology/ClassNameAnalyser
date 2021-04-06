@@ -401,8 +401,10 @@ CNBPresenter >> radioButtons [
 { #category : #initialization }
 CNBPresenter >> reset [
 
-	projectView canvas color: Color white darker.	
+	highlighter property: nil.
 	highlighter reset.
+	projectView canvas color: Color white darker.	
+	
 
 	
 	

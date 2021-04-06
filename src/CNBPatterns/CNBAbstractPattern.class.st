@@ -74,12 +74,23 @@ CNBAbstractPattern >> name [
 CNBAbstractPattern >> selectAttributedNodes: nodesCollection [
 	
 	| tokens tokenWithPatterns tokensToBeHighlighted nodesToBeHighlighted |
-	tokens := nodesCollection select: [ :each | each model isToken ].
-	tokenWithPatterns := tokens reject: [ :each | each model patterns isEmpty ].
-	tokensToBeHighlighted := tokenWithPatterns select: [ :each | (each model 
-			patterns collect: #name) includes: self name ].
-	tokensToBeHighlighted do: [ :each | each model showDescriptionOf: self ].
-	nodesToBeHighlighted := (tokensToBeHighlighted union: (tokensToBeHighlighted collect: #children)).
+	
+	CNBSingletonHighlighter instance property: self.
+	tokens 
+		:= nodesCollection select: [ :each | each model isToken ].
+		
+	tokenWithPatterns 
+		:= tokens reject: [ :each | each model patterns isEmpty ].
+		
+	tokensToBeHighlighted 
+		:= tokenWithPatterns 
+				select: [ :each | (each model patterns collect: #name) includes: self name ].
+				
+	tokensToBeHighlighted 
+		do: [ :each | each model showDescriptionOf: self ].
+		
+	nodesToBeHighlighted 
+		:= (tokensToBeHighlighted union: (tokensToBeHighlighted collect: #children)).
 	^ nodesToBeHighlighted flattened
 	 
 ]
