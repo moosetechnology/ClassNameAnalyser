@@ -40,8 +40,8 @@ CNBIntruderPattern >> initialize [
 	
 	description 
 	:= 'Anti-Pattern: Intruder; 
-	I represent classes that share the same token with other hierarchies.
-	I may point to a bad conception bad naming '.
+	I represent classes that share the same suffix with other hierarchies.
+	I may point to a misconception or bad naming '.
 	name := #'Intruder'.
 	intrudersPercentage := 60.
 ]

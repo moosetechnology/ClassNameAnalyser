@@ -51,7 +51,7 @@ CNBConfettiPattern >> initialize [
 	description 
 	:= 
 	'Anti-Pattern: Confetti; 
-	multiple hierarchies use this Token, my tokens are not used much in other packages'.
+	multiple hierarchies use this suffix, my suffixes are not used much in other packages'.
 	
 	name := #'Confetti'.
 	confettiSize := 3.

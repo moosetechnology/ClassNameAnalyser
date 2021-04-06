@@ -61,16 +61,16 @@ CNBPresenter class >> defaultSpec [
 				add: #analyseButton width: self buttonWidth;
 				yourself) "height: self buttonHeight + self buttonHeight";
 			add: (SpBoxLayout newVertical 
-				add: 'Pattern' height: self labelHeight;
+				add: 'Anti-Patterns' height: self labelHeight;
 				add: #patternsDropList height: self buttonHeight;
 				yourself) height: self labelHeight + self buttonHeight;
 			add: #reset height: self buttonHeight;
 			yourself) width: 180;
 		add: (SpBoxLayout newVertical
-			add: (SpBoxLayout newHorizontal
+			"add: (SpBoxLayout newHorizontal
 				add: '';
 				add: #packageSearch width: 200;
-				yourself) height: self buttonHeight;
+				yourself) height: self buttonHeight;"
 			add: #projectView;
 			yourself);
 		yourself.
