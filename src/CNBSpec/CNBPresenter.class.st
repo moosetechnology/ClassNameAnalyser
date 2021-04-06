@@ -23,8 +23,8 @@ Class {
 		'packagesListPresenter',
 		'allListItems',
 		'highlighter',
-		'mooseModel',
-		'mooseImporterForm'
+		'mooseImporterForm',
+		'model'
 	],
 	#category : #CNBSpec
 }
@@ -239,9 +239,9 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 ]
 
 { #category : #accessing }
-CNBPresenter >> model: aMooseModel [
+CNBPresenter >> model: aModel [
 
-	mooseModel := aMooseModel 
+	model := aModel 
 ]
 
 { #category : #adding }
@@ -257,7 +257,7 @@ CNBPresenter >> onAddClicked [
 	packagesListPresenter items: packages.
 	packagesListPresenter packagesList listPresenter refresh.
 	
-	mooseModel := packages isNotEmpty ifTrue: [ 
+	model := packages isNotEmpty ifTrue: [ 
 		              CNBMooseModelGenerator packagesNamed:
 			              (packages collect: #name) ]
 ]
@@ -266,12 +266,12 @@ CNBPresenter >> onAddClicked [
 CNBPresenter >> onAnalyseClicked [
 
 	| activatedRadioButton root selectedCnb | 
-	mooseModel ifNil: [ ^ self ].			
+	model ifNil: [ ^ self ].			
 		
 	rootSelector text ifNotEmpty: [ root := rootSelector text asClass ]. 
 
 	activatedRadioButton := self radioButtons detect: [ :each | each state ].
-	self projectModel: mooseModel with: root.
+	self projectModel: model with: root.
 	selectedCnb := (self projectAtRadioButton: activatedRadioButton).
 	
 	projectView script: [ :canvas | selectedCnb on: canvas ].
@@ -441,7 +441,7 @@ CNBPresenter >> toolbarActions [
 
 	^ CmCommandGroup forSpec
 		register: (CmCommandGroup forSpec
-			register: (CNBOpenCommand forSpecContext: self);
+			register: (CNBImportMSECommand forSpecContext: self);
 			"register: (CNBSaveCommand forSpecContext: self);"
 			yourself);
 		yourself
