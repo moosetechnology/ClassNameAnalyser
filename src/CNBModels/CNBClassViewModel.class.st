@@ -71,7 +71,7 @@ CNBClassViewModel >> createBox [
 	| class popUpResult |
 	class := Smalltalk image classNamed: self model model name.
 	popUpResult := class 
-		ifNil: [ self model model name ] 
+		ifNil: [ (CNBClassHierarchyPrinter new forClass: self model model ) printFamixJava ] 
 		ifNotNil: [ (CNBClassHierarchyPrinter new forClass: class) print ].
 	^ super 
 			createBox
@@ -230,8 +230,9 @@ CNBClassViewModel >> showClassDescription [
 	| class |
 	class := Smalltalk image classNamed: self model model name.
 	class 
-		ifNil: [ self box popupText: self model model name ] 
+		ifNil: [ self box popupText: (CNBClassHierarchyPrinter new forClass: self model model) printFamixJava ] 
 		ifNotNil: [ self box popupText: (CNBClassHierarchyPrinter new forClass: class) print ]
+		
 ]
 
 { #category : #'as yet unclassified' }
