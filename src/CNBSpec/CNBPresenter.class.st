@@ -244,7 +244,7 @@ CNBPresenter >> model: aModel [
 	model := aModel 
 ]
 
-{ #category : #adding }
+{ #category : #actions }
 CNBPresenter >> onAddClicked [
 
 	packagesList selectedItems
@@ -277,7 +277,7 @@ CNBPresenter >> onAnalyseClicked [
 	projectView script: [ :canvas | selectedCnb on: canvas ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 CNBPresenter >> onBothActivated [
 
 	^ bothCnb 
@@ -287,7 +287,7 @@ CNBPresenter >> onBothActivated [
  	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 CNBPresenter >> onPrefixActivated [
 
 	^ prefixCnb
@@ -297,13 +297,13 @@ CNBPresenter >> onPrefixActivated [
  	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 CNBPresenter >> onShowClicked [ 
 
 	^ (packagesListPresenter items: packages) openWithSpec
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 CNBPresenter >> onSuffixActivated [
 	
 	^ suffixCnb 
@@ -386,7 +386,7 @@ CNBPresenter >> projectView [
 	^ projectView
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 CNBPresenter >> radioButtionActions [
 
 	^ radioButtionsActions asDictionary 
@@ -443,9 +443,15 @@ CNBPresenter >> toolbarActions [
 
 	^ CmCommandGroup forSpec
 		register: (CmCommandGroup forSpec
-			register: (CNBImportMSECommand forSpecContext: self);
+			register: (MPImportMSECommand forSpecContext: self);
 			"register: (CNBSaveCommand forSpecContext: self);"
 			yourself);
 		yourself
 
+]
+
+{ #category : #actions }
+CNBPresenter >> updateForNewModel: aModel [
+
+	self model: aModel
 ]
