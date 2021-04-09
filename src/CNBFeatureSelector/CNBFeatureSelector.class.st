@@ -53,13 +53,15 @@ CNBFeatureSelector >> extractClassesFrom: aPackageName [
 { #category : #extraction }
 CNBFeatureSelector >> extractPrefixFrom: aName [
 
-	| aConcept tokens|
-	tokens := self tokenize: aName.
-	aConcept := filterer removeAllDigitsAndSpecialCharsFrom: aName.
-	aConcept := self selectPrefixFrom: tokens.
-	aConcept := filterer removeAllDigitsAndSpecialCharsFrom: aConcept.
-	aConcept := self stem: aConcept.
-	^ aConcept 
+    | aConcept tokens |
+    tokens := self tokenize: aName.
+    aConcept := filterer removeAllDigitsAndSpecialCharsFrom: aName.
+    tokens removeAllSuchThat: [ :each | each = 'BL' ].
+    aConcept := self selectPrefixFrom: tokens .
+
+    aConcept := filterer removeAllDigitsAndSpecialCharsFrom: aConcept.
+    aConcept := self stem: aConcept.
+    ^ aConcept 
 ]
 
 { #category : #extraction }

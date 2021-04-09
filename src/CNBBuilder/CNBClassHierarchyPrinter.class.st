@@ -35,8 +35,21 @@ CNBClassHierarchyPrinter >> printFamixJava [
 		showSuperclasses 
 			ifTrue: [ self printFamixJavaSuperclasses  ].
 			stream nextPutAll: '------->'.	
-			self printFamixJavaSubclassesOf: theClass ].
+			self printClass: theClass.
+			self printFamixJavaSubclasses ].
 	^ stream contents
+]
+
+{ #category : #printing }
+CNBClassHierarchyPrinter >> printFamixJavaSubclasses [
+	"As part of the algorithm for printing a description of the receiver, print the
+	subclass on the file stream, aStream, indenting level times."
+
+(theClass subclassHierarchy )
+		do: [ :aClass | 
+			self printClass: aClass.
+			index := index + 1 ].
+	stream cr.	"to spot the requested class."
 ]
 
 { #category : #printing }
@@ -68,9 +81,8 @@ CNBClassHierarchyPrinter >> printFamixJavaSubclassesOf: aClass [
 { #category : #printing }
 CNBClassHierarchyPrinter >> printFamixJavaSuperclasses [
 
-	"fr::bl::client::core::refui::base::components::BLRTFWithToolbar" 
 
-(theClass superclassHierarchy  reject: #isInterface)
+(theClass superclassHierarchy reject: #isInterface)
 		reverseDo: [ :aClass | 
 			self printClass: aClass.
 			index := index + 1 ].
@@ -98,7 +110,11 @@ CNBClassHierarchyPrinter >> printSubclassesOf: aClass [
 	sortedSubclasses := aClass subclasses
 		asSortedCollection: [ :c1 :c2 | c1 name <= c2 name ].
 	sortedSubclasses do: [ :subclass | 
-			index := index + 1.
-			self printSubclassesOf: subclass.
-			index := index - 1 ]
+			self printClass: subclass ]
+		
+"	(theClass superclassHierarchy reject: #isInterface)
+		reverseDo: [ :aClass | 
+			self printClass: aClass.
+			index := index + 1 ].
+	stream cr.	""to spot the requested class."""
 ]
