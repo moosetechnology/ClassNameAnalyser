@@ -23,7 +23,8 @@ CNBSettings >> defaultToken [
 { #category : #accessing }
 CNBSettings >> rootClass [
 
-	^ rootClass ifNil: [ self defaultRootClass ]
+	^ rootClass ifNil: [ self defaultRootClass name ]
+
 ]
 
 { #category : #accessing }

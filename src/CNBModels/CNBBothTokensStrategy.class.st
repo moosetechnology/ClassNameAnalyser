@@ -47,14 +47,14 @@ CNBBothTokensStrategy >> build: aCND [
 { #category : #'as yet unclassified' }
 CNBBothTokensStrategy >> buildRoot: aRootModel [
 
-	| subclasses class name |
+	| subclasses name |
 	subclasses := aRootModel subclasses.
-	class := (Smalltalk image classNamed: aRootModel model name).
-	name := class notNil 
-	ifFalse: [ (CNBFilterer removeAllDigitsAndSpecialCharsFrom: aRootModel model name)]
-	ifTrue: [ (CNBBuilder removePackageNameFromClass: aRootModel model) ].
+	name 
+		:= aRootModel model exists  
+					ifTrue: [ (CNBBuilder removePackageNameFromClass: aRootModel model) ] 
+					ifFalse: [ aRootModel model name ].
 	^ aRootModel 
-		name: name;  
+		name: [ (CNBFilterer removeAllDigitsAndSpecialCharsFrom: name)];  
 		token: { (CNBFeatureSelector new 
 					extract: #suffix
 					from: name) . 
@@ -63,10 +63,6 @@ CNBBothTokensStrategy >> buildRoot: aRootModel [
 					from: name) };
 		tokenPosition: #both;
 		tokensDictionary: (self doTokenDictionaryFrom: subclasses).
-		
-		
-		
-		
 ]
 
 { #category : #building }

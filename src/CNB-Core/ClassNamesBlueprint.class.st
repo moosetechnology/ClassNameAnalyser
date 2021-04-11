@@ -115,12 +115,6 @@ ClassNamesBlueprint >> on: aCanvas [
 	
 ]
 
-{ #category : #'events-processing' }
-ClassNamesBlueprint >> processEvent: evt [
-
-	self halt.
-]
-
 { #category : #'as yet unclassified' }
 ClassNamesBlueprint >> putElementsOn: aCanvas [ 
 

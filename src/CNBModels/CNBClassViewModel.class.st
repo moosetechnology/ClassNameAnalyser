@@ -68,11 +68,9 @@ CNBClassViewModel >> create [
 { #category : #initialization }
 CNBClassViewModel >> createBox [ 
 
-	| class popUpResult |
-	class := Smalltalk image classNamed: self model model name.
-	popUpResult := class 
-		ifNil: [ (CNBClassHierarchyPrinter new forClass: self model model ) printFamixJava ] 
-		ifNotNil: [ (CNBClassHierarchyPrinter new forClass: class) print ].
+	| popUpResult |
+
+	popUpResult := self model model print. 
 	^ super 
 			createBox
 				width: self width;
@@ -188,10 +186,7 @@ CNBClassViewModel >> printOn: aStream [
 { #category : #'events-processing' }
 CNBClassViewModel >> processEvent: evt [
 
-	| class |
-	
-	class := (Smalltalk image classNamed: self model model name).
-	^ class ifNil: [ self model model inspect ] ifNotNil:  [ class browse ]
+	^ self inspect "self model model exists ifTrue: [ model model browse ] ifFalse: [ model model inspect ]"
 ]
 
 { #category : #accessing }
@@ -226,12 +221,8 @@ CNBClassViewModel >> showBoxName [
 
 { #category : #'as yet unclassified' }
 CNBClassViewModel >> showClassDescription [
-
-	| class |
-	class := Smalltalk image classNamed: self model model name.
-	class 
-		ifNil: [ self box popupText: (CNBClassHierarchyPrinter new forClass: self model model) printFamixJava ] 
-		ifNotNil: [ self box popupText: (CNBClassHierarchyPrinter new forClass: class) print ]
+		
+	self box popupText: self model model print
 		
 ]
 

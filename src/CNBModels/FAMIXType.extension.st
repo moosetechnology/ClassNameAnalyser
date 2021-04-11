@@ -1,21 +1,20 @@
 Extension { #name : #FAMIXType }
 
 { #category : #'*CNBModels' }
-FAMIXType >> classDepthAccordingTo: aRoot [
+FAMIXType >> classDepthAccordingTo: aRootName [
+	" We use name since the input is in a text field"
+    |superclass|
+    superclass := ((self superInheritances collect: #target) reject: #isInterface).
 
-	(self isMono or: [ self = aRoot ])
-		ifTrue: [ ^ 1 ].
-		
-	self superclass ifNil: [ ^ 1 ].
-		
-	self superclass = aRoot
-		ifTrue: [ ^ 1 ].
-		
-	self superclass = Object 
-		ifTrue: [ ^ 1 ].
-
-	^ (self superclass classDepthAccordingTo: aRoot) + 1
-	
+    (self isTrait or: [ self name = aRootName  ])
+        ifTrue: [ ^ 1 ].
+        
+    (superclass isEmpty 
+			or: [ superclass first name = aRootName
+				 or: [ superclass first name = Object name ] ])
+        ifTrue: [ ^ 1 ].
+        
+    ^ (superclass first classDepthAccordingTo: aRootName) + 1
 ]
 
 { #category : #'*CNBModels' }
@@ -25,23 +24,19 @@ FAMIXType >> isMono [
 ]
 
 { #category : #'*CNBModels' }
-FAMIXType >> rootAccordingTo: aRootClass [
+FAMIXType >> rootAccordingTo: aRootClassName [
 
-	(self isTrait or: [ self name = aRootClass name  ])
-		ifTrue: [ ^ self ].
-		
-	self superclass isNotNil
-		ifFalse: [ ^ self ].
-		
-	self superclass name = aRootClass name
-		ifTrue: [ ^ self ].
-		
-	(self superclass isInterface)
-		ifTrue: [ ^ self ].
-		
-	self superclass = Object 
-		ifTrue: [ ^ self ].
-		
-	^ self superclass rootAccordingTo: aRootClass
-	
+	" We use name since the input is in a text field"
+    |superclass|
+    superclass := ((self superInheritances collect: #target) reject: #isInterface).
+
+    (self isTrait or: [ self name = aRootClassName ])
+        ifTrue: [ ^ self ].
+        
+    (superclass isEmpty 
+			or: [ superclass first name = aRootClassName 
+				or: [ superclass first name = Object name ] ])
+        ifTrue: [ ^ self ].
+        
+    ^ superclass first rootAccordingTo: aRootClassName
 ]

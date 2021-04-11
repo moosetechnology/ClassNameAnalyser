@@ -32,9 +32,7 @@ CNBClassModel >> accordingTo: aSetting [
 { #category : #accessing }
 CNBClassModel >> classDepth [
 
-	^ (Smalltalk image classNamed: model name)
-		 ifNotNil: [ (Smalltalk image classNamed: model name) classDepthAccordingTo: self root ]
-	 	ifNil: [ model classDepthAccordingTo: self root ]
+	^ model classDepthAccordingTo: setting rootClass 
 ]
 
 { #category : #initialization }
@@ -42,9 +40,7 @@ CNBClassModel >> create [
 	| aToken aRoot |
 		
 	aRoot 
-		:= (Smalltalk image classNamed: model name) 
-			ifNil: [ self model rootAccordingTo: setting rootClass ] 
-			ifNotNil: [ (Smalltalk image classNamed: model name) rootAccordingTo: setting rootClass ].
+		:= model rootAccordingTo: setting rootClass.
 	aToken := CNBFeatureSelector new extract: setting token from: self model name.
 		self 
 			name: (CNBFilterer removeAllDigitsAndSpecialCharsFrom: model name);
@@ -90,13 +86,10 @@ CNBClassModel >> model: aModel [
 { #category : #accessing }
 CNBClassModel >> name: aName [
 
-	| class |
 	super name: aName.
-	class := (Smalltalk image classNamed: name).
-	(setting token = #both and: class notNil) 
-		ifFalse: [ ^ self ].
+	model exists ifFalse: [ ^ self ].
 
-	name := (CNBBuilder removePackageNameFromClass: class).
+	name := (CNBBuilder removePackageNameFromClass: model).
 	self token: (CNBFeatureSelector new extract: setting token from: name)
 ]
 

@@ -270,22 +270,21 @@ CNBBuilder >> palette [
 { #category : #removing }
 CNBBuilder >> removePackageNameFromClass: aClass [
 
-	| packageName featureSelector 
-		packageTokens packageTokensFiltered classTokens classTokensFiltered class |
-	class := Smalltalk image classNamed: aClass name.	
-	packageName := (RPackageOrganizer default packageOf: class) packageName.
-	
+	| packageName featureSelector packageTokens packageTokensFiltered classTokens classTokensFiltered |
+	packageName := (RPackageOrganizer default packageOf:
+		                (self class environment at: aClass name))
+		               packageName.
+
 	featureSelector := CNBFeatureSelector new.
 	packageTokens := featureSelector tokenize: packageName.
 	packageTokensFiltered := featureSelector filterAll: packageTokens.
 
-	classTokens := featureSelector tokenize: class name.
+	classTokens := featureSelector tokenize: aClass name.
 	classTokensFiltered := featureSelector filterAll: classTokens.
-	
-	^ ((classTokensFiltered reject: [ :each | 
-		               packageTokensFiltered includes: each ]) concatenatesStrings) ifEmpty: [ classTokensFiltered last ]
 
-
+	^ (classTokensFiltered reject: [ :each | 
+		   packageTokensFiltered includes: each ]) concatenatesStrings 
+		  ifEmpty: [ classTokensFiltered last ]
 ]
 
 { #category : #'as yet unclassified' }

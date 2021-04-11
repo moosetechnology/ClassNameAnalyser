@@ -267,11 +267,12 @@ CNBPresenter >> onAnalyseClicked [
 
 	| activatedRadioButton root selectedCnb | 
 	model ifNil: [ ^ self ].			
-		
-	rootSelector text ifNotEmpty: [ root := rootSelector text asClass ]. 
 
 	activatedRadioButton := self radioButtons detect: [ :each | each state ].
+	
+	rootSelector text ifNotEmpty: [ root := rootSelector text ]. 
 	self projectModel: model with: root.
+	
 	selectedCnb := (self projectAtRadioButton: activatedRadioButton).
 	
 	projectView script: [ :canvas | selectedCnb on: canvas ].
@@ -370,10 +371,10 @@ CNBPresenter >> projectAtRadioButton: aRadioButtion [
 { #category : #'as yet unclassified' }
 CNBPresenter >> projectModel: aMooseModel with: aRootClass [
 	
-	(suffixCnb model: aMooseModel; withRoot: aRootClass)  startBuilding; buildShapes.
+	(suffixCnb model: aMooseModel; withRoot: aRootClass) startBuilding; buildShapes.
 	(prefixCnb model: aMooseModel;withRoot: aRootClass) startBuilding; buildShapes.
 	(bothCnb model: aMooseModel; withRoot: aRootClass) startBuilding; buildShapes.
-		
+	
 	self fixColors.
 	
 	
