@@ -9,7 +9,6 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
 	spec for: #common do: [
 		"External dependencies"
-		self loadFileDialog: spec.
 
 		"Packages"
 		spec
