@@ -1,3 +1,6 @@
+"
+I print the hierarchy of the class or FamixJavaClass.
+"
 Class {
 	#name : #CNBClassHierarchyPrinter,
 	#superclass : #ClassHierarchyPrinter,

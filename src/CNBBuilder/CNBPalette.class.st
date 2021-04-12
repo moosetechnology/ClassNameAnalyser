@@ -1,3 +1,6 @@
+"
+I am a predefined palette for the ClassNames Distribution.
+"
 Class {
 	#name : #CNBPalette,
 	#superclass : #Object,

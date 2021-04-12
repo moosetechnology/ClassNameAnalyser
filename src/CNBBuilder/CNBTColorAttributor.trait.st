@@ -1,3 +1,6 @@
+"
+I am responsible for attributing colors to root models according to the type of the class.
+"
 Trait {
 	#name : #CNBTColorAttributor,
 	#instVars : [

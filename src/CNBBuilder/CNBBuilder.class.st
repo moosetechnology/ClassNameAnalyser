@@ -1,3 +1,6 @@
+"
+I am responsible for building the ClassNames Distribution and extracting the data.
+"
 Class {
 	#name : #CNBBuilder,
 	#superclass : #Object,
@@ -7,7 +10,7 @@ Class {
 		'rootmodels',
 		'conceptualmodel'
 	],
-	#category : #CNBBuilder
+	#category : #'CNBBuilder-Build'
 }
 
 { #category : #counting }
@@ -117,7 +120,7 @@ CNBBuilder >> assignColorByType: aType [
 	ifTrue: [ ^ palette aColorForMultiToken ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 CNBBuilder >> buildAnalysisDescriptionOf: aCnb [
 
 	| analysisDescription |
@@ -285,13 +288,6 @@ CNBBuilder >> removePackageNameFromClass: aClass [
 	^ (classTokensFiltered reject: [ :each | 
 		   packageTokensFiltered includes: each ]) concatenatesStrings 
 		  ifEmpty: [ classTokensFiltered last ]
-]
-
-{ #category : #'as yet unclassified' }
-CNBBuilder >> reselectBiggestHierarchy: aTokenName using: rootModels [
-
-	| rootsUsingToken |
-	rootModels select: [ :each | each tokensDictionary keys includes: aTokenName ].
 ]
 
 { #category : #sorting }

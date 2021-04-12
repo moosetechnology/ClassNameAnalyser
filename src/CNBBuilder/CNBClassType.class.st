@@ -1,3 +1,12 @@
+"
+I check wether the class is:
+- A mono class (belong to no hierarchy and has no subclasses),
+- A trait,
+- A multi token (uses more than one suffix or prefix),
+- A mono token (uses only one suffix or prefix).
+
+Based on the collection of subclasses in a form of class models.
+"
 Class {
 	#name : #CNBClassType,
 	#superclass : #Object,

@@ -1,9 +1,12 @@
+"
+I extract data from the ClassNames Distribution.
+"
 Trait {
 	#name : #CNBTDataExtractor,
 	#category : #CNBBuilder
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #extracting }
 CNBTDataExtractor >> confettiCasesIn: aCnb [
 
 	^ (aCnb 
@@ -35,7 +38,7 @@ CNBTDataExtractor >> extractTokensFrom: aPackageModel [
 				collect: [ :aClassModel | aClassModel token ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #extracting }
 CNBTDataExtractor >> fatBlobCasesIn: aCnb [
 
 	^ (aCnb 
@@ -44,7 +47,7 @@ CNBTDataExtractor >> fatBlobCasesIn: aCnb [
 				select: [ :aToken | aToken patterns anySatisfy: [ :aPattern | aPattern isFatBlob ] ]) size		
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #extracting }
 CNBTDataExtractor >> homogeneityBreakerCasesIn: aCnb [
 
 	^ (aCnb 
@@ -53,7 +56,7 @@ CNBTDataExtractor >> homogeneityBreakerCasesIn: aCnb [
 				select: [ :aToken | aToken patterns anySatisfy: [ :aPattern | aPattern isHomogeneityBreaker ] ]) size		
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #extracting }
 CNBTDataExtractor >> homogeneousCasesIn: aCnb [
 
 	^ (aCnb 
@@ -62,7 +65,7 @@ CNBTDataExtractor >> homogeneousCasesIn: aCnb [
 				select: [ :aToken | aToken patterns anySatisfy: [ :aPattern | aPattern isHomogeneous ] ]) size		
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #extracting }
 CNBTDataExtractor >> intruderCasesIn: aCnb [
 
 	^ (aCnb 
@@ -71,7 +74,7 @@ CNBTDataExtractor >> intruderCasesIn: aCnb [
 				select: [ :aToken | aToken patterns anySatisfy: [ :aPattern | aPattern isIntruder ] ]) size		
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #extracting }
 CNBTDataExtractor >> scatteredVocabularyCasesIn: aCnb [
 
 	^ (aCnb 
@@ -88,7 +91,7 @@ CNBTDataExtractor >> selectBiggestHierarchyOf: aToken using: rootModels [
 							dominantTokens keys includes: aToken ] ifNone: [ nil ] ).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #extracting }
 CNBTDataExtractor >> snowFlakesCasesIn: aCnb [
 
 	^ (aCnb 

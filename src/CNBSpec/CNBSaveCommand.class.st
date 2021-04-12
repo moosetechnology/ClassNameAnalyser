@@ -1,6 +1,6 @@
 Class {
 	#name : #CNBSaveCommand,
-	#superclass : #CNBCommand,
+	#superclass : #StCommand,
 	#category : #CNBSpec
 }
 
