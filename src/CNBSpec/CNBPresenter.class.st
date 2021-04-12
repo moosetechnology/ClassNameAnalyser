@@ -428,7 +428,7 @@ CNBPresenter >> selectAll [
 CNBPresenter >> showNodesAttributedTo: anObject [
 
 	highlighter highlight: self allNodes accordingTo: anObject.
-	highlighter nodesToBeHighlighted ifEmpty: [ ^ self reset ].
+	highlighter nodesToBeHighlighted ifEmpty: [ ^ self onResetClicked ].
 
 	projectView canvas color: Color black whiter.
 ]

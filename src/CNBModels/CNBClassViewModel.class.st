@@ -108,9 +108,11 @@ CNBClassViewModel >> hideClassDescription [
 CNBClassViewModel >> highlight [
 
 	| canvas |
-	canvas := self box topParent.  
+	canvas := self box topParent. 
 	CNBSingletonHighlighter 
-			instance property highlighted: (CNBSingletonHighlighter instance property highlighted not) .
+			instance property ifNotNil: [  
+	CNBSingletonHighlighter 
+			instance property highlighted: (CNBSingletonHighlighter instance property highlighted not) ].
 	(CNBSingletonHighlighter instance property = self root)
 		
 	ifFalse:  [ self root highlighted: self root highlighted not.
