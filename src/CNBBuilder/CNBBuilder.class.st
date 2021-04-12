@@ -215,7 +215,7 @@ CNBBuilder >> doTokenViewModelsOf: aPackageModel using: rootModels [
 				in: aPackageModel ]
 ]
 
-{ #category : #initialize }
+{ #category : #initialization }
 CNBBuilder >> initialize [
 	
 	super initialize.
@@ -223,11 +223,12 @@ CNBBuilder >> initialize [
 		with:
 			{Color red . 
 			Color yellow . 
-			Color blue .
+			Color blue lighter .
 			Color purple . 
 			Color brown . 
 			Color magenta . 
 			Color orange . 
+			Color blue muchDarker .
 			Color green muchDarker .
 			Color pink . 
 			Color green darker . 
@@ -243,8 +244,7 @@ CNBBuilder >> initialize [
 			Color palePeach . 
 			Color paleRed  . 
 			Color lightBrown . 
-			Color paleTan . 
-			Color paleMagenta }.
+			Color paleTan  }.
 	
 ]
 
