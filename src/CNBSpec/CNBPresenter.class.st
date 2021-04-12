@@ -138,7 +138,7 @@ CNBPresenter >> connectPresenters [
 	analyseButton action: [ self onAnalyseClicked  ]. 
 	addButton action: [ self onAddClicked ].
 	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self showNodesAttributedTo: aPattern ].
-	reset action: [ self reset ].
+	reset action: [ self onResetClicked ].
 	packageSearch whenSubmitDo: [ :aRub | self changePackageBorderWidth: aRub text asString ].
 	packageSearch whenResetDo: [ self resetPackageBoder ].
 	suffix whenActivatedDo: [ self onSuffixActivated  ].
@@ -298,6 +298,18 @@ CNBPresenter >> onPrefixActivated [
  	
 ]
 
+{ #category : #'as yet unclassified' }
+CNBPresenter >> onResetClicked [
+
+	highlighter property: nil.
+	highlighter reset.
+	projectView canvas color: Color white darker.	
+	
+
+	
+	
+]
+
 { #category : #actions }
 CNBPresenter >> onShowClicked [ 
 
@@ -397,18 +409,6 @@ CNBPresenter >> radioButtionActions [
 CNBPresenter >> radioButtons [ 
 
 	^ (suffix associatedRadioButtons union: { suffix }) 
-]
-
-{ #category : #initialization }
-CNBPresenter >> reset [
-
-	highlighter property: nil.
-	highlighter reset.
-	projectView canvas color: Color white darker.	
-	
-
-	
-	
 ]
 
 { #category : #initialization }

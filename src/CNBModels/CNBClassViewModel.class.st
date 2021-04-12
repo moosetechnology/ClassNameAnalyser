@@ -108,14 +108,19 @@ CNBClassViewModel >> hideClassDescription [
 CNBClassViewModel >> highlight [
 
 	| canvas |
-	canvas := self box topParent.
+	canvas := self box topParent.  
+	CNBSingletonHighlighter 
+			instance property highlighted: (CNBSingletonHighlighter instance property highlighted not) .
 	(CNBSingletonHighlighter instance property = self root)
-		ifTrue: [ self root highlighted: false.
+		
+	ifFalse:  [ self root highlighted: self root highlighted not.
+		CNBSingletonHighlighter instance property: self root ].
+	
+	self root highlighted
+		ifFalse: [ 
 			CNBSingletonHighlighter instance reset. 
 					canvas color: Color white darker ]
-		ifFalse: [  	
-		CNBSingletonHighlighter instance property: self root.
-			self root highlighted: true.
+		ifTrue: [  	
 	CNBSingletonHighlighter instance highlight: canvas deepNodes accordingTo: self root.
 	canvas color: Color black whiter ]
 ]

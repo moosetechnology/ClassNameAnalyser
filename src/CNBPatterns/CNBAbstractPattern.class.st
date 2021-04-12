@@ -53,6 +53,11 @@ CNBAbstractPattern >> isIntruder [
 ]
 
 { #category : #testing }
+CNBAbstractPattern >> isPattern [ 
+	^ true
+]
+
+{ #category : #testing }
 CNBAbstractPattern >> isScatteredVocabulary [
 
 	^ self name = #'Scattered Vocabulary'
@@ -75,7 +80,6 @@ CNBAbstractPattern >> selectAttributedNodes: nodesCollection [
 	
 	| tokens tokenWithPatterns tokensToBeHighlighted nodesToBeHighlighted |
 	
-	CNBSingletonHighlighter instance property: self.
 	tokens 
 		:= nodesCollection select: [ :each | each model isToken ].
 		
