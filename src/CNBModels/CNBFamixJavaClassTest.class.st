@@ -100,14 +100,6 @@ CNBFamixJavaClassTest >> testRootAccordingToAClassName [
 ]
 
 { #category : #tests }
-CNBFamixJavaClassTest >> testSuperClass [ 
-
-	self 
-		assert: classC superClass 
-		equals: classB
-]
-
-{ #category : #tests }
 CNBFamixJavaClassTest >> testSuperClassA [ 
 
 "A Implements I2, Implements I3, inherits from parameterizedTypeE which has the parameterizableClassE"
@@ -118,7 +110,23 @@ CNBFamixJavaClassTest >> testSuperClassA [
 ]
 
 { #category : #tests }
+CNBFamixJavaClassTest >> testSuperClassC [ 
+
+	"C  extends B, 
+		implements I1, 
+		inherits parameterizedTypeD which contains parameterizableClassD which is an Interface"
+
+	self 
+		assert: classC superClass 
+		equals: classB
+]
+
+{ #category : #tests }
 CNBFamixJavaClassTest >> testSuperInheritances [
+
+	"C  extends B, 
+		implements I1, 
+		inherits parameterizedTypeD which contains parameterizableClassD which is an Interface"
 
 	self 
 		assert: classC superInheritances size 
@@ -128,9 +136,13 @@ CNBFamixJavaClassTest >> testSuperInheritances [
 { #category : #tests }
 CNBFamixJavaClassTest >> testSuperInheritancesWithoutInterfaces [
 
+		"C  extends B, 
+		implements I1, 
+		inherits parameterizedTypeD which contains parameterizableClassD which is an Interface"
+		
 	self 
-		assert: ((classC superInheritances collect: #target) reject: #isInterface) first name
-		equals: 'classB'
+		assert: ((classC superInheritances collect: #target) reject: #isInterface) first
+		equals: classB
 ]
 
 { #category : #tests }
@@ -155,10 +167,19 @@ CNBFamixJavaClassTest >> testSuperclassHierarchy [
 ]
 
 { #category : #tests }
+CNBFamixJavaClassTest >> testSuperclassHierarchyRoot [ 
+
+	self 
+		assert: (classC rootAccordingTo: 'Object')
+		equals: ((classC superclassHierarchy select: #isClass) reject: #isInterface) reversed second "First should be Object"
+]
+
+{ #category : #tests }
 CNBFamixJavaClassTest >> testSuperclassHierarchyWithoutInterfaces [
 
 	self 
 		assert: ((classC superclassHierarchy reject: #isInterface) collect: #name) asArray
+		
 		equals: #(	
 					'classB' 
 					'parameterizedTypeD' 
@@ -174,13 +195,13 @@ CNBFamixJavaClassTest >> testSuperclassHierarchyWithoutInterfaces [
 CNBFamixJavaClassTest >> testSuperclasses [
 
 	self 
-		assert: (((classC superclassHierarchy reject: #isInterface) 
-							select: #isClass)collect: #name) asArray
+		assert: (((classC superclassHierarchy 
+									select: #isClass) reject: #isInterface) collect: #name) asArray
 		equals: #(	
 					'classB' 
 					'classA' 
 					'parameterizableClassE' 
 					'classO' 
 					'Object' 
-		)
+					)
 ]
