@@ -18,18 +18,18 @@ CNBSpecElementDropList >> initialize [
 
 	super initialize.
 	patterns := { 	NoPattern new .
-		            CNBFatBlobPattern new .
+		            "CNBFatBlobPattern new .
 		            CNBSnowFlakesPattern new .
-		           	CNBHomogeneityBreakerPattern new .
+		           	CNBHomogeneityBreakerPattern new ."
 		            CNBIntruderPattern new .
-		            CNBConfettiPattern new .
-		            CNBHomogeneousPattern new .
+		            "CNBConfettiPattern new .
+		            CNBHomogeneousPattern new ."
 		            CNBScatteredVocabularyPattern new }.
 
 	self
+		help: 'Choose an anti-pattern';
 		items: self patterns;
-		display: [ :aPattern | aPattern name ];
-		whenSelectedItemChangedDo: [ self help: 'ChangedItem' ].
+		display: [ :aPattern | aPattern name ].
 ]
 
 { #category : #initialization }
@@ -40,7 +40,8 @@ CNBSpecElementDropList >> items [
 
 { #category : #initialization }
 CNBSpecElementDropList >> patterns [ 
-	^patterns
+
+	^ patterns
 ]
 
 { #category : #initialization }
