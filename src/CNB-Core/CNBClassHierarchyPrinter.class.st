@@ -59,10 +59,9 @@ CNBClassHierarchyPrinter >> printFamixJavaSubclasses [
 { #category : #printing }
 CNBClassHierarchyPrinter >> printFamixJavaSuperclasses [
 
-	((theClass superclassHierarchy select: [ :c | c isClass ]) reject:
-		 #isInterface) reverseDo: [ :aClass | 
-		self printClass: aClass.
-		index := index + 1 ].
+	self 
+		superclasses reverseDo: [ :aClass | self printClass: aClass ].
+		
 	stream cr "to spot the requested class."
 	
 ]
@@ -78,4 +77,30 @@ CNBClassHierarchyPrinter >> printSubclasses [
 		asSortedCollection: [ :c1 :c2 | c1 name <= c2 name ].
 	sortedSubclasses do: [ :subclass | 
 			self printClass: subclass ]
+]
+
+{ #category : #accessing }
+CNBClassHierarchyPrinter >> superclassOf: aClass [
+
+	| superclass |
+	superclass 
+		:= (((aClass superInheritances collect: #target) 
+			select: [ :c | c isClass ]) reject: #isInterface).
+		
+	^ superclass ifNotEmpty: [ superclass first ] ifEmpty: [ nil ]
+]
+
+{ #category : #'as yet unclassified' }
+CNBClassHierarchyPrinter >> superclasses [ 
+
+	| superclass superclasses |
+	superclass := self superclassOf: theClass. 
+	superclasses := OrderedCollection new.
+	
+	[ superclass isNotNil ] 
+		whileTrue: [ 
+			superclasses add: superclass.
+			superclass := self superclassOf: superclass.			
+					].
+	^ superclasses		
 ]
