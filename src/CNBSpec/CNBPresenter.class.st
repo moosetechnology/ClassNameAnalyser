@@ -283,6 +283,7 @@ CNBPresenter >> onAnalyseClicked [
 { #category : #actions }
 CNBPresenter >> onBothActivated [
 
+	self onResetClicked.
 	^ bothCnb 
 		 model 
 			ifNotNil: [ 
@@ -309,6 +310,7 @@ CNBPresenter >> onDeleteAllClicked [
 { #category : #actions }
 CNBPresenter >> onPrefixActivated [
 
+	self onResetClicked.
 	^ prefixCnb
 		 model 
 			ifNotNil: [ 
@@ -336,7 +338,8 @@ CNBPresenter >> onShowClicked [
 
 { #category : #actions }
 CNBPresenter >> onSuffixActivated [
-	
+
+	self onResetClicked.
 	^ suffixCnb 
 		 model 
 			ifNotNil: [ 
