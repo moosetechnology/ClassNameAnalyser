@@ -6,7 +6,7 @@ Trait {
 	#instVars : [
 		'palette'
 	],
-	#category : #CNBBuilder
+	#category : #'CNBBuilder-Traits'
 }
 
 { #category : #assignments }

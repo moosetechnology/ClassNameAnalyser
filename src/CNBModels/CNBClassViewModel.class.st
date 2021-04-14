@@ -193,7 +193,7 @@ CNBClassViewModel >> printOn: aStream [
 { #category : #'events-processing' }
 CNBClassViewModel >> processEvent: evt [
 
-	^ self inspect "self model model exists ifTrue: [ model model browse ] ifFalse: [ model model inspect ]"
+	^ self model model exists ifTrue: [ model model browse ] ifFalse: [ model model inspect ]
 ]
 
 { #category : #accessing }

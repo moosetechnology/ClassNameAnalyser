@@ -1,3 +1,6 @@
+"
+I represent the data as numbers extracted from the ClassNames Distribution, Num-Packag, Num-Classes, Num-Patterns ...etc
+"
 Class {
 	#name : #CNBAnalysisDescription,
 	#superclass : #Object,

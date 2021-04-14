@@ -1,3 +1,6 @@
+"
+I represent all the data of the ClassNames Distribution from the class models, root models to the view models and nodes.
+"
 Class {
 	#name : #ClassNamesBlueprint,
 	#superclass : #Object,

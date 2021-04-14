@@ -53,13 +53,11 @@ CNBPresenter class >> defaultSpec [
 				add: #rootSelector height: self buttonHeight;
 				yourself) "height: self labelHeight + self buttonHeight";
 			add: (SpBoxLayout newVertical
-				add: #suffix "height: self buttonHeight";
-				add: #prefix "height: self buttonHeight";
-				add: #both "height: self buttonHeight";
-				yourself) "height: self buttonHeight + self buttonHeight + self buttonHeight";
-			add: (SpBoxLayout newVertical 
+				add: #suffix height: self labelHeight;
+				add: #prefix height: self labelHeight;
+				add: #both height: self labelHeight;
 				add: #analyseButton width: self buttonWidth;
-				yourself) "height: self buttonHeight + self buttonHeight";
+				yourself) "height: self buttonHeight + self buttonHeight + self buttonHeight";
 			add: (SpBoxLayout newVertical 
 				add: 'Anti-Patterns' height: self labelHeight;
 				add: #patternsDropList height: self buttonHeight;

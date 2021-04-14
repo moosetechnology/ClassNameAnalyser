@@ -1,3 +1,6 @@
+"
+I represent the settings of the ClassNames Distribution: root class and the token's position (suffix, prefix or both).
+"
 Class {
 	#name : #CNBSettings,
 	#superclass : #Object,

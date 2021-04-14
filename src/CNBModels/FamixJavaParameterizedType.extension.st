@@ -27,14 +27,16 @@ FamixJavaParameterizedType >> exists [
 FamixJavaParameterizedType >> rootAccordingTo: aRootClassName [
 
     |superclass|
-    superclass := ((self superInheritances collect: #target) reject: #isInterface).
-
+    superclass 
+		:= ((self superInheritances collect: #target) 
+				reject: [ :c | c isClass not or: [c isInterface ]]).
+	
     (self isTrait or: [ self name = aRootClassName ])
         ifTrue: [ ^ self ].
         
     (superclass isEmpty 
-			or: [ superclass first name = aRootClassName 
-				or: [ superclass first name = Object name ] ])
+            or: [ superclass first name = aRootClassName 
+                or: [ superclass first name = Object name ] ])
         ifTrue: [ ^ self ].
         
     ^ superclass first rootAccordingTo: aRootClassName

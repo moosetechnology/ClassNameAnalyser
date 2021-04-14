@@ -4,7 +4,7 @@ I print the hierarchy of the class or FamixJavaClass.
 Class {
 	#name : #CNBClassHierarchyPrinter,
 	#superclass : #ClassHierarchyPrinter,
-	#category : #CNBBuilder
+	#category : #'CNB-Core'
 }
 
 { #category : #'public API' }
@@ -59,12 +59,12 @@ CNBClassHierarchyPrinter >> printFamixJavaSubclasses [
 { #category : #printing }
 CNBClassHierarchyPrinter >> printFamixJavaSuperclasses [
 
-
-	(theClass superclassHierarchy reject: #isInterface)
-		reverseDo: [ :aClass | 
-			self printClass: aClass.
-			index := index + 1 ].
-	stream cr.	"to spot the requested class."
+	((theClass superclassHierarchy select: [ :c | c isClass ]) reject:
+		 #isInterface) reverseDo: [ :aClass | 
+		self printClass: aClass.
+		index := index + 1 ].
+	stream cr "to spot the requested class."
+	
 ]
 
 { #category : #printing }

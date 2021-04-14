@@ -3,7 +3,7 @@ I extract data from the ClassNames Distribution.
 "
 Trait {
 	#name : #CNBTDataExtractor,
-	#category : #CNBBuilder
+	#category : #'CNBBuilder-Traits'
 }
 
 { #category : #extracting }

@@ -47,14 +47,15 @@ CNBBothTokensStrategy >> build: aCND [
 { #category : #'as yet unclassified' }
 CNBBothTokensStrategy >> buildRoot: aRootModel [
 
-	| subclasses name |
+	| subclasses name rootName |
 	subclasses := aRootModel subclasses.
 	name 
 		:= aRootModel model exists  
 					ifTrue: [ (CNBBuilder removePackageNameFromClass: aRootModel model) ] 
 					ifFalse: [ aRootModel model name ].
+	rootName := 	(CNBFilterer removeAllDigitsAndSpecialCharsFrom: name).			
 	^ aRootModel 
-		name: [ (CNBFilterer removeAllDigitsAndSpecialCharsFrom: name)];  
+		name: rootName;  
 		token: { (CNBFeatureSelector new 
 					extract: #suffix
 					from: name) . 

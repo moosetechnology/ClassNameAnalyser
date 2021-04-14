@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'printer'
 	],
-	#category : #CNBBuilder
+	#category : #'CNB-Core'
 }
 
 { #category : #running }
