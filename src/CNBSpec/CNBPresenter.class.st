@@ -264,6 +264,9 @@ CNBPresenter >> onAddClicked [
 CNBPresenter >> onAnalyseClicked [
 
 	| activatedRadioButton root selectedCnb | 
+	model := packages ifNotEmpty: [ 
+		              CNBMooseModelGenerator packagesNamed:
+			              (packages collect: #name) ].
 	model ifNil: [ ^ self ].			
 
 	activatedRadioButton := self radioButtons detect: [ :each | each state ].
