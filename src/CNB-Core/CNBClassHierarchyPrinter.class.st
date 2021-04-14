@@ -82,12 +82,7 @@ CNBClassHierarchyPrinter >> printSubclasses [
 { #category : #accessing }
 CNBClassHierarchyPrinter >> superclassOf: aClass [
 
-	| superclass |
-	superclass 
-		:= (((aClass superInheritances collect: #target) 
-			select: [ :c | c isClass ]) reject: #isInterface).
-		
-	^ superclass ifNotEmpty: [ superclass first ] ifEmpty: [ nil ]
+	^ aClass superClass
 ]
 
 { #category : #'as yet unclassified' }

@@ -7,7 +7,7 @@ Class {
 		'scatteredPackage',
 		'classNamesDistribution'
 	],
-	#category : #CNBModels
+	#category : #'CNBBuilder-Tests'
 }
 
 { #category : #tests }

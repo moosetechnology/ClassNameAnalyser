@@ -1,5 +1,5 @@
 Class {
 	#name : #PackageViewModelOrganizerTest,
 	#superclass : #TestCase,
-	#category : #CNBModels
+	#category : #'CNBBuilder-Tests'
 }

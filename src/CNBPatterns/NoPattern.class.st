@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #accessing }
+NoPattern >> description [ 
+"	^ 'Choose an anti-pattern'"
+]
+
+{ #category : #accessing }
 NoPattern >> name [ 
 	^ '----------------------'
 ]

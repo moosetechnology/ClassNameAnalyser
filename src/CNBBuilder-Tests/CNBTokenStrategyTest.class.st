@@ -1,7 +1,7 @@
 Class {
 	#name : #CNBTokenStrategyTest,
 	#superclass : #TestCase,
-	#category : #CNBModels
+	#category : #'CNBBuilder-Tests'
 }
 
 { #category : #tests }

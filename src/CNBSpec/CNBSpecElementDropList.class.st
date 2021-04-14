@@ -27,9 +27,9 @@ CNBSpecElementDropList >> initialize [
 		            CNBScatteredVocabularyPattern new }.
 
 	self
-		help: 'Choose a pattern';
 		items: self patterns;
-		display: [ :aPattern | aPattern name ]
+		display: [ :aPattern | aPattern name ];
+		whenSelectedItemChangedDo: [ self help: 'ChangedItem' ].
 ]
 
 { #category : #initialization }
