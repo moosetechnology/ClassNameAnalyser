@@ -3,7 +3,8 @@ Class {
 	#superclass : #SpPresenter,
 	#instVars : [
 		'packagesList',
-		'updateButton'
+		'updateButton',
+		'deleteAllButton'
 	],
 	#category : #CNBSpec
 }
@@ -19,8 +20,11 @@ CNBPackagesListPresenter class >> defaultSpec [
 	^ (SpBoxLayout newVertical 
 		spacing: 2;
 		add: #packagesList;
-		add: #updateButton height: self buttonHeight;
-		yourself
+		add: (SpBoxLayout newHorizontal
+				add: #updateButton height: self buttonHeight;
+				add: '';
+				add: #deleteAllButton height: self buttonHeight;
+				yourself) height: self buttonHeight; yourself
 	)
 ]
 
@@ -47,9 +51,15 @@ CNBPackagesListPresenter >> connectPresenters [
 	super connectPresenters.
 	
 	updateButton action: [ self onUpdateClicked  ].
+	
 
 				
 				
+]
+
+{ #category : #accessing }
+CNBPackagesListPresenter >> deleteAllButton [ 
+	^ deleteAllButton 
 ]
 
 { #category : #initialization }
@@ -67,7 +77,8 @@ CNBPackagesListPresenter >> initializePresenters [
 				bindKeyCombination: $a meta 
 				toAction: [ packagesList selectItems: packagesList items ].
 				
-	updateButton := self newButton label: 'Update'
+	updateButton := self newButton label: 'Update'.
+	deleteAllButton := self newButton label: 'Delete All'.
 	
 ]
 

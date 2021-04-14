@@ -144,6 +144,7 @@ CNBPresenter >> connectPresenters [
 	both whenActivatedDo: [ self onBothActivated  ].
 	showPackagesButton action: [ self onShowClicked ].
 	packagesListPresenter updateButton action: [ self onUpdateClicked  ].
+	packagesListPresenter deleteAllButton action: [ self onDeleteAllClicked ].
 ]
 
 { #category : #'as yet unclassified' }
@@ -289,6 +290,22 @@ CNBPresenter >> onBothActivated [
  	
 ]
 
+{ #category : #'as yet unclassified' }
+CNBPresenter >> onDeleteAllClicked [
+
+	packages removeAll.
+	packagesListPresenter packagesList items: #().
+	packagesListPresenter packagesList listPresenter refresh.
+
+	packagesList items: allListItems. 
+	packagesList selectItems: #().
+
+	packagesList listPresenter refresh.	
+
+	
+	
+]
+
 { #category : #actions }
 CNBPresenter >> onPrefixActivated [
 
@@ -330,8 +347,7 @@ CNBPresenter >> onSuffixActivated [
 { #category : #initialization }
 CNBPresenter >> onUpdateClicked [ 
 
-	| removedItems listItems |	
-"	removedItems := packages difference: packagesListPresenter packagesList selectedItems."
+	| listItems |	
 	
 	packages removeAll.
 	packages addAll: (packagesListPresenter packagesList selectedItems).
