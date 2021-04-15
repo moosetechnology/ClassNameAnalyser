@@ -143,7 +143,7 @@ CNBClassViewModel >> initialize [
 { #category : #testing }
 CNBClassViewModel >> isRoot [ 
 
-	^ self name = self root name 
+	^ root isMonoClass
 ]
 
 { #category : #accessing }
