@@ -22,17 +22,6 @@ CNBImportMSECommand >> category [
 ]
 
 { #category : #accessing }
-CNBImportMSECommand >> execute [
-
-	| importForm |
-	importForm := MooseImportFromMSEForm new.
-	importForm announcer
-		when: MPNewModelInstalled
-		do: [ :ann | self context model: ann newModel ].
-	importForm openModalWithSpec
-]
-
-{ #category : #accessing }
 CNBImportMSECommand >> icon [
 	^ MooseIcons mooseImportMse
 ]

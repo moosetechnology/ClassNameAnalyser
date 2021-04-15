@@ -147,7 +147,7 @@ CNBPresenter >> connectPresenters [
 	packagesListPresenter deleteAllButton action: [ self onDeleteAllClicked ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 CNBPresenter >> fixColors [
 
 	| suffixRootModels prefixRootModels bothRootModels |
@@ -238,6 +238,11 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 ]
 
 { #category : #accessing }
+CNBPresenter >> model [ 
+	^ model
+]
+
+{ #category : #accessing }
 CNBPresenter >> model: aModel [
 
 	model := aModel 
@@ -291,7 +296,7 @@ CNBPresenter >> onBothActivated [
  	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 CNBPresenter >> onDeleteAllClicked [
 
 	packages removeAll.
@@ -318,7 +323,7 @@ CNBPresenter >> onPrefixActivated [
  	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 CNBPresenter >> onResetClicked [
 
 	highlighter property: nil.
@@ -347,7 +352,7 @@ CNBPresenter >> onSuffixActivated [
  	
 ]
 
-{ #category : #initialization }
+{ #category : #actions }
 CNBPresenter >> onUpdateClicked [ 
 
 	| listItems |	
@@ -400,7 +405,7 @@ CNBPresenter >> projectAtRadioButton: aRadioButtion [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 CNBPresenter >> projectModel: aMooseModel with: aRootClass [
 	
 	(suffixCnb model: aMooseModel; withRoot: aRootClass) startBuilding; buildShapes.
@@ -444,7 +449,7 @@ CNBPresenter >> selectAll [
 	packagesList listPresenter items selectAll
 ]
 
-{ #category : #initialization }
+{ #category : #actions }
 CNBPresenter >> showNodesAttributedTo: anObject [
 
 	highlighter highlight: self allNodes accordingTo: anObject.

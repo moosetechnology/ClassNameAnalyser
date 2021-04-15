@@ -33,9 +33,9 @@ CNBFeatureSelectorTest >> testExtractConceptFromNameByDefault [
 	"extracts the last symbol by default, the last word in CamelCase without any filters"
 	
 	self assert: (featureSelector extractSuffixFrom: 'ClassName34Blueprint') equals: 'Blueprint'.
-	self assert: (featureSelector extractSuffixFrom: 'ClassName34') equals: 'Name34'.
-	self assert: (featureSelector extractSuffixFrom: '%ClassName34%') equals: 'Name34%'.
-	self assert: (featureSelector extractSuffixFrom: '%Class%') equals: 'Class%'.
+	self assert: (featureSelector extractSuffixFrom: 'ClassName34') equals: 'Name'.
+	self assert: (featureSelector extractSuffixFrom: '%ClassName34%') equals: 'Name'.
+	self assert: (featureSelector extractSuffixFrom: '%Class%') equals: 'Class'.
 ]
 
 { #category : #tests }
