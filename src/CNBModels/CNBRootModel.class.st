@@ -38,13 +38,15 @@ CNBRootModel class >> model: aClass with: aCollectionOfSubClassModels [
 { #category : #accessing }
 CNBRootModel >> biggestTokenAssociation [
 
-	^ dominantTokens detectMaxAssociation
+	^ tokensDictionary 
+	hasMoreThanOneElement ifTrue: [ tokensDictionary  detectMaxAssociation  ] 
+	ifFalse: [ tokensDictionary associations first  ]
 ]
 
 { #category : #accessing }
 CNBRootModel >> biggestTokenName [
 
-	^ biggestTokenAssociation key
+	^ self biggestTokenAssociation key
 ]
 
 { #category : #'as yet unclassified' }
@@ -158,7 +160,9 @@ CNBRootModel >> isTrait [
 
 { #category : #accessing }
 CNBRootModel >> mainToken [ 
-	^ (dominantTokens detectMaxAssociation) key
+
+	^ self biggestTokenName 
+	
 ]
 
 { #category : #accessing }

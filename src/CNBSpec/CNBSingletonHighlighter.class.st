@@ -35,20 +35,25 @@ CNBSingletonHighlighter >> generateDifferentColorThen: aColor [
 	^ color
 ]
 
-{ #category : #'as yet unclassified' }
-CNBSingletonHighlighter >> goDarkerFor: anObject [.
+{ #category : #accessing }
+CNBSingletonHighlighter >> goDarkerFor: anObject [
 
 	super goDarkerFor: anObject.
-	
-" highlight the border of classes with a different suffix"
-	property 
-		ifNotNil: [ 
-			nodesToBeHighlighted 
-			select: [ :aNode | aNode model token ~= aNode model root mainToken ]
-			thenDo: [ :each | each width: 60; height: 60.
-						each border: (RSBorder new color: Color white; width: 10;yourself)    ]
-			 ]
-
+	(property isNotNil and: [ property isMultiToken ]) ifFalse: [ ^ self ].
+	nodesToBeHighlighted do: [ :each | 
+		each border: (RSBorder new
+				 color: Color white;
+				 yourself) ].
+	nodesToBeHighlighted
+		select: [ :aNode | aNode model token ~= aNode model root mainToken ]
+		thenDo: [ :each | 
+			each
+				width: 60;
+				height: 60.
+			each border: (RSBorder new
+					 color: Color white;
+					 width: 10;
+					 yourself) ]
 ]
 
 { #category : #accessing }

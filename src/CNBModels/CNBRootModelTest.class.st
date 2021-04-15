@@ -15,7 +15,7 @@ CNBRootModelTest >> setUp [
 	rootModel 
 	:= CNBRootModel new.
 	rootModel  
-			dominantTokens addAll: 
+			tokensDictionary addAll: 
 			({ ('I' -> 3 ) . 
 			('Am'-> 5) . 
 			('An'-> 20). 
