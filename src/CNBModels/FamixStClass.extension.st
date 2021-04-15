@@ -3,18 +3,15 @@ Extension { #name : #FamixStClass }
 { #category : #'*CNBModels' }
 FamixStClass >> classDepthAccordingTo: aRootName [
 
-	" we use the name since the provided root from the tool is a text"
+ (self isTrait 
+		or: [ self name = aRootName 
+			or:  [ self superclass isNil ] ]) ifTrue: [ ^ 1 ].
+   
+	(self superclass name = aRootName 
+                or: [ self superclass name = Object name ]) ifTrue: [ ^ 1 ].
+      
+    ^ (self superclass classDepthAccordingTo: aRootName) + 1
 	
-	"Stops if Object is the superclass"	
-	"if trait of is the root itself "
-	(self isTrait or: [ self name = aRootName or: self superclass = Object ])
-		ifTrue: [ ^ 1 ].
-		
-	"Stops if the superclass is the root class"
-	self superclass name = aRootName
-		ifTrue: [ ^ 1 ].
-		
-	^ (self superclass classDepthAccordingTo: aRootName) + 1
 	
 ]
 
@@ -52,17 +49,15 @@ FamixStClass >> print [
 { #category : #'*CNBModels' }
 FamixStClass >> rootAccordingTo: aRootClassName [
 
-	" we use the name since the provided root from the tool is a text"
+	 (self isTrait 
+		or: [ self name = aRootClassName 
+			or:  [ self superclass isNil ] ]) ifTrue: [ ^ self ].
+   
+	(self superclass name = aRootClassName 
+                or: [ self superclass name = Object name ]) ifTrue: [ ^ self ].
+      
+    ^ self superclass rootAccordingTo: aRootClassName
 	
-	"Stops if Object is the superclass"	
-	"if trait of is the root itself "
-	( self isTrait or: [ self name = aRootClassName or: self superclass = Object ])
-		ifTrue: [ ^ self ].
-		
-	"Stops if the superclass is the root class"
-	self superclass name = aRootClassName
-		ifTrue: [ ^ self ].
-		
-	^ self superclass rootAccordingTo: aRootClassName
+
 	
 ]
