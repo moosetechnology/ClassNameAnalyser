@@ -23,8 +23,8 @@ CNBNodesHighlighter >> goDarkerFor: anObject [
 	nodesToBeHighlighted 
 				select: [ :each | each hasChildren ] 
 				thenDo: [ :aNode | aNode border color: Color white; width: 3 ].
-				
-	"Change other nodes colors to darsker"	
+		
+	"Change other nodes colors to darker"	
 	nodesToBeDarker do: [ :each | each color: each color muchDarker duller ].
 
 ]
@@ -66,6 +66,7 @@ CNBNodesHighlighter >> nodesToBeDarker [
 
 { #category : #accessing }
 CNBNodesHighlighter >> nodesToBeHighlighted [ 
+
 	^ nodesToBeHighlighted 
 ]
 

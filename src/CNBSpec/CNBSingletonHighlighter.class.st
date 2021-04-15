@@ -25,6 +25,32 @@ CNBSingletonHighlighter class >> reset [
 	Instance := nil
 ]
 
+{ #category : #'as yet unclassified' }
+CNBSingletonHighlighter >> generateDifferentColorThen: aColor [
+
+	| color |
+	color := Color random.
+	color = aColor ifTrue: [ ^ self generateDifferentColorThen: aColor ].
+	
+	^ color
+]
+
+{ #category : #'as yet unclassified' }
+CNBSingletonHighlighter >> goDarkerFor: anObject [.
+
+	super goDarkerFor: anObject.
+	
+" highlight the border of classes with a different suffix"
+	property 
+		ifNotNil: [ 
+			nodesToBeHighlighted 
+			select: [ :aNode | aNode model token ~= aNode model root mainToken ]
+			thenDo: [ :each | each width: 60; height: 60.
+						each border: (RSBorder new color: Color white; width: 10;yourself)    ]
+			 ]
+
+]
+
 { #category : #accessing }
 CNBSingletonHighlighter >> property [
 	^ property 
@@ -34,4 +60,19 @@ CNBSingletonHighlighter >> property [
 CNBSingletonHighlighter >> property: aProperty [
 
 	property := aProperty 
+]
+
+{ #category : #initialization }
+CNBSingletonHighlighter >> resetHighlightedNodes [ 
+	
+	super resetHighlightedNodes.
+	
+	property ifNotNil: [  
+	nodesToBeHighlighted 
+				do: [ :each | 
+					each width: each model class new width; height: each model class new height.
+					each border: each model border
+					 ]
+								]
+	
 ]

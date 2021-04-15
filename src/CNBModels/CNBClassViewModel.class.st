@@ -113,14 +113,15 @@ CNBClassViewModel >> highlight [
 			instance property ifNotNil: [  
 	CNBSingletonHighlighter 
 			instance property highlighted: (CNBSingletonHighlighter instance property highlighted not) ].
-	(CNBSingletonHighlighter instance property = self root)
 		
+	(CNBSingletonHighlighter instance property = self root)		
 	ifFalse:  [ self root highlighted: self root highlighted not.
 		CNBSingletonHighlighter instance property: self root ].
 	
 	self root highlighted
 		ifFalse: [ 
-			CNBSingletonHighlighter instance reset. 
+			CNBSingletonHighlighter instance reset.
+			CNBSingletonHighlighter instance property: nil.
 					canvas color: Color white darker ]
 		ifTrue: [  	
 	CNBSingletonHighlighter instance highlight: canvas deepNodes accordingTo: self root.
@@ -193,7 +194,8 @@ CNBClassViewModel >> printOn: aStream [
 { #category : #'events-processing' }
 CNBClassViewModel >> processEvent: evt [
 
-	^ self model model exists ifTrue: [ (Smalltalk image classNamed: model model name) browse ] ifFalse: [ model model inspect ]
+	^ "self model model exists ifTrue: [ (Smalltalk image classNamed: model model name) browse ] ifFalse: [ model model inspect ]"
+	self inspect
 ]
 
 { #category : #accessing }

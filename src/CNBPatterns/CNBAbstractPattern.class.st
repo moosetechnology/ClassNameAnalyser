@@ -79,7 +79,7 @@ CNBAbstractPattern >> name [
 CNBAbstractPattern >> selectAttributedNodes: nodesCollection [
 	
 	| tokens tokenWithPatterns tokensToBeHighlighted nodesToBeHighlighted |
-	
+	CNBSingletonHighlighter instance property: nil.
 	tokens 
 		:= nodesCollection select: [ :each | each model isToken ].
 		

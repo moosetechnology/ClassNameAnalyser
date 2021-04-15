@@ -20,7 +20,8 @@ Class {
 		'tokenModels',
 		'tokenPosition',
 		'maxDepth',
-		'highlighted'
+		'highlighted',
+		'mainToken'
 	],
 	#category : #CNBModels
 }
@@ -37,7 +38,7 @@ CNBRootModel class >> model: aClass with: aCollectionOfSubClassModels [
 { #category : #accessing }
 CNBRootModel >> biggestTokenAssociation [
 
-	^ tokensDictionary associations detectMax: [ :each | each ]
+	^ dominantTokens detectMaxAssociation
 ]
 
 { #category : #accessing }
@@ -153,6 +154,11 @@ CNBRootModel >> isMultiToken [
 CNBRootModel >> isTrait [ 
 
 	^ type = 'Trait'
+]
+
+{ #category : #accessing }
+CNBRootModel >> mainToken [ 
+	^ (dominantTokens detectMaxAssociation) key
 ]
 
 { #category : #accessing }
