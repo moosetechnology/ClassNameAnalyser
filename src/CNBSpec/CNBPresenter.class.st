@@ -24,7 +24,9 @@ Class {
 		'allListItems',
 		'highlighter',
 		'mooseImporterForm',
-		'model'
+		'model',
+		'helpButton',
+		'instructionsButton'
 	],
 	#category : #CNBSpec
 }
@@ -37,46 +39,60 @@ CNBPresenter class >> defaultExtent [
 { #category : #specs }
 CNBPresenter class >> defaultSpec [ 
 	^
-	SpBoxLayout newHorizontal
-		spacing: 7;
-		add: (SpBoxLayout newVertical
-			spacing: 2;
-			add: (SpBoxLayout newVertical
-				add: #packagesList;
-				yourself) height: 250;
+	
+	SpBoxLayout newVertical 
+			spacing: 1;
 			add: (SpBoxLayout newHorizontal 
-				add: #showPackagesButton height: self buttonHeight;
-				add: #addButton height: self buttonHeight;
-				yourself) height: self buttonHeight;
-			add: (SpBoxLayout newVertical 
-				add: 'Root class' height: self labelHeight;
-				add: #rootSelector height: self buttonHeight;
-				yourself) "height: self labelHeight + self buttonHeight";
-			add: (SpBoxLayout newVertical
-				add: #suffix height: self labelHeight;
-				add: #prefix height: self labelHeight;
-				add: #both height: self labelHeight;
-				add: #analyseButton width: self buttonWidth;
-				yourself) "height: self buttonHeight + self buttonHeight + self buttonHeight";
-			add: (SpBoxLayout newVertical 
-				add: 'Anti-Patterns' height: self labelHeight;
-				add: #patternsDropList height: self buttonHeight;
-				yourself) height: self labelHeight + self buttonHeight;
-			add: #reset height: self buttonHeight;
-			yourself) width: 180;
-		add: (SpBoxLayout newVertical
-			"add: (SpBoxLayout newHorizontal
-				add: '';
-				add: #packageSearch width: 200;
-				yourself) height: self buttonHeight;"
-			add: #projectView;
-			yourself);
-		yourself.
+		add: '';
+		add: #instructionsButton width: self buttonWidth;
+		add: #helpButton width: self iconWidth;
+		yourself) height: self iconWidth;
+		add: (SpBoxLayout newHorizontal
+					spacing: 7;
+					add: (SpBoxLayout newVertical
+						spacing: 2;
+						add: (SpBoxLayout newVertical
+							add: #packagesList;
+							yourself) height: 250;
+						add: (SpBoxLayout newHorizontal 
+							add: #showPackagesButton height: self buttonHeight;
+							add: #addButton height: self buttonHeight;
+							yourself) height: self buttonHeight;
+						add: (SpBoxLayout newVertical 
+							add: 'Root class' height: self labelHeight;
+							add: #rootSelector height: self buttonHeight;
+							yourself) "height: self labelHeight + self buttonHeight";
+						add: (SpBoxLayout newVertical
+							add: #suffix height: self labelHeight;
+							add: #prefix height: self labelHeight;
+							add: #both height: self labelHeight;
+							add: #analyseButton width: self buttonWidth;
+							yourself) "height: self buttonHeight + self buttonHeight + self buttonHeight";
+						add: (SpBoxLayout newVertical 
+							add: 'Anti-Patterns' height: self labelHeight;
+							add: #patternsDropList height: self buttonHeight;
+							yourself) height: self labelHeight + self buttonHeight;
+					add: #reset height: self buttonHeight;
+					yourself) width: 180;
+					add: (SpBoxLayout newVertical
+							"add: (SpBoxLayout newHorizontal
+							add: '';
+							add: #packageSearch width: 200;
+							yourself) height: self buttonHeight;"
+							add: #projectView;
+							yourself);
+					yourself);
+				yourself.
 ]
 
 { #category : #accessing }
 CNBPresenter class >> defaultTitle [
 	^ 'ClassNames Distribution'
+]
+
+{ #category : #accessing }
+CNBPresenter class >> help [ 
+	^ ' The instructions of the tool'
 ]
 
 { #category : #'world menu' }
@@ -166,6 +182,16 @@ CNBPresenter >> fixColors [
 			 ]
 ]
 
+{ #category : #accessing }
+CNBPresenter >> help [ 
+	^ ' The instructions of the tool'
+]
+
+{ #category : #accessing }
+CNBPresenter >> helpButton [ 
+	^ helpButton
+]
+
 { #category : #initialization }
 CNBPresenter >> initializeCnbs [ 
 
@@ -175,11 +201,34 @@ CNBPresenter >> initializeCnbs [
 ]
 
 { #category : #initialization }
+CNBPresenter >> initializeHelpButton [
+
+	helpButton := self newButton 
+		iconName: #help;
+		help: self class help;
+		action: [ self showHelp ];
+		yourself
+	
+]
+
+{ #category : #initialization }
+CNBPresenter >> initializeInstructionsButton [ 
+	
+	instructionsButton 
+		:= self newButton 
+				label: 'Instructions';
+				action: [ self showInstructions ]
+			
+]
+
+{ #category : #initialization }
 CNBPresenter >> initializePresenters [
 	super initializePresenters.
 	
 	self initializeCnbs. 
 	packages := OrderedCollection new.
+	self initializeHelpButton.
+	self initializeInstructionsButton.
 	highlighter := CNBSingletonHighlighter instance.
 	allListItems := RBBrowserEnvironment default packages asArray sorted: [ :a : b | a name < b name ].
 	packagesListPresenter := CNBPackagesListPresenter new owner: self.
@@ -234,7 +283,7 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter
 		title: self class defaultTitle;
 		initialExtent: self class defaultExtent;
-		toolbar: self buildToolbar 
+		toolbar: self buildToolbar
 ]
 
 { #category : #accessing }
@@ -447,6 +496,25 @@ CNBPresenter >> resetPackageBoder [
 CNBPresenter >> selectAll [
 
 	packagesList listPresenter items selectAll
+]
+
+{ #category : #actions }
+CNBPresenter >> showHelp [
+	| help |
+	(help := self newPopover)
+		relativeTo: helpButton;
+		presenter: (CNBPopupPresenter owner: help on: self);
+		popup
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> showInstructions [
+
+	| instructions |
+	(instructions := self newPopover) 
+			relativeTo: helpButton;
+			presenter: (CNBPopupPresenter owner: instructions on: self);
+			popup
 ]
 
 { #category : #actions }
