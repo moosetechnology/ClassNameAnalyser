@@ -270,13 +270,23 @@ CNBTokenViewModel >> hidePatternDescription [
 CNBTokenViewModel >> initialize [ 
 	super initialize.
 	
-	patterns := OrderedCollection new
+	patterns := OrderedCollection new.
+	box when: RSMouseLeftClick do: [ self onClickResetHighlighter ]
 ]
 
 { #category : #accessing }
 CNBTokenViewModel >> innerRoots [
 	
 	^ classViewModels collect: #root.
+]
+
+{ #category : #'as yet unclassified' }
+CNBTokenViewModel >> onClickResetHighlighter [
+	
+	CNBSingletonHighlighter instance nodesToBeHighlighted ifEmpty: [ ^ self ].
+	CNBSingletonHighlighter instance property: nil.
+	CNBSingletonHighlighter instance reset.
+	box topParent color: Color white darker.
 ]
 
 { #category : #accessing }

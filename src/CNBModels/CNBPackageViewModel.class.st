@@ -66,7 +66,8 @@ CNBPackageViewModel >> hasScatteredVocabularyInside [
 CNBPackageViewModel >> initialize [ 
 	super initialize.
 	
-	packageOrganizer := CNBPackageViewModelOragnizer new
+	packageOrganizer := CNBPackageViewModelOragnizer new.
+	box when: RSMouseLeftClick do: [ self onClickResetHighlighter ]
 ]
 
 { #category : #accessing }
@@ -94,6 +95,15 @@ CNBPackageViewModel >> modelsOrderedByColor [
 	^ CNBBuilder sort: self tokenViewModels
 
 
+]
+
+{ #category : #'as yet unclassified' }
+CNBPackageViewModel >> onClickResetHighlighter [
+	
+	CNBSingletonHighlighter instance nodesToBeHighlighted ifEmpty: [ ^ self ].
+	CNBSingletonHighlighter instance property: nil.
+	CNBSingletonHighlighter instance reset.
+	box topParent color: Color white darker.
 ]
 
 { #category : #'events-processing' }

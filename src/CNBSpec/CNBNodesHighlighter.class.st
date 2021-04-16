@@ -19,7 +19,7 @@ CNBNodesHighlighter >> goDarkerFor: anObject [
 	nodesToBeDarker := self nodesToBeDarker.
 	nodesToBeHighlighted ifEmpty: [ ^ self ].
 	
-	"for those to be highlighted the borders will be colors in white + width"
+	"token boxes: for those to be highlighted the borders will be colors in white + width"
 	nodesToBeHighlighted 
 				select: [ :each | each hasChildren ] 
 				thenDo: [ :aNode | aNode border color: Color white; width: 3 ].

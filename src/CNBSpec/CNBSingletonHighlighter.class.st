@@ -71,13 +71,11 @@ CNBSingletonHighlighter >> property: aProperty [
 CNBSingletonHighlighter >> resetHighlightedNodes [ 
 	
 	super resetHighlightedNodes.
-	
-	property ifNotNil: [  
-	nodesToBeHighlighted 
-				do: [ :each | 
+
+	(nodesToBeHighlighted allSatisfy: [ :each | each hasChildren not ]) ifTrue: [  
+	nodesToBeHighlighted		do: [ :each | 
 					each width: each model class new width; height: each model class new height.
 					each border: each model border
 					 ]
 								]
-	
 ]
