@@ -30,9 +30,4 @@ CNBPopupPresenter >> dismiss [
 { #category : #initialization }
 CNBPopupPresenter >> initializePresenters [
 	super initializePresenters.
-	help := self newText text: 'Instructions'.
-	okButton := self newButton 
-		label: 'Ok';
-		action: [ self owner dismiss ];
-		yourself
 ]

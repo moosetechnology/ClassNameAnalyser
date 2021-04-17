@@ -90,11 +90,6 @@ CNBPresenter class >> defaultTitle [
 	^ 'ClassNames Distribution'
 ]
 
-{ #category : #accessing }
-CNBPresenter class >> help [ 
-	^ ' The instructions of the tool'
-]
-
 { #category : #'world menu' }
 CNBPresenter class >> menuCommandOn: aBuilder [
 	<worldMenu>
@@ -205,7 +200,7 @@ CNBPresenter >> initializeHelpButton [
 
 	helpButton := self newButton 
 		iconName: #help;
-		help: self class help;
+		help: 'About the tool';
 		action: [ self showHelp ];
 		yourself
 	
@@ -217,6 +212,7 @@ CNBPresenter >> initializeInstructionsButton [
 	instructionsButton 
 		:= self newButton 
 				label: 'Instructions';
+				help: 'Instructions of the tool';
 				action: [ self showInstructions ]
 			
 ]
@@ -503,7 +499,7 @@ CNBPresenter >> showHelp [
 	| help |
 	(help := self newPopover)
 		relativeTo: helpButton;
-		presenter: (CNBPopupPresenter owner: help on: self);
+		presenter: (CNBHelpPopupPresenter owner: help on: self);
 		popup
 ]
 
@@ -512,8 +508,8 @@ CNBPresenter >> showInstructions [
 
 	| instructions |
 	(instructions := self newPopover) 
-			relativeTo: helpButton;
-			presenter: (CNBPopupPresenter owner: instructions on: self);
+			relativeTo: instructionsButton;
+			presenter: (CNBInstructionsPopupPresenter owner: instructions on: self);
 			popup
 ]
 

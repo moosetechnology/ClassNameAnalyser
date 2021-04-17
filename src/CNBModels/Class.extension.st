@@ -26,6 +26,11 @@ Class >> classModelAccordingTo: setting [
 ]
 
 { #category : #'*CNBModels' }
+Class >> exists [ 
+	^ true
+]
+
+{ #category : #'*CNBModels' }
 Class >> isMono [ 
 	^ superclass = Object and: [ self subclasses isEmpty ]
 ]
