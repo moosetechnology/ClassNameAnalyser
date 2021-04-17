@@ -74,6 +74,19 @@ CNBRootModelTest >> testMainToken [
 ]
 
 { #category : #tests }
+CNBRootModelTest >> testMonoRootBorderWidth [ 
+
+	| monoRoot |
+	
+	"a box model is the class view model, model is the class model, model is the class"
+	monoRoot := cnD viewModel rootModels detect: [ :each | each isMonoClass  ].
+	
+	self 
+		assert: (classBoxes detect: [ :aBox | aBox model model model name = monoRoot model name ]) border width
+		equals: CNBClassViewModel new rootBorderWidth 
+]
+
+{ #category : #tests }
 CNBRootModelTest >> testRootIsTrait [ 
 
 	
@@ -82,6 +95,34 @@ CNBRootModelTest >> testRootIsTrait [
 		equals: true.
 		
 	
+]
+
+{ #category : #tests }
+CNBRootModelTest >> testRootMonoTokenColor [
+	| monoToken tokenModels classVModels |
+	
+	monoToken 
+		:= cnD viewModel 
+					rootModels 
+						detect: [ :each | each dominantTokens isNotEmpty and: [ each isMonoToken ]].
+	tokenModels := monoToken tokenModels.
+	classVModels :=  tokenModels flatCollect: #belongers.
+
+	self 
+		assert: monoToken color 
+		equals: Color gray.
+		
+	self 
+		assert: (tokenModels collect: #color) asSet 
+		equals: {Color gray} asSet.
+		
+	self 
+		assert: (classVModels collect: #color) asSet 
+		equals: { Color gray } asSet.
+	
+	self 
+		assert: (classVModels collect: #token) first
+		equals: monoToken token
 ]
 
 { #category : #tests }
@@ -103,6 +144,7 @@ CNBRootModelTest >> testTestAsserterRoot [
 	self 
 		assert: testAsserterRoot name 
 		equals: TestAsserter name
+		
 ]
 
 { #category : #tests }
