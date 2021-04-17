@@ -77,6 +77,11 @@ ClassNamesBlueprint >> buildViewWith: aVisualizerClass [
 				model: self
 ]
 
+{ #category : #accessing }
+ClassNamesBlueprint >> canvas [ 
+	^ canvas
+]
+
 { #category : #initialization }
 ClassNamesBlueprint >> initialize [
 	super initialize.

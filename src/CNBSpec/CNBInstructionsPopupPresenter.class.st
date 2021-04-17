@@ -8,6 +8,8 @@ Class {
 CNBInstructionsPopupPresenter class >> instructions [ 
 
 	| leftClick rightClick |
+	
+	^ ''
 ]
 
 { #category : #initialization }

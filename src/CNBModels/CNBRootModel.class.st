@@ -102,17 +102,6 @@ CNBRootModel >> hasScatteredVocabularyInside: aPackageViewModel [
 	
 ]
 
-{ #category : #testing }
-CNBRootModel >> hasVeryScatteredVocabularyInside: aPackageModel [
-
-	| tokenInPackage selfClassModels |
-	selfClassModels := aPackageModel classModels select: [ :each | each root = self ].
-	tokenInPackage := (selfClassModels collect: #token) asSet.
-
-	^ (tokenInPackage size >= CNBScatteredVocabularyPattern new  scatteredThreshold)
-	
-]
-
 { #category : #accessing }
 CNBRootModel >> highlighted [
 	
