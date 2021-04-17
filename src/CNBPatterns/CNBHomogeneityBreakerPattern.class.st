@@ -19,9 +19,8 @@ CNBHomogeneityBreakerPattern class >> check: aTokenModel [
 { #category : #validation }
 CNBHomogeneityBreakerPattern >> check: aTokenModel [
 	
-	((aTokenModel innerRoots 
-		anySatisfy: [ :each | each isMonoClass ]) 
-			or: [ aTokenModel root isMonoToken ]) ifTrue: [ ^ false ].
+	(aTokenModel innerRoots 
+		anySatisfy: [ :each | each isMonoClass or: [ each isTrait ] ])  ifTrue: [ ^ false ].
 			
 	^ ((self checkMonoToken: aTokenModel) 
 		or: [ self checkMultiToken: aTokenModel ]).
@@ -31,6 +30,7 @@ CNBHomogeneityBreakerPattern >> check: aTokenModel [
 { #category : #checking }
 CNBHomogeneityBreakerPattern >> checkMonoToken: aTokenModel [
 	
+
 	^ ((aTokenModel 
 				root isMonoToken) and: [ aTokenModel 
 				outsidersRoots asSet hasOneElement "are not monoclasses" and: [ aTokenModel 
@@ -41,7 +41,7 @@ CNBHomogeneityBreakerPattern >> checkMonoToken: aTokenModel [
 
 { #category : #checking }
 CNBHomogeneityBreakerPattern >> checkMultiToken: aTokenModel [
-
+	
 	^ (aTokenModel 
 			root isMultiToken) and: [ 
 				(aTokenModel 

@@ -206,8 +206,8 @@ CNBRootModel >> removeAllSuchThat: aBlock [
 { #category : #removing }
 CNBRootModel >> removeToken: aTokenName [
 
-	 dominantTokens removeKey: aTokenName.
-	 tokensDictionary removeKey: aTokenName.
+	 dominantTokens removeKey: aTokenName ifAbsent: [  ].
+	 tokensDictionary removeKey: aTokenName ifAbsent: [  ].
 	self tokenModels removeAllSuchThat: [ :each | each name = aTokenName ].
 ]
 

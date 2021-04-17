@@ -87,6 +87,18 @@ CNBRootModelTest >> testMonoRootBorderWidth [
 ]
 
 { #category : #tests }
+CNBRootModelTest >> testRemoveToken [ 
+
+	self 
+		assert: ((testAsserterRoot tokenModels collect: #name) includes: 'Data')
+		equals: true.
+	self 
+		assert: ((testAsserterRoot removeToken: 'Data') 
+					tokenModels noneSatisfy: [ :each | each name = 'Data' ])
+		equals: true
+]
+
+{ #category : #tests }
 CNBRootModelTest >> testRootIsTrait [ 
 
 	
