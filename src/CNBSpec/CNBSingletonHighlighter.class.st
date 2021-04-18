@@ -38,6 +38,7 @@ CNBSingletonHighlighter >> generateDifferentColorThen: aColor [
 { #category : #accessing }
 CNBSingletonHighlighter >> goDarkerFor: anObject [
 
+	| alertedNodes |
 	super goDarkerFor: anObject.
 	(property isNotNil and: [ property isMultiToken ]) ifFalse: [ ^ self ].
 	nodesToBeHighlighted do: [ :each | 
@@ -53,7 +54,7 @@ CNBSingletonHighlighter >> goDarkerFor: anObject [
 			each border: (RSBorder new
 					 color: Color white;
 					 width: 10;
-					 yourself) ]
+					 yourself) ]. 
 ]
 
 { #category : #accessing }

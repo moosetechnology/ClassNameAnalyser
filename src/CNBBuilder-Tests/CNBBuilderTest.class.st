@@ -18,15 +18,11 @@ Class {
 { #category : #running }
 CNBBuilderTest >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
-	| lucenePath |
-	lucenePath := '/Users/nour/Downloads/Lucene2.mse'.
 	builder := CNBBuilder new.
 	mooseMooseModel := CNBMooseModelGenerator projectNameMatches: 'moose*-'.
 	cnbMoose := CNBClassNamesBlueprintGenerator projectNameMatches: 'moose*-'.
 	calypsoMooseModel := CNBMooseModelGenerator projectNameMatches: 'calypso*-'.
 	cnbCalypso := CNBClassNamesBlueprintGenerator projectNameMatches: 'calypso*-'.
-"	luceneMooseModel := MooseModelSample importProject: lucenePath.
-	cnbLucene := DMClassNamesBlueprintSample importProject: lucenePath."
 	moosePackages := mooseMooseModel allModelPackages.
 	mooseClasses := moosePackages flatCollect: #classes.
 

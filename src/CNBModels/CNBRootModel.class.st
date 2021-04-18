@@ -150,7 +150,11 @@ CNBRootModel >> isTrait [
 { #category : #accessing }
 CNBRootModel >> mainToken [ 
 
-	^ self biggestTokenName 
+	| classWithSimilatToken |
+	classWithSimilatToken :=
+	(subclasses anySatisfy: [ :aClassM | aClassM hasRootToken ]) ifFalse: [ ^ self biggestTokenName ].
+	
+	^ token
 	
 ]
 

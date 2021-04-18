@@ -33,17 +33,12 @@ CNBRootModelTest >> setUp [
 	"Put here a common initialization logic for tests"
 	self initializeCnD.
 	testAsserterRoot := cnD viewModel rootModels detectMax: [ :each | each size ].
-	rootModel 
-	:= CNBRootModel new.
-	rootModel  
-			tokensDictionary addAll: 
-			({ ('I' -> 3 ) . 
-			('Am'-> 5) . 
-			('An'-> 20). 
-			('Example'-> 2) } asDictionary); 
-			yourself.
+	
 	traitRoot := cnD viewModel rootModels detect: [ :each | each model name = 'MalTEdgeNode' ].
-	classBoxes := (cnD canvas deepNodes reject: [ :each | each hasChildren ]) select: [ :each | each hasModel ] .
+	
+	classBoxes 
+	:= (cnD canvas deepNodes 
+			reject: [ :each | each hasChildren ]) select: [ :each | each hasModel ] .
 		
 ]
 
@@ -61,16 +56,16 @@ CNBRootModelTest >> testBiggestRoot [
 CNBRootModelTest >> testBiggestTokenAssociation [ 
 
 	self 
-		assert: rootModel biggestTokenAssociation key
-		equals: rootModel mainToken 
+		assert: testAsserterRoot biggestTokenAssociation key
+		equals: testAsserterRoot  mainToken 
 ]
 
 { #category : #running }
 CNBRootModelTest >> testMainToken [
 
 	self 
-		assert: rootModel mainToken 
-		equals: 'An'
+		assert: testAsserterRoot mainToken 
+		equals: 'Test'
 ]
 
 { #category : #tests }

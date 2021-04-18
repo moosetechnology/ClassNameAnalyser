@@ -271,7 +271,7 @@ CNBTokenViewModel >> initialize [
 	super initialize.
 	
 	patterns := OrderedCollection new.
-	box when: RSMouseLeftClick do: [ self inspect ."onClickResetHighlighter" ]
+	box when: RSMouseLeftClick do: [ self onClickResetHighlighter]
 ]
 
 { #category : #accessing }
