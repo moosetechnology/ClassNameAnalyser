@@ -72,7 +72,8 @@ CNBPresenter class >> defaultSpec [
 						add: (SpBoxLayout newVertical 
 							add: 'Anti-Patterns' height: self labelHeight;
 							add: (SpBoxLayout newHorizontal 
-								add: #patternsDropList height: self buttonHeight;
+								spacing: 2;
+								add: #patternsDropList width: self buttonWidth + self buttonWidth ;
 								add: #patternsHelpButton width: self iconWidth;
 								yourself);
 							yourself) height: self labelHeight + self buttonHeight;
