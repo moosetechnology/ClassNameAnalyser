@@ -108,6 +108,6 @@ CNBNodesHighlighter >> resetHighlightedNodes [
 								border 
 									color: each model class new defaultBorderColor; 
 									width: each model class new defaultBorderWidth.
-								each model hidePatternDescription ].
+								"each model hidePatternDescription "].
 	
 ]

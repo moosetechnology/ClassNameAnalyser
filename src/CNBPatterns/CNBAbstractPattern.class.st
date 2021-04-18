@@ -90,8 +90,8 @@ CNBAbstractPattern >> selectAttributedNodes: nodesCollection [
 		:= tokenWithPatterns 
 				select: [ :each | (each model patterns collect: #name) includes: self name ].
 				
-	tokensToBeHighlighted 
-		do: [ :each | each model showDescriptionOf: self ].
+	"tokensToBeHighlighted 
+		do: [ :each | each model showDescriptionOf: self ]."
 		
 	nodesToBeHighlighted 
 		:= (tokensToBeHighlighted union: (tokensToBeHighlighted collect: #children)).

@@ -26,7 +26,8 @@ Class {
 		'mooseImporterForm',
 		'model',
 		'helpButton',
-		'instructionsButton'
+		'instructionsButton',
+		'patternsHelpButton'
 	],
 	#category : #CNBSpec
 }
@@ -70,7 +71,10 @@ CNBPresenter class >> defaultSpec [
 							yourself) "height: self buttonHeight + self buttonHeight + self buttonHeight";
 						add: (SpBoxLayout newVertical 
 							add: 'Anti-Patterns' height: self labelHeight;
-							add: #patternsDropList height: self buttonHeight;
+							add: (SpBoxLayout newHorizontal 
+								add: #patternsDropList height: self buttonHeight;
+								add: #patternsHelpButton width: self iconWidth;
+								yourself);
 							yourself) height: self labelHeight + self buttonHeight;
 					add: #reset height: self buttonHeight;
 					yourself) width: 180;
@@ -218,13 +222,25 @@ CNBPresenter >> initializeInstructionsButton [
 ]
 
 { #category : #initialization }
+CNBPresenter >> initializePatternsHelpButton [
+
+	patternsHelpButton := self newButton 
+		iconName: #help;
+		help: 'About the patterns';
+		action: [ self showPatternsHelp ];
+		yourself
+	
+]
+
+{ #category : #initialization }
 CNBPresenter >> initializePresenters [
 	super initializePresenters.
 	
 	self initializeCnbs. 
-	packages := OrderedCollection new.
 	self initializeHelpButton.
 	self initializeInstructionsButton.
+	self initializePatternsHelpButton.
+	packages := OrderedCollection new.
 	highlighter := CNBSingletonHighlighter instance.
 	allListItems := RBBrowserEnvironment default packages asArray sorted: [ :a : b | a name < b name ].
 	packagesListPresenter := CNBPackagesListPresenter new owner: self.
@@ -520,6 +536,16 @@ CNBPresenter >> showNodesAttributedTo: anObject [
 	highlighter nodesToBeHighlighted ifEmpty: [ ^ self onResetClicked ].
 
 	projectView canvas color: Color black whiter.
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> showPatternsHelp [
+
+	| patterns |
+	(patterns := self newPopover) 
+			relativeTo: patternsHelpButton;
+			presenter: (CNBPatternsPopupPresenter owner: patterns on: self);
+			popup
 ]
 
 { #category : #accessing }
