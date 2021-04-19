@@ -59,7 +59,7 @@ CNBRootModel >> changeColorTo: aColor [
 { #category : #accessing }
 CNBRootModel >> children [ 
 
-	^ ((subclasses collect: #root) includes: self model )
+	^ ((subclasses collect: #model) includes: self model )
 			ifTrue: [ subclasses size - 1 ]
 			ifFalse: [ subclasses size ]
 

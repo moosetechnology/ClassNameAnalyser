@@ -5,6 +5,7 @@ Class {
 	#name : #CNBAnalysisDescription,
 	#superclass : #Object,
 	#instVars : [
+		'model',
 		'scatteredVocabulary',
 		'confetti',
 		'homogeneous',
@@ -25,8 +26,16 @@ Class {
 	#category : #'CNB-Core'
 }
 
+{ #category : #'instance creation' }
+CNBAnalysisDescription class >> of: aCnD [
+
+	^ self new
+		model: aCnD 
+]
+
 { #category : #accessing }
 CNBAnalysisDescription >> averageChildren [
+
 	^ averageChildren
 ]
 

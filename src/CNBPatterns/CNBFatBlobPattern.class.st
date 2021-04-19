@@ -8,6 +8,18 @@ Class {
 	#category : #CNBPatterns
 }
 
+{ #category : #accessing }
+CNBFatBlobPattern class >> fatBlobSize [ 
+	^ self new 
+		fatBlobSize 
+]
+
+{ #category : #accessing }
+CNBFatBlobPattern class >> maxOutsiders [ 
+	^ self new
+		maxOutsiders 
+]
+
 { #category : #validation }
 CNBFatBlobPattern >> check: aTokenModel [
 
@@ -17,7 +29,9 @@ CNBFatBlobPattern >> check: aTokenModel [
 		ifTrue: [ 
 			^ (aTokenModel root isMonoToken not and: [ 
 				aTokenModel root isMonoClass not and: [ 
+				aTokenModel root isTrait not and: [  
 					aTokenModel outsiders size <= maxOutsiders ]
+				]
 				]) ]. 
 ]
 

@@ -30,17 +30,7 @@ CNBAnalysisDescriptionTest >> setUp [
 ]
 
 { #category : #tests }
-CNBAnalysisDescriptionTest >> testMaxChildren [
-
-	self
-		assert: (self class environment at:
-				 presenter suffixCnb analysisDescription maxChildrenRoot model
-					 name)
-		equals: TestAsserter
-]
-
-{ #category : #tests }
-CNBAnalysisDescriptionTest >> testNumClasses [ 
+CNBAnalysisDescriptionTest >> testClasses [ 
 
 	self 
 		assert: presenter suffixCnb analysisDescription classes 
@@ -51,7 +41,32 @@ CNBAnalysisDescriptionTest >> testNumClasses [
 ]
 
 { #category : #tests }
-CNBAnalysisDescriptionTest >> testNumPackages [ 
+CNBAnalysisDescriptionTest >> testFatBlob [ 
+
+	| fatBlobTokens |
+	fatBlobTokens 
+		:= presenter suffixCnb viewModel 
+					tokenModels select: [ :each | 
+						(each root isMultiToken and: [ 
+							(each belongers size >= CNBFatBlobPattern fatBlobSize ) and: [ 
+								each outsiders size <= CNBFatBlobPattern maxOutsiders ] ]) ].
+		self 
+			assert: presenter suffixCnb analysisDescription fatBlob 
+			equals: fatBlobTokens size
+]
+
+{ #category : #tests }
+CNBAnalysisDescriptionTest >> testMaxChildren [
+
+	self
+		assert: (self class environment at:
+				 presenter suffixCnb analysisDescription maxChildrenRoot model
+					 name)
+		equals: TestAsserter
+]
+
+{ #category : #tests }
+CNBAnalysisDescriptionTest >> testPackages [ 
 
 	self 
 		assert: presenter suffixCnb analysisDescription packages

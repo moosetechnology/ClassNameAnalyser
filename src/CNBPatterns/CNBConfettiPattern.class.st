@@ -9,6 +9,25 @@ Class {
 	#category : #CNBPatterns
 }
 
+{ #category : #accessing }
+CNBConfettiPattern class >> confettiPourcentage [
+	^ self new
+		confettiPourcentage
+]
+
+{ #category : #accessing }
+CNBConfettiPattern class >> confettiSize [
+	^ self new
+		confettiSize
+]
+
+{ #category : #accessing }
+CNBConfettiPattern class >> minColorful [
+
+	^ self new
+		minColorful
+]
+
 { #category : #initialization }
 CNBConfettiPattern >> check: aTokenModel [
 
@@ -57,6 +76,11 @@ CNBConfettiPattern >> initialize [
 	confettiSize := 3.
 	confettiPourcentage := 30. 
 	minColorful := 2
+]
+
+{ #category : #accessing }
+CNBConfettiPattern >> minColorful [
+	^ minColorful
 ]
 
 { #category : #accessing }

@@ -92,7 +92,7 @@ CNBBuilder class >> sort: aCollection [
 ]
 
 { #category : #adding }
-CNBBuilder >> addPatternsDescriptionsOf: aCnb to: analysisDescription [
+CNBBuilder >> addPatternsOccurencesIn: aCnb to: analysisDescription [
 
 	analysisDescription 
 		confetti: (self confettiCasesIn: aCnb);
@@ -125,7 +125,7 @@ CNBBuilder >> buildAnalysisDescriptionOf: aCnb [
 
 	| analysisDescription |
 	analysisDescription := CNBAnalysisDescription new.
-	self addPatternsDescriptionsOf: aCnb to: analysisDescription.
+	self addPatternsOccurencesIn: aCnb to: analysisDescription.
 	analysisDescription 
 		
 		tokens: aCnb viewModel tokenModels size;
