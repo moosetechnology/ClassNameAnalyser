@@ -18,11 +18,12 @@ CNBHelpPopupPresenter class >> help [
 			:= 'White color is to represent traits classes and solo classes that belong to no hierarchy'.
 			
 		grayColorMeaning
-			:= 'Gray is to represent hierarchies that follow a particular naming pattern which is the use of one and only token across the hierarchy.'.
+			:= 'Gray is to represent consistent hierarchies which use one and only one token throughout the inheritance tree.'.
+			
+			blackColorMeaning := 'The visualisations represents 24 main hierarchies, starting from the 25th hierarchy classes are colored in black'.
 			
 			colorsMeaning := 'Besides the white, gray and black colors. All the other colors represent each a hierarchy. Therefore, a color means a hierarchy of classes. These classes do not follow a particular naming schema and may hide misnaming, inconsistencies or bad conception'.
 			
-			blackColorMeaning := 'The visualisations represents 24 main hierarchies, starting from the 25th hierarchy classes are colored in black'.
 			
 			tokenColorMeaning := 'The color of the token boxes follows the color of the hierarchy that has the most use of the token.'.
 			
