@@ -144,7 +144,8 @@ CNBClassViewModel >> initialize [
 { #category : #testing }
 CNBClassViewModel >> isRoot [ 
 
-	^ root isMonoClass
+	root isTrait ifTrue: [ ^ false ].
+	^ root model = model model 
 ]
 
 { #category : #accessing }
