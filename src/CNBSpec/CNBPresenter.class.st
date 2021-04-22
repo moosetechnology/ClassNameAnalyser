@@ -163,6 +163,12 @@ CNBPresenter >> connectPresenters [
 	packagesListPresenter deleteAllButton action: [ self onDeleteAllClicked ].
 ]
 
+{ #category : #'import-export' }
+CNBPresenter >> exportTo: aFile [ 
+	
+	(CSVGenerator of: (self selectedCnB analysisDescription) ) generateTo: aFile fullName 
+]
+
 { #category : #actions }
 CNBPresenter >> fixColors [
 
@@ -331,20 +337,16 @@ CNBPresenter >> onAddClicked [
 { #category : #actions }
 CNBPresenter >> onAnalyseClicked [
 
-	| activatedRadioButton root selectedCnb | 
+	| root | 
 	packages ifNotEmpty: [ 
 		              model := CNBModelGenerator packagesNamed:
 			              (packages collect: #name) ].
 	model ifNil: [ ^ self ].			
-
-	activatedRadioButton := self radioButtons detect: [ :each | each state ].
 	
 	rootSelector text ifNotEmpty: [ root := rootSelector text ]. 
 	self projectModel: model with: root.
 	
-	selectedCnb := (self projectAtRadioButton: activatedRadioButton).
-	
-	projectView script: [ :canvas | selectedCnb on: canvas ].
+	projectView script: [ :canvas | self selectedCnB on: canvas ].
 ]
 
 { #category : #actions }
@@ -511,6 +513,15 @@ CNBPresenter >> selectAll [
 	packagesList listPresenter items selectAll
 ]
 
+{ #category : #'as yet unclassified' }
+CNBPresenter >> selectedCnB [ 
+
+	| activatedRadioButton |
+	activatedRadioButton := self radioButtons detect: [ :each | each state ].
+	
+	^ (self projectAtRadioButton: activatedRadioButton).
+]
+
 { #category : #actions }
 CNBPresenter >> showHelp [
 	| help |
@@ -561,7 +572,7 @@ CNBPresenter >> toolbarActions [
 	^ CmCommandGroup forSpec
 		register: (CmCommandGroup forSpec
 			register: (MPImportMSECommand forSpecContext: self);
-			"register: (CNBSaveCommand forSpecContext: self);"
+			register: (CNBExportCSVCommand forSpecContext: self);
 			yourself);
 		yourself
 
