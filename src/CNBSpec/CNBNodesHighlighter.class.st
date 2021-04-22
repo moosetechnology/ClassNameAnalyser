@@ -79,7 +79,7 @@ CNBNodesHighlighter >> nodesToHighlightFor: anObject [
 
 { #category : #initialization }
 CNBNodesHighlighter >> reset [
-	
+	nodesToBeHighlighted ifNil: [ ^ nil ].
 	self resetHighlightedNodes.
 	self resetDarkerNodes.
 
