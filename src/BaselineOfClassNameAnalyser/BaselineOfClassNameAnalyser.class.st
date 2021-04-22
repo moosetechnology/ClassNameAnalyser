@@ -10,6 +10,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	spec for: #common do: [
 		"External dependencies"
 		self loadCSVGenerator: spec.
+		self loadFileDialog: spec.
 		"Packages"
 		spec
 			package: 'CNBFeatureSelector';
@@ -35,9 +36,9 @@ BaselineOfClassNameAnalyser >> loadCSVGenerator: spec [
 ]
 
 { #category : #'as yet unclassified' }
-BaselineOfClassNameAnalyser >> loadFileDialog: spec [
+BaselineOfClassNameAnalyser >> loadFileDialog: spec [ 
 
-		spec
+	spec
 			baseline: 'FileDialog'
 			with: [ spec repository: 'github://Ducasse/file-dialog/repository' ].
 ]
