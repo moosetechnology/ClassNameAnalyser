@@ -15,7 +15,7 @@ PackageViewModelTests >> setUp [
 
 	viewModel := CNBViewModel new withSuffix.
 	classNamesDistribution := ((ClassNamesBlueprint new model: mooseModel) withSuffix) startBuilding.
-	mooseModel := CNBMooseModelGenerator projectNameMatches: 'moose-*'. 
+	mooseModel := CNBModelGenerator projectNameMatches: 'moose-*'. 
 	scatteredPackage := classNamesDistribution viewModel packageViewModels detect: [ :each | each name = 'Moose-SmalltalkImporter' ].
 	
 ]

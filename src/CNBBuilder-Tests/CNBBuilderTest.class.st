@@ -19,9 +19,9 @@ Class {
 CNBBuilderTest >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
 	builder := CNBBuilder new.
-	mooseMooseModel := CNBMooseModelGenerator projectNameMatches: 'moose*-'.
+	mooseMooseModel := CNBModelGenerator projectNameMatches: 'moose*-'.
 	cnbMoose := CNBClassNamesBlueprintGenerator projectNameMatches: 'moose*-'.
-	calypsoMooseModel := CNBMooseModelGenerator projectNameMatches: 'calypso*-'.
+	calypsoMooseModel := CNBModelGenerator projectNameMatches: 'calypso*-'.
 	cnbCalypso := CNBClassNamesBlueprintGenerator projectNameMatches: 'calypso*-'.
 	moosePackages := mooseMooseModel allModelPackages.
 	mooseClasses := moosePackages flatCollect: #classes.

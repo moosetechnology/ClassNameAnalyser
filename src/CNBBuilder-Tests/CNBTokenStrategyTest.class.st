@@ -8,7 +8,7 @@ Class {
 CNBTokenStrategyTest >> testBuildViewModelClasses [
 	| mooseModel setting viewModel |
 	
-	mooseModel := CNBMooseModelGenerator projectNameMatches: 'moose-*'.
+	mooseModel := CNBModelGenerator projectNameMatches: 'moose-*'.
 	setting := CNBSettings new rootClass: Object; token: #suffix.
 	viewModel := CNBViewModel new model: mooseModel; setting: setting.
 	
@@ -22,7 +22,7 @@ CNBTokenStrategyTest >> testBuildViewModelClasses [
 CNBTokenStrategyTest >> testBuildViewModelPAckages [
 	| mooseModel setting viewModel |
 	
-	mooseModel := CNBMooseModelGenerator projectNameMatches: 'moose-*'.
+	mooseModel := CNBModelGenerator projectNameMatches: 'moose-*'.
 	setting := CNBSettings new rootClass: Object; token: #suffix.
 	viewModel := CNBViewModel new model: mooseModel; setting: setting.
 	
@@ -36,7 +36,7 @@ CNBTokenStrategyTest >> testBuildViewModelPAckages [
 CNBTokenStrategyTest >> testBuildViewModelToken [
 	| mooseModel setting viewModel |
 	
-	mooseModel := CNBMooseModelGenerator projectNameMatches: 'moose-*'.
+	mooseModel := CNBModelGenerator projectNameMatches: 'moose-*'.
 	setting := CNBSettings new rootClass: Object; token: #suffix.
 	viewModel := CNBViewModel new model: mooseModel; setting: setting.
 	

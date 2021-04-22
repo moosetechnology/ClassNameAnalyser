@@ -324,7 +324,7 @@ CNBPresenter >> onAddClicked [
 	packagesListPresenter packagesList listPresenter refresh.
 	
 	model := packages isNotEmpty ifTrue: [ 
-		              CNBMooseModelGenerator packagesNamed:
+		              CNBModelGenerator packagesNamed:
 			              (packages collect: #name) ]
 ]
 
@@ -333,7 +333,7 @@ CNBPresenter >> onAnalyseClicked [
 
 	| activatedRadioButton root selectedCnb | 
 	packages ifNotEmpty: [ 
-		              model := CNBMooseModelGenerator packagesNamed:
+		              model := CNBModelGenerator packagesNamed:
 			              (packages collect: #name) ].
 	model ifNil: [ ^ self ].			
 

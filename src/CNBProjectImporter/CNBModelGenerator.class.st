@@ -1,11 +1,11 @@
 Class {
-	#name : #CNBMooseModelGenerator,
+	#name : #CNBModelGenerator,
 	#superclass : #Object,
 	#category : #CNBProjectImporter
 }
 
 { #category : #'as yet unclassified' }
-CNBMooseModelGenerator class >> importProject: aPath [ 
+CNBModelGenerator class >> importProject: aPath [ 
 
 	^ aPath asFileReference 
 		readStreamDo: [ :stream | FamixJavaModel importFromMSEStream: stream ].
@@ -14,7 +14,7 @@ CNBMooseModelGenerator class >> importProject: aPath [
 ]
 
 { #category : #'as yet unclassified' }
-CNBMooseModelGenerator class >> packagesNamed: aCollection [
+CNBModelGenerator class >> packagesNamed: aCollection [
 	| model  |
 
 	model := FamixStModel new.
@@ -37,7 +37,7 @@ CNBMooseModelGenerator class >> packagesNamed: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
-CNBMooseModelGenerator class >> projectNameMatches: aString [ 
+CNBModelGenerator class >> projectNameMatches: aString [ 
 	| model  |
 
 	model := FamixStModel new.

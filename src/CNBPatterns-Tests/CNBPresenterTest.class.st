@@ -17,7 +17,7 @@ Class {
 { #category : #tests }
 CNBPresenterTest >> changeToCalypso [ 
 
-	mooseModel := CNBMooseModelGenerator projectNameMatches: 'Calypso-*'.
+	mooseModel := CNBModelGenerator projectNameMatches: 'Calypso-*'.
 	projectCnb := (
 		(ClassNamesBlueprint new 
 			model: mooseModel) 
@@ -31,7 +31,7 @@ CNBPresenterTest >> changeToCalypso [
 CNBPresenterTest >> setUp [
 	super setUp.
 	
-	mooseModel := CNBMooseModelGenerator projectNameMatches: 'moose-*'.
+	mooseModel := CNBModelGenerator projectNameMatches: 'moose-*'.
 	projectCnb := (
 		(ClassNamesBlueprint new 
 			model: mooseModel) 

@@ -8,19 +8,19 @@ Class {
 CNBClassNamesBlueprintGenerator class >> importProject: aPath [
 
 	^ ClassNamesBlueprint new
-		model: (CNBMooseModelGenerator importProject: aPath)
+		model: (CNBModelGenerator importProject: aPath)
 ]
 
 { #category : #'as yet unclassified' }
 CNBClassNamesBlueprintGenerator class >> packagesNamed: aCollection [ 
 
 	^ ClassNamesBlueprint new
-		model: (CNBMooseModelGenerator packagesNamed: aCollection) 
+		model: (CNBModelGenerator packagesNamed: aCollection) 
 ]
 
 { #category : #'as yet unclassified' }
 CNBClassNamesBlueprintGenerator class >> projectNameMatches: aString [ 
 
 	^ ClassNamesBlueprint new
-		model: (CNBMooseModelGenerator projectNameMatches: aString) 
+		model: (CNBModelGenerator projectNameMatches: aString) 
 ]

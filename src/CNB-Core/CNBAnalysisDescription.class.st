@@ -5,7 +5,7 @@ Class {
 	#name : #CNBAnalysisDescription,
 	#superclass : #Object,
 	#instVars : [
-		'model',
+		'modelName',
 		'scatteredVocabulary',
 		'confetti',
 		'homogeneous',
@@ -161,6 +161,16 @@ CNBAnalysisDescription >> maxDepthRoot [
 CNBAnalysisDescription >> maxDepthRoot: aRoot [
 
 	maxDepthRoot := aRoot 
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> modelName [
+	^ modelName
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> modelName: aName [ 
+	modelName := aName
 ]
 
 { #category : #accessing }

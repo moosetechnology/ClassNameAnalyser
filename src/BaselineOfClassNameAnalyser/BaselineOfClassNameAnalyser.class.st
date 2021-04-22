@@ -9,7 +9,7 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 	<baseline>
 	spec for: #common do: [
 		"External dependencies"
-
+		self loadCSVGenerator: spec.
 		"Packages"
 		spec
 			package: 'CNBFeatureSelector';
@@ -24,6 +24,14 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 			package: 'CNBSpec' with: [ spec requires: #('CNB-Core') ];
 			package: 'CNBVisualization' with: [ spec requires: #('CNBProjectImporter') ].
 				 ].
+]
+
+{ #category : #'as yet unclassified' }
+BaselineOfClassNameAnalyser >> loadCSVGenerator: spec [
+
+		spec
+			baseline: 'CSVGenerator'
+			with: [ spec repository: 'github://NourDjihan/CSVGenerator/src' ].
 ]
 
 { #category : #'as yet unclassified' }

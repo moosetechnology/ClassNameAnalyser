@@ -125,9 +125,12 @@ CNBBuilder >> buildAnalysisDescriptionOf: aCnb [
 
 	| analysisDescription |
 	analysisDescription := CNBAnalysisDescription new.
+	aCnb viewModel packageViewModels 
+	ifEmpty: [ aCnb analysisDescription: nil  ]
+	ifNotEmpty: [  
 	self addPatternsOccurencesIn: aCnb to: analysisDescription.
 	analysisDescription 
-		
+		modelName: aCnb viewModel model name;
 		tokens: aCnb viewModel tokenModels size;
 		classes: aCnb viewModel classViewModels size;
 		packages: aCnb viewModel packageViewModels size;
@@ -139,6 +142,7 @@ CNBBuilder >> buildAnalysisDescriptionOf: aCnb [
 		averageChildren: (aCnb viewModel rootModels collect: [ :each | each children ]) average asInteger.
 		
 	aCnb analysisDescription: analysisDescription 
+	]
 		
 ]
 
