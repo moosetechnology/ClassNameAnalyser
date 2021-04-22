@@ -130,7 +130,7 @@ CNBBuilder >> buildAnalysisDescriptionOf: aCnb [
 	ifNotEmpty: [  
 	self addPatternsOccurencesIn: aCnb to: analysisDescription.
 	analysisDescription 
-		modelName: aCnb viewModel model name;
+		project: aCnb viewModel model name;
 		tokens: aCnb viewModel tokenModels size;
 		classes: aCnb viewModel classViewModels size;
 		packages: aCnb viewModel packageViewModels size;

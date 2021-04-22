@@ -342,10 +342,14 @@ CNBPresenter >> onAnalyseClicked [
 		              model := CNBModelGenerator packagesNamed:
 			              (packages collect: #name) ].
 	model ifNil: [ ^ self ].			
+	rootSelector text ifNotEmpty: [ root := rootSelector text ].
 	
-	rootSelector text ifNotEmpty: [ root := rootSelector text ]. 
+	packages 
+		ifNotEmpty: [ model name: packagesList filterInputPresenter text ]
+		ifEmpty: [ model name: model rootFolder basenameWithoutExtension ]. 
+		
 	self projectModel: model with: root.
-	
+
 	projectView script: [ :canvas | self selectedCnB on: canvas ].
 ]
 
