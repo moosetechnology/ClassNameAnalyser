@@ -127,7 +127,7 @@ CNBPresenter >> bothCnb [
 { #category : #initialization }
 CNBPresenter >> buildToolbar [ 
 
-	^ self toolbarActions 
+	^ self toolbarActions  
 		asToolbarPresenterWith: [ :presenter | 
 			presenter 
 				displayMode: SpToolbarDisplayMode modeIconAndLabel;
@@ -517,7 +517,7 @@ CNBPresenter >> selectAll [
 	packagesList listPresenter items selectAll
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CNBPresenter >> selectedCnB [ 
 
 	| activatedRadioButton |
@@ -535,7 +535,7 @@ CNBPresenter >> showHelp [
 		popup
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 CNBPresenter >> showInstructions [
 
 	| instructions |
@@ -554,7 +554,7 @@ CNBPresenter >> showNodesAttributedTo: anObject [
 	projectView canvas color: Color black whiter.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 CNBPresenter >> showPatternsHelp [
 
 	| patterns |
@@ -575,7 +575,8 @@ CNBPresenter >> toolbarActions [
 
 	^ CmCommandGroup forSpec
 		register: (CmCommandGroup forSpec
-			register: (MPImportMSECommand forSpecContext: self);
+			register: ((MPImportMSECommand forSpecContext:  self) 
+						iconName: #mooseImportMse; yourself);
 			register: (CNBExportCSVCommand forSpecContext: self);
 			yourself);
 		yourself

@@ -1,3 +1,6 @@
+"
+I am responsible for exporting the CSV file of the Analysis description of the ClassNames Distribution.
+"
 Class {
 	#name : #CNBExportCSVCommand,
 	#superclass : #CmCommand,
@@ -23,12 +26,20 @@ CNBExportCSVCommand >> category [
 
 { #category : #executing }
 CNBExportCSVCommand >> execute [ 
-	| openFileDialog |
 	
-	openFileDialog 
-		:= FDOpenFileDialog new whenSelected: [ :selectedFile |	context exportTo: selectedFile ].
-	
-	openFileDialog openWithSpec  
+	| file |
+    file := UIManager default
+                chooseForSaveFileReference: 'Chose export destination'
+                extensions: #( 'csv' )
+                path: 'properties.csv'.
+    file ifNotNil: [ 
+        context exportTo: file.
+        UIManager default
+            inform: 'Entities exported.
+				Click to show in folder'
+            actionOnClick: [ file openInOSFileBrowser ] ]
+
+
 ]
 
 { #category : #accessing }

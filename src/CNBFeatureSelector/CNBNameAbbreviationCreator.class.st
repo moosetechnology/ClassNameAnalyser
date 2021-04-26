@@ -29,6 +29,7 @@ CNBNameAbbreviationCreator >> abbreviate: aName until: aNumber [
 
 { #category : #splitjoin }
 CNBNameAbbreviationCreator >> devide: aCollection until: aNumber [
+
 	| firstPartTokens secondPartTokens |
 	aCollection size > aNumber
 		ifTrue: [ firstPartTokens := aCollection copyFrom: 1 to: aNumber.
