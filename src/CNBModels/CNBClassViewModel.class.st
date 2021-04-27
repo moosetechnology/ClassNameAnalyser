@@ -70,12 +70,14 @@ CNBClassViewModel >> createBox [
 
 	| popUpResult |
 
-	popUpResult := self model model print. 
+	popUpResult := self model model print.
+	
 	^ super 
 			createBox
 				width: self width;
 				height: self height;
-				popupText: popUpResult.
+				popupText: [ self popUpContents: popUpResult ]
+				
 
 
 ]
@@ -181,6 +183,15 @@ CNBClassViewModel >> monoTraitSiblingsIn: aTokenViewModel [
 		^ monoTraitClasses 
 				select: [ :aClass | (aClass tokens anySatisfy: [ :aToken | self tokens includes: aToken ] ) ].
 						
+]
+
+{ #category : #initialization }
+CNBClassViewModel >> popUpContents: popUpResult [
+	
+	^ popUpResult asText allBold
+				
+
+
 ]
 
 { #category : #printing }
