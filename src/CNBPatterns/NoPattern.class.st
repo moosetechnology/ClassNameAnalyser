@@ -1,3 +1,6 @@
+"
+I represent no pattern.
+"
 Class {
 	#name : #NoPattern,
 	#superclass : #CNBAbstractPattern,

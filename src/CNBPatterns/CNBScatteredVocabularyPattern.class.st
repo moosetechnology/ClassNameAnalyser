@@ -1,3 +1,7 @@
+"
+Anti-Pattern: Scattered Vocabulary, my hierarchy uses and dominates several tokens, 
+	it is not consistently named/does not follow a particular naming pattern.
+"
 Class {
 	#name : #CNBScatteredVocabularyPattern,
 	#superclass : #CNBAbstractPattern,

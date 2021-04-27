@@ -1,3 +1,6 @@
+"
+Superclass of all patterns.
+"
 Class {
 	#name : #CNBAbstractPattern,
 	#superclass : #Object,
@@ -75,7 +78,7 @@ CNBAbstractPattern >> name [
 	self subclassResponsibility 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'accessing selection' }
 CNBAbstractPattern >> selectAttributedNodes: nodesCollection [
 	
 	| tokens tokenWithPatterns tokensToBeHighlighted nodesToBeHighlighted |

@@ -1,3 +1,6 @@
+"
+I am responsible for clustering the packages and provoquing the both token strategy.
+"
 Class {
 	#name : #CNBClusterer,
 	#superclass : #Object,

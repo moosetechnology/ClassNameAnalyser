@@ -26,7 +26,7 @@ CNBAnalysisDescriptionTest >> setUp [
 	presenter := CNBPresenter new.
 	presenter packagesList selectItems: (RPackageOrganizer default packages select: [ :p | 'moose-*' match: p name ]).
 	presenter onAddClicked.
-	presenter onAnalyseClicked.
+	presenter onVisualizeClicked.
 ]
 
 { #category : #tests }

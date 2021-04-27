@@ -1,3 +1,6 @@
+"
+I am a singleton responsible for the highlight
+"
 Class {
 	#name : #CNBSingletonHighlighter,
 	#superclass : #CNBNodesHighlighter,

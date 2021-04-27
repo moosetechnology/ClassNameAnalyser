@@ -1,3 +1,6 @@
+"
+I am an abstract model of the Class Names Distribution models.
+"
 Class {
 	#name : #CNBAbstractModel,
 	#superclass : #Object,

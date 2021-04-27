@@ -1,3 +1,10 @@
+"
+Pattern: I am a Homogeneous , 
+	I am the only token my dominant hierarchy uses, 
+	therefore my hierarchy is consistenty named.
+	However, you may want to consider that other hierarchies might also be using me, 
+	an indicator of such case: more than one root class in my box
+"
 Class {
 	#name : #CNBHomogeneousPattern,
 	#superclass : #CNBAbstractPattern,

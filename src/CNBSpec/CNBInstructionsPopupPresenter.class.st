@@ -1,3 +1,6 @@
+"
+I am the popup of the instructions in the tool.
+"
 Class {
 	#name : #CNBInstructionsPopupPresenter,
 	#superclass : #CNBPopupPresenter,

@@ -1,3 +1,6 @@
+"
+I am the help popup of the ClassNames Distribution tool.
+"
 Class {
 	#name : #CNBHelpPopupPresenter,
 	#superclass : #CNBPopupPresenter,

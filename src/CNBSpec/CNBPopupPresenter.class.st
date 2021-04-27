@@ -1,3 +1,6 @@
+"
+I am a popup presenter.
+"
 Class {
 	#name : #CNBPopupPresenter,
 	#superclass : #MiPresenter,

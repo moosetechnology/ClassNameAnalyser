@@ -1,3 +1,6 @@
+"
+I am the presenter for showing packages, adding and deleting all in the tool.
+"
 Class {
 	#name : #CNBPackagesListPresenter,
 	#superclass : #SpPresenter,

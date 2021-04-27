@@ -1,3 +1,7 @@
+"
+'Anti-Pattern: Confetti; 
+	multiple hierarchies use this suffix, my suffixes are not used much in other packages'.
+"
 Class {
 	#name : #CNBConfettiPattern,
 	#superclass : #CNBAbstractPattern,
@@ -89,7 +93,7 @@ CNBConfettiPattern >> name [
 	^ name
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CNBConfettiPattern >> outsidersPourcentageIn: aTokenModel [
 
  ^ ((aTokenModel outsiders size * 100) / aTokenModel size) asFloat.

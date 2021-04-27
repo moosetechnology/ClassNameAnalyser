@@ -1,3 +1,13 @@
+"
+I am responsible for highlighting nodes according to a property. 
+
+
+self highlight: nodesCollection accordingTo: an object.
+The object needs to implement the method 'selectAttributedNodes: nodes which returns the nodes to be highlighted.
+
+
+
+"
 Class {
 	#name : #CNBNodesHighlighter,
 	#superclass : #Object,

@@ -1,3 +1,6 @@
+"
+I generate the FamixJavaModel from an MSE file or a pharo project
+"
 Class {
 	#name : #CNBModelGenerator,
 	#superclass : #Object,
@@ -6,9 +9,13 @@ Class {
 
 { #category : #'as yet unclassified' }
 CNBModelGenerator class >> importProject: aPath [ 
-
-	^ aPath asFileReference 
-		readStreamDo: [ :stream | FamixJavaModel importFromMSEStream: stream ].
+	| model |
+	aPath asFileReference 
+		readStreamDo: [ :stream | 
+			model := FamixJavaModel importFromMSEStream: stream.
+			model name: model rootFolder basenameWithoutExtension.
+			 ].	
+		^ model
 
 	
 ]
@@ -54,6 +61,7 @@ CNBModelGenerator class >> projectNameMatches: aString [
 		model: model;
 		addFromPackagesMatching: [:p | aString match: p name];
 		run.
+		model name: aString.
 		^ model
 
 	

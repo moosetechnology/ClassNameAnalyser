@@ -1,3 +1,6 @@
+"
+I generate a ClassNames Blueprint.
+"
 Class {
 	#name : #CNBClassNamesBlueprintGenerator,
 	#superclass : #Object,

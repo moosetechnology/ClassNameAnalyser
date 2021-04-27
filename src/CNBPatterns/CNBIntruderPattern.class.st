@@ -1,3 +1,8 @@
+"
+Anti-Pattern: Intruder; 
+	I represent classes that share the same suffix with other hierarchies.
+	I may point to a misconception or bad naming 
+"
 Class {
 	#name : #CNBIntruderPattern,
 	#superclass : #CNBAbstractPattern,

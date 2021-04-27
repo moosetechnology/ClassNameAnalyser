@@ -1,3 +1,6 @@
+"
+I am the drop list of the patterns predefined.
+"
 Class {
 	#name : #CNBSpecElementDropList,
 	#superclass : #SpDropListPresenter,

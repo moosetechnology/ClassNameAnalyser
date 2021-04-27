@@ -1,3 +1,6 @@
+"
+I am the presenter of the ClassNames Distribution tool.
+"
 Class {
 	#name : #CNBPresenter,
 	#superclass : #SpPresenter,
@@ -5,7 +8,6 @@ Class {
 		'patternsDropList',
 		'packageSearch',
 		'projectView',
-		'analyseButton',
 		'prefix',
 		'suffix',
 		'both',
@@ -27,20 +29,20 @@ Class {
 		'model',
 		'helpButton',
 		'instructionsButton',
-		'patternsHelpButton'
+		'patternsHelpButton',
+		'visualizeButton'
 	],
 	#category : #CNBSpec
 }
 
 { #category : #accessing }
 CNBPresenter class >> defaultExtent [
-	^ 1000@600
+	^ 1000@700
 ]
 
 { #category : #specs }
 CNBPresenter class >> defaultSpec [ 
-	^
-	
+	^	
 	SpBoxLayout newVertical 
 			spacing: 1;
 			add: (SpBoxLayout newHorizontal 
@@ -55,19 +57,19 @@ CNBPresenter class >> defaultSpec [
 						add: (SpBoxLayout newVertical
 							add: #packagesList;
 							yourself) height: 250;
-						add: (SpBoxLayout newHorizontal 
-							add: #showPackagesButton height: self buttonHeight;
-							add: #addButton height: self buttonHeight;
-							yourself) height: self buttonHeight;
 						add: (SpBoxLayout newVertical 
-							add: 'Root class' height: self labelHeight;
-							add: #rootSelector height: self buttonHeight;
-							yourself) "height: self labelHeight + self buttonHeight";
+							spacing: 2; 
+							add: #addButton height: self buttonHeight;
+							add: #showPackagesButton height: self buttonHeight;
+							yourself) height: self buttonHeight + self buttonHeight + 2;
 						add: (SpBoxLayout newVertical
+							spacing: 5;
 							add: #suffix height: self labelHeight;
 							add: #prefix height: self labelHeight;
 							add: #both height: self labelHeight;
-							add: #analyseButton width: self buttonWidth;
+							add: 'Root class' height: self labelHeight;
+							add: #rootSelector height: self labelHeight;
+							add: #visualizeButton width: self buttonWidth;
 							yourself) "height: self buttonHeight + self buttonHeight + self buttonHeight";
 						add: (SpBoxLayout newVertical 
 							add: 'Anti-Patterns' height: self labelHeight;
@@ -77,13 +79,9 @@ CNBPresenter class >> defaultSpec [
 								add: #patternsHelpButton width: self iconWidth;
 								yourself);
 							yourself) height: self labelHeight + self buttonHeight;
-					add: #reset height: self buttonHeight;
+					add: #reset width: self buttonWidth;
 					yourself) width: 180;
 					add: (SpBoxLayout newVertical
-							"add: (SpBoxLayout newHorizontal
-							add: '';
-							add: #packageSearch width: 200;
-							yourself) height: self buttonHeight;"
 							add: #projectView;
 							yourself);
 					yourself);
@@ -149,7 +147,7 @@ CNBPresenter >> changePackageBorderWidth: aPackageName [
 CNBPresenter >> connectPresenters [
 	super connectPresenters.
 	
-	analyseButton action: [ self onAnalyseClicked  ]. 
+	visualizeButton action: [ self onVisualizeClicked  ]. 
 	addButton action: [ self onAddClicked ].
 	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self showNodesAttributedTo: aPattern ].
 	reset action: [ self onResetClicked ].
@@ -263,7 +261,7 @@ CNBPresenter >> initializePresenters [
 				bindKeyCombination: $a meta 
 				toAction: [ packagesList selectItems: packagesList items ].
 				
-	addButton := self newButton label: 'Add'.
+	addButton := self newButton label: 'Add packages'.
 	showPackagesButton := self newButton label: 'Show Packages'.
 	reset 
 		:= self newButton label: 'Reset'. 
@@ -284,7 +282,7 @@ CNBPresenter >> initializePresenters [
 	
 	suffix associatedRadioButtons: { prefix . both }.
 	
-	analyseButton := self newButton label: 'Analyse'.
+	visualizeButton := self newButton label: 'Visualize'.
 	patternsDropList := CNBSpecElementDropList new.
 	
 	packageSearch := self newSearchInput
@@ -332,25 +330,6 @@ CNBPresenter >> onAddClicked [
 	model := packages isNotEmpty ifTrue: [ 
 		              CNBModelGenerator packagesNamed:
 			              (packages collect: #name) ]
-]
-
-{ #category : #actions }
-CNBPresenter >> onAnalyseClicked [
-
-	| root | 
-	packages ifNotEmpty: [ 
-		              model := CNBModelGenerator packagesNamed:
-			              (packages collect: #name) ].
-	model ifNil: [ ^ self ].			
-	rootSelector text ifNotEmpty: [ root := rootSelector text ].
-	
-	packages 
-		ifNotEmpty: [ model name: packagesList filterInputPresenter text ]
-		ifEmpty: [ model name: model rootFolder basenameWithoutExtension ]. 
-		
-	self projectModel: model with: root.
-
-	projectView script: [ :canvas | self selectedCnB on: canvas ].
 ]
 
 { #category : #actions }
@@ -440,6 +419,25 @@ CNBPresenter >> onUpdateClicked [
 	
 	
 	
+]
+
+{ #category : #actions }
+CNBPresenter >> onVisualizeClicked [
+
+	| root | 
+	packages ifNotEmpty: [ 
+		              model := CNBModelGenerator packagesNamed:
+			              (packages collect: #name) ].
+	model ifNil: [ ^ self ].			
+	rootSelector text ifNotEmpty: [ root := rootSelector text ].
+	
+	packages 
+		ifNotEmpty: [ model name: packagesList filterInputPresenter text ]
+		ifEmpty: [ model name: model rootFolder basenameWithoutExtension ]. 
+		
+	self projectModel: model with: root.
+
+	projectView script: [ :canvas | self selectedCnB on: canvas ].
 ]
 
 { #category : #accessing }
@@ -577,7 +575,8 @@ CNBPresenter >> toolbarActions [
 		register: (CmCommandGroup forSpec
 			register: ((MPImportMSECommand forSpecContext:  self) 
 						iconName: #mooseImportMse; yourself);
-			register: (CNBExportCSVCommand forSpecContext: self);
+			register: ((CNBExportCSVCommand forSpecContext: self)
+							iconName: #smallExport; yourself);
 			yourself);
 		yourself
 

@@ -1,3 +1,8 @@
+"
+Pattern: Fat Blob; usually I am the only one of my kind per package. 
+	I hold several classes of my hierarchy which use the same token. 
+	Thus, my hierarchy follows a naming pattern
+"
 Class {
 	#name : #CNBFatBlobPattern,
 	#superclass : #CNBAbstractPattern,

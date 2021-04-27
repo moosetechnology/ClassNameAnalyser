@@ -1,3 +1,6 @@
+"
+I am the presenter containing the Class Names Distribution patterns descriptions.
+"
 Class {
 	#name : #CNBPatternsPopupPresenter,
 	#superclass : #CNBPopupPresenter,

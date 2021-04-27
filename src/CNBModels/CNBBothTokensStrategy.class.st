@@ -1,3 +1,6 @@
+"
+I am the strategy followed when selecting either the suffix or prefix; The principe is to group each class in her prefix AND suffix box. Calculate siblings in each box (siblings are the classes which belong to the same hierarchy), the class stays where it has more siblings and is deleted from the other boxes.
+"
 Class {
 	#name : #CNBBothTokensStrategy,
 	#superclass : #Object,

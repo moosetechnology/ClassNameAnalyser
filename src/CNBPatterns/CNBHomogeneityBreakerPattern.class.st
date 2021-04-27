@@ -1,3 +1,9 @@
+"
+Pattern: Homogeneity-Breaker;
+	do not confuse me with the intruder anti-pattern.
+	The same tokens I hold can be found elsewhere in other packages, 
+	therefore I may mark common words in the project
+"
 Class {
 	#name : #CNBHomogeneityBreakerPattern,
 	#superclass : #CNBAbstractPattern,

@@ -1,3 +1,6 @@
+"
+I am the superclass of the view models (models containing visualisation informations)
+"
 Class {
 	#name : #CNBAbstractViewModel,
 	#superclass : #CNBAbstractModel,
