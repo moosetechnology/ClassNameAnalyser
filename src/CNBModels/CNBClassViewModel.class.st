@@ -211,8 +211,12 @@ CNBClassViewModel >> printOn: aStream [
 { #category : #'events-processing' }
 CNBClassViewModel >> processEvent: evt [
 
-	^ self model model exists ifTrue: [ (Smalltalk image classNamed: model model name) browse ] ifFalse: [ model model inspect ]
-	
+	^ self 
+		model 
+			model exists 
+				ifTrue: [ 
+					(Smalltalk image classNamed: model model name) browse ] 
+				ifFalse: [ model model inspect ]
 ]
 
 { #category : #accessing }

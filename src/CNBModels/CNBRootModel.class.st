@@ -150,9 +150,18 @@ CNBRootModel >> isTrait [
 { #category : #accessing }
 CNBRootModel >> mainToken [ 
 
-	| classWithSimilatToken |
+	| classWithSimilatToken theRoot subclassesWithoutRoot |
+	theRoot := subclasses detect: [ :each | each model name = self model name ] ifNone: [  ].
+	
+	subclassesWithoutRoot 
+		:= (subclasses includes: theRoot) 
+				ifTrue: [ subclasses difference: { theRoot } ] 
+				ifFalse: [ subclasses ].
+				
 	classWithSimilatToken :=
-	(subclasses anySatisfy: [ :aClassM | aClassM hasRootToken ]) ifFalse: [ ^ self biggestTokenName ].
+	(subclasses
+		anySatisfy: [ :aClassM | aClassM hasRootToken ]) 
+		ifFalse: [ ^ self biggestTokenName ].
 	
 	^ token
 	
