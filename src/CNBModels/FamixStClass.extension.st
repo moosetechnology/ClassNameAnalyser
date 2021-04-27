@@ -42,7 +42,15 @@ FamixStClass >> isTrait [
 { #category : #'*CNBModels' }
 FamixStClass >> print [ 
 
-	^ (CNBClassHierarchyPrinter new forClass: (Smalltalk image classNamed: self name)) print  
+	^ (CNBClassHierarchyPrinter new forClass: (Smalltalk image classNamed: self name)) print
+	
+]
+
+{ #category : #'*CNBModels' }
+FamixStClass >> printWithBold: aStringOrText [
+
+	^ (CNBClassHierarchyPrinter new 
+			forClass: (Smalltalk image classNamed: self name)) printWithBoldPharoClass: aStringOrText 
 	
 ]
 

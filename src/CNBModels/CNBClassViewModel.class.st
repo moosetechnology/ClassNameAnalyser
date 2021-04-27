@@ -68,15 +68,20 @@ CNBClassViewModel >> create [
 { #category : #initialization }
 CNBClassViewModel >> createBox [ 
 
-	| popUpResult |
+	| popUpResult popup |
 
-	popUpResult := self model model print.
-	
+	popUpResult := self model model printWithBold: self root model name.
+	popup := RSPopup new.
+	popup := RSMorphicPopup new
+    morphBuilder: [:m | 
+        "model not need it in this part by now"
+        popUpResult asTextMorph.
+        ].
 	^ super 
 			createBox
 				width: self width;
 				height: self height;
-				popupText: [ self popUpContents: popUpResult ]
+				addInteraction: popup.
 				
 
 
@@ -103,7 +108,7 @@ CNBClassViewModel >> hideBoxName [
 { #category : #interaction }
 CNBClassViewModel >> hideClassDescription [ 
 
-	self box removeInteractionIfPresent: RSPopup 
+	self box removeInteractionIfPresent: RSPopup.
 ]
 
 { #category : #accessing }
@@ -243,7 +248,7 @@ CNBClassViewModel >> showBoxName [
 { #category : #'as yet unclassified' }
 CNBClassViewModel >> showClassDescription [
 		
-	self box popupText: self model model print
+	self box popupText: (self model model printWithRoot: self root name).
 		
 ]
 

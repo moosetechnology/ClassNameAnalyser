@@ -4,8 +4,31 @@ I print the hierarchy of the class or FamixJavaClass.
 Class {
 	#name : #CNBClassHierarchyPrinter,
 	#superclass : #ClassHierarchyPrinter,
+	#instVars : [
+		'text'
+	],
 	#category : #'CNB-Core'
 }
+
+{ #category : #shapes }
+CNBClassHierarchyPrinter >> arrow [
+	| arrow |
+	arrow := '------->'. 
+	^ arrow asText addAttribute: (TextEmphasis bold) from: 1 to:  arrow size
+]
+
+{ #category : #initialization }
+CNBClassHierarchyPrinter >> initialize [ 
+	super initialize.
+	
+	text := Text new.
+]
+
+{ #category : #'instance creation' }
+CNBClassHierarchyPrinter >> newLine [ 
+
+	^ String cr asText
+]
 
 { #category : #'public API' }
 CNBClassHierarchyPrinter >> print [
@@ -13,21 +36,17 @@ CNBClassHierarchyPrinter >> print [
 	of all of the subclasses and superclasses of the class."
 	
 	theClass ifNotNil: [ 
-		showSuperclasses 
-			ifTrue: [ self printSuperclasses ].
-			stream nextPutAll: '------->'.	
-			self printClass: theClass.
-			self printSubclasses ].
-	^ stream contents
+		 	self printSuperclasses.
+			self printTheClass.
+			self printSubclasses ]
 ]
 
 { #category : #printing }
 CNBClassHierarchyPrinter >> printClass: aClass [
-	"Print a single line in the printout."
-	stream tab: index.
-	stream nextPutAll: aClass name.
-	
-	stream cr
+
+	text ifNotEmpty: [ text append: self newLine ].
+	(aClass = theClass) ifTrue: [	text append: self arrow	].
+	text append: aClass name.
 ]
 
 { #category : #'public API' }
@@ -36,12 +55,9 @@ CNBClassHierarchyPrinter >> printFamixJava [
 	of all of the subclasses and superclasses of the class."
 	
 	theClass ifNotNil: [ 
-		showSuperclasses 
-			ifTrue: [ self printFamixJavaSuperclasses  ].
-			stream nextPutAll: '------->'.	
-			self printClass: theClass.
-			self printFamixJavaSubclasses ].
-	^ stream contents
+		self printFamixJavaSuperclasses.
+		self printTheClass.
+		self printFamixJavaSubclasses ].
 ]
 
 { #category : #printing }
@@ -51,18 +67,20 @@ CNBClassHierarchyPrinter >> printFamixJavaSubclasses [
 
 	(theClass subInheritances collect: #source)
 		do: [ :aClass | 
-			self printClass: aClass.
-			index := index + 1 ].
-	stream cr.	"to spot the requested class."
+			self printClass: aClass ].
 ]
 
 { #category : #printing }
 CNBClassHierarchyPrinter >> printFamixJavaSuperclasses [
 
-	self 
-		superclasses reverseDo: [ :aClass | self printClass: aClass ].
+	 self superclasses
+		ifNotEmpty: [ 
+			self superclasses 
+				reverseDo: [ :aClass | self printClass: aClass ].
+				 ].
 		
-	stream cr "to spot the requested class."
+
+		
 	
 ]
 
@@ -77,6 +95,45 @@ CNBClassHierarchyPrinter >> printSubclasses [
 		asSortedCollection: [ :c1 :c2 | c1 name <= c2 name ].
 	sortedSubclasses do: [ :subclass | 
 			self printClass: subclass ]
+]
+
+{ #category : #printing }
+CNBClassHierarchyPrinter >> printTheClass [ 
+
+	self printClass: theClass.
+
+]
+
+{ #category : #printing }
+CNBClassHierarchyPrinter >> printWithBoldJavaClass: aStringOrText [ 
+
+	| ranges theRange textAsString |
+	self printFamixJava.
+	textAsString := text asString.
+	ranges := textAsString allRangesOfSubstring: aStringOrText.
+	theRange := ranges first.
+	
+    text 
+       addAttribute: (TextEmphasis bold)
+       from: theRange first
+       to: theRange last.
+	^ text
+]
+
+{ #category : #printing }
+CNBClassHierarchyPrinter >> printWithBoldPharoClass: aStringOrText [ 
+
+	| ranges theRange textAsString |
+	self print.
+	textAsString := text asString.
+	ranges := textAsString allRangesOfSubstring: aStringOrText.
+	theRange := ranges first.
+	
+    text 
+       addAttribute: (TextEmphasis bold)
+       from: theRange first
+       to: theRange last.
+	^ text
 ]
 
 { #category : #accessing }
