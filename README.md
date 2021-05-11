@@ -5,7 +5,7 @@
 
 ## Installation
 
-In order to install this project, execute (Do-it, Ctrl+D) the following script in the Playground of your Moose 8 Image
+In order to install this project, execute (Do-it, Ctrl+D) the following script in the Playground of your Moose 9 Image
 
 ```Smalltalk
 Metacello new
