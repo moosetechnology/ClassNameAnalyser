@@ -13,7 +13,7 @@ CNBHelpPopupPresenter class >> help [
 	
 	stream := (String new: 300) writeStream.
 	pause := '*********************************'.
-	 definition := 'ClassNames Distrubution is a package-centered visualisation of the class tokens (suffix, prefix, both) distribution across packages, from an iheritance perspective. The visualisation is based on boxes and colors'.
+	 definition := 'ClassNames Distribution is a package-centered visualisation of the class tokens (suffix, prefix, both) distribution across packages, from an inheritance perspective. The visualisation is based on boxes and colors'.
 		
 		boxes := 'Class boxes are placed inside token boxes inside package boxes.'.
 		
