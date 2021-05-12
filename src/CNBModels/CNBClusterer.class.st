@@ -45,34 +45,27 @@ CNBClusterer >> remove: aClass from: tokens [
 
 { #category : #'as yet unclassified' }
 CNBClusterer >> selectWinnerOf: aClass outOf: classTokens [
+selectWinnerOf: aClass outOf: classTokens
 
-	| potentialWinner otherPotentialWinners potentialWinnersNames classRoot winningTokenName one two |
-	potentialWinner 
-		:= classTokens detectMax: [ :each | (aClass siblingsIn: each) size ].
-		
-		" siblings"
-	otherPotentialWinners 
-		:= (classTokens difference: { potentialWinner }) asSet select: [ :each | 
-			one := (aClass siblingsIn: each) .
-			two := (aClass siblingsIn: potentialWinner).
-			one size = two size  ].
-		
-		"same size of siblings"
+	| firstTokenOuccurences secondTokenOccurences siblingsInFirstToken siblingsInSecondToken tokenNames |
 	
-	otherPotentialWinners 
-		ifNotEmpty: 
-		[ 	
-			classRoot := aClass root. 
-			otherPotentialWinners add: potentialWinner.
-			
-			potentialWinnersNames := (classRoot tokensDictionary associations 
-						select: [ :each | ((otherPotentialWinners collect: #name) includes: each key) ]).
-			
-			winningTokenName  
-				:= (potentialWinnersNames
-						detectMax: [ :each | each value ]) key.
-			
-			^ classTokens detect: [ :each | each name = winningTokenName ] 
-		].
-	^ potentialWinner
+	firstTokenOuccurences := aClass root occurrencesOf: classTokens first name.
+	siblingsInFirstToken := aClass siblingsIn: classTokens first.
+	secondTokenOccurences := aClass root occurrencesOf: classTokens second name.
+	siblingsInSecondToken := aClass siblingsIn: classTokens second.
+	tokenNames := classTokens collect: #name.
+	
+	(firstTokenOuccurences = secondTokenOccurences)
+		ifTrue: [ 
+			(siblingsInFirstToken size > siblingsInSecondToken size)
+			ifTrue: [ ^ classTokens first ] 
+			ifFalse: [ ^ classTokens second ]
+			 ]
+		ifFalse: [  ^ classTokens detect: [ :aToken | 
+				aToken name = 
+				((aClass root tokensDictionary associations
+				select: [ :each | tokenNames
+					includes: each key ]) asDictionary detectMaxAssociation key) ]
+			]
+		
 ]
