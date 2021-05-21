@@ -185,6 +185,13 @@ CNBRootModel >> model: aClass [
 	model := aClass
 ]
 
+{ #category : #testing }
+CNBRootModel >> occurrencesOf: aTokenName [
+	^ tokensDictionary at: aTokenName 
+
+	
+]
+
 { #category : #accessing }
 CNBRootModel >> packages [ 
 

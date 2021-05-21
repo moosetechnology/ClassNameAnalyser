@@ -45,7 +45,33 @@ CNBClusterer >> remove: aClass from: tokens [
 
 { #category : #'as yet unclassified' }
 CNBClusterer >> selectWinnerOf: aClass outOf: classTokens [
-selectWinnerOf: aClass outOf: classTokens
+
+	| firstTokenOuccurences secondTokenOccurences siblingsInFirstToken siblingsInSecondToken tokenNames |
+	
+	firstTokenOuccurences := aClass root occurrencesOf: classTokens first name.
+	siblingsInFirstToken := aClass siblingsIn: classTokens first.
+	secondTokenOccurences := aClass root occurrencesOf: classTokens second name.
+	siblingsInSecondToken := aClass siblingsIn: classTokens second.
+	tokenNames := classTokens collect: #name.
+	
+	(firstTokenOuccurences = secondTokenOccurences)
+		ifTrue: [ 
+			(siblingsInFirstToken size > siblingsInSecondToken size)
+			ifTrue: [ ^ classTokens first ] 
+			ifFalse: [ ^ classTokens second ]
+			 ]
+		ifFalse: [  ^ classTokens detect: [ :aToken | 
+				aToken name = 
+				((aClass root tokensDictionary associations
+				select: [ :each | tokenNames
+					includes: each key ]) asDictionary detectMaxAssociation key) ]
+			]
+		
+]
+
+{ #category : #'as yet unclassified' }
+CNBClusterer >> selectWinnerOf: aClass outOf: classTokens
+selectWinnerOf: aClass outOf: classTokens [
 
 	| firstTokenOuccurences secondTokenOccurences siblingsInFirstToken siblingsInSecondToken tokenNames |
 	
