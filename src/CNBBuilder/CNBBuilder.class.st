@@ -134,9 +134,9 @@ CNBBuilder >> buildAnalysisDescriptionOf: aCnb [
 		tokens: aCnb viewModel tokenModels size;
 		classes: aCnb viewModel classViewModels size;
 		packages: aCnb viewModel packageViewModels size;
-		maxDepthRoot: (aCnb viewModel rootModels detectMax: [ :aRoot | aRoot maxDepth ]); 
+		maxDepthRoot: (aCnb viewModel rootModels detectMax: [ :aRoot | aRoot maxDepth ]) name; 
 		maxDepth: (aCnb viewModel rootModels detectMax: [ :aRoot | aRoot maxDepth ]) maxDepth;
-		maxChildrenRoot: (aCnb viewModel rootModels detectMax: [ :root | root children ]);
+		maxChildrenRoot: (aCnb viewModel rootModels detectMax: [ :root | root children ]) name;
 		maxChildren: (aCnb viewModel rootModels detectMax: [ :root | root children ]) children;
 		averageDepth: (aCnb viewModel rootModels collect: [ :each | each maxDepth ]) average asInteger;
 		averageChildren: (aCnb viewModel rootModels collect: [ :each | each children ]) average asInteger.

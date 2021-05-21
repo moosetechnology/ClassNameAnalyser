@@ -139,6 +139,12 @@ CNBFeatureSelector >> initialize [
 	filterSpecialChars := true.
 ]
 
+{ #category : #removing }
+CNBFeatureSelector >> removeAllDigitsAndSpecialCharsFrom: aName [
+
+	^ filterer removeAllDigitsAndSpecialCharsFrom: aName 
+]
+
 { #category : #selection }
 CNBFeatureSelector >> selectPrefixFrom: tokens [
 

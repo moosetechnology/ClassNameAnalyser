@@ -8,10 +8,32 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+CNBClassNamesBlueprintGenerator class >> buildProjects: aCollectionOfNames from: aPathDirectory [
+
+	^ aCollectionOfNames collect: [ :aProjectName | | mseFileName|
+		mseFileName := (CNBFeatureSelector new removeAllDigitsAndSpecialCharsFrom: aProjectName), '.mse'.
+		ClassNamesBlueprint new
+		model: (CNBModelGenerator importProject: aPathDirectory,aProjectName,'/',mseFileName); startBuilding ]
+
+
+]
+
+{ #category : #'as yet unclassified' }
 CNBClassNamesBlueprintGenerator class >> importProject: aPath [
 
 	^ ClassNamesBlueprint new
 		model: (CNBModelGenerator importProject: aPath)
+]
+
+{ #category : #'as yet unclassified' }
+CNBClassNamesBlueprintGenerator class >> importProjects: aCollectionOfNames from: aPathDirectory [
+
+	^ aCollectionOfNames collect: [ :aProjectName | | mseFileName|
+		mseFileName := (CNBFeatureSelector new removeAllDigitsAndSpecialCharsFrom: aProjectName), '.mse'.
+		ClassNamesBlueprint new
+		model: (CNBModelGenerator importProject: aPathDirectory,aProjectName,'/',mseFileName ) ]
+
+
 ]
 
 { #category : #'as yet unclassified' }
