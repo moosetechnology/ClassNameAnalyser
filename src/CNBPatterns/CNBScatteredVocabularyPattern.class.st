@@ -36,7 +36,7 @@ CNBScatteredVocabularyPattern >> initialize [
 	'Anti-Pattern: Scattered Vocabulary, my hierarchy uses and dominates several tokens, 
 	it is not consistently named/does not follow a particular naming pattern.'.
 	name := #'Scattered Vocabulary'.
-	minClassSize := 1.
+	minClassSize := 2.
 	minTokenSize := 2.
 	threshold := 10
 ]

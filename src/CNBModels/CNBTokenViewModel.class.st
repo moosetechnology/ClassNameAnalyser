@@ -170,10 +170,7 @@ CNBTokenViewModel >> checkScatteredVocabulary [
 	| scatteredVocabularyPattern |
 	
 	scatteredVocabularyPattern := CNBScatteredVocabularyPattern new.
-	
-	(size >= scatteredVocabularyPattern minClassSize)
-		ifFalse: [ ^ false ].
-		
+
 	(scatteredVocabularyPattern check: self) ifTrue: [ patterns add: scatteredVocabularyPattern. ]
 ]
 
@@ -271,7 +268,8 @@ CNBTokenViewModel >> initialize [
 	super initialize.
 	
 	patterns := OrderedCollection new.
-	box when: RSMouseLeftClick do: [ self onClickResetHighlighter]
+	box when: RSMouseLeftClick do: [ self onClickResetHighlighter].
+	box when: RSMouseRightClick do: [ self inspect ]
 ]
 
 { #category : #accessing }

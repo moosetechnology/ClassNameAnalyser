@@ -90,15 +90,18 @@ CNBRootModel >> dominantTokens: association [
 ]
 
 { #category : #testing }
-CNBRootModel >> hasScatteredVocabularyInside: aPackageViewModel [
+CNBRootModel >> hasScatteredVocabularyInside: aPackageModel [
 
-	 | electedTokens |
+	 | electedTokens mainScatteredToken |
 	
-	electedTokens := tokenModels 
-								select: [ :each | each package name = aPackageViewModel name
-										and: [ each size >= CNBScatteredVocabularyPattern new  minClassSize ]].
+	electedTokens 
+	:= tokenModels 
+			select: [ :each | each package = aPackageModel ].
+	mainScatteredToken 
+	:= electedTokens 
+				detect: [ :each | each size >= CNBScatteredVocabularyPattern new minClassSize ] ifNone: [ nil ].
 	
-	^ (electedTokens size >= CNBScatteredVocabularyPattern new minTokenSize)
+	^ (electedTokens size >= CNBScatteredVocabularyPattern new minTokenSize) and: [ mainScatteredToken isNotNil ]
 	
 ]
 
