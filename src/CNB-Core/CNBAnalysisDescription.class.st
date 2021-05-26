@@ -21,7 +21,10 @@ Class {
 		'maxChildrenRoot',
 		'maxDepthRoot',
 		'averageDepth',
-		'averageChildren'
+		'averageChildren',
+		'multiHierarchies',
+		'monoClasses',
+		'traitClasses'
 	],
 	#category : #'CNB-Core'
 }
@@ -164,6 +167,28 @@ CNBAnalysisDescription >> maxDepthRoot: aRoot [
 ]
 
 { #category : #accessing }
+CNBAnalysisDescription >> monoClasses [ 
+
+	^ monoClasses 
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> monoClasses: aSize [
+
+	monoClasses := aSize 
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> multiHierarchies [
+	^ multiHierarchies
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> multiHierarchies: aSize [
+	multiHierarchies := aSize 
+]
+
+{ #category : #accessing }
 CNBAnalysisDescription >> packages [
 	^ packages
 ]
@@ -215,4 +240,14 @@ CNBAnalysisDescription >> tokens [
 { #category : #accessing }
 CNBAnalysisDescription >> tokens: aNumber [
 	tokens := aNumber 
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> traitClasses [
+	^ traitClasses
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> traitClasses: aSize [
+	traitClasses := aSize
 ]

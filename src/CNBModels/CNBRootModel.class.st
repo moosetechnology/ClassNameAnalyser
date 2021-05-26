@@ -21,7 +21,8 @@ Class {
 		'tokenPosition',
 		'maxDepth',
 		'highlighted',
-		'mainToken'
+		'mainToken',
+		'hasScatteredVocabulary'
 	],
 	#category : #CNBModels
 }
@@ -89,19 +90,27 @@ CNBRootModel >> dominantTokens: association [
 	dominantTokens add: association
 ]
 
+{ #category : #accessing }
+CNBRootModel >> hasScatteredVocabulary [
+
+	^ tokenModels anySatisfy: [ :each | (each patterns collect: #name) includes: 'Scattered Vocabulary' ]
+]
+
 { #category : #testing }
 CNBRootModel >> hasScatteredVocabularyInside: aPackageModel [
 
-	 | electedTokens mainScatteredToken |
-	
-	electedTokens 
-	:= tokenModels 
-			select: [ :each | each package = aPackageModel ].
+	 | electedTokens mainScatteredToken thresholdPercentage |
+	self isMultiToken ifFalse: [ ^false ].
+	electedTokens := tokenModels select: [ :each | each package = aPackageModel ].
 	mainScatteredToken 
-	:= electedTokens 
-				detect: [ :each | each size >= CNBScatteredVocabularyPattern new minClassSize ] ifNone: [ nil ].
-	
-	^ (electedTokens size >= CNBScatteredVocabularyPattern new minTokenSize) and: [ mainScatteredToken isNotNil ]
+		:= electedTokens detect: [ :each | 
+				thresholdPercentage := (CNBScatteredVocabularyPattern new threshold * 100)/each size.
+					"each size >= CNBScatteredVocabularyPattern new minClassSize" 
+						
+						each outsidersPercentage < CNBScatteredVocabularyPattern new threshold  ] 
+				ifNone: [ nil ].
+		^ (electedTokens size >= CNBScatteredVocabularyPattern new minTokenSize) 
+		and: [ mainScatteredToken isNotNil ].
 	
 ]
 
@@ -123,7 +132,8 @@ CNBRootModel >> initialize [
 	
 	tokensDictionary := Dictionary new.
 	dominantTokens := Dictionary new.
-	highlighted := false
+	highlighted := false.
+	hasScatteredVocabulary := false.
 ]
 
 { #category : #testing }

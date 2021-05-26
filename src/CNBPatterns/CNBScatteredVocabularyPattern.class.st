@@ -38,7 +38,7 @@ CNBScatteredVocabularyPattern >> initialize [
 	name := #'Scattered Vocabulary'.
 	minClassSize := 2.
 	minTokenSize := 2.
-	threshold := 10
+	threshold := 30
 ]
 
 { #category : #accessing }

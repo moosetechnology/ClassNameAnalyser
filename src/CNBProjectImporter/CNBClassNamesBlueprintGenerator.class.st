@@ -11,9 +11,11 @@ Class {
 CNBClassNamesBlueprintGenerator class >> buildProjects: aCollectionOfNames from: aPathDirectory [
 
 	^ aCollectionOfNames collect: [ :aProjectName | | mseFileName|
-		mseFileName := (CNBFeatureSelector new removeAllDigitsAndSpecialCharsFrom: aProjectName), '.mse'.
-		ClassNamesBlueprint new
-		model: (CNBModelGenerator importProject: aPathDirectory,aProjectName,'/',mseFileName); startBuilding ]
+		mseFileName 
+			:= (CNBFeatureSelector new removeAllDigitsAndSpecialCharsFrom: aProjectName), '.mse'.
+			
+		(ClassNamesBlueprint new
+		model: (CNBModelGenerator importProject: aPathDirectory,aProjectName,'/',mseFileName); withBoth) startBuilding ]
 
 
 ]

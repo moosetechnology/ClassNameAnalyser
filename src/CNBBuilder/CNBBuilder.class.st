@@ -139,7 +139,9 @@ CNBBuilder >> buildAnalysisDescriptionOf: aCnb [
 		maxChildrenRoot: (aCnb viewModel rootModels detectMax: [ :root | root children ]) name;
 		maxChildren: (aCnb viewModel rootModels detectMax: [ :root | root children ]) children;
 		averageDepth: (aCnb viewModel rootModels collect: [ :each | each maxDepth ]) average asInteger;
-		averageChildren: (aCnb viewModel rootModels collect: [ :each | each children ]) average asInteger.
+		averageChildren: (aCnb viewModel rootModels collect: [ :each | each children ]) average asInteger;
+		multiHierarchies: (aCnb viewModel rootModels select: [ :each | each isMultiToken ] ) size; 
+		monoClasses: (aCnb viewModel rootModels select: [ :each | each isMonoClass ])size.
 		
 	aCnb analysisDescription: analysisDescription 
 	]

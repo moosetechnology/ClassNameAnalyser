@@ -57,8 +57,8 @@ CNBFeatureSelector >> extractPrefixFrom: aName [
 	
 	newName := filterer removeAllDigitsAndSpecialCharsFrom: aName.
 	tokens := self tokenize: newName.
-	prefix := self selectPrefixFrom: tokens.
-	"prefix := tokens detect: [ :each | each size > 2 ] ifNone: [ self selectPrefixFrom: tokens ]."
+	"prefix := self selectPrefixFrom: tokens."
+	prefix := tokens detect: [ :each | each size > 2 ] ifNone: [ self selectPrefixFrom: tokens ].
 	prefix := self stem: prefix.
 	^ prefix 
 ]

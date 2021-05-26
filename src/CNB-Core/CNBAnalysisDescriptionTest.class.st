@@ -59,9 +59,8 @@ CNBAnalysisDescriptionTest >> testFatBlob [
 CNBAnalysisDescriptionTest >> testMaxChildren [
 
 	self
-		assert: (self class environment at:
-				 presenter suffixCnb analysisDescription maxChildrenRoot model
-					 name)
+		assert: (Smalltalk image classNamed:
+				 presenter suffixCnb analysisDescription maxChildrenRoot)
 		equals: TestAsserter
 ]
 
@@ -71,4 +70,10 @@ CNBAnalysisDescriptionTest >> testPackages [
 	self 
 		assert: presenter suffixCnb analysisDescription packages
 		equals: (presenter model allPackages reject: #isStub) size
+]
+
+{ #category : #tests }
+CNBAnalysisDescriptionTest >> testScatteredVocabulary [
+
+	
 ]

@@ -269,7 +269,7 @@ CNBTokenViewModel >> initialize [
 	
 	patterns := OrderedCollection new.
 	box when: RSMouseLeftClick do: [ self onClickResetHighlighter].
-
+	box when: RSMouseRightClick do: [ self inspect].
 ]
 
 { #category : #accessing }
@@ -291,6 +291,12 @@ CNBTokenViewModel >> onClickResetHighlighter [
 CNBTokenViewModel >> outsiders [
 
 	^ self classViewModels select: [ :each | each root ~= root ].
+]
+
+{ #category : #'as yet unclassified' }
+CNBTokenViewModel >> outsidersPercentage [ 
+
+	^ (self outsiders size * 100) / self size 
 ]
 
 { #category : #accessing }
