@@ -24,7 +24,10 @@ Class {
 		'averageChildren',
 		'multiHierarchies',
 		'monoClasses',
-		'traitClasses'
+		'traitClasses',
+		'multiClasses',
+		'monoTokenClasses',
+		'multiTokenClasses'
 	],
 	#category : #'CNB-Core'
 }
@@ -167,25 +170,39 @@ CNBAnalysisDescription >> maxDepthRoot: aRoot [
 ]
 
 { #category : #accessing }
-CNBAnalysisDescription >> monoClasses [ 
-
-	^ monoClasses 
+CNBAnalysisDescription >> monoClasses [
+	^ monoClasses
 ]
 
 { #category : #accessing }
 CNBAnalysisDescription >> monoClasses: aSize [
 
-	monoClasses := aSize 
+	monoClasses := aSize
 ]
 
 { #category : #accessing }
-CNBAnalysisDescription >> multiHierarchies [
+CNBAnalysisDescription >> monoTokenClasses [
+	^ monoTokenClasses
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> monoTokenClasses: aSize [
+	monoTokenClasses := aSize 
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> multiTokenClasses: aSize [
+	multiTokenClasses := aSize
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> multiTokenHierarchies [
 	^ multiHierarchies
 ]
 
 { #category : #accessing }
-CNBAnalysisDescription >> multiHierarchies: aSize [
-	multiHierarchies := aSize 
+CNBAnalysisDescription >> multiTokenHierarchies: aSize [
+	multiHierarchies := aSize
 ]
 
 { #category : #accessing }
