@@ -45,11 +45,14 @@ CNBViewModel >> buildRoassal3View [
 { #category : #accessing }
 CNBViewModel >> classViewModels [ 
 
-	^ (
+	| classes |
+	classes := (
 			(packageViewModels 
 				flatCollect: #tokenViewModels) 
 					flatCollect: [ :each | each classViewModels ]
-		)
+		).
+	
+	^ classes
 ]
 
 { #category : #accessing }

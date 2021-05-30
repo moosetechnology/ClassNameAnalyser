@@ -25,9 +25,10 @@ Class {
 		'multiHierarchies',
 		'monoClasses',
 		'traitClasses',
-		'multiClasses',
 		'monoTokenClasses',
-		'multiTokenClasses'
+		'multiTokenClasses',
+		'sharedTokens',
+		'averageTokensPerMultiHierarchy'
 	],
 	#category : #'CNB-Core'
 }
@@ -58,6 +59,17 @@ CNBAnalysisDescription >> averageDepth [
 { #category : #accessing }
 CNBAnalysisDescription >> averageDepth: aNumber [
 	averageDepth := aNumber
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> averageTokensPerMultiHierarchy [
+	^ averageTokensPerMultiHierarchy
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> averageTokensPerMultiHierarchy: aNum [
+
+	averageTokensPerMultiHierarchy := aNum
 ]
 
 { #category : #accessing }
@@ -236,6 +248,16 @@ CNBAnalysisDescription >> scatteredVocabulary [
 CNBAnalysisDescription >> scatteredVocabulary: aNumber [
 	
 	scatteredVocabulary := aNumber 
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> sharedTokens [
+	^ sharedTokens
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> sharedTokens: aNumder [
+	sharedTokens := aNumder 
 ]
 
 { #category : #accessing }

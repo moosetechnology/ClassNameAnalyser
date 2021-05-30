@@ -114,6 +114,12 @@ CNBRootModel >> hasScatteredVocabularyInside: aPackageModel [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+CNBRootModel >> hierarchyTokens [
+
+	^ subclasses collect: #token
+]
+
 { #category : #accessing }
 CNBRootModel >> highlighted [
 	
@@ -313,8 +319,7 @@ CNBRootModel >> tokenPosition: suffixOrPrefix [
 
 { #category : #accessing }
 CNBRootModel >> tokens [ 
-	
-		| featureSelector prefix suffix |
+	| featureSelector prefix suffix |
 	featureSelector := CNBFeatureSelector new.
 	prefix := featureSelector extractPrefixFrom: name.
 	suffix := featureSelector extractSuffixFrom: name.
