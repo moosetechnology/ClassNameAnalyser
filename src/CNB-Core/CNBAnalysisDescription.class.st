@@ -22,13 +22,16 @@ Class {
 		'maxDepthRoot',
 		'averageDepth',
 		'averageChildren',
-		'multiHierarchies',
 		'monoClasses',
 		'traitClasses',
 		'monoTokenClasses',
 		'multiTokenClasses',
-		'sharedTokens',
-		'averageTokensPerMultiHierarchy'
+		'averageTokensPerMultiHierarchy',
+		'monoTokenHierarchies',
+		'suspisciousTokens',
+		'hierarchies',
+		'multiTokenHierarchies',
+		'suspisciousTokensPercentage'
 	],
 	#category : #'CNB-Core'
 }
@@ -102,6 +105,16 @@ CNBAnalysisDescription >> fatBlob [
 CNBAnalysisDescription >> fatBlob: aNumber [
 	
 	fatBlob := aNumber 
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> hierarchies [ 
+	^ hierarchies
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> hierarchies: aNumber [
+	hierarchies := aNumber
 ]
 
 { #category : #accessing }
@@ -203,18 +216,33 @@ CNBAnalysisDescription >> monoTokenClasses: aSize [
 ]
 
 { #category : #accessing }
+CNBAnalysisDescription >> monoTokenHierarchies [
+	^ monoTokenHierarchies
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> monoTokenHierarchies: aNumber [
+	monoTokenHierarchies := aNumber
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> multiTokenClasses [
+	^ multiTokenClasses
+]
+
+{ #category : #accessing }
 CNBAnalysisDescription >> multiTokenClasses: aSize [
 	multiTokenClasses := aSize
 ]
 
 { #category : #accessing }
 CNBAnalysisDescription >> multiTokenHierarchies [
-	^ multiHierarchies
+	^ multiTokenHierarchies
 ]
 
 { #category : #accessing }
 CNBAnalysisDescription >> multiTokenHierarchies: aSize [
-	multiHierarchies := aSize
+	multiTokenHierarchies := aSize
 ]
 
 { #category : #accessing }
@@ -251,16 +279,6 @@ CNBAnalysisDescription >> scatteredVocabulary: aNumber [
 ]
 
 { #category : #accessing }
-CNBAnalysisDescription >> sharedTokens [
-	^ sharedTokens
-]
-
-{ #category : #accessing }
-CNBAnalysisDescription >> sharedTokens: aNumder [
-	sharedTokens := aNumder 
-]
-
-{ #category : #accessing }
 CNBAnalysisDescription >> snowFlakes [
 	^ snowFlakes
 ]
@@ -269,6 +287,27 @@ CNBAnalysisDescription >> snowFlakes [
 CNBAnalysisDescription >> snowFlakes: aNumber [
 	
 	snowFlakes := aNumber 
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> suspisciousTokens [
+	^ suspisciousTokens
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> suspisciousTokens: aNumder [
+	suspisciousTokens := aNumder 
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> suspisciousTokensPercentage [
+	^ ((suspisciousTokens * 100)/tokens) asInteger.
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> suspisciousTokensPercentage: aNumber [
+
+	suspisciousTokensPercentage := aNumber 
 ]
 
 { #category : #accessing }
