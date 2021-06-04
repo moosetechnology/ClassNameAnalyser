@@ -27,6 +27,8 @@ CNBHomogeneityBreakerPattern >> check: aTokenModel [
 	
 	(aTokenModel innerRoots 
 		anySatisfy: [ :each | each isMonoClass or: [ each isTrait ] ])  ifTrue: [ ^ false ].
+	(aTokenModel belongers allSatisfy: [ :each | each root isMonoClass or: [ each root isTrait ] ])
+	ifTrue: [ ^ false ].
 			
 	^ ((self checkMonoToken: aTokenModel) 
 		or: [ self checkMultiToken: aTokenModel ]).

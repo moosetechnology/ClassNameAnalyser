@@ -99,19 +99,23 @@ CNBRootModel >> hasScatteredVocabulary [
 { #category : #testing }
 CNBRootModel >> hasScatteredVocabularyInside: aPackageModel [
 
-	 | electedTokens mainScatteredToken thresholdPercentage |
+	 | electedTokens mainScatteredToken  |
 	self isMultiToken ifFalse: [ ^false ].
+	"tokens that belong to this root in the package"
 	electedTokens := tokenModels select: [ :each | each package = aPackageModel ].
+	""
 	mainScatteredToken 
 		:= electedTokens detect: [ :each | 
-				thresholdPercentage := (CNBScatteredVocabularyPattern new threshold * 100)/each size.
-					"each size >= CNBScatteredVocabularyPattern new minClassSize" 
+			| outsidersPercentage threshold |
+			threshold := (CNBScatteredVocabularyPattern new threshold: each belongers size).
+			outsidersPercentage := ((each  outsiders size * each belongers size)/100) asFloat.
 						
-						each outsidersPercentage < CNBScatteredVocabularyPattern new threshold  ] 
-				ifNone: [ nil ].
-		^ (electedTokens size >= CNBScatteredVocabularyPattern new minTokenSize) 
-		and: [ mainScatteredToken isNotNil ].
+			each belongers isNotEmpty 
+				and: [ outsidersPercentage < threshold 
+					and: [ each size >= CNBScatteredVocabularyPattern new minClassSize] ] ] ifNone: [nil].
 	
+		^ (electedTokens size >= CNBScatteredVocabularyPattern new minTokenSize) 
+		and: [ mainScatteredToken isNotNil ].	
 ]
 
 { #category : #'as yet unclassified' }

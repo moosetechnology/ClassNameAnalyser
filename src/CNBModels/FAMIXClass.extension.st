@@ -34,6 +34,12 @@ FAMIXClass >> print [
 ]
 
 { #category : #'*CNBModels' }
+FAMIXClass >> printWithBold: aStringOrText [
+
+	^ (CNBClassHierarchyPrinter new forClass: self) printWithBoldJavaClass: aStringOrText  
+]
+
+{ #category : #'*CNBModels' }
 FAMIXClass >> rootAccordingTo: aRootClassName [
 
 	 (self isTrait 
