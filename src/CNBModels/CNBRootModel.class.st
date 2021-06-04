@@ -107,7 +107,9 @@ CNBRootModel >> hasScatteredVocabularyInside: aPackageModel [
 	mainScatteredToken 
 		:= electedTokens detect: [ :each | 
 			| outsidersPercentage threshold |
+			"Threshold of outsiders compared to belongers"
 			threshold := (CNBScatteredVocabularyPattern new threshold: each belongers size).
+			"Outsiders percentage compared to belongers"
 			outsidersPercentage := ((each  outsiders size * each belongers size)/100) asFloat.
 						
 			each belongers isNotEmpty 

@@ -15,10 +15,14 @@ Class {
 { #category : #validation }
 CNBSnowFlakesPattern >> check: aTokenModel [
 
-	^ (aTokenModel innerRoots size >= self snowFlakesSize) 
+	| pureSnowFlakes intruderSnowFlakes |
+	pureSnowFlakes := (aTokenModel innerRoots size >= self snowFlakesSize) 
 			and: [ 
 		aTokenModel innerRoots allSatisfy: [ :each | each isMonoClass or: [ each isTrait ] ] 
 					].
+				
+	intruderSnowFlakes := (aTokenModel outsiders select: [ :each | each root isMonoClass ]) size.
+	^ pureSnowFlakes or: [ intruderSnowFlakes >= self snowFlakesSize ]
 ]
 
 { #category : #accessing }
