@@ -121,7 +121,7 @@ CNBHomogeneityBreakerPattern >> initialize [
 	therefore I may mark common words in the project
 	 '.
 	name := #'Homogeneity Breaker'.
-	tokenSize := 3. 
+	tokenSize := 4. 
 	occurrences := 2.
  
 ]
