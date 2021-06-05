@@ -14,14 +14,13 @@ CNBClusterer >> organize: aPackage [
 	tokens := aPackage tokens sorted: #size descending. 
 	classes := (tokens flatCollect: #classViewModels).
 
-	classes do: [ :aClass | | classTokens winner |
+	(classes sorted: [ :each :word | each name > word name ] ) do: [ :aClass | | classTokens winner |
 		classTokens 
 			:= tokens select: [ :token | token classNames includes: aClass name ].
 
 		classTokens	
 			hasMoreThanOneElement ifTrue: [ 
-		winner :=	 self selectWinnerOf: aClass outOf: classTokens.	
-		
+		winner :=	 self selectWinnerOf: aClass outOf: classTokens.			
 		self remove: aClass from: (classTokens difference: { winner }).		
 						 ]
 				 ].
