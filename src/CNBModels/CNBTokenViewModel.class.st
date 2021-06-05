@@ -49,10 +49,9 @@ CNBTokenViewModel >> addPosition [
 { #category : #checking }
 CNBTokenViewModel >> appearsInSeveralPackages [
 	
-	| siblings homogeneityBreakerSiblingsCheck |
-	siblings := self root tokenModels  
-		select: [ :each | each name = name ].
-	
+	| siblings homogeneityBreakerSiblingsCheck mainToken |
+	siblings := self root tokenModels select: [ :each | each name = name ].
+"	mainToken := siblings asOrderedCollection detect: [ :each | CNBHomogeneityBreakerPattern new checkMainToken: each ]." 
 	homogeneityBreakerSiblingsCheck := (siblings asOrderedCollection 
 		collect: [ :each | CNBHomogeneityBreakerPattern check: each ]).
 	
@@ -127,8 +126,8 @@ CNBTokenViewModel >> checkHomogeneityBreaker [
 	| homogeneityBreakerPattern |
 	homogeneityBreakerPattern := CNBHomogeneityBreakerPattern new.
 	
-	((homogeneityBreakerPattern check: self) 
-		and: [ self appearsInSeveralPackages ]) ifTrue: [ patterns add: homogeneityBreakerPattern. ]
+	(homogeneityBreakerPattern check: self) 
+		"and: [ self appearsInSeveralPackages ])" ifTrue: [ patterns add: homogeneityBreakerPattern. ]
 ]
 
 { #category : #testing }
@@ -269,7 +268,7 @@ CNBTokenViewModel >> initialize [
 	
 	patterns := OrderedCollection new.
 	box when: RSMouseLeftClick do: [ self onClickResetHighlighter].
-	"box when: RSMouseRightClick do: [ self inspect]."
+	box when: RSMouseRightClick do: [ self inspect].
 ]
 
 { #category : #accessing }

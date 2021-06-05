@@ -8,9 +8,7 @@ Class {
 	#name : #CNBHomogeneityBreakerPattern,
 	#superclass : #CNBAbstractPattern,
 	#instVars : [
-		'maxMonoTokenSize',
-		'minMultiTokenSize',
-		'minMonoTokenSize',
+		'tokenSize',
 		'occurrences'
 	],
 	#category : #CNBPatterns
@@ -22,17 +20,39 @@ CNBHomogeneityBreakerPattern class >> check: aTokenModel [
 		check: aTokenModel
 ]
 
+{ #category : #accessing }
+CNBHomogeneityBreakerPattern >> belongers [ 
+	^ 50
+]
+
 { #category : #validation }
 CNBHomogeneityBreakerPattern >> check: aTokenModel [
 	
+	| belongersThreshold |
+	aTokenModel outsiders ifEmpty: [ ^ false ].
+	(aTokenModel size < self tokenSize) ifTrue: [ ^ false ].
 	(aTokenModel innerRoots 
 		anySatisfy: [ :each | each isMonoClass or: [ each isTrait ] ])  ifTrue: [ ^ false ].
-	(aTokenModel belongers allSatisfy: [ :each | each root isMonoClass or: [ each root isTrait ] ])
+	
+	(aTokenModel belongers isNotEmpty and: [ 
+		aTokenModel belongers allSatisfy: [ :each | each root isMonoClass or: [ each root isTrait ] ]])
 	ifTrue: [ ^ false ].
-			
+	
+	belongersThreshold := ((aTokenModel belongers size * 100 )/ aTokenModel outsiders size) > self belongers.
+	
+	belongersThreshold ifTrue: [ ^ false ].
+
 	^ ((self checkMonoToken: aTokenModel) 
 		or: [ self checkMultiToken: aTokenModel ]).
 		
+]
+
+{ #category : #'as yet unclassified' }
+CNBHomogeneityBreakerPattern >> checkMainToken: aTokenModel [
+	| belongersThreshold |
+		belongersThreshold := ((aTokenModel belongers size * 100 )/ aTokenModel outsiders size) > self belongers.
+	
+	belongersThreshold ifTrue: [ ^ false ].
 ]
 
 { #category : #checking }
@@ -40,25 +60,23 @@ CNBHomogeneityBreakerPattern >> checkMonoToken: aTokenModel [
 	
 
 	^ ((aTokenModel 
-				root isMonoToken) and: [ aTokenModel 
-				outsidersRoots asSet hasOneElement "are not monoclasses" and: [ aTokenModel 
-				outsiders size
-					between: self minMonoTokenSize 
-					and: self maxMonoTokenSize ] ]).
+				root isMonoToken) and: [ (aTokenModel outsidersRoots allSatisfy: [ :each | each isMultiToken ])
+				and: [ aTokenModel outsidersRoots asSet hasOneElement "are not monoclasses"  ] ]).
 ]
 
 { #category : #checking }
 CNBHomogeneityBreakerPattern >> checkMultiToken: aTokenModel [
 	
+	| mono |
+	mono := aTokenModel outsidersRoots select: [ :each | each isMonoToken ].
+	
+	((aTokenModel outsiders collect: #root) size < 2) ifTrue: [ ^ false ].
+
 	^ (aTokenModel 
 			root isMultiToken) and: [ 
-				(aTokenModel 
-			outsiders collect: #color) asSet size 
-			between: self minMonoTokenSize 
-			and: self maxMonoTokenSize "and: [ aTokenModel 
-			outsidersRoots asSet allSatisfy: [ :each | each isMonoToken ]
-			 ]" ].
-		"hbMultiPourcentage * aSuffixModel outsiders size) percent "
+				(mono size / aTokenModel size) * 100 > 60
+			 ]
+			
 ]
 
 { #category : #checking }
@@ -103,29 +121,9 @@ CNBHomogeneityBreakerPattern >> initialize [
 	therefore I may mark common words in the project
 	 '.
 	name := #'Homogeneity Breaker'.
-	minMonoTokenSize := 1. 
-	maxMonoTokenSize := 6 .
-	
-	minMultiTokenSize := 2. 
-	occurrences := 2. 
-]
-
-{ #category : #accessing }
-CNBHomogeneityBreakerPattern >> maxMonoTokenSize [
-
-	^ maxMonoTokenSize
-]
-
-{ #category : #accessing }
-CNBHomogeneityBreakerPattern >> minMonoTokenSize [
-
-	^ minMonoTokenSize
-]
-
-{ #category : #accessing }
-CNBHomogeneityBreakerPattern >> minMultiTokenSize [
-
-	^ minMultiTokenSize
+	tokenSize := 3. 
+	occurrences := 2.
+ 
 ]
 
 { #category : #accessing }
@@ -135,6 +133,11 @@ CNBHomogeneityBreakerPattern >> name [
 ]
 
 { #category : #accessing }
-CNBHomogeneityBreakerPattern >> occurrences [ 
+CNBHomogeneityBreakerPattern >> occurrences [
 	^ occurrences
+]
+
+{ #category : #accessing }
+CNBHomogeneityBreakerPattern >> tokenSize [
+	^ tokenSize
 ]
