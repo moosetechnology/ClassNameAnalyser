@@ -16,7 +16,8 @@ Metacello new
 ## ClassNameAnalyser Description:
 The **ClassNameAnalyser** is a project which provides a visualisation of the distribution of concepts in both **Java** and **Pharo**. The visualization is called *ClassNames Distribution*
 
-## How to use the ClassNameAnalyser With Moose
+
+## How to use the ClassNameAnalyser
 After loading the *ClassNameAnalyser*, click on *Library* from the top menu then select *ClassNames Distribution*.
 For Pharo projects, you can write the name of the project in the list of packages on the left side, then use the shortcut cmd+A to select all packages starting with the project name.
 For Java projects, you may want to create an mse file first using: https://github.com/moosetechnology/VerveineJ. Then load your mse file from the mse icon on the top left of the tool.
@@ -24,7 +25,9 @@ For Java projects, you may want to create an mse file first using: https://githu
 Once you project is selected/loaded, click on the visualize button.
 
 ## Understanding your Visualisation:
-The visualisation uses boxes to wrap up packages, which contain suffixes/prefixes boxes that wrap up class boxes belonging to the package and having the suffix/prefix box name as a suffix of the class name. The visualization is based on:
+The visualization is based on:
+- Package boxes that contain suffixes/prefixes of class names. Where each suffix/prefix box holds the classes using it.
+- Colors: a color represents a hierarchy:
 
 Class Type | Description | Color
 --- | --- | --- |
