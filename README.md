@@ -41,14 +41,14 @@ Class Type | Description | Color
 ## A Visual Example:
 The figure below depicts a *ClassNames Blueprint* of some packages selected from the Moose Image by clicking on the 'st' option as shown in the above-right of the Moose Panel:
 
-![](Images/PharoPackages.png)
+![](Images/MooseExample.png)
 
 
 The visualisation below shows a *ClassNames Blueprint* for a [Java project(ArgoUML)](https://github.com/argouml-tigris-org) imported as an .mse file by clicking on the 'mse' option as shown in the above-right of the Moose Panel:
 ![](Images/JavaProject(ArgoUML).png)
 
 Figure below depicts the group of Root Models of the ArgoUML Java project and an example of a root model named 'JPanel' which represents the root of an hierarchy consisting of 23 subclasses that use different suffixes (concepts), which makes this hierarchy a Multi-Suffix hierarchy, and is colored in pink.
-![](Images/RootModels.png)
+![](Images/MooseExampleHighligh.png)
 
 
 
