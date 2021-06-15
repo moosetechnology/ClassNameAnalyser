@@ -39,16 +39,18 @@ Class Type | Description | Color
 
 
 ## A Visual Example:
-The figure below depicts a *ClassNames Blueprint* of some packages selected from the Moose Image by clicking on the 'st' option as shown in the above-right of the Moose Panel:
+The figure below depicts a *ClassNames Distribution* of the [Moose](https://github.com/moosetechnology/Moose) project:
 
 ![](Images/MooseExample.png)
+You have all the informations about the approach and how to manipulate the tool in the instructions + ? buttons.
+You can also highlight classes of the same hierarchy to see their distribution in packages and select an item from the (anti-)patterns list (bottom left) to help detecting inconsistencies in class names.
+![](Images/MooseExampleHighlight.png)
+
+The visualisation below shows a *ClassNames Distribution* the Lucene project 2004. For Java projects it is better to select both suffix/prefix since they do not follow the suffix naming convention, the concept is usually droped either at the beginning or the end of the class name.
+![](Images/Lucene2004.png)
 
 
-The visualisation below shows a *ClassNames Blueprint* for a [Java project(ArgoUML)](https://github.com/argouml-tigris-org) imported as an .mse file by clicking on the 'mse' option as shown in the above-right of the Moose Panel:
-![](Images/JavaProject(ArgoUML).png)
 
-Figure below depicts the group of Root Models of the ArgoUML Java project and an example of a root model named 'JPanel' which represents the root of an hierarchy consisting of 23 subclasses that use different suffixes (concepts), which makes this hierarchy a Multi-Suffix hierarchy, and is colored in pink.
-![](Images/MooseExampleHighligh.png)
 
 
 
