@@ -14,15 +14,17 @@ Metacello new
   load.
 ```
 ## ClassNameAnalyser Description:
-The **ClassNameAnalyser** is a visualisation of the distribution of concepts in both **Java** and **Pharo** projects using the *ClassNames Blueprint*. The distribution of concepts in projects starts from the simple hypothesis: most programmers use english when writing code hence, when naming their classes, the standard format of the class name usually has the concept written at the end of the word (as a suffix). For instance, when you read this project's name which is `ClassNameAnalyser`, you instinctly undertsood its functionality which is analysing. An example of a class name written in english could be: `ConceptualModel`, could you guess what the class might represent? Indeed! it is a model (it's okey if you didn't guess it, you might have been programming in an other language other than english, or more often than not .. not at all). However, analysing class naming conventions is the main goal of this project, in fact the *ClassNames Blueprint* proved to be helpful in detecting inconsistencies in different projects naming conventions. Furthermore, it displays the project's main concepts and, their locations.
+The **ClassNameAnalyser** is a project which provides a visualisation of the distribution of concepts in both **Java** and **Pharo**. The visualization is called *ClassNames Distribution*
 
 ## How to use the ClassNameAnalyser With Moose
-After loading the *ClassNameAnalyser*, load your project/packages into the Moose Panel, you'll see all the **root models** (all the hierarchies) of your packages/project ,scroll to see the **ClassNames Blueprint** visualisation, the **conceptual model** and the **view model**. Luckily, the Moose Panel has the option of loading Java projects, but first one must create the .mse file of the java project so it can be loaded and analysed.
+After loading the *ClassNameAnalyser*, click on *Library* from the top menu then select *ClassNames Distribution*.
+For Pharo projects, you can write the name of the project in the list of packages on the left side, then use the shortcut cmd+A to select all packages starting with the project name.
+For Java projects, you may want to create an mse file first using: https://github.com/moosetechnology/VerveineJ. Then load your mse file from the mse icon on the top left of the tool.
 
-In case you are not familiar with Moose, or do not know how to create the .mse file of your java project, I suggest you have a look at the [Moose Book](http://www.themoosebook.org/book/).
+Once you project is selected/loaded, click on the visualize button.
 
 ## Understanding your Visualisation:
-The visualisation uses boxes to wrap up packages, which contain concept boxes that wrap up class boxes belonging to the package and having the concept's box name as a suffix of the class name. Basically, the *ClassNameAnalyser* is a representation of the *ClassNames Blueprint* which is based on these simple conventions shown in the table below:
+The visualisation uses boxes to wrap up packages, which contain suffixes/prefixes boxes that wrap up class boxes belonging to the package and having the suffix/prefix box name as a suffix of the class name. The visualization is based on:
 
 Class Type | Description | Color
 --- | --- | --- |
