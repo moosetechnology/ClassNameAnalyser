@@ -37,7 +37,6 @@ Class Type | Description | Color
 **Multi Suffix Hierarchy** | Hierarchies that do not use the same naming convention | a color is selected from the predefined color palette (24 main colors taken by the first biggest 24 hierarchies in descending order)
 **Other hierarchies** (*ignored*) | starting from the 25th biggest hierarchy in the system | Black
 
-Class boxes are colored as their root classes, while concept boxes are colored the same as the biggest root which uses the concept's name.
 
 ## A Visual Example:
 The figure below depicts a *ClassNames Blueprint* of some packages selected from the Moose Image by clicking on the 'st' option as shown in the above-right of the Moose Panel:
