@@ -8,6 +8,16 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+CNBClassNamesBlueprintGenerator class >> buildPharoProjects: aCollectionOfNames [ 
+
+	^ aCollectionOfNames collect: [ :aProjectName | 			
+		(ClassNamesBlueprint new
+		model: (CNBModelGenerator projectNameMatches: aProjectName); withSuffix) startBuilding ]
+
+
+]
+
+{ #category : #'as yet unclassified' }
 CNBClassNamesBlueprintGenerator class >> buildProjects: aCollectionOfNames from: aPathDirectory [
 
 	^ aCollectionOfNames collect: [ :aProjectName | | mseFileName|
