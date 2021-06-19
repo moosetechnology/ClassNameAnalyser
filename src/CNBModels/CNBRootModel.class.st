@@ -22,7 +22,7 @@ Class {
 		'maxDepth',
 		'highlighted',
 		'mainToken',
-		'hasScatteredVocabulary'
+		'isScattered'
 	],
 	#category : #CNBModels
 }
@@ -91,9 +91,10 @@ CNBRootModel >> dominantTokens: association [
 ]
 
 { #category : #accessing }
-CNBRootModel >> hasScatteredVocabulary [
-
-	^ tokenModels anySatisfy: [ :each | (each patterns collect: #name) includes: 'Scattered Vocabulary' ]
+CNBRootModel >> hasScatteredVocabulary [ 
+	isScattered := true.
+	tokenModels do: [ :each | each patterns add: CNBScatteredVocabularyPattern new ] 
+	
 ]
 
 { #category : #testing }
@@ -110,14 +111,15 @@ CNBRootModel >> hasScatteredVocabularyInside: aPackageModel [
 			"Threshold of outsiders compared to belongers"
 			threshold := (CNBScatteredVocabularyPattern new threshold: each belongers size).
 			"Outsiders percentage compared to belongers"
-			outsidersPercentage := ((each  outsiders size * each belongers size)/100) asFloat.
+			outsidersPercentage := ((each outsiders size * each belongers size)/100) asFloat.
 						
 			each belongers isNotEmpty 
 				and: [ outsidersPercentage < threshold 
 					and: [ each size >= CNBScatteredVocabularyPattern new minClassSize] ] ] ifNone: [nil].
 	
-		^ (electedTokens size >= CNBScatteredVocabularyPattern new minTokenSize) 
+		^(electedTokens size >= CNBScatteredVocabularyPattern new minTokenSize) 
 		and: [ mainScatteredToken isNotNil ].	
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -145,7 +147,8 @@ CNBRootModel >> initialize [
 	tokensDictionary := Dictionary new.
 	dominantTokens := Dictionary new.
 	highlighted := false.
-	hasScatteredVocabulary := false.
+	isScattered := false.
+
 ]
 
 { #category : #testing }
@@ -164,6 +167,11 @@ CNBRootModel >> isMonoToken [
 CNBRootModel >> isMultiToken [
 
 	^ type = 'multiToken'
+]
+
+{ #category : #accessing }
+CNBRootModel >> isScattered [ 
+	^ isScattered 
 ]
 
 { #category : #testing }

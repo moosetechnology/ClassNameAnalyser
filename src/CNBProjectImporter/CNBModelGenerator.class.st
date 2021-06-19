@@ -59,7 +59,7 @@ CNBModelGenerator class >> projectNameMatches: aString [
 				importPackage;
 				yourself);
 		model: model;
-		addFromPackagesMatching: [:p | p name beginsWith: aString];
+		addFromPackagesMatching: [:p | aString match: p name];
 		run.
 		model name: aString.
 		^ model

@@ -76,9 +76,10 @@ CNBTDataExtractor >> intruderCasesIn: aCnb [
 
 { #category : #extracting }
 CNBTDataExtractor >> scatteredVocabularyCasesIn: aCnb [
+
 	^  (aCnb 
 		viewModel 
-			rootModels select: [ :each | each hasScatteredVocabulary ]) size.	
+			rootModels select: [ :each | each isScattered ]) size.	
 
 ]
 

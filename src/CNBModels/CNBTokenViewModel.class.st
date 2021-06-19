@@ -170,7 +170,7 @@ CNBTokenViewModel >> checkScatteredVocabulary [
 	
 	scatteredVocabularyPattern := CNBScatteredVocabularyPattern new.
 
-	(scatteredVocabularyPattern check: self) ifTrue: [ patterns add: scatteredVocabularyPattern. ]
+	(scatteredVocabularyPattern check: self) 
 ]
 
 { #category : #testing }

@@ -13,12 +13,19 @@ Class {
 	#category : #CNBPatterns
 }
 
+{ #category : #'instance creation' }
+CNBScatteredVocabularyPattern class >> newInstance [ 
+	^ self new
+]
+
 { #category : #validation }
 CNBScatteredVocabularyPattern >> check: aTokenModel [
 
-	^ aTokenModel 
-			root hasScatteredVocabularyInside: aTokenModel package 
-	
+	| isScattered |
+	isScattered := aTokenModel 
+			root hasScatteredVocabularyInside: aTokenModel package.
+			isScattered ifTrue: [  
+	aTokenModel root hasScatteredVocabulary ]
 
 ]
 
