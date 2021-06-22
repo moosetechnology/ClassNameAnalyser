@@ -38,6 +38,13 @@ CNBClassNamesBlueprintGenerator class >> importProject: aPath [
 ]
 
 { #category : #'as yet unclassified' }
+CNBClassNamesBlueprintGenerator class >> importProject: aPath with: aModel [
+
+	^ ClassNamesBlueprint new
+		model: (CNBModelGenerator importProject: aPath with: aModel)
+]
+
+{ #category : #'as yet unclassified' }
 CNBClassNamesBlueprintGenerator class >> importProjects: aCollectionOfNames from: aPathDirectory [
 
 	^ aCollectionOfNames collect: [ :aProjectName | | mseFileName|

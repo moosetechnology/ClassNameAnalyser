@@ -31,7 +31,9 @@ Class {
 		'suspisciousTokens',
 		'hierarchies',
 		'multiTokenHierarchies',
-		'suspisciousTokensPercentage'
+		'suspisciousTokensPercentage',
+		'blackClasses',
+		'blackHierarchies'
 	],
 	#category : #'CNB-Core'
 }
@@ -73,6 +75,26 @@ CNBAnalysisDescription >> averageTokensPerMultiHierarchy [
 CNBAnalysisDescription >> averageTokensPerMultiHierarchy: aNum [
 
 	averageTokensPerMultiHierarchy := aNum
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> blackClasses [ 
+	^ blackClasses 
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> blackClasses: aNumber [ 
+	blackClasses := aNumber 
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> blackHierarchies [
+	^ blackHierarchies 
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> blackHierarchies: aNumber [
+	blackHierarchies := aNumber 
 ]
 
 { #category : #accessing }

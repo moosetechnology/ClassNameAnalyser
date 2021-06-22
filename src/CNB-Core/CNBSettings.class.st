@@ -6,7 +6,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'token',
-		'rootClass'
+		'rootClass',
+		'noInterfaces'
 	],
 	#category : #'CNB-Core'
 }
@@ -21,6 +22,27 @@ CNBSettings >> defaultRootClass [
 CNBSettings >> defaultToken [ 
 
 	^ #suffix
+]
+
+{ #category : #accessing }
+CNBSettings >> deleteInterfaces [
+	noInterfaces := true
+]
+
+{ #category : #accessing }
+CNBSettings >> initialize [ 
+	super initialize.
+	noInterfaces := false.
+]
+
+{ #category : #'as yet unclassified' }
+CNBSettings >> leaveInterfaces [ 	
+	noInterfaces := false
+]
+
+{ #category : #accessing }
+CNBSettings >> noInterfaces [ 
+	^ noInterfaces 
 ]
 
 { #category : #accessing }

@@ -21,6 +21,19 @@ CNBModelGenerator class >> importProject: aPath [
 ]
 
 { #category : #'as yet unclassified' }
+CNBModelGenerator class >> importProject: aPath with: aModel [
+	| model |
+	aPath asFileReference 
+		readStreamDo: [ :stream | 
+			model := aModel importFromMSEStream: stream.
+			model name: model rootFolder basenameWithoutExtension.
+			 ].	
+		^ model
+
+	
+]
+
+{ #category : #'as yet unclassified' }
 CNBModelGenerator class >> packagesNamed: aCollection [
 	| model  |
 

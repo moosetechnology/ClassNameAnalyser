@@ -82,6 +82,11 @@ ClassNamesBlueprint >> canvas [
 	^ canvas
 ]
 
+{ #category : #accessing }
+ClassNamesBlueprint >> deleteInterfaces [ 
+	self setting deleteInterfaces 
+]
+
 { #category : #initialization }
 ClassNamesBlueprint >> initialize [
 	super initialize.

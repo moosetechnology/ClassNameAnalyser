@@ -14,10 +14,14 @@ Class {
 { #category : #accessing }
 CNBPackageModel class >> of: aPackage withSettings: settings [
 
+	| onlyClasses |
+	onlyClasses := aPackage classes.
+	settings noInterfaces ifTrue: [ onlyClasses := onlyClasses reject: #isInterface ].
+	
 	^ self new
 		  name: aPackage name;
 		  classModels:
-			  (aPackage classes collect: [ :each | each classModelAccordingTo: settings ])
+			  (onlyClasses collect: [ :each | each classModelAccordingTo: settings ])
 ]
 
 { #category : #accessing }

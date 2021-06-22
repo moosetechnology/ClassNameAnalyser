@@ -135,7 +135,7 @@ CNBRoassal3Builder >> createPackageBoxesOf: cnbModel [
 	packageBoxes :=
 	(packages
 		collect: 
-			[ :package | | packageComposite label composite namedAbbreviated |
+			[ :package | | packageComposite label composite namedAbbreviated | 
 			namedAbbreviated := CNBNameAbbreviationCreator abbreviate: package name until: 10.
 				label := RSLabel new text: namedAbbreviated;fontSize: 30;bold.
 				composite := RSComposite new.

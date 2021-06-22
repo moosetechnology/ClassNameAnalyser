@@ -30,7 +30,9 @@ Class {
 		'helpButton',
 		'instructionsButton',
 		'patternsHelpButton',
-		'visualizeButton'
+		'visualizeButton',
+		'withoutInterfaces',
+		'setting'
 	],
 	#category : #CNBSpec
 }
@@ -69,6 +71,7 @@ CNBPresenter class >> defaultSpec [
 							add: #both height: self labelHeight;
 							add: 'Root class' height: self labelHeight;
 							add: #rootSelector height: self labelHeight;
+							add: #withoutInterfaces height: self labelHeight + self labelHeight;
 							add: #visualizeButton width: self buttonWidth;
 							yourself) "height: self buttonHeight + self buttonHeight + self buttonHeight";
 						add: (SpBoxLayout newVertical 
@@ -148,6 +151,8 @@ CNBPresenter >> connectPresenters [
 	super connectPresenters.
 	
 	visualizeButton action: [ self onVisualizeClicked  ]. 
+	withoutInterfaces whenActivatedDo: [ self deleteInterfaces ].
+	withoutInterfaces whenDeactivatedDo: [ self leaveInterfaces ].
 	addButton action: [ self onAddClicked ].
 	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self showNodesAttributedTo: aPattern ].
 	reset action: [ self onResetClicked ].
@@ -159,6 +164,11 @@ CNBPresenter >> connectPresenters [
 	showPackagesButton action: [ self onShowClicked ].
 	packagesListPresenter updateButton action: [ self onUpdateClicked  ].
 	packagesListPresenter deleteAllButton action: [ self onDeleteAllClicked ].
+]
+
+{ #category : #accessing }
+CNBPresenter >> deleteInterfaces [ 
+	setting deleteInterfaces.
 ]
 
 { #category : #'import-export' }
@@ -245,6 +255,9 @@ CNBPresenter >> initializePresenters [
 	self initializeHelpButton.
 	self initializeInstructionsButton.
 	self initializePatternsHelpButton.
+	withoutInterfaces := self newCheckBox.
+	withoutInterfaces label: 'Delete Interfaces'.
+	setting := CNBSettings new.
 	packages := OrderedCollection new.
 	highlighter := CNBSingletonHighlighter instance.
 	allListItems := RBBrowserEnvironment default packages asArray sorted: [ :a : b | a name < b name ].
@@ -303,6 +316,11 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 		toolbar: self buildToolbar
 ]
 
+{ #category : #'as yet unclassified' }
+CNBPresenter >> leaveInterfaces [ 
+	setting leaveInterfaces 
+]
+
 { #category : #accessing }
 CNBPresenter >> model [ 
 	^ model
@@ -312,6 +330,11 @@ CNBPresenter >> model [
 CNBPresenter >> model: aModel [
 
 	model := aModel 
+]
+
+{ #category : #accessing }
+CNBPresenter >> noInterfaces [ 
+	^ true
 ]
 
 { #category : #actions }
@@ -474,11 +497,13 @@ CNBPresenter >> projectAtRadioButton: aRadioButtion [
 { #category : #building }
 CNBPresenter >> projectModel: aMooseModel with: aRootClass [
 	
-	(suffixCnb model: aMooseModel; withRoot: aRootClass) startBuilding; buildShapes.
-	(prefixCnb model: aMooseModel;withRoot: aRootClass) startBuilding; buildShapes.
-	(bothCnb model: aMooseModel; withRoot: aRootClass) startBuilding; buildShapes.
+	setting rootClass: aRootClass.
+
+	((suffixCnb setting: setting; model: aMooseModel)withSuffix)  startBuilding; buildShapes.
+	((prefixCnb  setting: setting; model: aMooseModel) withPrefix) startBuilding; buildShapes.
+	((bothCnb setting: setting; model: aMooseModel) withBoth) startBuilding; buildShapes.
 	
-	self fixColors.
+	"self fixColors."
 	
 	
 	
@@ -586,4 +611,9 @@ CNBPresenter >> toolbarActions [
 CNBPresenter >> updateForNewModel: aModel [
 
 	self model: aModel
+]
+
+{ #category : #accessing }
+CNBPresenter >> withoutInterfaces [
+	^ withoutInterfaces
 ]
