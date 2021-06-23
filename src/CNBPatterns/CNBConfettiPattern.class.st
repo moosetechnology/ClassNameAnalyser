@@ -36,6 +36,7 @@ CNBConfettiPattern class >> minColorful [
 CNBConfettiPattern >> check: aTokenModel [
 
 	| insideColors |
+	aTokenModel root isMonoToken ifTrue: [ ^ false ].
 	insideColors := (aTokenModel innerRoots collect: #color) asSet.
 	(
 		insideColors asSet size >= self confettiSize
@@ -44,6 +45,7 @@ CNBConfettiPattern >> check: aTokenModel [
 	
 	^ ((self outsidersPourcentageIn: aTokenModel) >= self confettiPourcentage) and: [ 
 		(CNBBuilder new palette multiTokenColors intersection: insideColors) size >= minColorful ]
+	
 	
 	
 	
