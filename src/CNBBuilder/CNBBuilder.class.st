@@ -256,7 +256,7 @@ CNBBuilder >> initialize [
 			Color cyan . 
 			Color pink muchDarker . 
 			Color lightGreen . 
-			Color magenta lighter .
+			Color yellow darker darker darker.
 			Color lightOrange . 
 			Color lightYellow . 
 			Color paleBlue .
