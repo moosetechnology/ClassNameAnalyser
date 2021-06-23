@@ -264,7 +264,7 @@ CNBBuilder >> initialize [
 			Color paleOrange .
 			Color palePeach . 
 			Color paleRed  . 
-			Color lightBrown . 
+			Color brown lighter lighter lighter . 
 			Color paleTan  }.
 	
 ]
