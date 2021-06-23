@@ -167,11 +167,8 @@ CNBBuilder >> color: rootModels [
 	
 	coloredRootModels := (self sortRootModels: rootModels)
 		collect: 
-			[ :each | 
-			
-			each 
-							color: (self 
-											assignColorByType: each type) ].			
+			[ :each | 	
+			each color: (self assignColorByType: each type) ].			
 	^ coloredRootModels 
 	
 ]
@@ -247,7 +244,7 @@ CNBBuilder >> initialize [
 			Color blue lighter .
 			Color purple . 
 			Color brown . 
-			Color magenta . 
+			Color magenta darker. 
 			Color orange . 
 			Color blue muchDarker .
 			Color green muchDarker .
@@ -262,8 +259,8 @@ CNBBuilder >> initialize [
 			Color paleBlue .
 			Color paleMagenta . 
 			Color paleOrange .
-			Color palePeach . 
-			Color paleRed  . 
+			Color palePeach darker darker. 
+			Color purple lighter lighter lighter lighter lighter lighter lighter lighter. 
 			Color brown lighter lighter lighter . 
 			Color paleTan  }.
 	
