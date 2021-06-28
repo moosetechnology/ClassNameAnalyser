@@ -184,7 +184,7 @@ CNBBuilder >> do: anObject [
 
 { #category : #building }
 CNBBuilder >> doClassViewModelsOf: classmodels using: rootModels [
-
+   
 	^ classmodels 
 			collect: [ :eachClassModel | | itsRoot | 
 				itsRoot := rootModels 
