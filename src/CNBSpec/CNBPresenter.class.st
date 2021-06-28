@@ -32,7 +32,8 @@ Class {
 		'patternsHelpButton',
 		'visualizeButton',
 		'withoutInterfaces',
-		'setting'
+		'setting',
+		'cnb'
 	],
 	#category : #CNBSpec
 }
@@ -49,6 +50,7 @@ CNBPresenter class >> defaultSpec [
 			spacing: 1;
 			add: (SpBoxLayout newHorizontal 
 		add: '';
+		add: #cnb;
 		add: #instructionsButton width: self buttonWidth;
 		add: #helpButton width: self iconWidth;
 		yourself) height: self iconWidth;
@@ -146,6 +148,11 @@ CNBPresenter >> changePackageBorderWidth: aPackageName [
 				 	detect: [ :each | each model name = aPackageName  ]) border width: 5
 ]
 
+{ #category : #accessing }
+CNBPresenter >> cnb [
+	^ cnb
+]
+
 { #category : #initialization }
 CNBPresenter >> connectPresenters [
 	super connectPresenters.
@@ -153,6 +160,7 @@ CNBPresenter >> connectPresenters [
 	visualizeButton action: [ self onVisualizeClicked  ]. 
 	withoutInterfaces whenActivatedDo: [ self deleteInterfaces ].
 	withoutInterfaces whenDeactivatedDo: [ self leaveInterfaces ].
+	cnb action: [ self selectedCnB inspect ].
 	addButton action: [ self onAddClicked ].
 	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self showNodesAttributedTo: aPattern ].
 	reset action: [ self onResetClicked ].
@@ -174,7 +182,7 @@ CNBPresenter >> deleteInterfaces [
 { #category : #'import-export' }
 CNBPresenter >> exportTo: aFile [ 
 	
-	(CSVGenerator of: (self selectedCnB analysisDescription) ) generateTo: aFile fullName 
+	(CSVGenerator of: (self selectedCnB analysisDescription)) generateTo: aFile fullName 
 ]
 
 { #category : #actions }
@@ -256,6 +264,7 @@ CNBPresenter >> initializePresenters [
 	self initializeInstructionsButton.
 	self initializePatternsHelpButton.
 	withoutInterfaces := self newCheckBox.
+	cnb := self newButton label: 'Current visualization inspect'.
 	withoutInterfaces label: 'Delete Interfaces'.
 	setting := CNBSettings new.
 	packages := OrderedCollection new.
