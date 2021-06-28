@@ -65,10 +65,13 @@ CNBClassModel >> depth: aDepth [
 
 { #category : #testing }
 CNBClassModel >> hasRootToken [
-	| rootToken |
+	| rootToken rootTokens |
+	rootTokens 
+	:= { (CNBFeatureSelector new extract: #suffix from: root name) . 
+	(CNBFeatureSelector new extract: #prefix from: root name) }.
 	
-	rootToken := CNBFeatureSelector new extract: setting token from: self rootName.
-	^ token = rootToken 
+	rootToken := rootTokens detect:  [ :each | each = self token ] ifNone: [ rootTokens first ].
+	^ rootToken = self token
 ]
 
 { #category : #accessing }
