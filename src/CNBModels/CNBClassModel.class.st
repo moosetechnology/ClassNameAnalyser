@@ -41,7 +41,8 @@ CNBClassModel >> create [
 		
 	aRoot 
 		:= model rootAccordingTo: setting rootClass.
-	aToken := CNBFeatureSelector new extract: setting token from: self model name.
+	aToken := (CNBFeatureSelector new extract: setting token from: self model name).
+	
 		self 
 			name: (CNBFilterer removeAllDigitsAndSpecialCharsFrom: model name);
 			root: aRoot;
@@ -67,8 +68,7 @@ CNBClassModel >> depth: aDepth [
 CNBClassModel >> hasRootToken [
 	| rootToken rootTokens |
 	rootTokens 
-	:= { (CNBFeatureSelector new extract: #suffix from: root name) . 
-	(CNBFeatureSelector new extract: #prefix from: root name) }.
+	:= CNBFeatureSelector new tokensOf: root name.
 	
 	rootToken := rootTokens detect:  [ :each | each = self token ] ifNone: [ rootTokens first ].
 	^ rootToken = self token
@@ -91,9 +91,12 @@ CNBClassModel >> name: aName [
 
 	super name: aName.
 	model exists ifFalse: [ ^ self ].
+	
+	setting noPackagesNames 
+	ifTrue: [ name := (CNBBuilder removePackageNameFromClass: model).
+	self token: (CNBFeatureSelector new extract: setting token from: name) ]
 
-	name := (CNBBuilder removePackageNameFromClass: model).
-	self token: (CNBFeatureSelector new extract: setting token from: name)
+	ifFalse: [ self token: (CNBFeatureSelector new extract: setting token from: aName) ]
 ]
 
 { #category : #'as yet unclassified' }

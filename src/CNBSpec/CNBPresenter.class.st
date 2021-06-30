@@ -33,7 +33,8 @@ Class {
 		'visualizeButton',
 		'withoutInterfaces',
 		'setting',
-		'cnb'
+		'inspect',
+		'withoutPackageName'
 	],
 	#category : #CNBSpec
 }
@@ -50,7 +51,7 @@ CNBPresenter class >> defaultSpec [
 			spacing: 1;
 			add: (SpBoxLayout newHorizontal 
 		add: '';
-		"add: #cnb;"
+		add: #inspect;
 		add: #instructionsButton width: self buttonWidth;
 		add: #helpButton width: self iconWidth;
 		yourself) height: self iconWidth;
@@ -74,6 +75,7 @@ CNBPresenter class >> defaultSpec [
 							add: 'Root class' height: self labelHeight;
 							add: #rootSelector height: self labelHeight;
 							add: #withoutInterfaces height: self labelHeight + self labelHeight;
+							add: #withoutPackageName height: self labelHeight + self labelHeight;
 							add: #visualizeButton width: self buttonWidth;
 							yourself) "height: self buttonHeight + self buttonHeight + self buttonHeight";
 						add: (SpBoxLayout newVertical 
@@ -148,11 +150,6 @@ CNBPresenter >> changePackageBorderWidth: aPackageName [
 				 	detect: [ :each | each model name = aPackageName  ]) border width: 5
 ]
 
-{ #category : #accessing }
-CNBPresenter >> cnb [
-	^ cnb
-]
-
 { #category : #initialization }
 CNBPresenter >> connectPresenters [
 	super connectPresenters.
@@ -160,7 +157,9 @@ CNBPresenter >> connectPresenters [
 	visualizeButton action: [ self onVisualizeClicked  ]. 
 	withoutInterfaces whenActivatedDo: [ self deleteInterfaces ].
 	withoutInterfaces whenDeactivatedDo: [ self leaveInterfaces ].
-	cnb action: [ self selectedCnB inspect ].
+	withoutPackageName whenActivatedDo: [ self deletePackagesNames ].
+	withoutPackageName whenDeactivatedDo: [ self leavePackagesNames ].
+	inspect action: [ self selectedCnB inspect ].
 	addButton action: [ self onAddClicked ].
 	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self showNodesAttributedTo: aPattern ].
 	reset action: [ self onResetClicked ].
@@ -177,6 +176,11 @@ CNBPresenter >> connectPresenters [
 { #category : #accessing }
 CNBPresenter >> deleteInterfaces [ 
 	setting deleteInterfaces.
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> deletePackagesNames [
+	setting deletePackagesNames.
 ]
 
 { #category : #'import-export' }
@@ -264,8 +268,10 @@ CNBPresenter >> initializePresenters [
 	self initializeInstructionsButton.
 	self initializePatternsHelpButton.
 	withoutInterfaces := self newCheckBox.
-	cnb := self newButton label: 'Current visualization inspect'.
 	withoutInterfaces label: 'Delete Interfaces'.
+	withoutPackageName := self newCheckBox.
+	withoutPackageName label: 'Delete package reference'.
+	inspect := self newButton label: 'Current visualization inspect'.
 	setting := CNBSettings new.
 	packages := OrderedCollection new.
 	highlighter := CNBSingletonHighlighter instance.
@@ -325,9 +331,19 @@ CNBPresenter >> initializeWindow: aWindowPresenter [
 		toolbar: self buildToolbar
 ]
 
+{ #category : #accessing }
+CNBPresenter >> inspect [ 
+	^ inspect
+]
+
 { #category : #'as yet unclassified' }
 CNBPresenter >> leaveInterfaces [ 
 	setting leaveInterfaces 
+]
+
+{ #category : #'as yet unclassified' }
+CNBPresenter >> leavePackagesNames [
+	setting leavePackagesNames.
 ]
 
 { #category : #accessing }
@@ -625,4 +641,9 @@ CNBPresenter >> updateForNewModel: aModel [
 { #category : #accessing }
 CNBPresenter >> withoutInterfaces [
 	^ withoutInterfaces
+]
+
+{ #category : #accessing }
+CNBPresenter >> withoutPackageName [
+	^ withoutPackageName
 ]

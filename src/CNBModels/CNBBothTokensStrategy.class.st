@@ -12,10 +12,10 @@ Class {
 }
 
 { #category : #building }
-CNBBothTokensStrategy class >> build: aViewModel [
+CNBBothTokensStrategy class >> build: aCND [
 
 	^ self new
-			build: aViewModel 
+			build: aCND 
 ]
 
 { #category : #building }
@@ -32,13 +32,13 @@ CNBBothTokensStrategy >> build: aCND [
 		| thePackageModels |
 	builder visualization: aCND. 
 	thePackageModels := builder doPackageModels.
-	
+
 	aCND viewModel
 		name: aCND model name;
 		packageModels: thePackageModels;
 		rootModels: (self buildRootsFrom: (thePackageModels flatCollect: #classModels));
 		packageViewModels: (self doPackageViewModelsOf: aCND).
-
+		
 		self resetRoots: aCND rootModels.
 		aCND attributeRoots.	
 		aCND viewModel attributePatterns.
@@ -178,15 +178,14 @@ CNBBothTokensStrategy >> organize: aCollectionOfPackages [
 ]
 
 { #category : #initialization }
-CNBBothTokensStrategy >> resetRoots: rootModels [ 
+CNBBothTokensStrategy >> resetRoots: rootModels [
 
 	| coloredRootModels |
-
+	
 	rootModels do: [ :each | 
 		each type: (CNBClassType with: each subclasses) type.
 		each removeUnnecessaryTokens ].
-		
-		
+			
 	coloredRootModels := builder color: rootModels.
 	coloredRootModels := builder 
 			startFightOverTokensBetween: coloredRootModels.

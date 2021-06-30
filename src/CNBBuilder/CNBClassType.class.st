@@ -80,18 +80,14 @@ CNBClassType >> checkIfMonoTokenWith: classModels [
 { #category : #checking }
 CNBClassType >> checkIfMultiToken: classModels [
 
-	|  rootToken tokens aClassModel root rootTokens |
-	aClassModel := classModels atRandom.
-	root := aClassModel root name.
-	rootTokens 
-	:= { (CNBFeatureSelector new extract: #suffix from: root) . 
-	(CNBFeatureSelector new extract: #prefix from: root) }.
-	rootToken := rootTokens detect:  [ :each | each = aClassModel token ] ifNone: [ rootTokens first ].
+	|  rootToken tokens root rootTokens mainHierarchyToken |
+	root := classModels atRandom root name.
+	rootTokens := CNBFeatureSelector new tokensOf: root.
+	mainHierarchyToken := (classModels collect: #token) detectMax: [ :each | each  ].
+	rootToken := rootTokens detect:  [ :each | each = mainHierarchyToken ] ifNone: [ rootTokens first ].
 	
-	tokens := (classModels collect: #token).
-	tokens
-		add: rootToken.
-		
+	tokens := (classModels collect: #token) add: rootToken; yourself.
+	
 	(tokens hasMoreThanOneElement) ifTrue: [ ^ self multiToken  ].
 	
 	^ nil 

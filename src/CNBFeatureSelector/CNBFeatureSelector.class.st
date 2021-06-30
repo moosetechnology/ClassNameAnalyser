@@ -32,8 +32,9 @@ CNBFeatureSelector class >> extractSuffixFrom: aString [
 { #category : #extraction }
 CNBFeatureSelector >> extract: tokenPosition from: aName [
 
-	(tokenPosition = #prefix) ifTrue: [ ^ self extractPrefixFrom: aName ].
-	(tokenPosition = #suffix) ifTrue:  [ ^ self extractSuffixFrom: aName ].
+	^ (tokenPosition = #prefix) 
+	ifTrue: [  self extractPrefixFrom: aName ]
+	ifFalse:  [  self extractSuffixFrom: aName ].
 	
 ]
 
@@ -176,4 +177,10 @@ CNBFeatureSelector >> stemming: aBoolean [
 CNBFeatureSelector >> tokenize: aName [
 
 	^ nameTokenizer tokenize: aName
+]
+
+{ #category : #'as yet unclassified' }
+CNBFeatureSelector >> tokensOf: aString [
+
+	^ { (self extract: #suffix from: aString) . (self extract: #prefix from: aString) }.
 ]

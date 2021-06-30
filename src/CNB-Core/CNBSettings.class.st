@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'token',
 		'rootClass',
-		'noInterfaces'
+		'noInterfaces',
+		'noPackagesNames'
 	],
 	#category : #'CNB-Core'
 }
@@ -29,10 +30,16 @@ CNBSettings >> deleteInterfaces [
 	noInterfaces := true
 ]
 
+{ #category : #'as yet unclassified' }
+CNBSettings >> deletePackagesNames [ 
+	noPackagesNames := true
+]
+
 { #category : #accessing }
 CNBSettings >> initialize [ 
 	super initialize.
 	noInterfaces := false.
+	noPackagesNames := false.
 ]
 
 { #category : #'as yet unclassified' }
@@ -40,9 +47,19 @@ CNBSettings >> leaveInterfaces [
 	noInterfaces := false
 ]
 
+{ #category : #'as yet unclassified' }
+CNBSettings >> leavePackagesNames [ 
+	noPackagesNames := false
+]
+
 { #category : #accessing }
 CNBSettings >> noInterfaces [ 
 	^ noInterfaces 
+]
+
+{ #category : #accessing }
+CNBSettings >> noPackagesNames [
+	^ noPackagesNames
 ]
 
 { #category : #accessing }
