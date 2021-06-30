@@ -25,7 +25,8 @@ CNBTokenStrategy class >> doTokenDictionaryFrom: aCollectionOfClassModels [
 CNBTokenStrategy >> build: aCND [
 
 	| thePackageModels |
-	thePackageModels := builder doPackageModelsOf: aCND.
+	builder visualization: aCND.
+	thePackageModels := builder doPackageModels.
 	aCND viewModel
 		name: aCND model name;
 		packageModels: thePackageModels;

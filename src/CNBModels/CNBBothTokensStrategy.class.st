@@ -30,14 +30,14 @@ CNBBothTokensStrategy class >> doTokenDictionaryFrom: aCollectionOfClassModels [
 CNBBothTokensStrategy >> build: aCND [
 
 		| thePackageModels |
-	thePackageModels := builder doPackageModelsOf: aCND.
+	builder visualization: aCND. 
+	thePackageModels := builder doPackageModels.
 	
 	aCND viewModel
 		name: aCND model name;
 		packageModels: thePackageModels;
-		rootModels: (self buildRootsFrom: (thePackageModels flatCollect: #classModels)).
-		
-		aCND viewModel packageViewModels: (self doPackageViewModelsOf: aCND).
+		rootModels: (self buildRootsFrom: (thePackageModels flatCollect: #classModels));
+		packageViewModels: (self doPackageViewModelsOf: aCND).
 
 		self resetRoots: aCND rootModels.
 		aCND attributeRoots.	

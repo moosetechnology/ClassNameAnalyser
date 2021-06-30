@@ -6,6 +6,9 @@ Class {
 	#superclass : #Object,
 	#traits : 'CNBTColorAttributor + CNBTDataExtractor',
 	#classTraits : 'CNBTColorAttributor classTrait + CNBTDataExtractor classTrait',
+	#instVars : [
+		'visualization'
+	],
 	#classInstVars : [
 		'rootmodels',
 		'conceptualmodel'
@@ -104,6 +107,40 @@ CNBBuilder >> addPatternsOccurencesIn: aCnb to: analysisDescription [
 		scatteredVocabulary: (self scatteredVocabularyCasesIn: aCnb).
 ]
 
+{ #category : #adding }
+CNBBuilder >> addProjectInfoIn: aCnb to: analysisDescription [
+
+	| tokensPerMultiHierarchy roots classes |
+	tokensPerMultiHierarchy	
+		:= ((aCnb viewModel rootModels select: [ :each | each isMultiToken ]) collect: [ :each | each hierarchyTokens size]).
+	roots := aCnb viewModel rootModels.
+	classes := aCnb viewModel classViewModels.
+	
+	analysisDescription 
+		project: aCnb viewModel model name;
+		tokens: aCnb viewModel tokenModels size;
+		classes: aCnb viewModel classViewModels size;
+		packages: aCnb viewModel packageViewModels size;
+		hierarchies: (roots select: [ :each | each isMonoToken or: [ each isMultiToken  ] ]) size;	
+		maxDepthRoot: (roots detectMax: [ :aRoot | aRoot maxDepth ]) name; 
+		maxDepth: (roots detectMax: [ :aRoot | aRoot maxDepth ]) maxDepth;
+		maxChildrenRoot: (roots detectMax: [ :root | root children ]) name;
+		maxChildren: (roots detectMax: [ :root | root children ]) children;
+		averageDepth: (roots collect: [ :each | each maxDepth ]) average asInteger;
+		averageChildren: (roots collect: [ :each | each children ]) average asInteger;
+		monoClasses: (roots select: [ :each | each isMonoClass ])size;
+		monoTokenClasses: (classes select: [ :each | each root isMonoToken ]) size;
+		monoTokenHierarchies: (roots select: [ :each | each isMonoToken ]) size;
+		multiTokenClasses: (classes select: [ :each | each root isMultiToken and: [ each color ~= Color black ] ]) size;	
+		multiTokenHierarchies: (roots select: [ :each | each isMultiToken and: [ each color ~= Color black ] ] ) size;
+		blackHierarchies: (roots select: [ :each | each isMultiToken and: [ each color = Color black ] ]) size;
+		blackClasses: 	(classes select: [ :each | each root isMultiToken and: [ each color = Color black ] ]) size;		
+		suspisciousTokens: ((aCnb viewModel classViewModels select: [ :each | each root isMultiToken]) collect: #token) asSet size;	
+		averageTokensPerMultiHierarchy: (tokensPerMultiHierarchy ifEmpty: [ 0 ] ifNotEmpty: [ tokensPerMultiHierarchy average asInteger ]).
+	aCnb analysisDescription: analysisDescription
+		
+]
+
 { #category : #assignments }
 CNBBuilder >> assignColorByType: aType [
 
@@ -123,41 +160,14 @@ CNBBuilder >> assignColorByType: aType [
 { #category : #building }
 CNBBuilder >> buildAnalysisDescriptionOf: aCnb [
 
-	| analysisDescription classes roots tokensPerMultiHierarchy ok |
+	| analysisDescription  |
 	analysisDescription := CNBAnalysisDescription new.
-	classes := aCnb viewModel classViewModels asOrderedCollection.
-	roots := aCnb viewModel rootModels asOrderedCollection.
-	ok := (aCnb viewModel rootModels collect: [ :each | each children ]).
-	tokensPerMultiHierarchy := ((aCnb viewModel rootModels select: [ :each | each isMultiToken ]) collect: [ :each | each hierarchyTokens size]).
-
+	
 	aCnb viewModel packageViewModels 
 	ifEmpty: [ aCnb analysisDescription: nil  ]
 	ifNotEmpty: [  
 	self addPatternsOccurencesIn: aCnb to: analysisDescription.
-	analysisDescription 
-		project: aCnb viewModel model name;
-		tokens: aCnb viewModel tokenModels size;
-		classes: aCnb viewModel classViewModels size;
-		packages: aCnb viewModel packageViewModels size;
-		hierarchies: (aCnb viewModel rootModels select: [ :each | each isMonoToken or: [ each isMultiToken  ] ]) size;	
-		maxDepthRoot: (aCnb viewModel rootModels detectMax: [ :aRoot | aRoot maxDepth ]) name; 
-		maxDepth: (aCnb viewModel rootModels detectMax: [ :aRoot | aRoot maxDepth ]) maxDepth;
-		maxChildrenRoot: (aCnb viewModel rootModels detectMax: [ :root | root children ]) name;
-		maxChildren: (aCnb viewModel rootModels detectMax: [ :root | root children ]) children;
-		averageDepth: (aCnb viewModel rootModels collect: [ :each | each maxDepth ]) average asInteger;
-		averageChildren: (aCnb viewModel rootModels collect: [ :each | each children ]) average asInteger;
-		monoClasses: (aCnb viewModel rootModels select: [ :each | each isMonoClass ])size;
-		monoTokenClasses: (aCnb viewModel classViewModels select: [ :each | each root isMonoToken ]) size;
-		monoTokenHierarchies: (aCnb viewModel rootModels select: [ :each | each isMonoToken ]) size;
-		multiTokenClasses: (aCnb viewModel classViewModels select: [ :each | each root isMultiToken and: [ each color ~= Color black ] ]) size;	
-		multiTokenHierarchies: (aCnb viewModel rootModels select: [ :each | each isMultiToken and: [ each color ~= Color black ] ] ) size;
-		blackHierarchies: (aCnb viewModel rootModels select: [ :each | each isMultiToken and: [ each color = Color black ] ]) size;
-		blackClasses: 	(aCnb viewModel classViewModels select: [ :each | each root isMultiToken and: [ each color = Color black ] ]) size;		
-		suspisciousTokens: ((aCnb viewModel classViewModels select: [ :each | each root isMultiToken]) collect: #token) asSet size;	
-		averageTokensPerMultiHierarchy: (tokensPerMultiHierarchy ifEmpty: [ 0 ] ifNotEmpty: [ tokensPerMultiHierarchy average asInteger ]).
-	aCnb analysisDescription: analysisDescription 
-	]
-		
+	self addProjectInfoIn: aCnb to: analysisDescription ] 
 ]
 
 { #category : #coloring }
@@ -191,14 +201,11 @@ CNBBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 				 ].
 ]
 
-{ #category : #building }
-CNBBuilder >> doPackageModelsOf: aCND [
+{ #category : #'as yet unclassified' }
+CNBBuilder >> doPackageModels [ 
 
-	^ aCND 
-			model packages collect: [ :eachPackage | 
-												CNBPackageModel 
-													of: eachPackage 
-													withSettings: aCND setting  ]
+	^ visualization model packages 
+		collect: [ :eachPackage | CNBPackageModel of: eachPackage withSettings: visualization setting  ]
 ]
 
 { #category : #building }
@@ -345,4 +352,14 @@ CNBBuilder >> startFightOverTokensBetween: rootModels [
 				detectMax: [ :aRM | (aRM tokensDictionary at: aToken) value ].
 			winner dominantTokens: (winner tokensDictionary associationAt: aToken) ].
 	^ rootModels
+]
+
+{ #category : #accessing }
+CNBBuilder >> visualization [ 
+	^ visualization
+]
+
+{ #category : #accessing }
+CNBBuilder >> visualization: aCND [
+	visualization := aCND
 ]
