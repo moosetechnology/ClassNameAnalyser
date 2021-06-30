@@ -58,15 +58,10 @@ CNBBothTokensStrategy >> buildRoot: aRootModel [
 					ifFalse: [ aRootModel model name ].
 	rootName := 	(CNBFilterer removeAllDigitsAndSpecialCharsFrom: name).			
 	^ aRootModel 
-		name: rootName;  
-		token: { (CNBFeatureSelector new 
-					extract: #suffix
-					from: name) . 
-					(CNBFeatureSelector new 
-					extract: #prefix
-					from: name) };
+		name: rootName; 
 		tokenPosition: #both;
-		tokensDictionary: (self doTokenDictionaryFrom: subclasses).
+		tokensDictionary: (self doTokenDictionaryFrom: subclasses);
+		initializeToken. 
 ]
 
 { #category : #building }

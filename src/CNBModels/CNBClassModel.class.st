@@ -66,12 +66,8 @@ CNBClassModel >> depth: aDepth [
 
 { #category : #testing }
 CNBClassModel >> hasRootToken [
-	| rootToken rootTokens |
-	rootTokens 
-	:= CNBFeatureSelector new tokensOf: root name.
-	
-	rootToken := rootTokens detect:  [ :each | each = self token ] ifNone: [ rootTokens first ].
-	^ rootToken = self token
+
+	^ (CNBFeatureSelector new tokensOf: root name) includes: self token
 ]
 
 { #category : #accessing }

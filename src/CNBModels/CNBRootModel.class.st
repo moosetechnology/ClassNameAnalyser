@@ -40,13 +40,13 @@ CNBRootModel class >> model: aClass with: aCollectionOfSubClassModels [
 CNBRootModel >> biggestTokenAssociation [
 
 	^ tokensDictionary 
-	hasMoreThanOneElement ifTrue: [ tokensDictionary  detectMaxAssociation  ] 
+	hasMoreThanOneElement ifTrue: [ tokensDictionary detectMaxAssociation  ] 
 	ifFalse: [ tokensDictionary associations first  ]
 ]
 
 { #category : #accessing }
 CNBRootModel >> biggestTokenName [
-
+	
 	^ self biggestTokenAssociation key
 ]
 
@@ -151,6 +151,15 @@ CNBRootModel >> initialize [
 
 ]
 
+{ #category : #accessing }
+CNBRootModel >> initializeToken [ 
+	| rootTokens subclassTokens |
+	
+	rootTokens := CNBFeatureSelector new tokensOf: name.
+	subclassTokens := (self subclassesWithoutRoot collect: #token).
+	self token: (self tokens detect: [ :each | subclassTokens includes: each ] ifNone:  [ self tokens last ]).
+]
+
 { #category : #testing }
 CNBRootModel >> isMonoClass [
 
@@ -182,21 +191,13 @@ CNBRootModel >> isTrait [
 
 { #category : #accessing }
 CNBRootModel >> mainToken [ 
-
-	| classWithSimilatToken theRoot subclassesWithoutRoot |
-	theRoot := subclasses detect: [ :each | each model name = self model name ] ifNone: [  ].
+	| classWithSimilatToken |
 	
-	subclassesWithoutRoot 
-		:= (subclasses includes: theRoot) 
-				ifTrue: [ subclasses difference: { theRoot } ] 
-				ifFalse: [ subclasses ].
-				
 	classWithSimilatToken :=
-	(subclasses
-		anySatisfy: [ :aClassM | aClassM hasRootToken ]) 
-		ifFalse: [ ^ self biggestTokenName ].
+	(self subclassesWithoutRoot 
+		anySatisfy: [ :aClassM | aClassM hasRootToken]) ifTrue: [ ^ self token ].
 	
-	^ token
+	^ self biggestTokenName  
 	
 ]
 
@@ -295,11 +296,19 @@ CNBRootModel >> subclasses: collection [
 	
 ]
 
-{ #category : #accessing }
-CNBRootModel >> token [
+{ #category : #'as yet unclassified' }
+CNBRootModel >> subclassesWithoutRoot [
 
-	 ^ token
-	
+	| theRoot |
+	theRoot := subclasses detect: [ :each | each model name = self model name ] ifNone: [  ].
+	^ (subclasses includes: theRoot) 
+				ifTrue: [ subclasses difference: { theRoot } ] 
+				ifFalse: [ subclasses ].
+]
+
+{ #category : #accessing }
+CNBRootModel >> token [ 
+	^ token
 ]
 
 { #category : #accessing }
@@ -333,12 +342,7 @@ CNBRootModel >> tokenPosition: suffixOrPrefix [
 
 { #category : #accessing }
 CNBRootModel >> tokens [ 
-	| featureSelector prefix suffix |
-	featureSelector := CNBFeatureSelector new.
-	prefix := featureSelector extractPrefixFrom: name.
-	suffix := featureSelector extractSuffixFrom: name.
-	
-	^ {  prefix . suffix }
+	^ CNBFeatureSelector new tokensOf: self name
 ]
 
 { #category : #accessing }
