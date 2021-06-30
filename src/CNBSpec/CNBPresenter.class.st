@@ -51,7 +51,7 @@ CNBPresenter class >> defaultSpec [
 			spacing: 1;
 			add: (SpBoxLayout newHorizontal 
 		add: '';
-		add: #inspect;
+		"add: #inspect;"
 		add: #instructionsButton width: self buttonWidth;
 		add: #helpButton width: self iconWidth;
 		yourself) height: self iconWidth;
@@ -75,7 +75,7 @@ CNBPresenter class >> defaultSpec [
 							add: 'Root class' height: self labelHeight;
 							add: #rootSelector height: self labelHeight;
 							add: #withoutInterfaces height: self labelHeight + self labelHeight;
-							add: #withoutPackageName height: self labelHeight + self labelHeight;
+							"add: #withoutPackageName height: self labelHeight + self labelHeight;"
 							add: #visualizeButton width: self buttonWidth;
 							yourself) "height: self buttonHeight + self buttonHeight + self buttonHeight";
 						add: (SpBoxLayout newVertical 
