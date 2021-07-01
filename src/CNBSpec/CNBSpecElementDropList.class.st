@@ -23,7 +23,7 @@ CNBSpecElementDropList >> initialize [
 	patterns := { 	NoPattern new .
 		            CNBFatBlobPattern new .
 		            CNBSnowFlakesPattern new .
-		           	CNBHomogeneityBreakerPattern new .
+		           	CNBNearlyHomogeneous new .
 		            CNBIntruderPattern new .
 		            CNBConfettiPattern new .
 		            CNBHomogeneousPattern new .

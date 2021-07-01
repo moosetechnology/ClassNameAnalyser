@@ -49,13 +49,13 @@ CNBTokenViewModel >> addPosition [
 { #category : #checking }
 CNBTokenViewModel >> appearsInSeveralPackages [
 	
-	| siblings homogeneityBreakerSiblingsCheck mainToken |
+	| siblings homogeneityBreakerSiblingsCheck |
 	siblings := self root tokenModels select: [ :each | each name = name ].
 "	mainToken := siblings asOrderedCollection detect: [ :each | CNBHomogeneityBreakerPattern new checkMainToken: each ]." 
 	homogeneityBreakerSiblingsCheck := (siblings asOrderedCollection 
-		collect: [ :each | CNBHomogeneityBreakerPattern check: each ]).
+		collect: [ :each | CNBNearlyHomogeneous check: each ]).
 	
-	^ ((homogeneityBreakerSiblingsCheck occurrencesOf: true) >= CNBHomogeneityBreakerPattern new occurrences) 
+	^ ((homogeneityBreakerSiblingsCheck occurrencesOf: true) >= CNBNearlyHomogeneous new occurrences) 
 	
 ]
 
@@ -121,16 +121,6 @@ CNBTokenViewModel >> checkFatBlob [
 ]
 
 { #category : #testing }
-CNBTokenViewModel >> checkHomogeneityBreaker [
-
-	| homogeneityBreakerPattern |
-	homogeneityBreakerPattern := CNBHomogeneityBreakerPattern new.
-	
-	(homogeneityBreakerPattern check: self) 
-		"and: [ self appearsInSeveralPackages ])" ifTrue: [ patterns add: homogeneityBreakerPattern. ]
-]
-
-{ #category : #testing }
 CNBTokenViewModel >> checkHomogeneous [ 
 	
 	| homogeneousPattern |	
@@ -150,6 +140,16 @@ CNBTokenViewModel >> checkIntruder [
 ]
 
 { #category : #testing }
+CNBTokenViewModel >> checkNearlyHomogeneous [
+
+	| nearlyHomogeneous |
+	nearlyHomogeneous := CNBNearlyHomogeneous new.
+	
+	(nearlyHomogeneous check: self) 
+		"and: [ self appearsInSeveralPackages ])" ifTrue: [ patterns add: nearlyHomogeneous. ]
+]
+
+{ #category : #testing }
 CNBTokenViewModel >> checkPatterns [ 
 
 	self 
@@ -159,7 +159,7 @@ CNBTokenViewModel >> checkPatterns [
 		checkIntruder;
 		checkFatBlob;
 		checkScatteredVocabulary;
-		checkHomogeneityBreaker.
+		checkNearlyHomogeneous.
 		
 ]
 
@@ -268,7 +268,7 @@ CNBTokenViewModel >> initialize [
 	
 	patterns := OrderedCollection new.
 	box when: RSMouseLeftClick do: [ self onClickResetHighlighter].
-	box when: RSMouseRightClick do: [ self inspect].
+	"box when: RSMouseRightClick do: [ self inspect]."
 ]
 
 { #category : #accessing }

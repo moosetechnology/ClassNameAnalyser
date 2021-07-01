@@ -44,7 +44,7 @@ CNBScatteredVocabularyPattern >> initialize [
 	it is not consistently named/does not follow a particular naming pattern.'.
 	name := #'Scattered Vocabulary'.
 	minClassSize := 2.
-	minTokenSize := 2.
+	minTokenSize := 3.
 	threshold := 20
 ]
 
