@@ -11,7 +11,7 @@ Class {
 		'homogeneous',
 		'intruder',
 		'snowFlakes',
-		'homogeneityBreaker',
+		'nearlyHomogeneous',
 		'fatBlob',
 		'tokens',
 		'classes',
@@ -140,17 +140,6 @@ CNBAnalysisDescription >> hierarchies: aNumber [
 ]
 
 { #category : #accessing }
-CNBAnalysisDescription >> homogeneityBreaker [
-	^ homogeneityBreaker
-]
-
-{ #category : #accessing }
-CNBAnalysisDescription >> homogeneityBreaker: aNumber [
-	
-	homogeneityBreaker := aNumber 
-]
-
-{ #category : #accessing }
 CNBAnalysisDescription >> homogeneous [
 	^ homogeneous
 ]
@@ -265,6 +254,17 @@ CNBAnalysisDescription >> multiTokenHierarchies [
 { #category : #accessing }
 CNBAnalysisDescription >> multiTokenHierarchies: aSize [
 	multiTokenHierarchies := aSize
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> nearlyHomogeneous [
+	^ nearlyHomogeneous
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> nearlyHomogeneous: aNumber [
+	
+	nearlyHomogeneous := aNumber 
 ]
 
 { #category : #accessing }

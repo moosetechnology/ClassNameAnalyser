@@ -100,7 +100,7 @@ CNBBuilder >> addPatternsOccurencesIn: aCnb to: analysisDescription [
 	analysisDescription 
 		confetti: (self confettiCasesIn: aCnb);
 		fatBlob: (self fatBlobCasesIn: aCnb);
-		homogeneityBreaker: (self homogeneityBreakerCasesIn: aCnb);
+		nearlyHomogeneous: (self nearlyHomogeneousCasesIn: aCnb);
 		homogeneous: (self homogeneousCasesIn: aCnb);
 		intruder: (self intruderCasesIn: aCnb);
 		snowFlakes: (self snowFlakesCasesIn: aCnb);

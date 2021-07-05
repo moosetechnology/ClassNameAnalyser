@@ -22,10 +22,8 @@ CNBScatteredVocabularyPattern class >> newInstance [
 CNBScatteredVocabularyPattern >> check: aTokenModel [
 
 	| isScattered |
-	isScattered := aTokenModel 
-			root hasScatteredVocabularyInside: aTokenModel package.
-			isScattered ifTrue: [  
-	aTokenModel root hasScatteredVocabulary ]
+	isScattered := aTokenModel root tokensDictionary size >= minTokenSize.
+	isScattered ifTrue: [ aTokenModel root hasScatteredVocabulary ]
 
 ]
 

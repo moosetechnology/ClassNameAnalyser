@@ -51,7 +51,7 @@ CNBPresenter class >> defaultSpec [
 			spacing: 1;
 			add: (SpBoxLayout newHorizontal 
 		add: '';
-		"add: #inspect;"
+		add: #inspect;
 		add: #instructionsButton width: self buttonWidth;
 		add: #helpButton width: self iconWidth;
 		yourself) height: self iconWidth;

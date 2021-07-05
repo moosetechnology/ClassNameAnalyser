@@ -73,7 +73,7 @@ CNBPatternSelector >> selectFatBlob [
 { #category : #selectPatterns }
 CNBPatternSelector >> selectHomogeneityBreaker [ 
 
-	^ self models select: [ :each | each pattern isHomogeneityBreaker ] 
+	^ self models select: [ :each | each pattern isNearlyHomogeneous ] 
 
 ]
 

@@ -176,7 +176,7 @@ CNBPresenterTest >> testCheckHomogeneityBreaker [
 	aTokenModel checkPatterns.
 	
 	self
-		assert: (aTokenModel patterns anySatisfy: [ :aPattern | aPattern isHomogeneityBreaker ] 	)
+		assert: (aTokenModel patterns anySatisfy: [ :aPattern | aPattern isNearlyHomogeneous ] 	)
 		equals: true
 ]
 
@@ -321,7 +321,7 @@ CNBPresenterTest >> testHomogeneityBreakerExists [
 	| homogeneityBreakers |
 	self changeToCalypso.
 	homogeneityBreakers := allTokensModels  
-			select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isHomogeneityBreaker]  ].
+			select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isNearlyHomogeneous]  ].
 	
 	self 
 		assert: homogeneityBreakers isNotEmpty 
@@ -333,7 +333,7 @@ CNBPresenterTest >> testHomogeneityBreakerIsNotIntruder [
 
 	| homoBreaker intruders |
 	homoBreaker := allTokensModels 
-			select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isHomogeneityBreaker ] ].
+			select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isNearlyHomogeneous ] ].
 	intruders := allTokensModels 
 			select: [ :each | each patterns anySatisfy: [ :pattern | pattern isIntruder ]  ].
 			

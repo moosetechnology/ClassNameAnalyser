@@ -38,12 +38,6 @@ CNBAbstractPattern >> isFatBlob [
 ]
 
 { #category : #testing }
-CNBAbstractPattern >> isHomogeneityBreaker [
-
-	^ self name = #'Homogeneity Breaker'
-]
-
-{ #category : #testing }
 CNBAbstractPattern >> isHomogeneous [ 
 
 	^ self name = #'Homogeneous'
@@ -53,6 +47,12 @@ CNBAbstractPattern >> isHomogeneous [
 CNBAbstractPattern >> isIntruder [ 
 
 	^ self name = #'Intruder'
+]
+
+{ #category : #testing }
+CNBAbstractPattern >> isNearlyHomogeneous [
+
+	^ self name = #'Nearly Homogeneous'
 ]
 
 { #category : #testing }
