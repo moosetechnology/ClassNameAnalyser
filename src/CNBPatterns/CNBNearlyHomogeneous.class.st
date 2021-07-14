@@ -26,11 +26,18 @@ CNBNearlyHomogeneous >> belongers [
 ]
 
 { #category : #validation }
-CNBNearlyHomogeneous >> check: aTokenModel [
+CNBNearlyHomogeneous >> check: aRootModel [
 	
-	(aTokenModel root isMonoToken or: [ aTokenModel root isTrait or: [ aTokenModel root isMonoClass ]  ]) ifTrue: [  ^ false ].
+	| nearlyHomogeneous tokens |
+	tokens := aRootModel tokensDictionary keys.
 	
-	^ (aTokenModel root tokensDictionary size = occurrences)
+	nearlyHomogeneous 
+		:= (tokens asOrderedCollection 
+				add: aRootModel token;
+				yourself) asSet size = occurrences.
+				
+	(nearlyHomogeneous and: [ aRootModel isMultiToken ]) 
+		ifTrue: [ aRootModel isNearlyHomogeneous ].
 ]
 
 { #category : #accessing }

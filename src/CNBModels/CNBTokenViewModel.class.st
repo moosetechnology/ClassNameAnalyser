@@ -61,7 +61,6 @@ CNBTokenViewModel >> appearsInSeveralPackages [
 
 { #category : #attribution }
 CNBTokenViewModel >> attributePattern [ 
-
 	self checkPatterns.
 	
 ]
@@ -140,37 +139,14 @@ CNBTokenViewModel >> checkIntruder [
 ]
 
 { #category : #testing }
-CNBTokenViewModel >> checkNearlyHomogeneous [
-
-	| nearlyHomogeneous |
-	nearlyHomogeneous := CNBNearlyHomogeneous new.
-	
-	(nearlyHomogeneous check: self) 
-		"and: [ self appearsInSeveralPackages ])" ifTrue: [ patterns add: nearlyHomogeneous. ]
-]
-
-{ #category : #testing }
 CNBTokenViewModel >> checkPatterns [ 
 
 	self 
-		checkHomogeneous;
 		checkConfetti;
 		checkSnowFlakes;
 		checkIntruder;
-		checkFatBlob;
-		checkScatteredVocabulary;
-		checkNearlyHomogeneous.
+		checkFatBlob.
 		
-]
-
-{ #category : #testing }
-CNBTokenViewModel >> checkScatteredVocabulary [
-	
-	| scatteredVocabularyPattern |
-	
-	scatteredVocabularyPattern := CNBScatteredVocabularyPattern new.
-
-	(scatteredVocabularyPattern check: self) 
 ]
 
 { #category : #testing }
@@ -268,7 +244,7 @@ CNBTokenViewModel >> initialize [
 	
 	patterns := OrderedCollection new.
 	box when: RSMouseLeftClick do: [ self onClickResetHighlighter].
-	"box when: RSMouseRightClick do: [ self inspect]."
+	box when: RSMouseRightClick do: [ self inspect].
 ]
 
 { #category : #accessing }

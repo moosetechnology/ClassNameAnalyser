@@ -50,10 +50,7 @@ CNBTDataExtractor >> fatBlobCasesIn: aCnb [
 { #category : #extracting }
 CNBTDataExtractor >> homogeneousCasesIn: aCnb [
 
-	^ (aCnb 
-		viewModel 
-			tokenModels 
-				select: [ :aToken | aToken patterns anySatisfy: [ :aPattern | aPattern isHomogeneous ] ]) size		
+	^ (aCnb viewModel rootModels select: [ :aRoot | aRoot isMonoToken ]) size		
 ]
 
 { #category : #extracting }
@@ -69,21 +66,14 @@ CNBTDataExtractor >> intruderCasesIn: aCnb [
 CNBTDataExtractor >> nearlyHomogeneousCasesIn: aCnb [
 
 	^ (aCnb 
-		viewModel 
-			tokenModels 
-				select: [ :aToken | aToken patterns anySatisfy: [ :aPattern | aPattern isNearlyHomogeneous ] ]) size		
+		viewModel rootModels select: [ :each | each nearlyHomogeneous ]) size
 ]
 
 { #category : #extracting }
 CNBTDataExtractor >> scatteredVocabularyCasesIn: aCnb [
 
-^  (aCnb 
-		viewModel 
-			rootModels select: [ :each | each isScattered ]) size.	
-			
-		"(aCnb 
-		viewModel 
-			rootModels select: [ :each | each tokensDictionary size > 2 ]) size.	"
+	^ (aCnb rootModels select: [ :each | each isScattered ]) size
+	
 ]
 
 { #category : #selecting }

@@ -32,9 +32,12 @@ Class {
 		'patternsHelpButton',
 		'visualizeButton',
 		'withoutInterfaces',
-		'setting',
+		'settings',
 		'inspect',
-		'withoutPackageName'
+		'withoutPackageName',
+		'suffixSetting',
+		'prefixSetting',
+		'bothSetting'
 	],
 	#category : #CNBSpec
 }
@@ -175,12 +178,12 @@ CNBPresenter >> connectPresenters [
 
 { #category : #accessing }
 CNBPresenter >> deleteInterfaces [ 
-	setting deleteInterfaces.
+	settings do: [ :each | each deleteInterfaces ] .
 ]
 
 { #category : #'as yet unclassified' }
 CNBPresenter >> deletePackagesNames [
-	setting deletePackagesNames.
+	settings do: [ :each | each deletePackagesNames] .
 ]
 
 { #category : #'import-export' }
@@ -267,12 +270,16 @@ CNBPresenter >> initializePresenters [
 	self initializeHelpButton.
 	self initializeInstructionsButton.
 	self initializePatternsHelpButton.
+	self initializeSettings.
+	suffixSetting := CNBSettings new token: #suffix.
+	prefixSetting :=  CNBSettings new token: #prefix.
+	bothSetting := CNBSettings new token: #both.
+	settings := { suffixSetting . prefixSetting . bothSetting }.
 	withoutInterfaces := self newCheckBox.
 	withoutInterfaces label: 'Delete Interfaces'.
 	withoutPackageName := self newCheckBox.
 	withoutPackageName label: 'Delete package reference'.
 	inspect := self newButton label: 'Current visualization inspect'.
-	setting := CNBSettings new.
 	packages := OrderedCollection new.
 	highlighter := CNBSingletonHighlighter instance.
 	allListItems := RBBrowserEnvironment default packages asArray sorted: [ :a : b | a name < b name ].
@@ -322,6 +329,14 @@ CNBPresenter >> initializePresenters [
 ]
 
 { #category : #initialization }
+CNBPresenter >> initializeSettings [ 
+	suffixSetting := CNBSettings new.
+	prefixSetting := CNBSettings new.
+	bothSetting := CNBSettings new.
+	settings := { suffixSetting . prefixSetting . bothSetting }.
+]
+
+{ #category : #initialization }
 CNBPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	
@@ -338,12 +353,12 @@ CNBPresenter >> inspect [
 
 { #category : #'as yet unclassified' }
 CNBPresenter >> leaveInterfaces [ 
-	setting leaveInterfaces 
+	settings do: [:each | each leaveInterfaces ]
 ]
 
 { #category : #'as yet unclassified' }
 CNBPresenter >> leavePackagesNames [
-	setting leavePackagesNames.
+	settings do: [ :each | each  leavePackagesNames] .
 ]
 
 { #category : #accessing }
@@ -521,12 +536,11 @@ CNBPresenter >> projectAtRadioButton: aRadioButtion [
 
 { #category : #building }
 CNBPresenter >> projectModel: aMooseModel with: aRootClass [
-	
-	setting rootClass: aRootClass.
 
-	((suffixCnb setting: setting; model: aMooseModel)withSuffix)  startBuilding; buildShapes.
-	((prefixCnb  setting: setting; model: aMooseModel) withPrefix) startBuilding; buildShapes.
-	((bothCnb setting: setting; model: aMooseModel) withBoth) startBuilding; buildShapes.
+	settings do: [ :each | each rootClass: aRootClass ].
+	(suffixCnb setting: suffixSetting; model: aMooseModel) startBuilding; buildShapes.
+	(prefixCnb setting: prefixSetting; model: aMooseModel) startBuilding; buildShapes.
+	(bothCnb setting: bothSetting; model: aMooseModel) startBuilding; buildShapes.
 	
 	"self fixColors."
 	
@@ -570,7 +584,7 @@ CNBPresenter >> selectedCnB [
 
 	| activatedRadioButton |
 	activatedRadioButton := self radioButtons detect: [ :each | each state ].
-	
+
 	^ (self projectAtRadioButton: activatedRadioButton).
 ]
 

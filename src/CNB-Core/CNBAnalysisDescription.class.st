@@ -23,17 +23,14 @@ Class {
 		'averageDepth',
 		'averageChildren',
 		'monoClasses',
-		'traitClasses',
 		'monoTokenClasses',
 		'multiTokenClasses',
 		'averageTokensPerMultiHierarchy',
-		'monoTokenHierarchies',
 		'suspisciousTokens',
 		'hierarchies',
 		'multiTokenHierarchies',
-		'suspisciousTokensPercentage',
-		'blackClasses',
-		'blackHierarchies'
+		'monoTokenMaxChildren',
+		'multiTokenMaxChildren'
 	],
 	#category : #'CNB-Core'
 }
@@ -78,26 +75,6 @@ CNBAnalysisDescription >> averageTokensPerMultiHierarchy: aNum [
 ]
 
 { #category : #accessing }
-CNBAnalysisDescription >> blackClasses [ 
-	^ blackClasses 
-]
-
-{ #category : #accessing }
-CNBAnalysisDescription >> blackClasses: aNumber [ 
-	blackClasses := aNumber 
-]
-
-{ #category : #accessing }
-CNBAnalysisDescription >> blackHierarchies [
-	^ blackHierarchies 
-]
-
-{ #category : #accessing }
-CNBAnalysisDescription >> blackHierarchies: aNumber [
-	blackHierarchies := aNumber 
-]
-
-{ #category : #accessing }
 CNBAnalysisDescription >> classes [
 	^ classes
 ]
@@ -109,7 +86,10 @@ CNBAnalysisDescription >> classes: aNumber [
 
 { #category : #accessing }
 CNBAnalysisDescription >> confetti [
-	^ confetti
+
+	^ confetti isZero 
+	ifFalse: [ ((confetti / tokens) asFloat) * 100 ]
+	ifTrue: [ 0 ]
 ]
 
 { #category : #accessing }
@@ -120,7 +100,10 @@ CNBAnalysisDescription >> confetti: aNumber [
 
 { #category : #accessing }
 CNBAnalysisDescription >> fatBlob [
-	^ fatBlob
+
+	^ fatBlob isZero 
+	ifFalse: [ ((fatBlob / tokens) asFloat ) * 100 ]
+	ifTrue: [ 0 ]
 ]
 
 { #category : #accessing }
@@ -141,7 +124,10 @@ CNBAnalysisDescription >> hierarchies: aNumber [
 
 { #category : #accessing }
 CNBAnalysisDescription >> homogeneous [
-	^ homogeneous
+
+	^ homogeneous isZero 
+	ifFalse: [ ((homogeneous / hierarchies) asFloat) * 100 ]
+	ifTrue: [ 0 ]
 ]
 
 { #category : #accessing }
@@ -152,7 +138,10 @@ CNBAnalysisDescription >> homogeneous: aNumber [
 
 { #category : #accessing }
 CNBAnalysisDescription >> intruder [
-	^ intruder
+
+	^ intruder isZero 
+	ifFalse: [ ((intruder / tokens) asFloat )* 100 ]
+	ifTrue: [ 0 ]
 ]
 
 { #category : #accessing }
@@ -207,7 +196,10 @@ CNBAnalysisDescription >> maxDepthRoot: aRoot [
 
 { #category : #accessing }
 CNBAnalysisDescription >> monoClasses [
-	^ monoClasses
+
+	^ monoClasses isZero 
+	ifFalse: [ ((monoClasses / classes) asFloat) * 100 ] 
+	ifTrue: [ 0 ]
 ]
 
 { #category : #accessing }
@@ -218,7 +210,10 @@ CNBAnalysisDescription >> monoClasses: aSize [
 
 { #category : #accessing }
 CNBAnalysisDescription >> monoTokenClasses [
-	^ monoTokenClasses
+
+	^ monoTokenClasses isZero 
+	ifFalse: [ ((monoTokenClasses / classes) asFloat) * 100 ]
+	ifTrue: [ 0 ] 
 ]
 
 { #category : #accessing }
@@ -227,18 +222,21 @@ CNBAnalysisDescription >> monoTokenClasses: aSize [
 ]
 
 { #category : #accessing }
-CNBAnalysisDescription >> monoTokenHierarchies [
-	^ monoTokenHierarchies
+CNBAnalysisDescription >> monoTokenMaxChildren [
+	^ monoTokenMaxChildren
 ]
 
 { #category : #accessing }
-CNBAnalysisDescription >> monoTokenHierarchies: aNumber [
-	monoTokenHierarchies := aNumber
+CNBAnalysisDescription >> monoTokenMaxChildren: aNumber [ 	
+	monoTokenMaxChildren := aNumber 
 ]
 
 { #category : #accessing }
 CNBAnalysisDescription >> multiTokenClasses [
-	^ multiTokenClasses
+
+	^ multiTokenClasses isZero 
+	ifFalse: [ ((multiTokenClasses / classes) asFloat) * 100 ]
+	ifTrue: [ 0 ]
 ]
 
 { #category : #accessing }
@@ -248,7 +246,10 @@ CNBAnalysisDescription >> multiTokenClasses: aSize [
 
 { #category : #accessing }
 CNBAnalysisDescription >> multiTokenHierarchies [
-	^ multiTokenHierarchies
+
+	^ multiTokenHierarchies isZero 
+	ifFalse: [ ((multiTokenHierarchies / hierarchies) asFloat) * 100  ] 
+	ifTrue: [ 0 ]
 ]
 
 { #category : #accessing }
@@ -257,8 +258,21 @@ CNBAnalysisDescription >> multiTokenHierarchies: aSize [
 ]
 
 { #category : #accessing }
+CNBAnalysisDescription >> multiTokenMaxChildren [
+	^ multiTokenMaxChildren
+]
+
+{ #category : #accessing }
+CNBAnalysisDescription >> multiTokenMaxChildren: aNumber [ 	
+	multiTokenMaxChildren := aNumber 
+]
+
+{ #category : #accessing }
 CNBAnalysisDescription >> nearlyHomogeneous [
-	^ nearlyHomogeneous
+
+	^ nearlyHomogeneous isZero 
+	ifFalse: [ ((nearlyHomogeneous / hierarchies) asFloat) * 100  ] 
+	ifTrue: [ 0 ]
 ]
 
 { #category : #accessing }
@@ -291,7 +305,9 @@ CNBAnalysisDescription >> project: aName [
 { #category : #accessing }
 CNBAnalysisDescription >> scatteredVocabulary [
 
-	^ scatteredVocabulary
+	^ scatteredVocabulary isZero  
+	ifFalse: [ ((scatteredVocabulary / hierarchies) asFloat) * 100 ] 
+	ifTrue: [ 0 ]
 ]
 
 { #category : #accessing }
@@ -302,7 +318,10 @@ CNBAnalysisDescription >> scatteredVocabulary: aNumber [
 
 { #category : #accessing }
 CNBAnalysisDescription >> snowFlakes [
-	^ snowFlakes
+
+	^ snowFlakes isZero 
+	ifFalse: [ ((snowFlakes / tokens) asFloat )* 100 ]
+	ifTrue: [ 0 ]
 ]
 
 { #category : #accessing }
@@ -313,23 +332,15 @@ CNBAnalysisDescription >> snowFlakes: aNumber [
 
 { #category : #accessing }
 CNBAnalysisDescription >> suspisciousTokens [
-	^ suspisciousTokens
+	
+	^ suspisciousTokens isZero 
+	ifFalse: [ (suspisciousTokens / tokens asFloat) * 100 ]
+	ifTrue: [ 0 ]
 ]
 
 { #category : #accessing }
 CNBAnalysisDescription >> suspisciousTokens: aNumder [
 	suspisciousTokens := aNumder 
-]
-
-{ #category : #accessing }
-CNBAnalysisDescription >> suspisciousTokensPercentage [
-	^ ((suspisciousTokens * 100)/tokens) asInteger.
-]
-
-{ #category : #accessing }
-CNBAnalysisDescription >> suspisciousTokensPercentage: aNumber [
-
-	suspisciousTokensPercentage := aNumber 
 ]
 
 { #category : #accessing }
@@ -340,14 +351,4 @@ CNBAnalysisDescription >> tokens [
 { #category : #accessing }
 CNBAnalysisDescription >> tokens: aNumber [
 	tokens := aNumber 
-]
-
-{ #category : #accessing }
-CNBAnalysisDescription >> traitClasses [
-	^ traitClasses
-]
-
-{ #category : #accessing }
-CNBAnalysisDescription >> traitClasses: aSize [
-	traitClasses := aSize
 ]

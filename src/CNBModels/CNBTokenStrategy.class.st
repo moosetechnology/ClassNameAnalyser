@@ -27,11 +27,11 @@ CNBTokenStrategy >> build: aCND [
 	| thePackageModels |
 	builder visualization: aCND.
 	thePackageModels := builder doPackageModels.
+	
 	aCND viewModel
 		name: aCND model name;
 		packageModels: thePackageModels;
 		rootModels: (self buildRootsFrom: (thePackageModels flatCollect: #classModels)).
-		
 		aCND viewModel packageViewModels: (builder doPackageViewModelsOf: aCND).
 		aCND viewModel attributeTokenModelsToRoots.
 		aCND viewModel attributePatterns.

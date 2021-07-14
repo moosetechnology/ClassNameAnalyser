@@ -16,7 +16,8 @@ Class {
 { #category : #attribution }
 CNBViewModel >> attributePatterns [
 
-	self tokenModels do: [ :each | each attributePattern ]
+	self tokenModels do: [ :each | each attributePattern ].
+	self rootModels do: [ :each | each attributePatterns ]
 ]
 
 { #category : #'accessing - attributes' }

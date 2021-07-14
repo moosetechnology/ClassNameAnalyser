@@ -22,7 +22,8 @@ Class {
 		'maxDepth',
 		'highlighted',
 		'mainToken',
-		'isScattered'
+		'isScattered',
+		'nearlyHomogeneous'
 	],
 	#category : #CNBModels
 }
@@ -34,6 +35,11 @@ CNBRootModel class >> model: aClass with: aCollectionOfSubClassModels [
 			model: aClass;
 			subclasses: aCollectionOfSubClassModels).
 		
+]
+
+{ #category : #attribution }
+CNBRootModel >> attributePatterns [ 
+	self checkPatterns.
 ]
 
 { #category : #accessing }
@@ -55,6 +61,29 @@ CNBRootModel >> changeColorTo: aColor [
 
 	self color: aColor.
 	self tokenModels do: [ :each | each changeColorTo: aColor ]
+]
+
+{ #category : #testing }
+CNBRootModel >> checkHomogeneous [
+	self isMonoToken ifTrue: [ tokenModels do: [ :each | each patterns add: CNBHomogeneousPattern new ]]
+]
+
+{ #category : #testing }
+CNBRootModel >> checkNearlyHomogeneous [ 
+	CNBNearlyHomogeneous new check: self
+]
+
+{ #category : #attribution }
+CNBRootModel >> checkPatterns [ 
+	self 
+		checkHomogeneous;
+		checkScatteredVocabulary;
+		checkNearlyHomogeneous.
+]
+
+{ #category : #testing }
+CNBRootModel >> checkScatteredVocabulary [
+	CNBScatteredVocabularyPattern new check: self
 ]
 
 { #category : #accessing }
@@ -93,7 +122,8 @@ CNBRootModel >> dominantTokens: association [
 { #category : #accessing }
 CNBRootModel >> hasScatteredVocabulary [ 
 	isScattered := true.
-	tokenModels do: [ :each | each patterns add: CNBScatteredVocabularyPattern new ] 
+	tokenModels do: [ :each | each patterns add: CNBScatteredVocabularyPattern new ]
+	
 	
 ]
 
@@ -125,7 +155,7 @@ CNBRootModel >> hasScatteredVocabularyInside: aPackageModel [
 { #category : #'as yet unclassified' }
 CNBRootModel >> hierarchyTokens [
 
-	^ subclasses collect: #token
+	^ (subclasses collect: #token) asSet
 ]
 
 { #category : #accessing }
@@ -148,6 +178,7 @@ CNBRootModel >> initialize [
 	dominantTokens := Dictionary new.
 	highlighted := false.
 	isScattered := false.
+	nearlyHomogeneous := false
 
 ]
 
@@ -178,6 +209,12 @@ CNBRootModel >> isMultiToken [
 	^ type = 'multiToken'
 ]
 
+{ #category : #testing }
+CNBRootModel >> isNearlyHomogeneous [ 
+	nearlyHomogeneous := true.
+	tokenModels do: [ :each | each patterns add: CNBNearlyHomogeneous new ] 
+]
+
 { #category : #accessing }
 CNBRootModel >> isScattered [ 
 	^ isScattered 
@@ -195,7 +232,7 @@ CNBRootModel >> mainToken [
 	
 	classWithSimilatToken :=
 	(self subclassesWithoutRoot 
-		anySatisfy: [ :aClassM | aClassM hasRootToken]) ifTrue: [ ^ self token ].
+		anySatisfy: [ :aClassM | aClassM hasRootToken ]) ifTrue: [ ^ self token ].
 	
 	^ self biggestTokenName  
 	
@@ -217,6 +254,11 @@ CNBRootModel >> model [
 CNBRootModel >> model: aClass [
 
 	model := aClass
+]
+
+{ #category : #accessing }
+CNBRootModel >> nearlyHomogeneous [
+	^ nearlyHomogeneous
 ]
 
 { #category : #testing }
@@ -304,6 +346,12 @@ CNBRootModel >> subclassesWithoutRoot [
 	^ (subclasses includes: theRoot) 
 				ifTrue: [ subclasses difference: { theRoot } ] 
 				ifFalse: [ subclasses ].
+]
+
+{ #category : #accessing }
+CNBRootModel >> suspisciousTokens [ 
+	
+	^ (subclasses select: [ :each | each token ~= self mainToken ]) size
 ]
 
 { #category : #accessing }

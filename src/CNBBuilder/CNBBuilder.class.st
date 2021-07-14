@@ -110,12 +110,14 @@ CNBBuilder >> addPatternsOccurencesIn: aCnb to: analysisDescription [
 { #category : #adding }
 CNBBuilder >> addProjectInfoIn: aCnb to: analysisDescription [
 
-	| tokensPerMultiHierarchy roots classes |
+	| tokensPerMultiHierarchy roots classes monoTokenMaxChildren multiTokenMaxChildren |
 	tokensPerMultiHierarchy	
-		:= ((aCnb viewModel rootModels select: [ :each | each isMultiToken ]) collect: [ :each | each hierarchyTokens size]).
+		:= ((aCnb viewModel rootModels 
+			select: [ :each | each isMultiToken ]) collect: [ :each | each hierarchyTokens size]).
 	roots := aCnb viewModel rootModels.
 	classes := aCnb viewModel classViewModels.
-	
+	multiTokenMaxChildren := ((roots select: #isMultiToken) detectMax: #children) ifNil: [ nil ].
+	monoTokenMaxChildren := ((roots select: #isMonoToken) detectMax: #children) ifNil: [ nil ].
 	analysisDescription 
 		project: aCnb viewModel model name;
 		tokens: aCnb viewModel tokenModels size;
@@ -130,13 +132,12 @@ CNBBuilder >> addProjectInfoIn: aCnb to: analysisDescription [
 		averageChildren: (roots collect: [ :each | each children ]) average asInteger;
 		monoClasses: (roots select: [ :each | each isMonoClass ])size;
 		monoTokenClasses: (classes select: [ :each | each root isMonoToken ]) size;
-		monoTokenHierarchies: (roots select: [ :each | each isMonoToken ]) size;
-		multiTokenClasses: (classes select: [ :each | each root isMultiToken and: [ each color ~= Color black ] ]) size;	
-		multiTokenHierarchies: (roots select: [ :each | each isMultiToken and: [ each color ~= Color black ] ] ) size;
-		blackHierarchies: (roots select: [ :each | each isMultiToken and: [ each color = Color black ] ]) size;
-		blackClasses: 	(classes select: [ :each | each root isMultiToken and: [ each color = Color black ] ]) size;		
-		suspisciousTokens: ((aCnb viewModel classViewModels select: [ :each | each root isMultiToken]) collect: #token) asSet size;	
-		averageTokensPerMultiHierarchy: (tokensPerMultiHierarchy ifEmpty: [ 0 ] ifNotEmpty: [ tokensPerMultiHierarchy average asInteger ]).
+		multiTokenClasses: (classes select: [ :each | each root isMultiToken ]) size;	
+		multiTokenHierarchies: (roots select: [ :each | each isMultiToken ]) size;
+		suspisciousTokens: ((aCnb viewModel rootModels collect: [ :each | each suspisciousTokens ]) sum) ;	
+		averageTokensPerMultiHierarchy: (tokensPerMultiHierarchy ifEmpty: [ 0 ] ifNotEmpty: [ tokensPerMultiHierarchy average asFloat ]);
+		monoTokenMaxChildren: (monoTokenMaxChildren ifNil: [ 0 ] ifNotNil: [ monoTokenMaxChildren children  ]);  
+		multiTokenMaxChildren: (multiTokenMaxChildren ifNil: [ 0 ] ifNotNil: [ multiTokenMaxChildren children  ]).
 	aCnb analysisDescription: analysisDescription
 		
 ]
