@@ -88,6 +88,7 @@ CNBRoassal3Builder >> build: cnbModel [
 
 	RSFlowLayout on: canvas nodes.
 	canvas @ RSCanvasController.
+	canvas @ RSDraggable.
 	^canvas
 ]
 
@@ -139,6 +140,7 @@ CNBRoassal3Builder >> createPackageBoxesOf: cnbModel [
 			namedAbbreviated := CNBNameAbbreviationCreator abbreviate: package name until: 10.
 				label := RSLabel new text: namedAbbreviated;fontSize: 30;bold.
 				composite := RSComposite new.
+				composite @ RSDraggable.
 				packageComposite := self createBoxOf: package.
 				
 				packageComposite addAll: (self createTokenBoxesOf: package).
@@ -146,7 +148,7 @@ CNBRoassal3Builder >> createPackageBoxesOf: cnbModel [
 				packageComposite border: package border.
 				packageComposite adjustToChildren.
 				packageComposite padding: 20.
-				
+				packageComposite @ RSDraggable.
 				composite color: packageComposite color.
 				composite add: label; add: packageComposite.
 				RSVerticalLineLayout new alignCenter; on:  { label . packageComposite }.
