@@ -402,7 +402,7 @@ CNBPresenter >> onBothActivated [
 	^ bothCnb 
 		 model 
 			ifNotNil: [ 
-			projectView script: [ :canvas | bothCnb on: canvas ] ]
+			projectView script: [ :canvas | canvas @ RSDraggableCanvas .bothCnb on: canvas ] ]
  	
 ]
 
@@ -429,7 +429,7 @@ CNBPresenter >> onPrefixActivated [
 	^ prefixCnb
 		 model 
 			ifNotNil: [ 
-			projectView script: [ :canvas | prefixCnb on: canvas ] ]
+			projectView script: [ :canvas | canvas @ RSDraggableCanvas .prefixCnb on: canvas ] ]
  	
 ]
 
@@ -458,7 +458,7 @@ CNBPresenter >> onSuffixActivated [
 	^ suffixCnb 
 		 model 
 			ifNotNil: [ 
-			projectView script: [ :canvas | suffixCnb on: canvas ] ]
+			projectView script: [ :canvas | canvas @ RSDraggableCanvas . suffixCnb on: canvas ] ]
  	
 ]
 
