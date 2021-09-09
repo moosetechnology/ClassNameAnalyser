@@ -14,5 +14,5 @@ NoPattern >> description [
 
 { #category : #accessing }
 NoPattern >> name [ 
-	^ '----------------------'
+	^ '(Anti-Patterns)'
 ]

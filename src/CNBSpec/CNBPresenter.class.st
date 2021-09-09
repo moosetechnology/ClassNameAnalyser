@@ -37,7 +37,9 @@ Class {
 		'withoutPackageName',
 		'suffixSetting',
 		'prefixSetting',
-		'bothSetting'
+		'bothSetting',
+		'exportButton',
+		'fullInstructionsPresenter'
 	],
 	#category : #CNBSpec
 }
@@ -186,6 +188,12 @@ CNBPresenter >> deletePackagesNames [
 	settings do: [ :each | each deletePackagesNames] .
 ]
 
+{ #category : #accessing }
+CNBPresenter >> exportButton [
+
+	^ exportButton
+]
+
 { #category : #'import-export' }
 CNBPresenter >> exportTo: aFile [ 
 	
@@ -230,6 +238,16 @@ CNBPresenter >> initializeCnbs [
 ]
 
 { #category : #initialization }
+CNBPresenter >> initializeExportButton [
+
+	exportButton := CmCommandGroup forSpec
+		                registerFirst: ((CNBExportCSVCommand forSpecContext: self)
+				                 iconName: #smallExport;
+				                 yourself);
+		                yourself
+]
+
+{ #category : #initialization }
 CNBPresenter >> initializeHelpButton [
 
 	helpButton := self newButton 
@@ -271,6 +289,7 @@ CNBPresenter >> initializePresenters [
 	self initializeInstructionsButton.
 	self initializePatternsHelpButton.
 	self initializeSettings.
+	self initializeExportButton.
 	suffixSetting := CNBSettings new token: #suffix.
 	prefixSetting :=  CNBSettings new token: #prefix.
 	bothSetting := CNBSettings new token: #both.
@@ -279,27 +298,11 @@ CNBPresenter >> initializePresenters [
 	withoutInterfaces label: 'Delete Interfaces'.
 	withoutPackageName := self newCheckBox.
 	withoutPackageName label: 'Delete package reference'.
-	inspect := self newButton label: 'Current visualization inspect'.
 	packages := OrderedCollection new.
 	highlighter := CNBSingletonHighlighter instance.
 	allListItems := RBBrowserEnvironment default packages asArray sorted: [ :a : b | a name < b name ].
-	packagesListPresenter := CNBPackagesListPresenter new owner: self.
-	packagesList  
-		:= SpFilteringSelectableListPresenter new owner: self;
-			items: allListItems;
-			displayIcon: [ :e | self iconNamed: #package ];
-			display: [ :package | package name ];
-			filterInputPresenter;
-			yourself.
-		packagesList 
-			listPresenter 
-				bindKeyCombination: $a meta 
-				toAction: [ packagesList selectItems: packagesList items ].
-				
-	addButton := self newButton label: 'Add packages'.
-	showPackagesButton := self newButton label: 'Show Packages'.
-	reset 
-		:= self newButton label: 'Reset'. 
+	fullInstructionsPresenter := CNBFullInstructionsPresenter new owner: self. 
+
 	prefix 
 		:= self newRadioButton label: 'Prefix'.
 	suffix 

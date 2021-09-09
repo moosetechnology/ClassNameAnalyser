@@ -1,3 +1,6 @@
+"
+I am the presenter of the ClassNames Distribution tool.
+"
 Class {
 	#name : #CNBBrowser,
 	#superclass : #MiAbstractBrowser,
@@ -33,64 +36,84 @@ Class {
 		'withoutPackageName',
 		'suffixSetting',
 		'prefixSetting',
-		'bothSetting'
+		'bothSetting',
+		'instructions',
+		'fullInstructionsButton',
+		'parametersLabel',
+		'exportButton',
+		'fullInstructionsPresenter'
 	],
 	#category : #CNBSpec
 }
 
-{ #category : #accessing }
-CNBBrowser class >> defaultExtent [
-	^ 1000@700
+{ #category : #specs }
+CNBBrowser class >> defaultExtent [ 
+
+	^ 1000@600
 ]
 
 { #category : #specs }
 CNBBrowser class >> defaultSpec [
 
-	^ super defaultSpec
-		  add: (SpBoxLayout newVertical
-				   spacing: 1;
-				   add: (SpBoxLayout newHorizontal
-						    add: '';
-						    add: #inspect;
-						    add: #instructionsButton width: self buttonWidth;
-						    add: #helpButton width: self iconWidth;
-						    yourself)
-				   height: self iconWidth;
-				   add: (SpBoxLayout newHorizontal
-						    spacing: 7;
-						    add: (SpBoxLayout newVertical
-								     spacing: 2;
-								     add: (SpBoxLayout newVertical
-										      spacing: 5;
-										      add: #suffix height: self labelHeight;
-										      add: #prefix height: self labelHeight;
-										      add: #both height: self labelHeight;
-										      add: 'Root class' height: self labelHeight;
-										      add: #rootSelector height: self labelHeight;
-										      add: #withoutInterfaces
-										      height: self labelHeight + self labelHeight;
-										      "add: #withoutPackageName height: self labelHeight + self labelHeight;"
-										      add: #visualizeButton
-										      width: self buttonWidth;
-										      yourself);
-								     add: (SpBoxLayout newVertical
-										      add: '(Anti-)Patterns' height: self labelHeight;
-										      add: (SpBoxLayout newHorizontal
-												       spacing: 2;
-												       add: #patternsDropList
-												       width: self buttonWidth + self buttonWidth;
-												       add: #patternsHelpButton width: self iconWidth;
-												       yourself);
-										      yourself)
-								     height: self labelHeight + self buttonHeight;
-								     "add: #reset width: self buttonWidth;"yourself)
-						    width: 180;
-						    add: (SpBoxLayout newVertical
-								     add: #projectView;
-								     yourself);
-						    yourself);
-				   yourself);
-		  yourself "height: self buttonHeight + self buttonHeight + self buttonHeight"
+	| spacing parametersLayout buttonsLayout patternsLayout viewLayout defaultWidth visualizeSpacing borderWidth optionsLayout |
+	 spacing := 7.
+    visualizeSpacing := 30.
+    defaultWidth := 180.
+    borderWidth := 5.
+    
+    parametersLayout := SpBoxLayout newVertical
+        spacing: spacing;
+        borderWidth: borderWidth;
+        add: #parametersLabel expand: false;
+        add: #suffix expand: false;
+        add: #prefix expand: false;
+        add: #both expand: false;
+        add: #rootSelector expand: false;
+        add: #withoutInterfaces expand: false;
+        yourself.
+
+    buttonsLayout := SpBoxLayout newVertical
+        add: #visualizeButton expand: false;
+        yourself.
+    
+    patternsLayout := SpBoxLayout newVertical
+        spacing: spacing;
+        add: #visualizeButton;
+        add: (SpBoxLayout newHorizontal
+                add: #patternsDropList;
+                add: #patternsHelpButton expand: false;
+                yourself)
+            expand: false;
+        yourself.
+
+    viewLayout := SpBoxLayout newVertical
+        spacing: spacing;
+         add: #projectView;
+        yourself.
+        
+    optionsLayout := SpBoxLayout newVertical
+        spacing: spacing;
+        add: #fullInstructionsButton;
+        add: (SpBoxLayout newHorizontal
+            add: #exportButton width: (defaultWidth / 2) asInteger;
+            add: #inspect width: (defaultWidth / 2) asInteger;
+            yourself);
+        yourself.
+        
+    ^ super defaultSpec
+			spacing: spacing;
+          add: (SpBoxLayout newHorizontal
+                spacing: spacing;
+                add: (SpBoxLayout newVertical
+                    spacing: spacing;
+                    add: optionsLayout expand: false;
+                    add: parametersLayout expand: false;
+                    add: patternsLayout expand: false;
+                    yourself)
+                   width: defaultWidth;
+            add: viewLayout;
+            yourself);
+        yourself
 ]
 
 { #category : #accessing }
@@ -134,16 +157,6 @@ CNBBrowser >> bothCnb [
 	^ bothCnb 
 ]
 
-{ #category : #initialization }
-CNBBrowser >> buildToolbar [ 
-
-	^ self toolbarActions  
-		asToolbarPresenterWith: [ :presenter | 
-			presenter 
-				displayMode: SpToolbarDisplayMode modeIconAndLabel;
-				addStyle: 'stToolbar' ]
-]
-
 { #category : #actions }
 CNBBrowser >> changePackageBorderWidth: aPackageName [
 
@@ -165,8 +178,6 @@ CNBBrowser >> connectPresenters [
 	withoutPackageName whenActivatedDo: [ self deletePackagesNames ].
 	withoutPackageName whenDeactivatedDo: [ self leavePackagesNames ].
 	inspect action: [ self selectedCnB inspect ].
-	patternsDropList whenSelectedItemChangedDo: [ :aPattern | self showNodesAttributedTo: aPattern ].
-	reset action: [ self onResetClicked ].
 	packageSearch whenSubmitDo: [ :aRub | self changePackageBorderWidth: aRub text asString ].
 	packageSearch whenResetDo: [ self resetPackageBoder ].
 	suffix whenActivatedDo: [ self onSuffixActivated  ].
@@ -182,6 +193,11 @@ CNBBrowser >> deleteInterfaces [
 { #category : #'as yet unclassified' }
 CNBBrowser >> deletePackagesNames [
 	settings do: [ :each | each deletePackagesNames] .
+]
+
+{ #category : #accessing }
+CNBBrowser >> exportButton [
+	^ exportButton
 ]
 
 { #category : #'import-export' }
@@ -225,6 +241,11 @@ CNBBrowser >> followAction [
 ]
 
 { #category : #accessing }
+CNBBrowser >> fullInstructionsButton [
+	^ fullInstructionsButton
+]
+
+{ #category : #accessing }
 CNBBrowser >> help [ 
 	^ ' The instructions of the tool'
 ]
@@ -243,11 +264,46 @@ CNBBrowser >> initializeCnbs [
 ]
 
 { #category : #initialization }
+CNBBrowser >> initializeExportButton [
+
+	exportButton 
+		:= (CNBExportCSVCommand forSpecContext: self)
+				iconName: #smallExport; 
+				asButtonPresenter 
+]
+
+{ #category : #initialization }
+CNBBrowser >> initializeFullInstructions [
+
+	fullInstructionsButton 
+		:= self newButton 
+				label: 'Full Instructions';
+				action: [ self showFullInstructions ];
+				yourself
+
+]
+
+{ #category : #initialization }
+CNBBrowser >> initializeFullInstructionsPresenter [ 
+
+	fullInstructionsPresenter := CNBFullInstructionsPresenter new owner: self. 
+]
+
+{ #category : #initialization }
+CNBBrowser >> initializeInspectButton [ 
+
+	inspect 
+		:= self newButton
+				iconName: #glamorousInspect;
+				label: 'View'; yourself. 
+]
+
+{ #category : #initialization }
 CNBBrowser >> initializeInstructionsButton [ 
 	
 	instructionsButton 
 		:= self newButton 
-				label: 'Instructions';
+				label: 'Full Instructions';
 				help: 'Instructions of the tool';
 				action: [ self showInstructions ]
 			
@@ -265,12 +321,29 @@ CNBBrowser >> initializeLocalHelpButton [
 ]
 
 { #category : #initialization }
+CNBBrowser >> initializeParametersLabel [
+
+	| text ranges theRange textAsString |
+	text := Text fromString: 'Parameters:'.
+	textAsString := text asString.
+	ranges := textAsString allRangesOfSubstring: textAsString.
+	theRange := ranges first.
+	
+    text
+       addAttribute: (TextEmphasis bold)
+       from: theRange first
+       to: theRange last.
+	parametersLabel := self newLabel label: text
+]
+
+{ #category : #initialization }
 CNBBrowser >> initializePatternsHelpButton [
 
 	patternsHelpButton := self newButton 
 		iconName: #help;
 		help: 'About the patterns';
 		action: [ self showPatternsHelp ];
+		addStyle: 'small';
 		yourself
 	
 ]
@@ -285,6 +358,11 @@ CNBBrowser >> initializePresenters [
 	self initializeInstructionsButton.
 	self initializePatternsHelpButton.
 	self initializeSettings.
+	self initializeFullInstructions.
+	self initializeParametersLabel.
+	self initializeExportButton.
+	self initializeInspectButton.
+	self initializeFullInstructionsPresenter.
 	suffixSetting := CNBSettings new token: #suffix.
 	prefixSetting :=  CNBSettings new token: #prefix.
 	bothSetting := CNBSettings new token: #both.
@@ -293,12 +371,8 @@ CNBBrowser >> initializePresenters [
 	withoutInterfaces label: 'Delete Interfaces'.
 	withoutPackageName := self newCheckBox.
 	withoutPackageName label: 'Delete package reference'.
-	inspect := self newButton label: 'Current visualization inspect'.
 	packages := OrderedCollection new.
 	highlighter := CNBSingletonHighlighter instance.
-	allListItems := RBBrowserEnvironment default packages asArray sorted: [ :a : b | a name < b name ].
-	reset 
-		:= self newButton label: 'Reset'. 
 	prefix 
 		:= self newRadioButton label: 'Prefix'.
 	suffix 
@@ -312,7 +386,9 @@ CNBBrowser >> initializePresenters [
 			  both -> bothCnb 
 			}.
 			
-	rootSelector := self newTextInput. 
+	rootSelector := self instantiate: SpTextInputFieldPresenter.
+	rootSelector 
+		placeholder: 'Define your root class'.
 	
 	suffix associatedRadioButtons: { prefix . both }.
 	
@@ -341,13 +417,18 @@ CNBBrowser >> initializeWindow: aWindowPresenter [
 	
 	aWindowPresenter
 		title: self class defaultTitle;
-		initialExtent: self class defaultExtent;
-		toolbar: self buildToolbar
+		initialExtent: self class defaultExtent.
+		"toolbar: self buildToolbar"
 ]
 
 { #category : #accessing }
 CNBBrowser >> inspect [ 
 	^ inspect
+]
+
+{ #category : #accessing }
+CNBBrowser >> instructions [ 
+	^ instructions
 ]
 
 { #category : #'as yet unclassified' }
@@ -514,10 +595,25 @@ CNBBrowser >> packagesList [
 	^ packagesList 
 ]
 
+{ #category : #'as yet unclassified' }
+CNBBrowser >> parametersLabel [
+
+	^ parametersLabel 
+]
+
 { #category : #initialization }
 CNBBrowser >> patternsDropList [
 
 	^ patternsDropList
+]
+
+{ #category : #'as yet unclassified' }
+CNBBrowser >> practicalInstructions [
+
+	^ 'Practical Instructions: 
+Right Click to highlight the hierarchy,
+Left Click to show class definition, 
+Click on any box to de-highlight'
 ]
 
 { #category : #accessing }
@@ -587,6 +683,12 @@ CNBBrowser >> selectedCnB [
 	^ (self projectAtRadioButton: activatedRadioButton).
 ]
 
+{ #category : #'as yet unclassified' }
+CNBBrowser >> showFullInstructions [
+
+		^ CNBFullInstructionsPresenter new openWithSpec 
+]
+
 { #category : #actions }
 CNBBrowser >> showHelp [
 	| help |
@@ -629,18 +731,6 @@ CNBBrowser >> showPatternsHelp [
 CNBBrowser >> suffixCnb [ 
 
 	^ suffixCnb 
-]
-
-{ #category : #building }
-CNBBrowser >> toolbarActions [
-
-	^ CmCommandGroup forSpec
-		  register: (CmCommandGroup forSpec
-				   register: ((CNBExportCSVCommand forSpecContext: self)
-						    iconName: #smallExport;
-						    yourself);
-				   yourself);
-		  yourself
 ]
 
 { #category : #actions }
