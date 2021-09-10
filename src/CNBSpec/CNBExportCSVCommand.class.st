@@ -12,15 +12,17 @@ CNBExportCSVCommand class >> defaultDescription [
 	^ 'Export visualisation Data into CSV file'
 ]
 
-{ #category : #initialization }
-CNBExportCSVCommand class >> defaultIconName [ 
-
-	^ MooseIcons mooseImportMse 
+{ #category : #default }
+CNBExportCSVCommand class >> defaultName [
+	^ 'To CSV'
 ]
 
 { #category : #default }
-CNBExportCSVCommand class >> defaultName [
-	^ 'Export to CSV'
+CNBExportCSVCommand class >> forSpecContext: anObject [
+	^ (super forSpecContext: anObject)
+		iconNamed: #smallExport;
+		beHiddenWhenCantBeRun;
+		yourself
 ]
 
 { #category : #accessing }
@@ -45,15 +47,4 @@ CNBExportCSVCommand >> execute [
             actionOnClick: [ file openInOSFileBrowser ] ]
 
 
-]
-
-{ #category : #accessing }
-CNBExportCSVCommand >> icon [
-
-	^ self iconNamed: #smallExport
-]
-
-{ #category : #accessing }
-CNBExportCSVCommand >> label [
-	^ 'Export Data to CSV file'
 ]
