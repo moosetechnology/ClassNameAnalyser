@@ -32,5 +32,5 @@ CNBPopupPresenter >> dismiss [
 
 { #category : #initialization }
 CNBPopupPresenter >> initializePresenters [
-	super initializePresenters.
+	super initializePresenters.  
 ]
