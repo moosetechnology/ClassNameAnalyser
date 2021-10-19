@@ -66,25 +66,17 @@ CNBClassViewModel >> create [
 ]
 
 { #category : #initialization }
-CNBClassViewModel >> createBox [ 
+CNBClassViewModel >> createBox [
 
 	| popUpResult popup |
-
 	popUpResult := self model model printWithBold: self root model name.
-	popup := RSPopup new.
-	popup := RSMorphicPopup new
-    morphBuilder: [:m | 
-        "model not need it in this part by now"
-        popUpResult asTextMorph.
-        ].
-	^ super 
-			createBox
-				width: self width;
-				height: self height;
-				addInteraction: popup.
-				
-
-
+	popup := RSPopup new
+		         text: popUpResult;
+		         yourself.
+	^ super createBox
+		  width: self width;
+		  height: self height;
+		  addInteraction: popup
 ]
 
 { #category : #testing }
