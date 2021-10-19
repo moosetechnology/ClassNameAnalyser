@@ -139,12 +139,6 @@ CNBBrowser class >> open [
 	super open
 ]
 
-{ #category : #visiting }
-CNBBrowser >> accept: anObject [
-
-	^ anObject isMooseModel
-]
-
 { #category : #accessing }
 CNBBrowser >> allNodes [
 
@@ -155,6 +149,12 @@ CNBBrowser >> allNodes [
 CNBBrowser >> bothCnb [
 
 	^ bothCnb 
+]
+
+{ #category : #visiting }
+CNBBrowser >> canReceiveEntity: anObject [
+
+	^ anObject isNotNil and: [ anObject isMooseModel ]
 ]
 
 { #category : #actions }
@@ -226,16 +226,16 @@ CNBBrowser >> fixColors [
 ]
 
 { #category : #actions }
-CNBBrowser >> followAction [
+CNBBrowser >> followEntity: anEntity [
 
 	| root |
-	toSelect ifNil: [ ^ self ].
-	model := toSelect.
+	anEntity ifNil: [ ^ self ].
+	model := anEntity.
 	rootSelector text ifNotEmpty: [ root := rootSelector text ].
 
 	"model name: model rootFolder basenameWithoutExtension."
 
-	self projectModel: toSelect with: root.
+	self projectModel: anEntity with: root.
 
 	projectView script: [ :canvas | self selectedCnB on: canvas ]
 ]
@@ -479,11 +479,10 @@ CNBBrowser >> onAddClicked [
 CNBBrowser >> onBothActivated [
 
 	self onResetClicked.
-	^ bothCnb 
-		 model 
-			ifNotNil: [ 
-			projectView script: [ :canvas | canvas @ RSDraggableCanvas .bothCnb on: canvas ] ]
- 	
+	^ bothCnb model ifNotNil: [ 
+		  projectView script: [ :canvas | 
+			  canvas @ RSCanvasController.
+			  bothCnb on: canvas ] ]
 ]
 
 { #category : #actions }
@@ -506,11 +505,10 @@ CNBBrowser >> onDeleteAllClicked [
 CNBBrowser >> onPrefixActivated [
 
 	self onResetClicked.
-	^ prefixCnb
-		 model 
-			ifNotNil: [ 
-			projectView script: [ :canvas | canvas @ RSDraggableCanvas .prefixCnb on: canvas ] ]
- 	
+	^ prefixCnb model ifNotNil: [ 
+		  projectView script: [ :canvas | 
+			  canvas @ RSCanvasController.
+			  prefixCnb on: canvas ] ]
 ]
 
 { #category : #actions }
@@ -535,11 +533,10 @@ CNBBrowser >> onShowClicked [
 CNBBrowser >> onSuffixActivated [
 
 	self onResetClicked.
-	^ suffixCnb 
-		 model 
-			ifNotNil: [ 
-			projectView script: [ :canvas | canvas @ RSDraggableCanvas . suffixCnb on: canvas ] ]
- 	
+	^ suffixCnb model ifNotNil: [ 
+		  projectView script: [ :canvas | 
+			  canvas @ RSCanvasController.
+			  suffixCnb on: canvas ] ]
 ]
 
 { #category : #actions }
@@ -633,14 +630,23 @@ CNBBrowser >> projectAtRadioButton: aRadioButtion [
 CNBBrowser >> projectModel: aMooseModel with: aRootClass [
 
 	settings do: [ :each | each rootClass: aRootClass ].
-	(suffixCnb setting: suffixSetting; model: aMooseModel) startBuilding; buildShapes.
-	(prefixCnb setting: prefixSetting; model: aMooseModel) startBuilding; buildShapes.
-	(bothCnb setting: bothSetting; model: aMooseModel) startBuilding; buildShapes.
-	
+	(suffixCnb
+		 setting: suffixSetting;
+		 model: aMooseModel)
+		startBuilding;
+		buildShapes.
+	(prefixCnb
+		 setting: prefixSetting;
+		 model: aMooseModel)
+		startBuilding;
+		buildShapes.
+	(bothCnb
+		 setting: bothSetting;
+		 model: aMooseModel)
+		startBuilding;
+		buildShapes
+
 	"self fixColors."
-	
-	
-	
 ]
 
 { #category : #accessing }
