@@ -170,19 +170,22 @@ CNBBrowser >> changePackageBorderWidth: aPackageName [
 
 { #category : #initialization }
 CNBBrowser >> connectPresenters [
+
 	super connectPresenters.
-	
-	visualizeButton action: [ self onVisualizeClicked  ]. 
+
+	visualizeButton action: [ self onVisualizeClicked ].
 	withoutInterfaces whenActivatedDo: [ self deleteInterfaces ].
 	withoutInterfaces whenDeactivatedDo: [ self leaveInterfaces ].
 	withoutPackageName whenActivatedDo: [ self deletePackagesNames ].
 	withoutPackageName whenDeactivatedDo: [ self leavePackagesNames ].
 	inspect action: [ self selectedCnB inspect ].
-	packageSearch whenSubmitDo: [ :aRub | self changePackageBorderWidth: aRub text asString ].
+	packageSearch whenSubmitDo: [ :aRub | 
+		self changePackageBorderWidth: aRub text asString ].
 	packageSearch whenResetDo: [ self resetPackageBoder ].
-	suffix whenActivatedDo: [ self onSuffixActivated  ].
-	prefix whenActivatedDo: [ self onPrefixActivated  ].
-	both whenActivatedDo: [ self onBothActivated  ].
+	suffix whenActivatedDo: [ self onSuffixActivated ].
+	prefix whenActivatedDo: [ self onPrefixActivated ].
+	both whenActivatedDo: [ self onBothActivated ].
+	patternsDropList whenSelectionChangedDo:  [ self showNodesAttributedTo: patternsDropList selectedItem  ]
 ]
 
 { #category : #accessing }
@@ -352,8 +355,8 @@ CNBBrowser >> initializePatternsHelpButton [
 CNBBrowser >> initializePresenters [
 
 	super initializePresenters.
-	
-	self initializeCnbs. 
+
+	self initializeCnbs.
 	self initializeLocalHelpButton.
 	self initializeInstructionsButton.
 	self initializePatternsHelpButton.
@@ -364,43 +367,41 @@ CNBBrowser >> initializePresenters [
 	self initializeInspectButton.
 	self initializeFullInstructionsPresenter.
 	suffixSetting := CNBSettings new token: #suffix.
-	prefixSetting :=  CNBSettings new token: #prefix.
+	prefixSetting := CNBSettings new token: #prefix.
 	bothSetting := CNBSettings new token: #both.
-	settings := { suffixSetting . prefixSetting . bothSetting }.
+	settings := { 
+		            suffixSetting.
+		            prefixSetting.
+		            bothSetting }.
 	withoutInterfaces := self newCheckBox.
 	withoutInterfaces label: 'Delete Interfaces'.
 	withoutPackageName := self newCheckBox.
 	withoutPackageName label: 'Delete package reference'.
 	packages := OrderedCollection new.
 	highlighter := CNBSingletonHighlighter instance.
-	prefix 
-		:= self newRadioButton label: 'Prefix'.
-	suffix 
-		:= self newRadioButton label: 'Suffix'.
-	both 
-		:= self newRadioButton label: 'Both'.
+	prefix := self newRadioButton label: 'Prefix'.
+	suffix := self newRadioButton label: 'Suffix'.
+	both := self newRadioButton label: 'Both'.
 	radioButtionsActions := Dictionary new.
-	radioButtionsActions 
-		:= { prefix -> prefixCnb .
-			  suffix -> suffixCnb .
-			  both -> bothCnb 
-			}.
-			
+	radioButtionsActions := { 
+		                        (prefix -> prefixCnb).
+		                        (suffix -> suffixCnb).
+		                        (both -> bothCnb) }.
+
 	rootSelector := self instantiate: SpTextInputFieldPresenter.
-	rootSelector 
-		placeholder: 'Define your root class'.
-	
-	suffix associatedRadioButtons: { prefix . both }.
-	
+	rootSelector placeholder: 'Define your root class'.
+
+	suffix associatedRadioButtons: { 
+			prefix.
+			both }.
+
 	visualizeButton := self newButton label: 'Visualize'.
 	patternsDropList := CNBSpecElementDropList new.
-	
-	packageSearch := self newSearchInput
-		placeholder: 'Search...';
-		yourself.	
-	projectView := SpRoassalPresenter new.
-	
 
+	packageSearch := self newSearchInput
+		                 placeholder: 'Search...';
+		                 yourself.
+	projectView := SpRoassalPresenter new
 ]
 
 { #category : #initialization }
@@ -439,6 +440,11 @@ CNBBrowser >> leaveInterfaces [
 { #category : #'as yet unclassified' }
 CNBBrowser >> leavePackagesNames [
 	settings do: [ :each | each  leavePackagesNames] .
+]
+
+{ #category : #'as yet unclassified' }
+CNBBrowser >> miSelectedEntity [ 
+	^ model
 ]
 
 { #category : #accessing }
