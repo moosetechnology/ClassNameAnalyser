@@ -74,7 +74,7 @@ CNBTokenStrategy >> buildRootsFrom: classModels [
 	rootModels := builder 
 			startFightOverTokensBetween: coloredRootModels.
 	
-	^ rootModels asSet
+	^ rootModels asSet 
 ]
 
 { #category : #building }

@@ -77,7 +77,7 @@ CNBBothTokensStrategy >> buildRootsFrom: classModels [
 											with: (classModels select: [ :aClass | aClass root = aRootClass ])).
 			 				].
 	
-	^ initializedRoots asSet
+	^ initializedRoots asSet 
 ]
 
 { #category : #building }

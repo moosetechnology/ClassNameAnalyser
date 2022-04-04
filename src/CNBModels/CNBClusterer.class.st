@@ -11,7 +11,7 @@ Class {
 CNBClusterer >> organize: aPackage [
 
 	| classes tokens |
-	tokens := aPackage tokens sorted: #size descending. 
+	tokens := (aPackage tokens sorted: #name ascending) sorted:#size descending. 
 	classes := (tokens flatCollect: #classViewModels).
 
 	(classes sorted: [ :each :word | each name > word name ] ) do: [ :aClass | | classTokens winner |

@@ -176,7 +176,7 @@ CNBBuilder >> color: rootModels [
 
 	|  coloredRootModels |
 	
-	coloredRootModels := (self sortRootModels: rootModels)
+	coloredRootModels := ((self sortRootModels: rootModels))
 		collect: 
 			[ :each | 	
 			each color: (self assignColorByType: each type) ].			
@@ -332,7 +332,7 @@ CNBBuilder >> sortAccordingToPalette: aCollection [
 CNBBuilder >> sortRootModels: aSetOfRootModels [
 
 	^ (aSetOfRootModels 
-			sorted: #size descending)
+			sorted: #name ascending) sorted:#size descending 
 ]
 
 { #category : #internal }

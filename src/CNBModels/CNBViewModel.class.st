@@ -80,13 +80,13 @@ CNBViewModel >> initialize [
 { #category : #accessing }
 CNBViewModel >> modelsOrderedAscending [
 
-	^ packageViewModels sorted: #size ascending
+	^ (packageViewModels sorted: #name ascending) sorted: #size ascending
 ]
 
 { #category : #accessing }
 CNBViewModel >> modelsOrderedDescending [
 
-	self packageViewModels: (packageViewModels sorted: #size descending)
+	self packageViewModels: ((packageViewModels sorted: #name ascending) sorted: #size descending)
 ]
 
 { #category : #accessing }
@@ -99,12 +99,6 @@ CNBViewModel >> packageViewModels [
 CNBViewModel >> packageViewModels: collection [
  
 	packageViewModels := collection 
-]
-
-{ #category : #'as yet unclassified' }
-CNBViewModel >> reattributeTokenModelsToRoots [
-
-	
 ]
 
 { #category : #'as yet unclassified' }
