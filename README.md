@@ -12,7 +12,7 @@ Metacello new
   load.
 ```
 ## ClassNameAnalyser Description:
-The **ClassNameAnalyser** is a project which provides a visualisation of the distribution of concepts in both **Java** and **Pharo**. The visualization is called *ClassName Distribution*. Full demo in: https://drive.google.com/drive/folders/1C0r1-R_6EYxqJS528pLuvKbYQF_Q5MjV?usp=sharing .
+The **ClassNameAnalyser** is a project which provides a visualisation of the distribution of concepts in both **Java** and **Pharo**. The visualization is called *ClassName Distribution*. Full demo in: https://drive.google.com/drive/folders/1C0r1-R_6EYxqJS528pLuvKbYQF_Q5MjV?usp=sharing
 
 
 ## How to use the ClassNameAnalyser
