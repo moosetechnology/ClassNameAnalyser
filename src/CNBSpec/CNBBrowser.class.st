@@ -41,7 +41,8 @@ Class {
 		'fullInstructionsButton',
 		'parametersLabel',
 		'exportButton',
-		'fullInstructionsPresenter'
+		'fullInstructionsPresenter',
+		'model'
 	],
 	#category : #CNBSpec
 }
@@ -50,6 +51,70 @@ Class {
 CNBBrowser class >> defaultExtent [ 
 
 	^ 1000@600
+]
+
+{ #category : #specs }
+CNBBrowser class >> defaultLayout [
+
+	| spacing parametersLayout buttonsLayout patternsLayout viewLayout defaultWidth visualizeSpacing borderWidth optionsLayout |
+	 spacing := 7.
+    visualizeSpacing := 30.
+    defaultWidth := 180.
+    borderWidth := 5.
+    
+    parametersLayout := SpBoxLayout newVertical
+        spacing: spacing;
+        borderWidth: borderWidth;
+        add: #parametersLabel expand: false;
+        add: #suffix expand: false;
+        add: #prefix expand: false;
+        add: #both expand: false;
+        add: #rootSelector expand: false;
+        add: #withoutInterfaces expand: false;
+        yourself.
+
+    buttonsLayout := SpBoxLayout newVertical
+        add: #visualizeButton expand: false;
+        yourself.
+    
+    patternsLayout := SpBoxLayout newVertical
+        spacing: spacing;
+        add: #visualizeButton;
+        add: (SpBoxLayout newHorizontal
+                add: #patternsDropList;
+                add: #patternsHelpButton expand: false;
+                yourself)
+            expand: false;
+        yourself.
+
+    viewLayout := SpBoxLayout newVertical
+        spacing: spacing;
+         add: #projectView;
+        yourself.
+        
+    optionsLayout := SpBoxLayout newVertical
+        spacing: spacing;
+        add: #fullInstructionsButton;
+        add: (SpBoxLayout newHorizontal
+            add: #exportButton width: (defaultWidth / 2) asInteger;
+            add: #inspect width: (defaultWidth / 2) asInteger;
+            yourself);
+        yourself.
+        
+    ^ super defaultLayout
+			spacing: spacing;
+          add: (SpBoxLayout newHorizontal
+                spacing: spacing;
+                add: (SpBoxLayout newVertical
+                    spacing: spacing;
+                    add: optionsLayout expand: false;
+                    add: parametersLayout expand: false;
+                    add: patternsLayout expand: false;
+                    yourself)
+                   width: defaultWidth;
+            add: viewLayout;
+            yourself);
+        yourself
 ]
 
 { #category : #specs }
@@ -676,8 +741,8 @@ CNBBrowser >> radioButtons [
 { #category : #initialization }
 CNBBrowser >> resetPackageBoder [
 
-	self halt.
-	selectedPackageBox border width: selectedPackageBox model class new defaultBorderWidth 
+	selectedPackageBox border width:
+		selectedPackageBox model class new defaultBorderWidth
 ]
 
 { #category : #selection }
