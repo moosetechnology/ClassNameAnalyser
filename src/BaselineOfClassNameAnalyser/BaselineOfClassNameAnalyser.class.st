@@ -8,8 +8,7 @@ Class {
 BaselineOfClassNameAnalyser >> baseline: spec [
 
 	<baseline>
-	spec for: #common do: [ 
-		"External dependencies"
+	spec for: #common do: [ "External dependencies"
 		self loadCSVGenerator: spec.
 
 		"Packages"
@@ -28,8 +27,9 @@ BaselineOfClassNameAnalyser >> baseline: spec [
 			package: 'CNBPatterns-Tests'
 			with: [ spec requires: #( 'CNBPatterns' ) ];
 			package: 'CNBProjectImporter'
-			with: [ spec requires: #( 'CNBModels' ) ];
-			package: 'CNBSpec' with: [ spec requires: #( 'CNB-Core' ) ];
+			with: [ spec requires: #( 'CNBModels' 'CSVGenerator' ) ];
+			package: 'CNBSpec'
+			with: [ spec requires: #( 'CNB-Core' 'CSVGenerator' ) ];
 			package: 'CNBVisualization'
 			with: [ spec requires: #( 'CNBProjectImporter' ) ] ]
 ]
