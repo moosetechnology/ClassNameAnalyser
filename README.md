@@ -3,7 +3,7 @@
 
 ## Installation
 
-In order to install this project, execute (Do-it, Ctrl+D) the following script in the Playground of your Moose 9 Image
+In order to install this project, execute (Do-it, Ctrl+D) the following script in the Playground of your Moose 11 Image
 
 ```Smalltalk
 Metacello new
@@ -11,6 +11,14 @@ Metacello new
   repository: 'github://NourDjihan/ClassNameAnalyser/src';
   load.
 ```
+In previous Moose images, use 
+```Smalltalk
+Metacello new
+  baseline: 'ClassNameAnalyser';
+  repository: 'github://NourDjihan/ClassNameAnalyser:v1.1.0/src';
+  load.
+```
+
 ## ClassNameAnalyser Description:
 The **ClassNameAnalyser** is a project which provides a visualisation of the distribution of concepts in both **Java** and **Pharo**. The visualization is called *ClassName Distribution*. Full demo in: https://drive.google.com/drive/folders/1C0r1-R_6EYxqJS528pLuvKbYQF_Q5MjV?usp=sharing
 
