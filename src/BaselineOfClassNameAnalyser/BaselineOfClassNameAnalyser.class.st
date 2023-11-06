@@ -6,25 +6,32 @@ Class {
 
 { #category : #baselines }
 BaselineOfClassNameAnalyser >> baseline: spec [
+
 	<baseline>
-	spec for: #common do: [
-		"External dependencies"
+	spec for: #common do: [ "External dependencies"
 		self loadCSVGenerator: spec.
-		self loadFileDialog: spec.
+
 		"Packages"
 		spec
 			package: 'CNBFeatureSelector';
-			package: 'CNBFeatureSelector-Tests' with: [ spec requires: #('CNBFeatureSelector') ];
-			package: 'CNBModels' with: [ spec requires: #('CNBFeatureSelector') ];
-			package: 'CNBBuilder'  with: [ spec requires: #('CNBModels') ];
-			package: 'CNBBuilder-Tests' with: [ spec requires: #('CNBBuilder') ];
-			package: 'CNB-Core' with: [ spec requires: #('CNBBuilder' 'CNBVisualization') ];
-			package: 'CNBPatterns' with: [ spec requires: #('CNBModels')  ];
-			package: 'CNBPatterns-Tests' with: [ spec requires: #('CNBPatterns') ];
-			package: 'CNBProjectImporter' with: [ spec requires: #('CNBModels') ];
-			package: 'CNBSpec' with: [ spec requires: #('CNB-Core') ];
-			package: 'CNBVisualization' with: [ spec requires: #('CNBProjectImporter') ].
-				 ].
+			package: 'CNBFeatureSelector-Tests'
+			with: [ spec requires: #( 'CNBFeatureSelector' ) ];
+			package: 'CNBModels'
+			with: [ spec requires: #( 'CNBFeatureSelector' ) ];
+			package: 'CNBBuilder' with: [ spec requires: #( 'CNBModels' ) ];
+			package: 'CNBBuilder-Tests'
+			with: [ spec requires: #( 'CNBBuilder' ) ];
+			package: 'CNB-Core'
+			with: [ spec requires: #( 'CNBBuilder' 'CNBVisualization' ) ];
+			package: 'CNBPatterns' with: [ spec requires: #( 'CNBModels' ) ];
+			package: 'CNBPatterns-Tests'
+			with: [ spec requires: #( 'CNBPatterns' ) ];
+			package: 'CNBProjectImporter'
+			with: [ spec requires: #( 'CNBModels' 'CSVGenerator' ) ];
+			package: 'CNBSpec'
+			with: [ spec requires: #( 'CNB-Core' 'CSVGenerator' ) ];
+			package: 'CNBVisualization'
+			with: [ spec requires: #( 'CNBProjectImporter' ) ] ]
 ]
 
 { #category : #'as yet unclassified' }
