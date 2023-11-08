@@ -31,7 +31,7 @@ CNBClassHierarchyPrinter class >> forPharoClass: aClass [
 { #category : #printing }
 CNBClassHierarchyPrinter >> arrow [
 
-	^ '----> '
+	^ '--> '
 ]
 
 { #category : #'public API' }
@@ -94,7 +94,7 @@ CNBClassHierarchyPrinter >> printClass: aClass [
 		ifTrue: [
 			stream
 				<< self arrow;
-				tab: index - 2 ]
+				tab: (index - 2 max: 0) ]
 		ifFalse: [ stream tab: index ].
 
 	stream << aClass name
@@ -135,7 +135,7 @@ CNBClassHierarchyPrinter >> subclasses [
 
 	^ (self isForPharo
 		   ifTrue: [ theClass subclasses ]
-		   ifFalse: [ theClass subclassHierarchy ]) sort: #name ascending
+		   ifFalse: [ theClass directSubclasses ]) sort: #name ascending
 ]
 
 { #category : #printing }

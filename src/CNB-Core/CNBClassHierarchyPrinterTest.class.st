@@ -18,7 +18,7 @@ CNBClassHierarchyPrinterTest >> expectedString [
 
 	^ 'ProtoObject
 	Object
-----> CNBAbstractModel
+--> CNBAbstractModel
 			CNBAbstractViewModel
 			CNBClassModel
 			CNBConceptualModel
@@ -30,7 +30,7 @@ CNBClassHierarchyPrinterTest >> expectedString [
 CNBClassHierarchyPrinterTest >> expectedStringForJava [
 
 	^ 'Superclass
-----> TheClass
+--> TheClass
 		FirstSubclass
 		SecondSubclass'
 ]
