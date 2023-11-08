@@ -35,47 +35,39 @@ CNBModelGenerator class >> importProject: aPath with: aModel [
 
 { #category : #'as yet unclassified' }
 CNBModelGenerator class >> packagesNamed: aCollection [
-	| model  |
 
+	| model |
 	model := FamixStModel new.
 	MoosePharoImporterTask new
-		importerClass: SmalltalkImporter;
-		doNotRunCandidateOperator;
-		importingContext:
-			(MooseImportingContext new
-			   mergeClassAndMetaclass;
-				importClass;
-				importInheritance ; 
-				importPackage;
-				yourself);
+		importingContext: (MooseImportingContext new
+				 mergeClassAndMetaclass;
+				 importClass;
+				 importInheritance;
+				 importPackage;
+				 yourself);
 		model: model;
 		addFromPackagesNamed: aCollection;
+		doNotRunCandidateOperator;
 		run.
-		^ model
-
-	
+	^ model
 ]
 
 { #category : #'as yet unclassified' }
-CNBModelGenerator class >> projectNameMatches: aString [ 
-	| model  |
+CNBModelGenerator class >> projectNameMatches: aString [
 
+	| model |
 	model := FamixStModel new.
 	MoosePharoImporterTask new
-		importerClass: SmalltalkImporter;
-		doNotRunCandidateOperator;
-		importingContext:
-			(MooseImportingContext new
-			   mergeClassAndMetaclass;
-				importClass;
-				importInheritance ; 
-				importPackage;
-				yourself);
+		importingContext: (MooseImportingContext new
+				 mergeClassAndMetaclass;
+				 importClass;
+				 importInheritance;
+				 importPackage;
+				 yourself);
 		model: model;
-		addFromPackagesMatching: [:p | aString match: p name];
+		addFromPackagesMatching: [ :p | aString match: p name ];
+		doNotRunCandidateOperator;
 		run.
-		model name: aString.
-		^ model
-
-	
+	model name: aString.
+	^ model
 ]

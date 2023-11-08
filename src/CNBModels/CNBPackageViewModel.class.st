@@ -63,11 +63,15 @@ CNBPackageViewModel >> hasScatteredVocabularyInside [
 ]
 
 { #category : #initialization }
-CNBPackageViewModel >> initialize [ 
+CNBPackageViewModel >> initialize [
+
 	super initialize.
-	
+
 	packageOrganizer := CNBPackageViewModelOragnizer new.
-	box when: RSMouseLeftClick do: [ self onClickResetHighlighter ]
+	box
+		when: RSMouseLeftClick
+		do: [ self onClickResetHighlighter ]
+		for: self
 ]
 
 { #category : #accessing }

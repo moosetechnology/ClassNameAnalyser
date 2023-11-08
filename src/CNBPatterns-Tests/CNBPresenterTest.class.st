@@ -2,49 +2,37 @@ Class {
 	#name : #CNBPresenterTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'projectCnb',
-		'cnbCanvas',
-		'presenter',
-		'roots',
-		'allTokensModels',
-		'allNodes',
-		'tokenModels',
-		'mooseModel'
+		'allTokenModelsInMoose',
+		'allTokenModelsInCalypso'
 	],
 	#category : #'CNBPatterns-Tests'
 }
 
-{ #category : #tests }
-CNBPresenterTest >> changeToCalypso [ 
+{ #category : #running }
+CNBPresenterTest >> allNonEmptyTokensInPackagesMatching: aPattern [
 
-	mooseModel := CNBModelGenerator projectNameMatches: 'Calypso-*'.
-	projectCnb := (
-		(ClassNamesBlueprint new 
-			model: mooseModel) 
-			withSuffix) 
-			startBuilding.
-	roots := projectCnb viewModel rootModels collect: [ :each | each ].
-	allTokensModels := projectCnb viewModel tokenModels reject: [ :each | each patterns isEmpty ].
+	| cnb |
+	cnb := (ClassNamesBlueprint projectNameMatches: aPattern) withSuffix
+		       startBuilding.
+
+	^ cnb viewModel tokenModels reject: [ :each | each patterns isEmpty ]
 ]
 
 { #category : #running }
 CNBPresenterTest >> setUp [
+
 	super setUp.
-	
-	mooseModel := CNBModelGenerator projectNameMatches: 'moose-*'.
-	projectCnb := (
-		(ClassNamesBlueprint new 
-			model: mooseModel) 
-			withSuffix) 
-			startBuilding.
-	roots := projectCnb viewModel rootModels collect: [ :each | each ].
-	allTokensModels := projectCnb viewModel tokenModels reject: [ :each | each patterns isEmpty ].
+
+	allTokenModelsInMoose := self allNonEmptyTokensInPackagesMatching:
+		                         'Moose-*'.
+	allTokenModelsInCalypso := self allNonEmptyTokensInPackagesMatching:
+		                           'Calypso-*'
 ]
 
 { #category : #checkPatternsInCNB }
 CNBPresenterTest >> testCheckAllHomogeneous [
 	| homogeneous |
-	homogeneous := allTokensModels
+	homogeneous := allTokenModelsInMoose
 							select: [ :each | each patterns anySatisfy: [ :aPattern |  aPattern isHomogeneous ] ].
 	
 	self 
@@ -54,7 +42,7 @@ CNBPresenterTest >> testCheckAllHomogeneous [
 { #category : #checkPatternsInCNB }
 CNBPresenterTest >> testCheckAllHomogeneousColorSize [
 	| homogeneous |
-	homogeneous := allTokensModels 
+	homogeneous := allTokenModelsInMoose 
 							select: [ :each | each patterns anySatisfy: [ :aPattern |  aPattern isHomogeneous ] ].
 	
 	self 
@@ -66,7 +54,7 @@ CNBPresenterTest >> testCheckAllScatteredVocabularySizeInsidePackage [
 
 	| scatteredVocabulary packageSuffixesDictionary packages |
 	scatteredVocabulary 
-	:= allTokensModels 
+	:= allTokenModelsInMoose 
 			select: [ :each |each patterns anySatisfy: [ :aPattern |  aPattern isScatteredVocabulary ] ].
 	
 	packages 
@@ -88,7 +76,7 @@ CNBPresenterTest >> testCheckAllScatteredVocabularySizeInsidePackage [
 CNBPresenterTest >> testCheckAllScatteredVocabularySuffixSize [
 
 	| scatteredVocabulary |
-	scatteredVocabulary := allTokensModels 
+	scatteredVocabulary := allTokenModelsInMoose 
 							select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isScatteredVocabulary ]  ].
 							
 	
@@ -101,7 +89,7 @@ CNBPresenterTest >> testCheckAllScatteredVocabularySuffixSize [
 CNBPresenterTest >> testCheckAllSnowFlakesColorSize [
 
 	| snowFlakes |
-	snowFlakes := allTokensModels 
+	snowFlakes := allTokenModelsInMoose 
 							select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isSnowFlakes ]  ].
 							
 	
@@ -114,7 +102,7 @@ CNBPresenterTest >> testCheckAllSnowFlakesColorSize [
 CNBPresenterTest >> testCheckAllSnowFlakesMaxSize [
 
 	| snowFlakes |
-	snowFlakes := allTokensModels 
+	snowFlakes := allTokenModelsInMoose 
 							select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isSnowFlakes ]  ].
 							
 	
@@ -125,26 +113,25 @@ CNBPresenterTest >> testCheckAllSnowFlakesMaxSize [
 
 { #category : #checkingOneSuffixPattern }
 CNBPresenterTest >> testCheckConfetti [
-	| aTokenModel |
-	self changeToCalypso.
 
-	aTokenModel := allTokensModels 
-		detect: [ :each | 
-			each name = 'Example' and: [ 
-			each package name = 'Calypso-NavigationModel-Tests' ] ].
-		
+	| aTokenModel |
+	aTokenModel := allTokenModelsInCalypso detect: [ :each |
+		               each name = 'Example' and: [
+			               each package name = 'Calypso-NavigationModel-Tests' ] ].
+
 	aTokenModel checkConfetti.
 
 	self
-		assert: (aTokenModel patterns anySatisfy: [ :aPattern | aPattern isConfetti ] )	
-		equals: true  
+		assert:
+		(aTokenModel patterns anySatisfy: [ :aPattern | aPattern isConfetti ])
+		equals: true
 ]
 
 { #category : #confettiTests }
 CNBPresenterTest >> testCheckConfettiNumberInCNB [
 
 	| confetti |
-	confetti := allTokensModels select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isConfetti ]   ].
+	confetti := allTokenModelsInMoose select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isConfetti ]   ].
 	
 	self 
 		assert: confetti size 
@@ -153,30 +140,33 @@ CNBPresenterTest >> testCheckConfettiNumberInCNB [
 
 { #category : #checkingOneSuffixPattern }
 CNBPresenterTest >> testCheckFatBlob [
-	| aTokenModel |
 
-	aTokenModel := allTokensModels detect: [ :each | each package name = 'Moose-Algos-Graph-Tests' ].
-		
+	| aTokenModel |
+	aTokenModel := allTokenModelsInMoose detect: [ :each |
+		               each package name = 'Moose-Algos-Graph-Tests' ].
+
 	aTokenModel checkPatterns.
-	
+
 	self
-		assert: (aTokenModel patterns anySatisfy: [ :aPattern | aPattern isFatBlob ])   
+		assert:
+		(aTokenModel patterns anySatisfy: [ :aPattern | aPattern isFatBlob ])
 		equals: true
 ]
 
 { #category : #HomogeneityBreakerTests }
 CNBPresenterTest >> testCheckHomogeneityBreaker [
-	| aTokenModel  |
-	self changeToCalypso.
-	
-	aTokenModel := allTokensModels 
-		detect: [ :each | each name = 'Strategy' 
-			and: [ each package name = 'Calypso-SystemTools-QueryBrowser' ] ].
-			
+
+	| aTokenModel |
+	aTokenModel := allTokenModelsInCalypso detect: [ :each |
+		               each name = 'Strategy' and: [
+			               each package name
+			               = 'Calypso-SystemTools-QueryBrowser' ] ].
+
 	aTokenModel checkPatterns.
-	
+
 	self
-		assert: (aTokenModel patterns anySatisfy: [ :aPattern | aPattern isNearlyHomogeneous ] 	)
+		assert: (aTokenModel patterns anySatisfy: [ :aPattern |
+				 aPattern isNearlyHomogeneous ])
 		equals: true
 ]
 
@@ -184,7 +174,7 @@ CNBPresenterTest >> testCheckHomogeneityBreaker [
 CNBPresenterTest >> testCheckHomogeneous [
 	| aTokenModel  |
 
-	aTokenModel := allTokensModels 
+	aTokenModel := allTokenModelsInMoose 
 		detect: [ :each | each name = 'Strategy' 
 			and: [ each package name = 'Moose-Query' ] ].
 	
@@ -200,7 +190,7 @@ CNBPresenterTest >> testCheckHomogeneous [
 CNBPresenterTest >> testCheckIntruder [
 	| aTokenModel |
 	
-	aTokenModel := allTokensModels detect: [ :each | each name = 'Command' ].
+	aTokenModel := allTokenModelsInMoose detect: [ :each | each name = 'Command' ].
 		
 	aTokenModel checkPatterns.
 	
@@ -213,7 +203,7 @@ CNBPresenterTest >> testCheckIntruder [
 CNBPresenterTest >> testCheckScatteredVocabulary [
 	| aTokenModel |
 	
-	aTokenModel := allTokensModels 
+	aTokenModel := allTokenModelsInMoose 
 		detect: [ :each | each name = 'Task' 
 							and: [ each package name = 'Moose-SmalltalkImporter' ] ].
 		
@@ -228,7 +218,7 @@ CNBPresenterTest >> testCheckScatteredVocabulary [
 CNBPresenterTest >> testCheckSnowFlakes [
 	| aTokenModel |
 	
-	aTokenModel := allTokensModels 
+	aTokenModel := allTokenModelsInMoose 
 		detect: [ :each | each name = 'Engine' ].
 	
 		
@@ -243,7 +233,7 @@ CNBPresenterTest >> testCheckSnowFlakes [
 CNBPresenterTest >> testCheckSnowFlakesInCNB [
 
 	| snowFlakes actualSnowFlakes |
-	snowFlakes := allTokensModels 
+	snowFlakes := allTokenModelsInMoose 
 							select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern  isSnowFlakes]  ].
 							
 	actualSnowFlakes := { 'Engine' . 'B' }.
@@ -257,7 +247,7 @@ CNBPresenterTest >> testConfettiOutsiders [
 
 	| confetti |
 	confetti 
-		:= allTokensModels 
+		:= allTokenModelsInMoose 
 				select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isConfetti ] ].
 	
 	self 
@@ -272,7 +262,7 @@ CNBPresenterTest >> testConfettiOutsiders [
 CNBPresenterTest >> testConfettiSize [
 
 	| confetti |
-	confetti := allTokensModels select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isConfetti ]   ].
+	confetti := allTokenModelsInMoose select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isConfetti ]   ].
 	
 	self 
 		assert: (confetti allSatisfy: [ :each | 
@@ -286,7 +276,7 @@ CNBPresenterTest >> testConfettiSize [
 CNBPresenterTest >> testFatBlobsAreNotHomogeneous [
 
 	| fatBlobs |
-	fatBlobs := allTokensModels select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isFatBlob ]  ].
+	fatBlobs := allTokenModelsInMoose select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isFatBlob ]  ].
 
 	self 
 		assert: (fatBlobs anySatisfy: [ :each | each patterns anySatisfy: [ :pattern | pattern isHomogeneous ]  ])
@@ -297,7 +287,7 @@ CNBPresenterTest >> testFatBlobsAreNotHomogeneous [
 CNBPresenterTest >> testFatBlobsBelongToMultiSuffix [
 
 	| fatBlobs |
-	fatBlobs := allTokensModels select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isFatBlob ]   ].
+	fatBlobs := allTokenModelsInMoose select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isFatBlob ]   ].
 	
 	self 
 		assert: (fatBlobs allSatisfy: [ :each | each root isMultiToken ])
@@ -308,7 +298,7 @@ CNBPresenterTest >> testFatBlobsBelongToMultiSuffix [
 CNBPresenterTest >> testFatBlobsSize [
 
 	| fatBlobs |
-	fatBlobs := allTokensModels select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isFatBlob ] ].
+	fatBlobs := allTokenModelsInMoose select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isFatBlob ] ].
 
 	self 
 		assert: (fatBlobs allSatisfy: [ :each | each size >= CNBFatBlobPattern new fatBlobSize ])
@@ -319,22 +309,20 @@ CNBPresenterTest >> testFatBlobsSize [
 CNBPresenterTest >> testHomogeneityBreakerExists [
 
 	| homogeneityBreakers |
-	self changeToCalypso.
-	homogeneityBreakers := allTokensModels  
-			select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isNearlyHomogeneous]  ].
-	
-	self 
-		assert: homogeneityBreakers isNotEmpty 
-		equals: true
+	homogeneityBreakers := allTokenModelsInCalypso select: [ :each |
+		                       each patterns anySatisfy: [ :aPattern |
+			                       aPattern isNearlyHomogeneous ] ].
+
+	self assert: homogeneityBreakers isNotEmpty equals: true
 ]
 
 { #category : #HomogeneityBreakerTests }
 CNBPresenterTest >> testHomogeneityBreakerIsNotIntruder [
 
 	| homoBreaker intruders |
-	homoBreaker := allTokensModels 
+	homoBreaker := allTokenModelsInMoose 
 			select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isNearlyHomogeneous ] ].
-	intruders := allTokensModels 
+	intruders := allTokenModelsInMoose 
 			select: [ :each | each patterns anySatisfy: [ :pattern | pattern isIntruder ]  ].
 			
 	self
@@ -349,7 +337,7 @@ CNBPresenterTest >> testIntrudersAreNotMonoClasses [
 
 	| intruders |
 	intruders 
-		:= allTokensModels 
+		:= allTokenModelsInMoose 
 			select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isIntruder ]  ].
 																
 	self 
@@ -361,7 +349,7 @@ CNBPresenterTest >> testIntrudersAreNotMonoClasses [
 CNBPresenterTest >> testIntrudersPourcentage [
 
 	| intruders |
-	intruders := allTokensModels select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isIntruder ]  ].
+	intruders := allTokenModelsInMoose select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isIntruder ]  ].
 																
 	self 
 		assert: (intruders allSatisfy: [ :each | each outsiders size <=  (each size * CNBIntruderPattern new intrudersPercentage) percent ])
@@ -372,7 +360,7 @@ CNBPresenterTest >> testIntrudersPourcentage [
 CNBPresenterTest >> testIntrudersSizeInsideCNB [
 
 	| intruders |
-	intruders := allTokensModels select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isIntruder ]  ].
+	intruders := allTokenModelsInMoose select: [ :each | each patterns anySatisfy: [ :aPattern | aPattern isIntruder ]  ].
 									
 	self 
 		assert: intruders size

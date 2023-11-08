@@ -5,154 +5,143 @@ Class {
 	#name : #CNBClassHierarchyPrinter,
 	#superclass : #ClassHierarchyPrinter,
 	#instVars : [
-		'text'
+		'forPharo'
 	],
 	#category : #'CNB-Core'
 }
 
-{ #category : #shapes }
-CNBClassHierarchyPrinter >> arrow [
-	| arrow |
-	arrow := '------->'. 
-	^ arrow asText addAttribute: (TextEmphasis bold) from: 1 to:  arrow size
-]
+{ #category : #'instance creation' }
+CNBClassHierarchyPrinter class >> forFamixClass: aClass [
 
-{ #category : #initialization }
-CNBClassHierarchyPrinter >> initialize [ 
-	super initialize.
-	
-	text := Text new.
+	^ self new
+		  beForFamix;
+		  forClass: aClass;
+		  yourself
 ]
 
 { #category : #'instance creation' }
-CNBClassHierarchyPrinter >> newLine [ 
+CNBClassHierarchyPrinter class >> forPharoClass: aClass [
 
-	^ String cr asText
+	^ self new
+		  beForPharo;
+		  forClass: aClass;
+		  yourself
+]
+
+{ #category : #printing }
+CNBClassHierarchyPrinter >> arrow [
+
+	^ '----> '
+]
+
+{ #category : #'public API' }
+CNBClassHierarchyPrinter >> beForFamix [
+
+	forPharo := false
+]
+
+{ #category : #'public API' }
+CNBClassHierarchyPrinter >> beForPharo [
+
+	forPharo := true
+]
+
+{ #category : #printing }
+CNBClassHierarchyPrinter >> emphasisFor: aStringOrText in: aString [
+
+	| text |
+	text := aString asText.
+
+	(aString allRangesOfSubstring: aStringOrText) do: [ :range |
+		text
+			addAttribute: TextEmphasis bold
+			from: range first
+			to: range last ].
+
+	^ text
+]
+
+{ #category : #initialization }
+CNBClassHierarchyPrinter >> initialize [
+
+	super initialize.
+	self beForFamix
+]
+
+{ #category : #testing }
+CNBClassHierarchyPrinter >> isForPharo [
+	"False when for a Famix class"
+
+	^ forPharo
 ]
 
 { #category : #'public API' }
 CNBClassHierarchyPrinter >> print [
-	"Answer a description containing the names and instance variable names 
-	of all of the subclasses and superclasses of the class."
-	
-	theClass ifNotNil: [ 
-		 	self printSuperclasses.
-			self printTheClass.
-			self printSubclasses ]
+
+	theClass ifNil: [ ^ '' ].
+
+	self printSuperclasses.
+	self printTheClass.
+	self printSubclasses.
+
+	^ stream contents
 ]
 
 { #category : #printing }
 CNBClassHierarchyPrinter >> printClass: aClass [
 
-	text ifNotEmpty: [ text append: self newLine ].
-	(aClass = theClass) ifTrue: [	text append: self arrow	].
-	text append: aClass name.
-]
+	aClass = theClass
+		ifTrue: [
+			stream
+				<< self arrow;
+				tab: index - 2 ]
+		ifFalse: [ stream tab: index ].
 
-{ #category : #'public API' }
-CNBClassHierarchyPrinter >> printFamixJava [
-	"Answer a description containing the names and instance variable names 
-	of all of the subclasses and superclasses of the class."
-	
-	theClass ifNotNil: [ 
-		self printFamixJavaSuperclasses.
-		self printTheClass.
-		self printFamixJavaSubclasses ].
-]
-
-{ #category : #printing }
-CNBClassHierarchyPrinter >> printFamixJavaSubclasses [
-	"As part of the algorithm for printing a description of the receiver, print the
-	subclass on the file stream, aStream, indenting level times."
-
-	(theClass subInheritances collect: #source)
-		do: [ :aClass | 
-			self printClass: aClass ].
-]
-
-{ #category : #printing }
-CNBClassHierarchyPrinter >> printFamixJavaSuperclasses [
-
-	 self superclasses
-		ifNotEmpty: [ 
-			self superclasses 
-				reverseDo: [ :aClass | self printClass: aClass ].
-				 ].
-		
-
-		
-	
+	stream << aClass name
 ]
 
 { #category : #printing }
 CNBClassHierarchyPrinter >> printSubclasses [
-	"As part of the algorithm for printing a description of the receiver, print the
-	subclass on the file stream, aStream, indenting level times."
 
-	| sortedSubclasses |
-
-	sortedSubclasses := theClass subclasses
-		asSortedCollection: [ :c1 :c2 | c1 name <= c2 name ].
-	sortedSubclasses do: [ :subclass | 
-			self printClass: subclass ]
+	self subclasses do: [ :subclass |
+		stream cr.
+		self printClass: subclass ]
 ]
 
 { #category : #printing }
-CNBClassHierarchyPrinter >> printTheClass [ 
+CNBClassHierarchyPrinter >> printSuperclasses [
+
+	self superclasses reverseDo: [ :aClass |
+		self printClass: aClass.
+		stream cr.
+		index := index + 1 ]
+]
+
+{ #category : #printing }
+CNBClassHierarchyPrinter >> printTheClass [
 
 	self printClass: theClass.
+	index := index + 1
+]
 
+{ #category : #'public API' }
+CNBClassHierarchyPrinter >> printWithEmphasisOn: aStringOrText [
+
+	^ self emphasisFor: aStringOrText in: self print
 ]
 
 { #category : #printing }
-CNBClassHierarchyPrinter >> printWithBoldJavaClass: aStringOrText [ 
+CNBClassHierarchyPrinter >> subclasses [
 
-	| ranges theRange textAsString |
-	self printFamixJava.
-	textAsString := text asString.
-	ranges := textAsString allRangesOfSubstring: aStringOrText.
-	theRange := ranges first.
-	
-    text 
-       addAttribute: (TextEmphasis bold)
-       from: theRange first
-       to: theRange last.
-	^ text
+	^ (self isForPharo
+		   ifTrue: [ theClass subclasses ]
+		   ifFalse: [ theClass subclassHierarchy ]) sort: #name ascending
 ]
 
 { #category : #printing }
-CNBClassHierarchyPrinter >> printWithBoldPharoClass: aStringOrText [ 
+CNBClassHierarchyPrinter >> superclasses [
 
-	| ranges theRange textAsString |
-	self print.
-	textAsString := text asString.
-	ranges := textAsString allRangesOfSubstring: aStringOrText.
-	theRange := ranges first.
-	
-    text 
-       addAttribute: (TextEmphasis bold)
-       from: theRange first
-       to: theRange last.
-	^ text
-]
-
-{ #category : #accessing }
-CNBClassHierarchyPrinter >> superclassOf: aClass [
-
-	^ aClass superClass
-]
-
-{ #category : #'as yet unclassified' }
-CNBClassHierarchyPrinter >> superclasses [ 
-
-	| superclass superclasses |
-	superclass := self superclassOf: theClass. 
-	superclasses := OrderedCollection new.
-	
-	[ superclass isNotNil ] 
-		whileTrue: [ 
-			superclasses add: superclass.
-			superclass := self superclassOf: superclass.			
-					].
-	^ superclasses		
+	^ self isForPharo
+		  ifTrue: [ theClass allSuperclasses ]
+		  ifFalse: [ theClass superclassHierarchy ]
 ]

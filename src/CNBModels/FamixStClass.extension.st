@@ -47,14 +47,6 @@ FamixStClass >> print [
 ]
 
 { #category : #'*CNBModels' }
-FamixStClass >> printWithBold: aStringOrText [
-
-	^ (CNBClassHierarchyPrinter new 
-			forClass: (Smalltalk image classNamed: self name)) printWithBoldPharoClass: aStringOrText 
-	
-]
-
-{ #category : #'*CNBModels' }
 FamixStClass >> rootAccordingTo: aRootClassName [
 
 	 (self isTrait 

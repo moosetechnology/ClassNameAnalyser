@@ -12,17 +12,17 @@ Class {
 }
 
 { #category : #specs }
-CNBPopupPresenter class >> defaultSpec [
+CNBPopupPresenter class >> defaultLayout [
+
 	^ SpBoxLayout newHorizontal
-		borderWidth: 5;
-		add:
-			(SpBoxLayout newVertical
-				spacing: 5;
-				add: #help height: 250;
-				add: #okButton height: self buttonHeight;
-				yourself)
-			width: 250;
-		yourself
+		  borderWidth: 5;
+		  add: (SpBoxLayout newVertical
+				   spacing: 5;
+				   add: #help height: 250;
+				   add: #okButton height: self buttonHeight;
+				   yourself)
+		  width: 250;
+		  yourself
 ]
 
 { #category : #api }

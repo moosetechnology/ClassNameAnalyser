@@ -4,132 +4,135 @@ Class {
 	#instVars : [
 		'builder',
 		'mooseMooseModel',
-		'cnbMoose',
 		'calypsoMooseModel',
-		'cnbCalypso',
-		'luceneMooseModel',
-		'cnbLucene',
-		'moosePackages',
-		'mooseClasses'
+		'calypsoCNB',
+		'mooseCNB'
 	],
 	#category : #'CNBBuilder-Tests'
 }
 
 { #category : #running }
 CNBBuilderTest >> setUp [
-	"Hooks that subclasses may override to define the fixture of test."
-	builder := CNBBuilder new.
-	mooseMooseModel := CNBModelGenerator projectNameMatches: 'moose*-'.
-	cnbMoose := CNBClassNamesBlueprintGenerator projectNameMatches: 'moose*-'.
-	calypsoMooseModel := CNBModelGenerator projectNameMatches: 'calypso*-'.
-	cnbCalypso := CNBClassNamesBlueprintGenerator projectNameMatches: 'calypso*-'.
-	moosePackages := mooseMooseModel allModelPackages.
-	mooseClasses := moosePackages flatCollect: #classes.
 
-]
+	super setUp.
 
-{ #category : #tests }
-CNBBuilderTest >> testAssignColor [
+	mooseMooseModel := CNBModelGenerator projectNameMatches: 'Moose*-'.
+	mooseCNB := ClassNamesBlueprint new
+		            model: mooseMooseModel;
+		            startBuilding.
 
-	self assert: false.
+	calypsoMooseModel := CNBModelGenerator projectNameMatches:
+		                     'Calypso*-'.
+	calypsoCNB := ClassNamesBlueprint new
+		              model: calypsoMooseModel;
+		              startBuilding
 ]
 
 { #category : #tests }
 CNBBuilderTest >> testBuildPackageViewModels [
-	| expectedConcepts expectedPackagesNames  expectedClassModels |
 
-	expectedClassModels := (mooseClasses
-		collect: [ :each | each classModelAccordingTo: Object]).
-	expectedConcepts := expectedClassModels collect: #suffix.
-	expectedPackagesNames := (moosePackages collect: #name) asSet.
-	
+	| expectedConcepts |
 	self
-		assert: (cnbMoose viewModel packageViewModels collect: #name) asSet
-		equals: expectedPackagesNames.
+		assert: (mooseCNB viewModel packageViewModels collectAsSet: #name)
+		equals: (mooseMooseModel allModelPackages collectAsSet: #name).
+
+	expectedConcepts := mooseMooseModel allModelClasses collectAsSet: [
+		                    :each |
+		                    (each classModelAccordingTo: CNBSettings new)
+			                    suffix ].
 	self
-		assert:
-			((cnbMoose viewModel packageViewModels flatCollect: #tokenViewModels) collect: #name)
-				asSet
-		equals: expectedConcepts asSet.
+		assertCollection:
+			(mooseCNB viewModel packageViewModels flatCollectAsSet: [ :pckg |
+				 pckg tokenViewModels collect: #name ])
+		hasSameElements: expectedConcepts
 ]
 
 { #category : #tests }
 CNBBuilderTest >> testBuildRootModels [
 
 	| expectedRoots actualRoots |
-	 expectedRoots := (mooseClasses collect: [ :each | each rootAccordingTo: Object]) asSet.
-	 actualRoots := (cnbMoose viewModel rootModels collect: #name) asSet.
-	self assert: (actualRoots includesAll: (expectedRoots collect: #name))
-	
-	
-	
+	expectedRoots := mooseMooseModel allModelClasses collectAsSet: [ :cls |
+		                 (cls rootAccordingTo: Object) name ].
+
+	actualRoots := (mooseCNB viewModel rootModels collect: #name) asSet.
+
+	self assertCollection: actualRoots includesAll: expectedRoots
 ]
 
 { #category : #tests }
 CNBBuilderTest >> testClassModels [
-self assert: 
-		((cnbMoose viewModel packageModels flatCollect: #classModels) collect: #name) asSet 
-				equals: (mooseClasses collect: #name) asSet.
-				
-	self assert: 
-		((cnbCalypso viewModel packageModels flatCollect: #classModels) collect: #name) asSet 
-				equals: ((calypsoMooseModel allModelPackages flatCollect: #classes) collect: #name) asSet.
-				
-	
+
+	self
+		assertCollection:
+			(mooseCNB viewModel packageModels flatCollectAsSet: [ :pckgModel |
+				 pckgModel classModels collect: #name ])
+		hasSameElements:
+		(mooseMooseModel allModelClasses collectAsSet: #name).
+
+	self
+		assertCollection:
+			(calypsoCNB viewModel packageModels flatCollectAsSet: [ :pckgModel |
+				 pckgModel classModels collect: #name ])
+		hasSameElements:
+			(calypsoMooseModel allModelPackages flatCollectAsSet: [ :pckg |
+				 pckg classes collect: #name ])
 ]
 
 { #category : #tests }
 CNBBuilderTest >> testClassType [
+
 	| aMonoClass aMonoSuffixHierarchy aMultiSuffixHierarchy monoSuffixType multiSuffixType monoClassType |
 	monoClassType := CNBClassType monoClass.
 	monoSuffixType := CNBClassType monoToken.
 	multiSuffixType := CNBClassType multiToken.
-	aMonoSuffixHierarchy := cnbMoose viewModel rootModels
-		detect: [ :each | each isMonoToken ].
-	aMultiSuffixHierarchy := cnbMoose viewModel rootModels
-		detect: [ :each | each isMultiToken ].
-	aMonoClass := cnbMoose viewModel rootModels
-		detect: [ :each | each isMonoClass ].
+	aMonoSuffixHierarchy := mooseCNB viewModel rootModels detect: [ :each |
+		                        each isMonoToken ].
+	aMultiSuffixHierarchy := mooseCNB viewModel rootModels detect: [
+		                         :each | each isMultiToken ].
+	aMonoClass := mooseCNB viewModel rootModels detect: [ :each |
+		              each isMonoClass ].
 	self
-		assert: (CNBClassType with: aMonoClass subclasses) type equals: monoClassType.
+		assert: (CNBClassType with: aMonoClass subclasses) type
+		equals: monoClassType.
 	self
-		assert: (CNBClassType with: aMonoSuffixHierarchy subclasses) type equals: monoSuffixType.
-	self 
-		assert: (CNBClassType with: aMultiSuffixHierarchy subclasses) type equals: multiSuffixType
+		assert: (CNBClassType with: aMonoSuffixHierarchy subclasses) type
+		equals: monoSuffixType.
+	self
+		assert: (CNBClassType with: aMultiSuffixHierarchy subclasses) type
+		equals: multiSuffixType
 ]
 
 { #category : #tests }
-CNBBuilderTest >> testPackageModels [.
-	
-	self assert: 
-		(cnbMoose viewModel packageModels collect: #name) asSet 
-				equals: (mooseMooseModel allModelPackages collect: #name) asSet.
-				
-	self assert: 
-		(cnbCalypso viewModel packageModels collect: #name) asSet 
-				equals: (calypsoMooseModel allModelPackages collect: #name) asSet.
-				
-	"self assert: 
-		(cnbLucene viewModel packageModels collect: #name) asSet 
-			equals: (luceneMooseModel allModelNamespaces collect: #name) asSet."
-	
+CNBBuilderTest >> testPackageModels [
+
+	self
+		assert: (mooseCNB viewModel packageModels collectAsSet: #name)
+		equals: (mooseMooseModel allModelPackages collectAsSet: #name).
+
+	self
+		assert: (calypsoCNB viewModel packageModels collectAsSet: #name)
+		equals: (calypsoMooseModel allModelPackages collectAsSet: #name)
 ]
 
 { #category : #tests }
 CNBBuilderTest >> testSortRootModels [
-	| rm1 rm2 rm3 rm4 rm5 rm6 c |
-	rm1 := CNBRootModel new name: 'rm1';size: 3.
-	rm2 := CNBRootModel new name: 'rm2';size: 0.
-	rm3 := CNBRootModel new name: 'rm3';size: 4.
-	rm4 := CNBRootModel new name: 'rm4';size: 2.
-	rm5 := CNBRootModel new name: 'rm5';size: 7.
-	rm6 := CNBRootModel new name: 'rm6';size: 0.
-	c := { rm1 . rm2 . rm3 . rm4 . rm5 . rm6 } asSet.
-	self assert: (builder sortRootModels: c) asSet equals: { rm5 . rm3. rm1 . rm4 . rm2 . rm6} asSet
-]
 
-{ #category : #'as yet unclassified' }
-CNBBuilderTest >> testbuildConceptViewModels [
-	""
-	
+	| rm1 rm2 rm3 rm4 rm5 rm6 c |
+	rm1 := CNBRootModel new name: 'rm1';
+		       subclasses: (Array new: 3 withAll: CNBClassModel new).
+	rm2 := CNBRootModel new name: 'rm2';
+		       subclasses: Array new.
+	rm3 := CNBRootModel new name: 'rm3';
+		       subclasses: (Array new: 4 withAll: CNBClassModel new).
+	rm4 := CNBRootModel new name: 'rm4';
+		       subclasses: (Array new: 2 withAll: CNBClassModel new).
+	rm5 := CNBRootModel new name: 'rm5';
+		       subclasses: (Array new: 7 withAll: CNBClassModel new).
+	rm6 := CNBRootModel new name: 'rm6';
+		       subclasses: Array new.
+
+	c := { rm1. rm2. rm3. rm4. rm5. rm6 }.
+
+	self assertCollection: (CNBBuilder new sortRootModels: c) 
+		equals: { rm5. rm3. rm1. rm4. rm2. rm6 }
 ]

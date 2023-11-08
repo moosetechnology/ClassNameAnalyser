@@ -11,33 +11,26 @@ Class {
 { #category : #tests }
 CNBAnalysisDescriptionTest >> addFromPackagesMatching: aBlock [
 
-	| packages |
-	packages := OrderedCollection new.
-	RPackage organizer packages do: [:each |
-		 (aBlock value: each) ifTrue: [packages add: each]].
-	^ packages
+	^ RPackage organizer packages select: [ :each | aBlock value: each ]
 ]
 
 { #category : #running }
 CNBAnalysisDescriptionTest >> setUp [
+
 	super setUp.
-	
-	"Put here a common initialization logic for tests"
-	presenter := CNBPresenter new.
-	presenter packagesList selectItems: (RPackageOrganizer default packages select: [ :p | 'moose-*' match: p name ]).
-	presenter onAddClicked.
-	presenter onVisualizeClicked.
+	presenter := CNBBrowser new.
+	presenter followEntity:
+		(CNBModelGenerator projectNameMatches: 'moose*-')
 ]
 
 { #category : #tests }
-CNBAnalysisDescriptionTest >> testClasses [ 
+CNBAnalysisDescriptionTest >> testClasses [
 
-	self 
-		assert: presenter suffixCnb analysisDescription classes 
-		
-		equals: 
-			((self addFromPackagesMatching: 
-						[ :p | 'moose-*' match: p name ]) flatCollect: #definedClasses) size.
+	self
+		assert: presenter suffixCnb analysisDescription classes
+		equals:
+			((RPackage organizer packages select: [ :p |
+				  'moose-*' match: p name ]) flatCollect: #definedClasses) size
 ]
 
 { #category : #tests }
@@ -70,10 +63,4 @@ CNBAnalysisDescriptionTest >> testPackages [
 	self 
 		assert: presenter suffixCnb analysisDescription packages
 		equals: (presenter model allPackages reject: #isStub) size
-]
-
-{ #category : #tests }
-CNBAnalysisDescriptionTest >> testScatteredVocabulary [
-
-	
 ]

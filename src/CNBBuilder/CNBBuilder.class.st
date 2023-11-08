@@ -331,8 +331,7 @@ CNBBuilder >> sortAccordingToPalette: aCollection [
 { #category : #sorting }
 CNBBuilder >> sortRootModels: aSetOfRootModels [
 
-	^ (aSetOfRootModels 
-			sorted: #name ascending) sorted:#size descending 
+	^ (aSetOfRootModels sorted: #name ascending) sorted: #size descending
 ]
 
 { #category : #internal }

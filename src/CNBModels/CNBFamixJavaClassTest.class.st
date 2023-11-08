@@ -52,7 +52,7 @@ CNBFamixJavaClassTest >> setUp [
 	
 	"Parameterizable classes"
 	parameterizableClassD 
-		:= FamixJavaParameterizableClass new name: 'parameterizableClassD'; isInterface: true; yourself.
+		:= FamixJavaParameterizableInterface new name: 'parameterizableClassD'.
 		
 	parameterizableClassE := FamixJavaParameterizableClass new name: 'parameterizableClassE'.
 	
@@ -65,9 +65,9 @@ CNBFamixJavaClassTest >> setUp [
 		parameterizableClass: parameterizableClassE;yourself.
 	
 	"Interfaces definition"
-	classI1 := (FamixJavaClass named: 'classI1') isInterface: true; yourself.
-	classI2 := (FamixJavaClass named: 'classI2') isInterface: true; yourself.
-	classI3 := (FamixJavaClass named: 'classI3') isInterface: true; yourself.
+	classI1 := FamixJavaInterface named: 'classI1'.
+	classI2 := FamixJavaInterface named: 'classI2'.
+	classI3 := FamixJavaInterface named: 'classI3'.
 	
 	"Inheritance relations definition"
 	inheritanceCB := FamixJavaInheritance new subclass: classC; superclass: classB.

@@ -37,19 +37,19 @@ CNBClassModel >> classDepth [
 
 { #category : #initialization }
 CNBClassModel >> create [
+
 	| aToken aRoot |
-		
-	aRoot 
-		:= model rootAccordingTo: setting rootClass.
-	aToken := (CNBFeatureSelector new extract: setting token from: self model name).
-	
-		self 
-			name: (CNBFilterer removeAllDigitsAndSpecialCharsFrom: model name);
-			root: aRoot;
-			superclass: self superclass;
-			token: aToken;
-			depth: self classDepth.
-			
+	aRoot := model rootAccordingTo: setting rootClass.
+	aToken := CNBFeatureSelector new
+		          extract: setting token
+		          from: self model name.
+
+	self
+		name: (CNBFilterer removeAllDigitsAndSpecialCharsFrom: model name);
+		root: aRoot;
+		superclass: self superclass;
+		token: aToken;
+		depth: self classDepth
 ]
 
 { #category : #accessing }
@@ -97,12 +97,6 @@ CNBClassModel >> name: aName [
 	ifFalse: [ self token: (CNBFeatureSelector new extract: setting token from: aName) ]
 ]
 
-{ #category : #'as yet unclassified' }
-CNBClassModel >> otherToken [
-
-	^ CNBFeatureSelector new extract: setting otherToken from: name
-]
-
 { #category : #printing }
 CNBClassModel >> printOn: aStream [
 
@@ -144,6 +138,12 @@ CNBClassModel >> setting [
 ]
 
 { #category : #accessing }
+CNBClassModel >> suffix [
+
+	^ CNBFeatureSelector new extractSuffixFrom: name
+]
+
+{ #category : #accessing }
 CNBClassModel >> superclass [
 
 	^ superclass
@@ -168,12 +168,12 @@ CNBClassModel >> token: aToken [
 ]
 
 { #category : #accessing }
-CNBClassModel >> tokens [ 
-	
-	| featureSelector prefix suffix |
+CNBClassModel >> tokens [
+
+	| featureSelector |
 	featureSelector := CNBFeatureSelector new.
-	prefix := featureSelector extractPrefixFrom: name.
-	suffix := featureSelector extractSuffixFrom: name.
-	
-	^ { prefix . suffix }
+
+	^ {
+		  (featureSelector extractPrefixFrom: name).
+		  (featureSelector extractSuffixFrom: name) }
 ]

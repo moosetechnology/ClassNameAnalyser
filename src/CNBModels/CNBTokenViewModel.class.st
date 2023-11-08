@@ -239,12 +239,16 @@ CNBTokenViewModel >> hidePatternDescription [
 ]
 
 { #category : #initialization }
-CNBTokenViewModel >> initialize [ 
+CNBTokenViewModel >> initialize [
+
 	super initialize.
-	
+
 	patterns := OrderedCollection new.
-	box when: RSMouseLeftClick do: [ self onClickResetHighlighter].
-	box when: RSMouseRightClick do: [ self inspect].
+	box
+		when: RSMouseLeftClick
+		do: [ self onClickResetHighlighter ]
+		for: self.
+	box when: RSMouseRightClick do: [ self inspect ] for: self
 ]
 
 { #category : #accessing }
