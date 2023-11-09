@@ -45,7 +45,7 @@ CNBClassModel >> create [
 		          from: self model name.
 
 	self
-		name: (CNBFilterer removeAllDigitsAndSpecialCharsFrom: model name);
+		name: model name onlyLetters;
 		root: aRoot;
 		superclass: self superclass;
 		token: aToken;

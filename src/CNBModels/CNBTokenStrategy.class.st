@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #building }
-CNBTokenStrategy class >> build: aViewModel [
+CNBTokenStrategy class >> build: aCNB [
 
-	^ self new build: aViewModel
+	^ self new build: aCNB
 ]
 
 { #category : #building }

@@ -203,10 +203,12 @@ CNBBuilder >> doClassViewModelsOf: classmodels using: rootModels [
 ]
 
 { #category : #'as yet unclassified' }
-CNBBuilder >> doPackageModels [ 
+CNBBuilder >> doPackageModels [
 
-	^ visualization model packages 
-		collect: [ :eachPackage | CNBPackageModel of: eachPackage withSettings: visualization setting  ]
+	^ visualization model packages collect: [ :eachPackage |
+		  CNBPackageModel
+			  of: eachPackage
+			  withSettings: visualization setting ]
 ]
 
 { #category : #building }

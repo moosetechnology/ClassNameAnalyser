@@ -8,19 +8,13 @@ Class {
 	#category : #'CNB-Core'
 }
 
-{ #category : #tests }
-CNBAnalysisDescriptionTest >> addFromPackagesMatching: aBlock [
-
-	^ RPackage organizer packages select: [ :each | aBlock value: each ]
-]
-
 { #category : #running }
 CNBAnalysisDescriptionTest >> setUp [
 
 	super setUp.
 	presenter := CNBBrowser new.
 	presenter followEntity:
-		(CNBModelGenerator projectNameMatches: 'moose*-')
+		(CNBModelGenerator projectNameMatches: 'Moose-*')
 ]
 
 { #category : #tests }
@@ -34,18 +28,19 @@ CNBAnalysisDescriptionTest >> testClasses [
 ]
 
 { #category : #tests }
-CNBAnalysisDescriptionTest >> testFatBlob [ 
+CNBAnalysisDescriptionTest >> testFatBlob [
 
 	| fatBlobTokens |
-	fatBlobTokens 
-		:= presenter suffixCnb viewModel 
-					tokenModels select: [ :each | 
-						(each root isMultiToken and: [ 
-							(each belongers size >= CNBFatBlobPattern fatBlobSize ) and: [ 
-								each outsiders size <= CNBFatBlobPattern maxOutsiders ] ]) ].
-		self 
-			assert: presenter suffixCnb analysisDescription fatBlob 
-			equals: fatBlobTokens size
+	fatBlobTokens := presenter suffixCnb viewModel tokenModels select: [
+		                 :each |
+		                 each root isMultiToken and: [
+			                 each belongers size
+			                 >= CNBFatBlobPattern fatBlobSize and: [
+				                 each outsiders size
+				                 <= CNBFatBlobPattern maxOutsiders ] ] ].
+	self
+		assert: presenter suffixCnb analysisDescription fatBlob
+		equals: fatBlobTokens size
 ]
 
 { #category : #tests }

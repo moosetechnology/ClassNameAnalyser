@@ -199,7 +199,7 @@ CNBBrowser class >> menuCommandOn: aBuilder [
 		icon: (self iconNamed: #smallPaint).
 ]
 
-{ #category : #specs }
+{ #category : #'instance creation' }
 CNBBrowser class >> open [
 
 	<script>

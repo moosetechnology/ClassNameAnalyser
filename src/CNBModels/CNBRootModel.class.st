@@ -73,15 +73,17 @@ CNBRootModel >> checkNearlyHomogeneous [
 ]
 
 { #category : #attribution }
-CNBRootModel >> checkPatterns [ 
-	self 
+CNBRootModel >> checkPatterns [
+
+	self
 		checkHomogeneous;
 		checkScatteredVocabulary;
-		checkNearlyHomogeneous.
+		checkNearlyHomogeneous
 ]
 
 { #category : #testing }
 CNBRootModel >> checkScatteredVocabulary [
+
 	CNBScatteredVocabularyPattern new check: self
 ]
 

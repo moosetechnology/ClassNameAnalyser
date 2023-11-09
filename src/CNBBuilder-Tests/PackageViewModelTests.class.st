@@ -2,49 +2,46 @@ Class {
 	#name : #PackageViewModelTests,
 	#superclass : #TestCase,
 	#instVars : [
-		'viewModel',
-		'mooseModel',
 		'scatteredPackage',
 		'classNamesDistribution'
 	],
 	#category : #'CNBBuilder-Tests'
 }
 
-{ #category : #tests }
-PackageViewModelTests >> setUp [ 
+{ #category : #running }
+PackageViewModelTests >> setUp [
 
-	viewModel := CNBViewModel new withSuffix.
-	classNamesDistribution := ((ClassNamesBlueprint new model: mooseModel) withSuffix) startBuilding.
-	mooseModel := CNBModelGenerator projectNameMatches: 'moose-*'. 
-	scatteredPackage := classNamesDistribution viewModel packageViewModels detect: [ :each | each name = 'Moose-SmalltalkImporter' ].
-	
+	super setUp.
+
+	classNamesDistribution := (ClassNamesBlueprint projectNameMatches:
+		                           'Moose-TestResources-LAN') withSuffix
+		                          startBuilding.
+
+	scatteredPackage := classNamesDistribution viewModel
+		                    packageViewModels anyOne
 ]
 
 { #category : #tests }
 PackageViewModelTests >> testHasScatteredVocabularyInside [
 
-	
-	self 
-		assert: scatteredPackage hasScatteredVocabularyInside
-		equals: true
-	
-
-		
+	self assert:
+		classNamesDistribution viewModel packageViewModels anyOne
+			hasScatteredVocabularyInside
 ]
 
 { #category : #tests }
 PackageViewModelTests >> testScatteredPackages [
 
-		
 	self
-		assert: viewModel scatteredPackages size 
+		assert: classNamesDistribution viewModel scatteredPackages size
 		equals: 1
 ]
 
 { #category : #tests }
 PackageViewModelTests >> testScatteredRoots [
 
-	self 
-		assert: scatteredPackage scatteredRoots size 
+	self
+		assert: classNamesDistribution viewModel packageViewModels anyOne
+				scatteredRoots size
 		equals: 1
 ]

@@ -16,7 +16,7 @@ CNBBuilderTest >> setUp [
 
 	super setUp.
 
-	mooseMooseModel := CNBModelGenerator projectNameMatches: 'Moose*-'.
+	mooseMooseModel := CNBModelGenerator projectNameMatches: 'Moose-*'.
 	mooseCNB := ClassNamesBlueprint new
 		            model: mooseMooseModel;
 		            startBuilding.
@@ -64,10 +64,11 @@ CNBBuilderTest >> testClassModels [
 
 	self
 		assertCollection:
-			(mooseCNB viewModel packageModels flatCollectAsSet: [ :pckgModel |
+			(mooseCNB viewModel packageModels flatCollect: [ :pckgModel |
 				 pckgModel classModels collect: #name ])
 		hasSameElements:
-		(mooseMooseModel allModelClasses collectAsSet: #name).
+			(mooseMooseModel allModelClasses collectAsSet: [ :cls |
+				 cls name onlyLetters ]).
 
 	self
 		assertCollection:
@@ -79,27 +80,37 @@ CNBBuilderTest >> testClassModels [
 ]
 
 { #category : #tests }
-CNBBuilderTest >> testClassType [
+CNBBuilderTest >> testClassTypeMonoClass [
 
-	| aMonoClass aMonoSuffixHierarchy aMultiSuffixHierarchy monoSuffixType multiSuffixType monoClassType |
-	monoClassType := CNBClassType monoClass.
-	monoSuffixType := CNBClassType monoToken.
-	multiSuffixType := CNBClassType multiToken.
-	aMonoSuffixHierarchy := mooseCNB viewModel rootModels detect: [ :each |
-		                        each isMonoToken ].
-	aMultiSuffixHierarchy := mooseCNB viewModel rootModels detect: [
-		                         :each | each isMultiToken ].
+	| aMonoClass |
 	aMonoClass := mooseCNB viewModel rootModels detect: [ :each |
 		              each isMonoClass ].
 	self
 		assert: (CNBClassType with: aMonoClass subclasses) type
-		equals: monoClassType.
+		equals: CNBClassType monoClass
+]
+
+{ #category : #tests }
+CNBBuilderTest >> testClassTypeMonoSuffixHierarchytestClassType [
+
+	| aMonoSuffixHierarchy |
+	aMonoSuffixHierarchy := mooseCNB viewModel rootModels detect: [ :each |
+		                        each isMonoToken ].
+
 	self
 		assert: (CNBClassType with: aMonoSuffixHierarchy subclasses) type
-		equals: monoSuffixType.
+		equals: CNBClassType monoToken
+]
+
+{ #category : #tests }
+CNBBuilderTest >> testClassTypeMultiSuffixHierarchy [
+
+	| aMultiSuffixHierarchy |
+	aMultiSuffixHierarchy := mooseCNB viewModel rootModels detect: [
+		                         :each | each isMultiToken ].
 	self
 		assert: (CNBClassType with: aMultiSuffixHierarchy subclasses) type
-		equals: multiSuffixType
+		equals: CNBClassType multiToken
 ]
 
 { #category : #tests }

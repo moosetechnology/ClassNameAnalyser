@@ -15,9 +15,6 @@ Class {
 		'classC',
 		'classB',
 		'classA',
-		'classI1',
-		'classI2',
-		'classI3',
 		'inheritanceCB',
 		'model',
 		'inheritanceCI1',
@@ -34,61 +31,81 @@ Class {
 		'classO',
 		'inheritanceOObject',
 		'inheritanceAParameterizedTypeE',
-		'inheritanceOParameterizableClassE'
+		'inheritanceOParameterizableClassE',
+		'interface1',
+		'interface2',
+		'interface3'
 	],
 	#category : #CNBModels
 }
 
 { #category : #running }
 CNBFamixJavaClassTest >> setUp [
+
 	super setUp.
-	
+
 	"Classes definition"
 	classC := FamixJavaClass named: 'classC'.
 	classB := FamixJavaClass named: 'classB'.
 	classA := FamixJavaClass named: 'classA'.
 	classO := FamixJavaClass named: 'classO'.
 	classObject := FamixJavaClass named: 'Object'.
-	
+
 	"Parameterizable classes"
-	parameterizableClassD 
-		:= FamixJavaParameterizableInterface new name: 'parameterizableClassD'.
-		
-	parameterizableClassE := FamixJavaParameterizableClass new name: 'parameterizableClassE'.
-	
+	parameterizableClassD := FamixJavaParameterizableInterface new name:
+		                         'parameterizableClassD'.
+
+	parameterizableClassE := FamixJavaParameterizableClass new name:
+		                         'parameterizableClassE'.
+
 	"ParameterizedTypes each has a parameterizableClass"
-	parameterizedTypeD 
-		:= FamixJavaParameterizedType new name: 'parameterizedTypeD'; 
-			parameterizableClass: parameterizableClassD; yourself.
-	parameterizedTypeE 
-		:= FamixJavaParameterizedType new name: 'parameterizedTypeE'; 
-		parameterizableClass: parameterizableClassE;yourself.
-	
+	parameterizedTypeD := FamixJavaParameterizedType new
+		                      name: 'parameterizedTypeD';
+		                      parameterizableClass: parameterizableClassD;
+		                      yourself.
+	parameterizedTypeE := FamixJavaParameterizedType new
+		                      name: 'parameterizedTypeE';
+		                      parameterizableClass: parameterizableClassE;
+		                      yourself.
+
 	"Interfaces definition"
-	classI1 := FamixJavaInterface named: 'classI1'.
-	classI2 := FamixJavaInterface named: 'classI2'.
-	classI3 := FamixJavaInterface named: 'classI3'.
-	
+	interface1 := FamixJavaInterface named: 'interface1'.
+	interface2 := FamixJavaInterface named: 'interface2'.
+	interface3 := FamixJavaInterface named: 'interface3'.
+
 	"Inheritance relations definition"
-	inheritanceCB := FamixJavaInheritance new subclass: classC; superclass: classB.
-	inheritanceCI1 := FamixJavaInheritance new subclass: classC; superclass: classI1.
-	
-	inheritanceCParameterizableTypeD 
-		:= FamixJavaInheritance new subclass: classC; superclass: parameterizedTypeD.
-		
-	inheritanceBA := FamixJavaInheritance new subclass: classB; superclass: classA.
-	inheritanceAI2 := FamixJavaInheritance new subclass: classA; superclass: classI2.
-	inheritanceAI3 := FamixJavaInheritance new subclass: classA; superclass: classI3.
-	
-	inheritanceAParameterizedTypeE 
-		:= FamixJavaInheritance new subclass: classA; superclass: 	parameterizedTypeE.
-			
-	inheritanceOParameterizableClassE 
-		:= FamixJavaInheritance new subclass: parameterizableClassE; superclass: 	classO. 
-			
-	inheritanceOObject := FamixJavaInheritance new subclass: classO; superclass: classObject.
-	
-	
+	inheritanceCB := FamixJavaInheritance new
+		                 subclass: classC;
+		                 superclass: classB.
+	inheritanceCI1 := FamixJavaInheritance new
+		                  subclass: classC;
+		                  superclass: interface1.
+
+	inheritanceCParameterizableTypeD := FamixJavaInheritance new
+		                                    subclass: classC;
+		                                    superclass: parameterizedTypeD.
+
+	inheritanceBA := FamixJavaInheritance new
+		                 subclass: classB;
+		                 superclass: classA.
+	inheritanceAI2 := FamixJavaInheritance new
+		                  subclass: classA;
+		                  superclass: interface2.
+	inheritanceAI3 := FamixJavaInheritance new
+		                  subclass: classA;
+		                  superclass: interface3.
+
+	inheritanceAParameterizedTypeE := FamixJavaInheritance new
+		                                  subclass: classA;
+		                                  superclass: parameterizedTypeE.
+
+	inheritanceOParameterizableClassE := FamixJavaInheritance new
+		                                     subclass: parameterizableClassE;
+		                                     superclass: classO.
+
+	inheritanceOObject := FamixJavaInheritance new
+		                      subclass: classO;
+		                      superclass: classObject
 ]
 
 { #category : #tests }
@@ -100,25 +117,19 @@ CNBFamixJavaClassTest >> testRootAccordingToAClassName [
 ]
 
 { #category : #tests }
-CNBFamixJavaClassTest >> testSuperClassA [ 
+CNBFamixJavaClassTest >> testSuperClassA [
+	"A Implements I2, Implements I3, inherits from parameterizedTypeE which has the parameterizableClassE"
 
-"A Implements I2, Implements I3, inherits from parameterizedTypeE which has the parameterizableClassE"
-
-	self 
-		assert: classA superClass 
-		equals: parameterizableClassE 
+	self assert: classA superClass equals: parameterizableClassE
 ]
 
 { #category : #tests }
-CNBFamixJavaClassTest >> testSuperClassC [ 
-
+CNBFamixJavaClassTest >> testSuperClassC [
 	"C  extends B, 
 		implements I1, 
 		inherits parameterizedTypeD which contains parameterizableClassD which is an Interface"
 
-	self 
-		assert: classC superClass 
-		equals: classB
+	self assert: classC superClass equals: classB
 ]
 
 { #category : #tests }
@@ -135,73 +146,57 @@ CNBFamixJavaClassTest >> testSuperInheritances [
 
 { #category : #tests }
 CNBFamixJavaClassTest >> testSuperInheritancesWithoutInterfaces [
-
-		"C  extends B, 
+	"C  extends B, 
 		implements I1, 
 		inherits parameterizedTypeD which contains parameterizableClassD which is an Interface"
-		
-	self 
-		assert: ((classC superInheritances collect: #target) reject: #isInterface) first
+
+	self
+		assert:
+			((classC superInheritances collect: #target) reject: #isInterface)
+				first
 		equals: classB
 ]
 
 { #category : #tests }
 CNBFamixJavaClassTest >> testSuperclassHierarchy [
 
-	self 
-		assert: (classC superclassHierarchy collect: #name) asArray
-		
-		equals: #(
-					'classB' 
-					'classI1' 
-					'parameterizedTypeD' 
-					'classA' 
-					'classI2' 
-					'classI3' 
-					'parameterizedTypeE' 
-					'parameterizableClassE' 
-					'classO' 
-					'Object' 
-					'parameterizableClassD'
-					 )
+	self
+		assertCollection: (classC superclassHierarchy collect: #name)
+		hasSameElements:
+			#( 'classB' 'classI1' 'parameterizedTypeD' 'classA' 'classI2'
+			   'classI3' 'parameterizedTypeE' 'parameterizableClassE'
+			   'classO' 'Object' 'parameterizableClassD' )
 ]
 
 { #category : #tests }
-CNBFamixJavaClassTest >> testSuperclassHierarchyRoot [ 
+CNBFamixJavaClassTest >> testSuperclassHierarchyRoot [
 
-	self 
+	self
 		assert: (classC rootAccordingTo: 'Object')
-		equals: ((classC superclassHierarchy select: #isClass) reject: #isInterface) reversed second "First should be Object"
+		equals:
+			((classC superclassHierarchy select: #isClass) reject: #isInterface)
+				reversed second "First should be Object"
 ]
 
 { #category : #tests }
 CNBFamixJavaClassTest >> testSuperclassHierarchyWithoutInterfaces [
 
-	self 
-		assert: ((classC superclassHierarchy reject: #isInterface) collect: #name) asArray
-		
-		equals: #(	
-					'classB' 
-					'parameterizedTypeD' 
-					'classA' 
-					'parameterizedTypeE' 
-					'parameterizableClassE' 
-					'classO' 
-					'Object' 
-		)
+	self
+		assertCollection:
+			((classC superclassHierarchy reject: #isInterface) collect: #name)
+				asArray
+		hasSameElements:
+			#( 'classB' 'parameterizedTypeD' 'classA' 'parameterizedTypeE'
+			   'parameterizableClassE' 'classO' 'Object' )
 ]
 
 { #category : #tests }
 CNBFamixJavaClassTest >> testSuperclasses [
 
-	self 
-		assert: (((classC superclassHierarchy 
-									select: #isClass) reject: #isInterface) collect: #name) asArray
-		equals: #(	
-					'classB' 
-					'classA' 
-					'parameterizableClassE' 
-					'classO' 
-					'Object' 
-					)
+	self
+		assert:
+			(((classC superclassHierarchy select: #isClass) reject:
+				  #isInterface) collect: #name) asArray
+		equals:
+		#( 'classB' 'classA' 'parameterizableClassE' 'classO' 'Object' )
 ]

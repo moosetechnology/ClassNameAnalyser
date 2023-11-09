@@ -16,13 +16,13 @@ CNBPackageModel class >> of: aPackage withSettings: settings [
 
 	| onlyClasses |
 	onlyClasses := aPackage classes.
-	settings noInterfaces ifTrue: [ 
+	settings noInterfaces ifTrue: [
 		onlyClasses := onlyClasses reject: #isInterface ].
 
 	^ self new
 		  name: aPackage name;
 		  classModels:
-			  (onlyClasses collect: [ :each | 
+			  (onlyClasses collect: [ :each |
 					   each classModelAccordingTo: settings ])
 ]
 

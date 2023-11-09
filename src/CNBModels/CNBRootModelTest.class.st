@@ -2,7 +2,6 @@ Class {
 	#name : #CNBRootModelTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'rootModel',
 		'cnD',
 		'testAsserterRoot',
 		'traitRoot',
@@ -11,45 +10,37 @@ Class {
 	#category : #CNBModels
 }
 
-{ #category : #tests }
-CNBRootModelTest >> cnD [ 
-	^ cnD
-]
-
 { #category : #running }
-CNBRootModelTest >> initializeCnD [ 
+CNBRootModelTest >> initializeCnD [
 
-		cnD 
-		:= ((ClassNamesBlueprint 
-					modelGenerator projectNameMatches: 'moose-*') withSuffix) startBuilding.
-		"Draw the Cnd on a canvas"
-		cnD on: RSCanvas new
+	cnD := (ClassNamesBlueprint projectNameMatches:
+		        'Moose-TestResources-LAN') withSuffix startBuilding.
+	"Draw the Cnd on a canvas"
+	cnD on: RSCanvas new
 ]
 
 { #category : #running }
 CNBRootModelTest >> setUp [
+
 	super setUp.
-	
-	"Put here a common initialization logic for tests"
 	self initializeCnD.
-	testAsserterRoot := cnD viewModel rootModels detectMax: [ :each | each size ].
-	
-	traitRoot := cnD viewModel rootModels detect: [ :each | each model name = 'MalTEdgeNode' ].
-	
-	classBoxes 
-	:= (cnD canvas deepNodes 
-			reject: [ :each | each hasChildren ]) select: [ :each | each hasModel ] .
-		
+	testAsserterRoot := cnD viewModel rootModels detectMax: [ :each |
+		                    each size ].
+
+	traitRoot := cnD viewModel rootModels detect: [ :each |
+		             each model name = 'TLANInterface' ].
+
+	classBoxes := (cnD canvas deepNodes reject: [ :each |
+		               each hasChildren ]) select: [ :each | each hasModel ]
 ]
 
 { #category : #tests }
-CNBRootModelTest >> testBiggestRoot [ 
+CNBRootModelTest >> testBiggestRoot [
 
-	|aRootModel |
-	aRootModel := cnD viewModel rootModels detectMax: [ :each | each size ].
-	self 
-		assert: aRootModel name 
-		equals: TestAsserter name
+	| aRootModel |
+	aRootModel := cnD viewModel rootModels detectMax: #size.
+
+	self assert: aRootModel name equals: TestAsserter name
 ]
 
 { #category : #tests }
@@ -60,7 +51,7 @@ CNBRootModelTest >> testBiggestTokenAssociation [
 		equals: testAsserterRoot  mainToken 
 ]
 
-{ #category : #running }
+{ #category : #tests }
 CNBRootModelTest >> testMainToken [
 
 	self 
@@ -135,13 +126,10 @@ CNBRootModelTest >> testRootMonoTokenColor [
 { #category : #tests }
 CNBRootModelTest >> testRootTraitBorder [
 
-	| classBoxes |
-	classBoxes 
-		:= (cnD canvas deepNodes reject: [ :each | each hasChildren ]) select: [ :each | each hasModel ] .
 	self
 		assert:
-			(classBoxes detect: [ :aNode | 
-				 aNode model name = 'MalTEdgeNode' ]) border width
+			(classBoxes detect: [ :aNode | aNode model name = 'TLANInterface' ])
+				border width
 		equals: CNBClassViewModel new defaultBorderWidth
 ]
 
