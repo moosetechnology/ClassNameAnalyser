@@ -5,120 +5,97 @@ Class {
 	#name : #CNBFullInstructionsPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'closeButton',
-		'seeDocumentationButton',
 		'instructions'
 	],
 	#category : #CNBSpec
 }
 
+{ #category : #layout }
+CNBFullInstructionsPresenter class >> defaultLayout [
+
+	^ SpBoxLayout newVertical
+		  add: #instructions;
+		  yourself
+]
+
 { #category : #accessing }
-CNBFullInstructionsPresenter class >> defaultExtent [
-	^ 500 @ 500
+CNBFullInstructionsPresenter class >> icon [
+
+	^ self iconNamed: #help
 ]
 
 { #category : #specs }
-CNBFullInstructionsPresenter class >> defaultSpec [ 
+CNBFullInstructionsPresenter class >> initialExtent [
 
-	^ (SpBoxLayout newVertical 
-		spacing: 2;
-		add: #instructions;
-		add: (SpBoxLayout newHorizontal
-				add: #closeButton;
-				add: '';
-				add: #seeDocumentationButton;
-				yourself) expand: false; yourself
-	)
-]
-
-{ #category : #accessing }
-CNBFullInstructionsPresenter class >> defaultTitle [
-	^ 'Full Instructions'
+	^ 500 @ 450
 ]
 
 { #category : #examples }
 CNBFullInstructionsPresenter class >> open [
-	<example>
-	self new openWithSpec 
+
+	<script>
+	self new openDialog
 ]
 
-{ #category : #accessing }
-CNBFullInstructionsPresenter >> closeButton [
-	^ closeButton 
-]
+{ #category : #specs }
+CNBFullInstructionsPresenter class >> title [
 
-{ #category : #initialization }
-CNBFullInstructionsPresenter >> connectPresenters [ 
-	super connectPresenters.
-	
-"	closeButton action: [ self onCloseClicked  ].
-	seeDocumentationButton action: [ self onSeeDocumentationClicked ]"
-	
-
-				
-				
-]
-
-{ #category : #'as yet unclassified' }
-CNBFullInstructionsPresenter >> initializeInstructions [
-
-	| intro leftClick rightClick pause deHighlight pattern stream|
-	stream := (String new: 300) writeStream.
-	pause := '*********************************'.
-	intro := 'Here are some instructions you might want to use when navigating the tool.'.
-	leftClick := 'Left click on a class box: Highlights the whole hierarchy of the selected class. An other click at a class from the same hierarchy resets the highlight'.
-	deHighlight 
-		:= 'Left click on a package/token box: resets the highlight.'.
-	rightClick := 'Right click on a class box: Opens the class browser in case the class is in the system or the Famix model of the class in case of an MSE file'.
-	pattern := 'When selecting a pattern, class tokens following the selected pattern are highlighted.'.
-	 stream nextPutAll: intro; cr; nextPutAll: pause; cr;
-				nextPutAll: leftClick ; cr; nextPutAll: pause; cr;
-				nextPutAll: deHighlight ; cr ;nextPutAll: pause; cr;
-				nextPutAll: rightClick ; cr ; nextPutAll: pause; cr;
-				nextPutAll: pattern ; cr ; nextPutAll: pause; cr.
-	instructions := self instantiate: SpTextPresenter.
-	instructions text: stream contents asString.
-			
-	
-	
+	^ 'Full Instructions'
 ]
 
 { #category : #initialization }
 CNBFullInstructionsPresenter >> initializePresenters [
-	super initializePresenters.
-	
-	closeButton := self newButton label: 'Close'.
-	seeDocumentationButton := self newButton label: 'See Documentation'.
-	self initializeInstructions.
-	
 
-	
+	instructions := self instantiate: MicrodownPresenter.
+	instructions document: self instructionsDocument
 ]
 
 { #category : #initialization }
 CNBFullInstructionsPresenter >> initializeWindow: aWindowPresenter [
-	super initializeWindow: aWindowPresenter.
-	
+
 	aWindowPresenter
-		title: self class defaultTitle;
-		initialExtent: self class defaultExtent
+		title: self class title;
+		initialExtent: self class initialExtent
 ]
 
-{ #category : #accessing }
-CNBFullInstructionsPresenter >> instructions [ 
-	^ instructions
+{ #category : #initialization }
+CNBFullInstructionsPresenter >> instructionsDocument [
+
+	^ Microdown parse: (String streamContents: [ :s |
+			   s
+				   << self introductionText;
+				   << self leftClickText;
+				   << self rightClickText;
+				   << self patternText ])
 ]
 
-{ #category : #'as yet unclassified' }
-CNBFullInstructionsPresenter >> onCloseClicked [
+{ #category : #initialization }
+CNBFullInstructionsPresenter >> introductionText [
+
+	^ '### How to use the Class Name Analyser\' withCRs
 ]
 
-{ #category : #'as yet unclassified' }
-CNBFullInstructionsPresenter >> onSeeDocumentationClicked [
+{ #category : #initialization }
+CNBFullInstructionsPresenter >> leftClickText [
+
+	^ '##### Highlight: Left click
+- Left click on a class highlights the whole hierarchy of the selected class.
+- An other click at a class from the same hierarchy resets the highlight
+- Left click on a package or token resets the highlight.\' withCRs
 ]
 
-{ #category : #accessing }
-CNBFullInstructionsPresenter >> seeDocumentationButton [
+{ #category : #initialization }
+CNBFullInstructionsPresenter >> patternText [
 
-	^ seeDocumentationButton
+	^ '##### Pattern 
+When selecting a pattern, class tokens following the selected pattern are highlighted.\'
+		  withCRs
+]
+
+{ #category : #initialization }
+CNBFullInstructionsPresenter >> rightClickText [
+
+	^ '##### Browse: Right click on a class
+- opens the pharo class in the browser if it is in the system
+- inspects the Moose entity representing the class otherwise\' withCRs
 ]

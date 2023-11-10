@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #building }
-CNBTokenStrategy class >> build: aViewModel [
-	^ self new
-			build: aViewModel 
+CNBTokenStrategy class >> build: aCNB [
+
+	^ self new build: aCNB
 ]
 
 { #category : #building }
@@ -45,17 +45,16 @@ CNBTokenStrategy >> buildRoot: aRootModel [
 
 	| subclasses |
 	subclasses := aRootModel subclasses.
-	^ aRootModel 
-		name: (CNBFilterer removeAllDigitsAndSpecialCharsFrom: aRootModel model name); 
-		type: (CNBClassType with: subclasses) type;
-		token: (CNBFeatureSelector new 
-					extract: subclasses atRandom setting 
-					from: aRootModel model name);
-		size: subclasses size; 
-		tokenPosition: subclasses atRandom setting token;
-		tokensDictionary: (self doTokenDictionaryFrom: subclasses).
-		
-		
+	^ aRootModel
+		  name:
+			  (CNBFilterer removeAllDigitsAndSpecialCharsFrom:
+					   aRootModel model name);
+		  type: (CNBClassType with: subclasses) type;
+		  token: (CNBFeatureSelector new
+				   extract: subclasses atRandom setting
+				   from: aRootModel model name);
+		  tokenPosition: subclasses atRandom setting token;
+		  tokensDictionary: (self doTokenDictionaryFrom: subclasses)
 ]
 
 { #category : #building }

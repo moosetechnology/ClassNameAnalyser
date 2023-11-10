@@ -68,13 +68,6 @@ ClassNamesBlueprint >> buildShapes [
 	shapes := (visualizer buildShapesOf: self).
 ]
 
-{ #category : #'as yet unclassified' }
-ClassNamesBlueprint >> buildViewWith: aVisualizerClass [
-
-	^ aVisualizerClass new 	
-				model: self
-]
-
 { #category : #accessing }
 ClassNamesBlueprint >> canvas [ 
 	^ canvas
@@ -167,12 +160,10 @@ ClassNamesBlueprint >> show [
 
 { #category : #operations }
 ClassNamesBlueprint >> startBuilding [
-	
-	 ^ (self viewModel setting token = #both)
-			ifTrue: [ CNBBothTokensStrategy build: self ]
-			ifFalse: [ CNBTokenStrategy build: self ]. 
-	
-	
+
+	^ self viewModel setting token = #both
+		  ifTrue: [ CNBBothTokensStrategy build: self ]
+		  ifFalse: [ CNBTokenStrategy build: self ]
 ]
 
 { #category : #accessing }

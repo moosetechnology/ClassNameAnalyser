@@ -28,15 +28,9 @@ FamixJavaClass >> exists [
 ]
 
 { #category : #'*CNBModels' }
-FamixJavaClass >> print [ 
+FamixJavaClass >> print [
 
-	^ (CNBClassHierarchyPrinter new forClass: self) printFamixJava 
-]
-
-{ #category : #'*CNBModels' }
-FamixJavaClass >> printWithBold: aStringOrText [
-
-	^ (CNBClassHierarchyPrinter new forClass: self) printWithBoldJavaClass: aStringOrText  
+	^ (CNBClassHierarchyPrinter forFamixClass: self) print
 ]
 
 { #category : #'*CNBModels' }
@@ -53,21 +47,19 @@ FamixJavaClass >> rootAccordingTo: aRootClassName [
 ]
 
 { #category : #'*CNBModels' }
-FamixJavaClass >> superClass [ 
+FamixJavaClass >> superClass [
 
 	| superClasses |
-	superClasses := (self superInheritances collect: #target) reject: #isInterface.
+	superClasses := self superInheritances collect: #superclass.
 	superClasses ifEmpty: [ ^ nil ].
-	
+
 	"returns the class"
- ^ (superClasses detect: #isClass ifNone: [  
-	"if not found: checks classes of the parameterizedTypes, rejects the interfaces and selects a class. 
+	^ superClasses
+		  detect: #isClass
+		  ifNone: [ "if not found: checks classes of the parameterizedTypes, rejects the interfaces and selects a class. 
 	But what if there were more than one parameterizedClass"
-			(	(
-				(superClasses 
-						select: #isParameterizedType) 
-							collect: #parameterizableClass
-					) 			reject: #isInterface 
-								) detect: #isClass ifNone: [ nil ] ]
-				) .
+			  (((superClasses select: #isParameterizedType) collect:
+				    #parameterizableClass) reject: #isInterface)
+				  detect: #isClass
+				  ifNone: [ nil ] ]
 ]

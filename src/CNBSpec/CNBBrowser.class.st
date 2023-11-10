@@ -101,7 +101,7 @@ CNBBrowser class >> defaultLayout [
             yourself);
         yourself.
         
-    ^ super defaultLayout
+    ^ SpBoxLayout newVertical
 			spacing: spacing;
           add: (SpBoxLayout newHorizontal
                 spacing: spacing;
@@ -121,64 +121,66 @@ CNBBrowser class >> defaultLayout [
 CNBBrowser class >> defaultSpec [
 
 	| spacing parametersLayout buttonsLayout patternsLayout viewLayout defaultWidth visualizeSpacing borderWidth optionsLayout |
-	 spacing := 7.
-    visualizeSpacing := 30.
-    defaultWidth := 180.
-    borderWidth := 5.
-    
-    parametersLayout := SpBoxLayout newVertical
-        spacing: spacing;
-        borderWidth: borderWidth;
-        add: #parametersLabel expand: false;
-        add: #suffix expand: false;
-        add: #prefix expand: false;
-        add: #both expand: false;
-        add: #rootSelector expand: false;
-        add: #withoutInterfaces expand: false;
-        yourself.
+	spacing := 7.
+	visualizeSpacing := 30.
+	defaultWidth := 180.
+	borderWidth := 5.
 
-    buttonsLayout := SpBoxLayout newVertical
-        add: #visualizeButton expand: false;
-        yourself.
-    
-    patternsLayout := SpBoxLayout newVertical
-        spacing: spacing;
-        add: #visualizeButton;
-        add: (SpBoxLayout newHorizontal
-                add: #patternsDropList;
-                add: #patternsHelpButton expand: false;
-                yourself)
-            expand: false;
-        yourself.
+	parametersLayout := SpBoxLayout newVertical
+		                    spacing: spacing;
+		                    borderWidth: borderWidth;
+		                    add: #parametersLabel expand: false;
+		                    add: #suffix expand: false;
+		                    add: #prefix expand: false;
+		                    add: #both expand: false;
+		                    add: #rootSelector expand: false;
+		                    add: #withoutInterfaces expand: false;
+		                    yourself.
 
-    viewLayout := SpBoxLayout newVertical
-        spacing: spacing;
-         add: #projectView;
-        yourself.
-        
-    optionsLayout := SpBoxLayout newVertical
-        spacing: spacing;
-        add: #fullInstructionsButton;
-        add: (SpBoxLayout newHorizontal
-            add: #exportButton width: (defaultWidth / 2) asInteger;
-            add: #inspect width: (defaultWidth / 2) asInteger;
-            yourself);
-        yourself.
-        
-    ^ super defaultSpec
-			spacing: spacing;
-          add: (SpBoxLayout newHorizontal
-                spacing: spacing;
-                add: (SpBoxLayout newVertical
-                    spacing: spacing;
-                    add: optionsLayout expand: false;
-                    add: parametersLayout expand: false;
-                    add: patternsLayout expand: false;
-                    yourself)
-                   width: defaultWidth;
-            add: viewLayout;
-            yourself);
-        yourself
+	buttonsLayout := SpBoxLayout newVertical
+		                 add: #visualizeButton expand: false;
+		                 yourself.
+
+	patternsLayout := SpBoxLayout newVertical
+		                  spacing: spacing;
+		                  add: #visualizeButton;
+		                  add: (SpBoxLayout newHorizontal
+				                   add: #patternsDropList;
+				                   add: #patternsHelpButton expand: false;
+				                   yourself)
+		                  expand: false;
+		                  yourself.
+
+	viewLayout := SpBoxLayout newVertical
+		              spacing: spacing;
+		              add: #projectView;
+		              yourself.
+
+	optionsLayout := SpBoxLayout newVertical
+		                 spacing: spacing;
+		                 add: #fullInstructionsButton;
+		                 add: (SpBoxLayout newHorizontal
+				                  add: #exportButton
+				                  width: (defaultWidth / 2) asInteger;
+				                  add: #inspect
+				                  width: (defaultWidth / 2) asInteger;
+				                  yourself);
+		                 yourself.
+
+	^ SpBoxLayout newVertical
+		  spacing: spacing;
+		  add: (SpBoxLayout newHorizontal
+				   spacing: spacing;
+				   add: (SpBoxLayout newVertical
+						    spacing: spacing;
+						    add: optionsLayout expand: false;
+						    add: parametersLayout expand: false;
+						    add: patternsLayout expand: false;
+						    yourself)
+				   width: defaultWidth;
+				   add: viewLayout;
+				   yourself);
+		  yourself
 ]
 
 { #category : #accessing }
@@ -197,10 +199,10 @@ CNBBrowser class >> menuCommandOn: aBuilder [
 		icon: (self iconNamed: #smallPaint).
 ]
 
-{ #category : #specs }
+{ #category : #'instance creation' }
 CNBBrowser class >> open [
 
-	<example>
+	<script>
 	super open
 ]
 
@@ -217,7 +219,7 @@ CNBBrowser >> bothCnb [
 ]
 
 { #category : #visiting }
-CNBBrowser >> canReceiveEntity: anObject [
+CNBBrowser >> canFollowEntity: anObject [
 
 	^ anObject isNotNil and: [ anObject isMooseModel ]
 ]
@@ -300,8 +302,6 @@ CNBBrowser >> followEntity: anEntity [
 	anEntity ifNil: [ ^ self ].
 	model := anEntity.
 	rootSelector text ifNotEmpty: [ root := rootSelector text ].
-
-	"model name: model rootFolder basenameWithoutExtension."
 
 	self projectModel: anEntity with: root.
 
@@ -442,7 +442,6 @@ CNBBrowser >> initializePresenters [
 	withoutInterfaces label: 'Delete Interfaces'.
 	withoutPackageName := self newCheckBox.
 	withoutPackageName label: 'Delete package reference'.
-	packages := OrderedCollection new.
 	highlighter := CNBSingletonHighlighter instance.
 	prefix := self newRadioButton label: 'Prefix'.
 	suffix := self newRadioButton label: 'Suffix'.
@@ -513,6 +512,12 @@ CNBBrowser >> miSelectedEntity [
 ]
 
 { #category : #accessing }
+CNBBrowser >> miSelectedItem [
+
+	^ self model
+]
+
+{ #category : #accessing }
 CNBBrowser >> model [ 
 	^ model
 ]
@@ -529,24 +534,6 @@ CNBBrowser >> noInterfaces [
 ]
 
 { #category : #actions }
-CNBBrowser >> onAddClicked [
-
-	packagesList selectedItems
-		ifEmpty: [ ^ self ];
-		do: [ :arg1 | packages addIfNotPresent: arg1 ].
-		
-	packagesList items: (allListItems difference: packages).
-	packagesList listPresenter refresh.
-
-	packagesListPresenter items: packages.
-	packagesListPresenter packagesList listPresenter refresh.
-	
-	model := packages isNotEmpty ifTrue: [ 
-		              CNBModelGenerator packagesNamed:
-			              (packages collect: #name) ]
-]
-
-{ #category : #actions }
 CNBBrowser >> onBothActivated [
 
 	self onResetClicked.
@@ -554,22 +541,6 @@ CNBBrowser >> onBothActivated [
 		  projectView script: [ :canvas | 
 			  canvas @ RSCanvasController.
 			  bothCnb on: canvas ] ]
-]
-
-{ #category : #actions }
-CNBBrowser >> onDeleteAllClicked [
-
-	packages removeAll.
-	packagesListPresenter packagesList items: #().
-	packagesListPresenter packagesList listPresenter refresh.
-
-	packagesList items: allListItems. 
-	packagesList selectItems: #().
-
-	packagesList listPresenter refresh.	
-
-	
-	
 ]
 
 { #category : #actions }
@@ -595,12 +566,6 @@ CNBBrowser >> onResetClicked [
 ]
 
 { #category : #actions }
-CNBBrowser >> onShowClicked [ 
-
-	^ (packagesListPresenter items: packages) openWithSpec
-]
-
-{ #category : #actions }
 CNBBrowser >> onSuffixActivated [
 
 	self onResetClicked.
@@ -611,50 +576,16 @@ CNBBrowser >> onSuffixActivated [
 ]
 
 { #category : #actions }
-CNBBrowser >> onUpdateClicked [ 
-
-	| listItems |	
-	
-	packages removeAll.
-	packages addAll: (packagesListPresenter packagesList selectedItems).
-	packagesListPresenter packagesList items: packages.
-	packagesListPresenter packagesList listPresenter refresh.
-	
-	listItems := (allListItems difference: packages).
-
-	packagesList items: listItems. 
-	packagesList selectItems: #().
-
-	packagesList listPresenter refresh.	
-
-	
-	
-	
-]
-
-{ #category : #actions }
 CNBBrowser >> onVisualizeClicked [
 
-	| root | 
-	packages ifNotEmpty: [ 
-		              model := CNBModelGenerator packagesNamed:
-			              (packages collect: #name) ].
-	model ifNil: [ ^ self ].			
+	| root |
+	model ifNil: [ ^ self ].
+
 	rootSelector text ifNotEmpty: [ root := rootSelector text ].
-	
-	packages 
-		ifNotEmpty: [ model name: packagesList filterInputPresenter text ]
-		ifEmpty: [ model name: model rootFolder basenameWithoutExtension ]. 
-		
+
 	self projectModel: model with: root.
 
-	projectView script: [ :canvas | self selectedCnB on: canvas ].
-]
-
-{ #category : #accessing }
-CNBBrowser >> packages [ 
-
-	^ packages
+	projectView script: [ :canvas | self selectedCnB on: canvas ]
 ]
 
 { #category : #accessing }
@@ -763,7 +694,7 @@ CNBBrowser >> selectedCnB [
 { #category : #'as yet unclassified' }
 CNBBrowser >> showFullInstructions [
 
-		^ CNBFullInstructionsPresenter new openWithSpec 
+		^ CNBFullInstructionsPresenter new open
 ]
 
 { #category : #actions }

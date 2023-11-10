@@ -128,16 +128,19 @@ CNBClassViewModel >> highlight [
 ]
 
 { #category : #initialization }
-CNBClassViewModel >> initialize [ 
+CNBClassViewModel >> initialize [
+
 	super initialize.
-	
+
 	box := RSBox new.
 	rootBorderWidth := 4.
 	height := 45.
 	width := 45.
-	box when: RSMouseRightClick do: [ :evt | self processEvent: evt ].
-	box when: RSMouseLeftClick do: [ :evt |  self highlight ]
-
+	box
+		when: RSMouseRightClick
+		do: [ :evt | self processEvent: evt ]
+		for: self.
+	box when: RSMouseLeftClick do: [ :evt | self highlight ] for: self
 ]
 
 { #category : #testing }

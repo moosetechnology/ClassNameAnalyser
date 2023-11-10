@@ -7,31 +7,68 @@ Class {
 	#category : #'CNB-Core'
 }
 
-{ #category : #running }
-CNBClassHierarchyPrinterTest >> setUp [
-	super setUp.
-	
-	"Put here a common initialization logic for tests"
-	
-	printer := CNBClassHierarchyPrinter new.
+{ #category : #helpers }
+CNBClassHierarchyPrinterTest >> actualClass [
+
+	^ CNBClassHierarchyPrinter
+]
+
+{ #category : #expected }
+CNBClassHierarchyPrinterTest >> expectedString [
+
+	^ 'ProtoObject
+	Object
+--> CNBAbstractModel
+			CNBAbstractViewModel
+			CNBClassModel
+			CNBConceptualModel
+			CNBPackageModel
+			CNBRootModel'
+]
+
+{ #category : #expected }
+CNBClassHierarchyPrinterTest >> expectedStringForJava [
+
+	^ 'Superclass
+--> TheClass
+		FirstSubclass
+		SecondSubclass'
+]
+
+{ #category : #helpers }
+CNBClassHierarchyPrinterTest >> javaClassWithHierarchy [
+
+	| javaSuperClass javaClass javaSubclass1 javaSubclass2 |
+	javaSuperClass := FamixJavaClass named: #Superclass.
+	javaClass := FamixJavaClass named: #TheClass.
+	javaSubclass1 := FamixJavaClass named: #FirstSubclass.
+	javaSubclass2 := FamixJavaClass named: #SecondSubclass.
+
+	FamixJavaInheritance new
+		subclass: javaSubclass1;
+		superclass: javaClass.
+	FamixJavaInheritance new
+		subclass: javaSubclass2;
+		superclass: javaClass.
+	FamixJavaInheritance new
+		subclass: javaClass;
+		superclass: javaSuperClass.
+
+	^ javaClass
 ]
 
 { #category : #running }
-CNBClassHierarchyPrinterTest >> testPrintForClass [ 
+CNBClassHierarchyPrinterTest >> testPrintForJavaClass [
 
-	| output stream theClass |
-	theClass := CNBAbstractModel.
-	output := (printer forClass: theClass) print.
-	stream := (String new: 100) writeStream.
-	theClass allSuperclasses reverseDo: [ :aClass | stream nextPutAll: aClass name. stream cr. stream tab ].
-	stream cr.
-	stream nextPutAll: '------->'.	stream tab. stream tab. stream nextPutAll: theClass name. stream cr.
-	stream tab.
-	theClass subclasses do: [ :aClass | stream tab. stream nextPutAll: aClass name. stream cr. stream tab. ].
-	
-	self 
-		assert: output equals: stream contents
-	
-	
-	
+	printer := self actualClass forFamixClass: self javaClassWithHierarchy.
+	self
+		assert: (printer printWithEmphasisOn: #Class) asString
+		equals: self expectedStringForJava
+]
+
+{ #category : #running }
+CNBClassHierarchyPrinterTest >> testPrintForPharoClass [
+
+	printer := self actualClass forPharoClass: CNBAbstractModel.
+	self assert: printer print equals: self expectedString
 ]

@@ -20,16 +20,16 @@ CNBScatteredVocabularyPattern class >> newInstance [
 
 { #category : #validation }
 CNBScatteredVocabularyPattern >> check: aRootModel [
+
 	| isScattered tokens |
 	tokens := aRootModel tokensDictionary keys.
-	
-	isScattered 
-		:= (tokens asOrderedCollection 
-				add: aRootModel token;
-				yourself) asSet size >= minTokenSize.
 
-	(isScattered and: [ aRootModel isMultiToken ]) ifTrue: [ aRootModel hasScatteredVocabulary ]
+	isScattered := (tokens asOrderedCollection
+		                add: aRootModel token;
+		                yourself) asSet size >= minTokenSize.
 
+	(isScattered and: [ aRootModel isMultiToken ]) ifTrue: [
+		aRootModel hasScatteredVocabulary ]
 ]
 
 { #category : #accessing }

@@ -12,7 +12,6 @@ Class {
 		'token',
 		'color',
 		'type',
-		'size',
 		'dominantTokens',
 		'tokensDictionary',
 		'scatteredSuffixes',
@@ -74,15 +73,17 @@ CNBRootModel >> checkNearlyHomogeneous [
 ]
 
 { #category : #attribution }
-CNBRootModel >> checkPatterns [ 
-	self 
+CNBRootModel >> checkPatterns [
+
+	self
 		checkHomogeneous;
 		checkScatteredVocabulary;
-		checkNearlyHomogeneous.
+		checkNearlyHomogeneous
 ]
 
 { #category : #testing }
 CNBRootModel >> checkScatteredVocabulary [
+
 	CNBScatteredVocabularyPattern new check: self
 ]
 
@@ -321,11 +322,6 @@ CNBRootModel >> size [
 ]
 
 { #category : #accessing }
-CNBRootModel >> size: aSize [
-	size := aSize 
-]
-
-{ #category : #accessing }
 CNBRootModel >> subclasses [ 
 
 	^ subclasses
@@ -334,8 +330,7 @@ CNBRootModel >> subclasses [
 { #category : #accessing }
 CNBRootModel >> subclasses: collection [
 
-	subclasses := collection "remove: [ :class | class model = self model ]."
-	
+	subclasses := collection
 ]
 
 { #category : #'as yet unclassified' }
